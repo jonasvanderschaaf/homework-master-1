@@ -1,0 +1,36 @@
+#ignore c compiler files
+*
+!/**/
+!*.*
+*.o
+*.out
+
+#ignore python and jupyter caches
+/**/__pycache__
+/**/.ipynb_checkpoints
+
+#don't ignore makefiles
+!*Makefile
+
+#ignore .vscode folders
+*.vscode
+
+#ignore mathematica cache
+*.m
+
+#ignore latex compiler files
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.synctex.gz
+*.pdf
+*.toc
+*.txt
+*.nav
+*.snm
+
+#ignore zip files
+*.tar.gz
+*.zip
+
