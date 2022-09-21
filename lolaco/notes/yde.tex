@@ -1,0 +1,84 @@
+\section{Yde Venema: Fixpoint \& Circularity in Modal Logic}
+
+Introducing recursion in semantics of modal logic.
+
+\subsection{Common knowledge}
+Byzantine generals: when are you certain a message has been received?
+
+Infinite conjunction of all combinations of \(K_{1},K_{2}\) before formula
+\(\varphi\) is not expressible in standard modal logic/epistemic.
+
+Circularity allows expression of common knowledge modal operator \(C\):
+\[
+    Ca\equiv a\wedge K_{1}Ca\wedge K_{2}Ca.
+\]
+
+\subsection{Gödels theorem}
+There is a true sentence in arithmetic which is not provable in Peano
+arithmetic.
+
+\begin{proof}
+    Let \(\mathbb{N}\) be a model of the natural numbers and \(PA\) the
+    axiomatisation of Peano arithmetic. Then \(PA\vdash\varphi\vee
+    PA\nvdash\varphi\).
+
+    Define \(\square_{PA}\varphi\) as ``There is a derivation in \(PA\) of
+    \(\varphi\)''. Then there is a formula \(\gamma\) with \(\gamma\equiv
+    \neg\square_{PA}\gamma\).
+
+    Assume for contradiction that \(\mathbb{N}\models\neg\gamma\).
+    Then \(\mathbb{N}\models\square_{PA}\gamma\), which means that
+    \(\mathbb{N}\models\gamma\) by soundness. This means that
+    \(\mathbb{N}\models\gamma\).
+
+    However \(PA\nvdash\gamma\). Therefore there is a non-provable true
+    statement in Peano arithmetic.
+\end{proof}
+
+There formulas can be expressed as fixed points of the ``equation'' \(x\equiv
+a\wedge K_{1}x\wedge K_{2}x\) and \(x\equiv\neg\square_{PA}x\).
+
+These are examples of a poor language where we want to express that what we want
+to express is a fixed point of that language.
+
+\subsection{Temporal logic}
+Until operator: \(pUq\) (\(p\) until \(q\)).
+
+What happens on the natural numbers? Then \(pUq\equiv q\vee (p\wedge
+\lozenge(pUq))\) where \(\lozenge\) is the successor.
+
+Fixpoint: \(x\equiv q\vee(p\vee\lozenge x)\).
+
+Fixpoint logic (generally) causes failure of compactness.
+
+\subsection{Game semantics of the until operator}
+Formula tree of a formula
+
+Formula satisfiable at point \(\Leftrightarrow\) there is a winning strategy.
+
+Unfold \(pUq\) by going back to top of formula tree.
+
+For intinite repetition: it depends on the logic who wins
+
+We use game semantics because they correspond naturally to human intuition.
+
+\subsection{Parity formulas}
+Let \(\mathbb{G}=(G,E)\) be a finite directed graph with a labelling
+\[
+    L:G\to\{\vee,\wedge,X\}\cup \text{Prop} \cup \overline{\text{Prop}}.
+\]
+which is compatible with obvious stuff.
+
+Interpret these as formulas. Who wins the infinite matches?
+
+We add a colouring \(\gamma:G\to\{\textnormal{magenta},\textnormal{navy}\}\) and
+a starting point \(v_{I}\in G\). Cycles can only be coloured with one colour.
+
+We say a game is won by \(\exists\) if we end up in a navy cycle, in a magenta
+cycle \(\exists\) wins.
+
+Game theoretic approach is good for complexity theory.
+
+They're currently thinking about Craig interpolation.
+
+Potential future work: finite model theory

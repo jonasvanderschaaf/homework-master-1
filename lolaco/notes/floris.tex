@@ -1,0 +1,62 @@
+\section{Floris Roelofsen: Inquisitive Epistemic Logic}
+
+Developing framework to analyze information exchange through communication
+
+Model facts and whether agents know facts
+
+Information exchange is based on questions asked, which gives direction to
+information exchange. Model should describe what agents want to know.
+
+Declarative sentences provide information, interrogative sentences request
+information.
+
+Model should be enriched with issues, language needs to be enriched with
+interrogatices. Meaning needs to be enriched with inquisitive content.
+
+\subsection{Epistemic logic}
+A model is
+\begin{align*}
+    M          & =(\mathcal{W},V,\setwith{\sigma_{a}}{a\in A})  \\
+    W          & \>\>\text{Set of worlds}                       \\
+    V          & :W\to\mathcal{P}(P) \text{valuation}           \\
+    \sigma_{a} & :W\to \mathcal{P}(W)\,\text{Information state}
+\end{align*}
+
+\subsection{Knowledge modalities}
+\(K_{a}\varphi\) agent \(a\) knows \(\varphi\)
+
+Defined normally with modality:
+\[
+    M,w\models K_{a}\varphi\Leftrightarrow\forall v\in\sigma_{a}(w):M,v\models\varphi
+\]
+We define
+\[
+    \abs{\varphi}_{M}=\setwith{w\in W}{M,w\models\varphi}.
+\]
+Also
+\[
+    M,w\models K_{a}\varphi\Leftrightarrow \sigma_{a}(w)\subseteq\abs{\varphi}_{M}.
+\]
+
+Agents cannot believe false things if \(\forall w\in W:\forall a:
+w\in\sigma_{a}(w)\)
+
+\subsection{Information exchange}
+An issue can be modeled as the set of information states \(I\): those where the issue
+is resolved.
+
+Issue states:
+\begin{enumerate}
+    \item Downward closed. If an issue is resolved in \(s\) and \(t\subseteq s\)
+          then the issue is resolved in \(t\). \(s\in I\) and \(t\subseteq s\)
+          then \(t\in I\)
+
+    \item Issues contain the inconsistent information state: \(\emptyset\in I\).
+          Or equivalently issues are non-empty.
+\end{enumerate}
+
+\[
+    ?p=\setwith{s}{\text{\(s\) is information state} \wedge \forall w,v\in s w\in V(p)\leftrightarrow v\in V(p)}
+\]
+
+Issues are depicted as its maximal elements.
