@@ -1,0 +1,207 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{quiver}
+\usepackage{float}
+\usepackage{cleveref}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\rad}{Rad}
+
+\newenvironment{question}[1][]{\begin{paragraph}{Question #1}}{\end{paragraph}}
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework Quivers}
+\author{Jonas van der Schaaf}
+\date{September 22, 2022}
+
+\begin{document}
+\maketitle
+
+\begin{question}[2.9]
+    Let \(\cat\) be a preabelian category and \(f\in\Hom(X,Y)\) a morphism.
+
+    \begin{enumerate}[a)]
+        \item Show that \(\incl:\ker f\to X\) is a monomorphism and
+              \(\pi:Y\to\coker f\) is an epimorphism.
+
+              \begin{proof}
+                  Let \(g,h:Z\to\ker f\) be morphisms such that
+                  \(g\circ\incl=h\circ\incl\). Then consider the commuting
+                  diagram given in \Cref{fig:kernel-universal}.
+                  \begin{figure}[H]
+                      \[
+                          \begin{tikzcd}
+                              && X && Y \\
+                              \\
+                              Z && {\ker f} \\
+                              &&& {}
+                              \arrow["f", from=1-3, to=1-5]
+                              \arrow["\imath", from=3-3, to=1-3]
+                              \arrow["0"', from=3-3, to=1-5]
+                              \arrow["{g\imath=h\imath}", from=3-1, to=1-3]
+                              \arrow["h"', shift right=1, from=3-1, to=3-3]
+                              \arrow["g", shift left=1, from=3-1, to=3-3]
+                          \end{tikzcd}
+                      \]
+                      \caption{A commutative diagram.}
+                      \label{fig:kernel-universal}
+                  \end{figure}
+                  By the universal property of the kernel, there is a unique map
+                  \(Z\to\ker f\) such that the diagram commutes with
+                  \(g\incl=h\incl\), so this map must be equal to \(g\) and
+                  \(h\). Therefore \(g\) and \(h\) must be equal and \(\incl\)
+                  is a monomorphism.
+
+                  Now consider two morphisms \(g,h:\coker\pi\to Z\) such that
+                  \(\pi\circ g=\pi\circ h\) and consider the commutative diagram
+                  in \Cref{fig:cokernel-universal}.
+                  \begin{figure}[H]
+                      \[
+                          \begin{tikzcd}
+                              X && Y && \coker\pi \\
+                              \\
+                              &&&& Z
+                              \arrow["f", from=1-1, to=1-3]
+                              \arrow["\pi", from=1-3, to=1-5]
+                              \arrow["g"', shift right=1, from=1-5, to=3-5]
+                              \arrow["h", shift left=1, from=1-5, to=3-5]
+                              \arrow["{g\pi=h\pi}"', from=1-3, to=3-5]
+                          \end{tikzcd}
+                      \]
+                      \caption{Another commutative diagram.}
+                      \label{fig:cokernel-universal}
+                  \end{figure}
+                  Then by the universal property there is a unique map
+                  \(\coker\pi\to Z\) such that the diagram commutes. This map
+                  must be equal to both \(g\) and \(h\), so \(g=h\) and
+                  therefore \(\pi\) is an epimorphism.
+              \end{proof}
+
+        \item Prove that \(f\) is a monomorphism exactly if \(\ker f\cong0\).
+
+              \begin{proof}
+                  Suppose \(f\) is a monomorphism and \(\ell\in\End(\ker f)\).
+                  Then \(f\circ\incl\circ\ell=0\) and also \(f\circ 0=0\). By
+                  monomorphicity of \(f\)  this means that
+                  \(\incl\circ\ell=0=\incl\circ0\) for all \(\ell\in\End(\ker
+                  f)\). Because \(\incl\) is also a monomorphism this means that
+                  \(\ell=0\) so the group \(\End(\ker f)\) is trivial so \(\ker
+                  f=0\).
+
+                  Now suppose the kernel is trivial and there are two maps
+                  \(g,h:Z\to X\) such that \(fg=fh\). Because \(\cat\) is
+                  preabelian we have \(f(g-h)=0\). This means that there is some
+                  map \(\overline{g-h}:Z\to\ker f=0\) such that the following
+                  diagram commutes:
+                  \begin{figure}[H]
+                      \[
+                          \begin{tikzcd}
+                              Z && X && Y \\
+                              \\
+                              && 0
+                              \arrow["0"', from=3-3, to=1-5]
+                              \arrow["0"', hook, from=3-3, to=1-3]
+                              \arrow["f"', from=1-3, to=1-5]
+                              \arrow["{g-h}"', from=1-1, to=1-3]
+                              \arrow["{\overline{g-h}}"', from=1-1, to=3-3]
+                          \end{tikzcd}
+                      \]
+                      \caption{Yet another commutative diagram.}
+                      \label{fig:ker-zero-f-mono}
+                  \end{figure}
+                  The map \(\overline{g-h}\) must be the \(0\) map because \(0\)
+                  is terminal. Therefore \(g-h=0\circ0=0\) so \(g=h\) and \(f\)
+                  is monomorphic.
+              \end{proof}
+        \item Prove that \(f:X\to Y\) is an epimorphism exactly if \(\coker(f)\cong0\).
+
+              \begin{proof}
+                  Suppose \(f\) is epi and take \(g\in\End(\coker f)\). Then
+                  \(f\circ\pi\circ g=0=f\circ 0\). Because \(f\) is epi we get
+                  that \(\pi\circ g=0=\pi\circ 0\). Because \(\pi\) is also epi
+                  we get \(g=0\). This means that \(\End(\coker f)=0\).
+
+                  Suppose \(\coker f\) is the \(0\) object and there are maps
+                  \(g,h:Y\to Z\) such that \(fg=fh\). Then \(f(g-h)=0\), so
+                  there is a map \(\overline{g-h}:\coker f\to Z\) such that the
+                  diagram below commutes
+                  \begin{figure}[H]
+                      \[
+                          \begin{tikzcd}
+                              X && Y && 0 \\
+                              \\
+                              &&&& \bullet
+                              \arrow["f", from=1-1, to=1-3]
+                              \arrow["{g-h}"', from=1-3, to=3-5]
+                              \arrow["{\overline{g-h}}"', from=1-5, to=3-5]
+                              \arrow["\pi", two heads, from=1-3, to=1-5]
+                          \end{tikzcd}
+                      \]
+                      \caption{Yet another commutative diagram\('\).}
+                      \label{fig:cokernel-0-f-epi}
+                  \end{figure}
+                  Then because \(\coker f\) is trivial \(g-h=0\circ0=0\) so
+                  \(g=h\) and \(f\) is epi.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}
