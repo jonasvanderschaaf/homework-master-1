@@ -1,0 +1,164 @@
+\section{Well-founded universe}
+\begin{definition}
+    By ordinal recursion, we define the following sets:
+    \begin{align*}
+        V_{0}        & =\varnothing                        \\
+        V_{\alpha+1} & =\powset(V_{\alpha})                \\
+        V_{\lambda}  & =\bigcup_{\alpha<\lambda}V_{\alpha} \\
+    \end{align*}
+\end{definition}
+
+\begin{theorem}
+    The sets \(\sequence{V_{\alpha}}{\alpha\in\ordinals}\) satisfies the
+    following properties:
+    \begin{enumerate}
+        \item \(V_{\alpha}\) is well-founded for all ordinals
+              \(\alpha\in\ordinals\),
+        \item \(V_{\beta}\subseteq V_{\alpha}\) for all
+              \(\beta<\alpha\in\ordinals\).
+    \end{enumerate}
+
+    \begin{proof}
+        For \(\alpha=0\) both statements are vacuously true.
+
+        If both statements are true for \(\alpha\), consider \(\alpha+1\). The
+        set \(V_{\alpha+1}\) is transitive because it is the powerset of a
+        transitive set: take any \(x\in V_{\alpha+1}\), then \(x\subseteq
+        V_{\alpha}\). This means that for all \(y\in x\) we have \(y\in
+        V_{\alpha}\) and by transitivity of \(V_{\alpha}\) also \(y\subseteq
+        V_{\alpha}\). This means that \(y\in V_{\alpha+1}\) so \(V_{\alpha+1}\)
+        is transitive.
+
+        Now take \(\beta<\alpha+1\), then \(\beta=\alpha\) or \(\beta<\alpha\).
+        In the former case \(V_{\beta}\subseteq V_{\alpha}\subseteq
+        V_{\alpha+1}\) by transitivity of \(V_{\alpha+1}\). If \(\beta=\alpha\)
+        then \(V_{\alpha}\in V_{\alpha+1}=\powset(V_{\alpha})\) by definition.
+
+        For a limit ordinal the induction step is rather trivial. The union of
+        transitive sets is obviously transitive and for all \(\alpha<\lambda\)
+        we get \(V_{\alpha}\subseteq V_{\lambda}\) by definition.
+    \end{proof}
+\end{theorem}
+
+\begin{definition}
+    We define \(\wf\) to be the class
+    \(\bigcup_{\alpha\in\ordinals}V_{\alpha}\). This is called the Von-Neumann
+    universe.
+
+    For an \(x\in\wf\) we define the rank of \(x\) as
+    \[
+        \rank(x)=\min\setwith{\alpha\in\ordinals}{x\in V_{\alpha+1}}
+    \]
+\end{definition}
+
+\begin{proposition}
+    \label{prop:wf-sets-props}
+    The following statements follow from the above definition almost
+    immediately:
+    \begin{enumerate}
+        \item \(V_{\alpha}=\setwith{x\in\wf}{\rank(x)<\alpha}\),
+        \item For \(x,y\in\wf\) with \(y\in x\) the inequality
+              \(\rank(y)<\rank(x)\) holds,
+        \item For \(x\in\wf\) we get \(\rank(x)=\sup\setwith{\rank(y)}{y\in
+                  x}\),
+        \item For all ordinals \(\alpha\in\ordinals\) we see \(\alpha\in\wf\)
+              and \(\rank(\alpha)=\alpha\) or equivalently \(\wf\cap
+              V_{\alpha}=\alpha\).
+    \end{enumerate}
+    On top of that the class \(\wf\) is a well-founded transitive model of set
+    theory.
+
+    \begin{proof}
+        We will only prove the final statement using the properties stated
+        above. Pick any set (or class) \(X\subseteq\wf\) and consider the set
+        (or class) \(\setwith{\rank(y)}{y\in X}\). This has a minimal element
+        \(\alpha\) because the ordinals are well ordered. Let \(y\) be a witness
+        of this minimal ordinal. Then \(y\) is minimal by property 2 above.
+    \end{proof}
+\end{proposition}
+
+\begin{definition}
+    We now define another axiom of ZFC, the axiom of regularity:
+    \[
+        \forall x:(\exists y:y\in x)\to(\exists y\in x: y\cap x=\varnothing).
+    \]
+    This axiom prevents the existence of a sequence
+    \(\sequence{x_{n}}{n\in\omega}\) with \(x_{i+1}\in x_{i}\) for all
+    \(i\in\omega\). This is because the set \(x=\setwith{x_{n}}{n\in\omega}\)
+    would then not contain any element \(y\) with \(y\cap x=\varnothing\). This
+    demonstrates that the \(\in\) relation is well-founded in models of set
+    theory where this axiom holds.
+
+    More generally, this axiom says that for any non-empty set \(A\), the
+    relation \(\in\) is well-founded. Taking any subset \(B\subseteq A\) there
+    is a \(z\in B\) such that there is no \(y\in B\) with \(y\in z\).
+\end{definition}
+
+\begin{definition}
+    For a set \(A\) we define \(\bigcup^{n}A\) recursively as:
+    \begin{align*}
+        \invisparen{\bigcup}^{0}A   & =A,                                             \\
+        \invisparen{\bigcup}^{n+1}A & =\bigcup\left(\invisparen{\bigcup}^{n}A\right).
+    \end{align*}
+    Then the transitive closure of \(A\) is then defined as
+    \[
+        \trcl(A)=\bigcup_{n\in\omega}\invisparen{\bigcup}^{n}A.
+    \]
+    This is the smallest transitive set containing \(A\).
+\end{definition}
+
+\begin{proposition}
+    The following statements are equivalent:
+    \begin{enumerate}
+        \item \(A\in\wf\),
+        \item \(\trcl(A)\in\wf\),
+        \item \(\in\) is a well-founded relation on \(A\).
+    \end{enumerate}
+
+    \begin{proof}
+        \(1\Rightarrow3\) This is by \Cref{prop:wf-sets-props}: \(\in\) is a
+        well-founded relation on all sets in \(\wf\).
+
+        \(3\Rightarrow1\) Let \(A\) be a transitive set, suppose
+        \(A\setminus\wf\) is non-empty, and let \(x\in A\setminus\wf\) be a
+        \(\in\)-minimal element of this set. Then for all \(y\in x\) it must be
+        that \(y\in\wf\), this gives the desired contradiction: \(A\) is
+        transitive and so \(y\in A\) for all these \(y\in x\). The set
+        \(\setwith{\rank(y)}{y\in x}\) must have a supremum which is the rank of
+        \(x\notin\wf\). This is a contradiction so no such \(A\) exists.
+
+        \(1\Rightarrow2\) The class \(\wf\) is transitive and contains \(A\).
+        Because \(\trcl(A)\) is the smallest transitive set containing \(A\) we
+        have \(\trcl(A)\subseteq\wf\). This means \(\trcl(A)\subseteq
+        V_{\alpha}\) for some \(\alpha\in\ordinals\) so \(\trcl(A)\in
+        V_{\alpha+1}\subseteq\wf\).
+
+        \(2\Rightarrow1\) The set \(A\) is a subset of \(\trcl(A)\in\wf\) so it
+        has rank strictly smaller than \(\trcl(A)\) and so particular
+        \(A\in\wf\).
+    \end{proof}
+\end{proposition}
+
+\begin{corollary}
+    If the axiom of regularity holds, \(\wf\) contains all sets \(A\).
+
+    \begin{proof}
+        If the axiom of regularity holds, \(\in\) is well-founded on all sets \(A\)
+        so we get \(A\in\wf\) by the previous proposition.
+    \end{proof}
+\end{corollary}
+
+The axiom of regularity has many applications within set theory. For example:
+\begin{enumerate}
+    \item In ZF with regularity the axiom of choice is equivalent to the
+          statement that \(\powset(\alpha)\) can be well-ordered for all
+          ordinals \(\alpha\),
+    \item Scott's trick: For an equivalence relation on the whole universe (such
+          as cardinality) it is generally impossible to pick a representative.
+          Using foundation it is however possible to pick a set of
+          representatives: If \([a]\) is an equivalence class\footnote{Note that
+              this is possibly the first case I've seen where an equivalence class
+              could actually be a class.} then there is some least
+          \(\alpha\in\ordinals\) such that \(V_{\alpha}\cap[a]\) is non-empty.
+          This intersection is then a set of representatives of \([a]\).
+\end{enumerate}

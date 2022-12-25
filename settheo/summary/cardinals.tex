@@ -1,0 +1,60 @@
+\section{Cardinals 'n shit}
+\begin{definition}
+    Let \(\kappa,\lambda\) be cardinal numbers. Then \(\kappa^{\lambda}\) is
+    defined as the cardinality of \(\Hom(\lambda,\kappa)\).
+\end{definition}
+
+\begin{theorem}
+    \label{thm:basic-exp}
+    Let \(\kappa,\lambda,\mu\) be arbitrary cardinals, then the following
+    (in)equalities hold:
+    \begin{enumerate}
+        \item \(\kappa^{\lambda+\mu}=\kappa^{\lambda}\cdot\kappa^{\mu}\),
+        \item \(\kappa^{\lambda}\cdot\mu^{\lambda}=(\kappa\cdot\mu)^{\lambda}\),
+        \item \((\kappa^{\lambda})^{\mu}=\kappa^{\lambda\cdot\mu}\)
+        \item if \(\nu\) is a cardinal and \(\kappa\leq\lambda\) and
+              \(\mu\leq\nu\) then \(\kappa^{\mu}\leq\lambda^{\nu}\).
+    \end{enumerate}
+\end{theorem}
+
+\begin{proposition}
+    Let \(\kappa,\lambda\) be two infinite cardinals such that
+    \(2\leq\kappa\leq 2^{\lambda}\). Then
+    \[
+        \kappa^{\lambda}=2^{\lambda}.
+    \]
+
+    \begin{proof}
+        We have \(2^{\lambda}\leq\kappa^{\lambda}\) by \Cref{thm:basic-exp}. If
+        we show the opposite inequality and get equality by the
+        Cantor-Schröder-Bernstein theorem:
+        \begin{align*}
+            \kappa^{\lambda} & \leq (2^{\lambda})^{\lambda} \\
+                             & =2^{\lambda\cdot\lambda}     \\
+                             & =2^{\lambda}.
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+Because \(x<\powset(x)\) for all sets \(x\), we deduce that
+\(2^{\aleph_{\alpha}}\geq\aleph_{\alpha+1}\). It is however not necessarily true
+that \(2^{\aleph_{\alpha}}=\aleph_{\alpha+1}\). This is known as the generalized
+continuum hypothesis, which is independent of ZFC.
+
+\begin{proposition}
+    The cardinal \(2^{\aleph_{0}}\) cannot be equal to \(\aleph_{\omega}\).
+
+    \begin{proof}
+        Let \(\sequence{x_{n}}{n\in\omega}\) be a sequence with
+        \(\abs{x}<2^{\aleph_{0}}\). Then
+        \(\abs{\bigcup_{n}x_{n}}<2^{\aleph_{0}}\). To see this we notice that
+        \begin{align*}
+            \abs*{\bigcup_{n}x_{n}} & =\sup\abs{x_{n}}\cdot\aleph_{0} \\
+                                    & \leq\aleph_{0}\cdot\aleph_{0}   \\
+                                    & =\aleph_{0}
+                                    & <2^{\aleph_{0}}.
+        \end{align*}
+        This means \(2^{\aleph_{0}}\) is not a countable union of countable
+        sets, but \(\aleph_{0}\) is.
+    \end{proof}
+\end{proposition}
