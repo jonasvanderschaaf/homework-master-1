@@ -1,4 +1,5 @@
 \section{Cardinals 'n shit}
+\subsection{Exponentiation}
 \begin{definition}
     Let \(\kappa,\lambda\) be cardinal numbers. Then \(\kappa^{\lambda}\) is
     defined as the cardinality of \(\Hom(\lambda,\kappa)\).
@@ -18,6 +19,7 @@
 \end{theorem}
 
 \begin{proposition}
+    \label{thm:exp-smaller}
     Let \(\kappa,\lambda\) be two infinite cardinals such that
     \(2\leq\kappa\leq 2^{\lambda}\). Then
     \[
@@ -58,3 +60,836 @@ continuum hypothesis, which is independent of ZFC.
         sets, but \(\aleph_{0}\) is.
     \end{proof}
 \end{proposition}
+
+\subsection{Cofinality}
+\begin{definition}
+    Let \(\alpha,\beta\) be any two ordinals and \(f:\alpha\to\beta\) function.
+    We say \(\alpha\) is cofinal in \(\beta\) if the image \(f[\alpha]\) is
+    unbounded.
+
+    For an ordinal \(\alpha\) we define \(\cf(\alpha)\) to be the smallest
+    ordinal admitting a cofinal map into \(\alpha\).
+\end{definition}
+
+\begin{proposition}
+    \label{prop:cof-basics}
+    The cofinality \(\cf(\alpha)\) of any ordinal \(\alpha\) has the following
+    properties:
+    \begin{enumerate}
+        \item \(\cf(\alpha)\leq\alpha\),
+        \item If \(\alpha=\beta+1\) then \(\cf(\alpha)=1\),
+        \item If \(\lambda\) is a limit ordinal \(\cf(\lambda)\geq\omega\),
+        \item \(\cf(\omega)=\omega\).
+    \end{enumerate}
+
+    \begin{proof}
+        \begin{enumerate}
+            \item For any ordinal \(\alpha\) the identity
+                  \(\id:\alpha\to\alpha\) is cofinal so the smallest ordinal cofinal
+                  to \(\alpha\) is at most the ordinal \(\alpha\) itself.
+
+            \item Consider the map \(f:1\to \alpha\) given by \(f(0)=\beta\).
+                  This map has unbounded image (there is no larger element than
+                  \(\beta\) in \(\alpha\)) so this map is cofinal. The empty set has
+                  empty image under any function so \(1\) is the smallest ordinal with
+                  cofinal map.
+
+            \item For the the third statement we will prove that no finite
+                  ordinal \(n\) can admit a cofinal \(f:n\to\lambda\). Let
+                  \(f:n\to\lambda\) be any map, then because \(n\) is finite
+                  \(f[n]\) has a maximum: \(\beta\). Because \(\lambda\) is a
+                  limit ordinal this means \(\beta+1\in\lambda\) as well so
+                  \(f[n]\) is not unbounded. This means that \(\cf(\lambda)\neq n\)
+                  for all \(n\in\omega\) and thus \(\cf(\lambda)\geq\omega\).
+
+            \item This is a simple corollary of part 1 and 3 of this
+                  proposition.
+        \end{enumerate}
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    For each ordinal \(\beta\) there is a continuous strictly increasing cofinal
+    map \(\cf(\beta)\to\beta\).
+
+    \begin{proof}
+        We first construct a strictly increasing map and then make it
+        continuous. Let \(f:\cf(\beta)\to\beta\) be a function witnessing the
+        cofinality. We define a strictly increasing cofinal
+        \(g:\cf(\beta)\to\beta\) using recursion as follows:
+        \begin{align*}
+            g(0)      & =0                                                         \\
+            g(\alpha) & =\sup f[\alpha]\cup\setwith{g(\gamma)+1}{\gamma\leq\alpha} \\
+        \end{align*}
+        Because \(\alpha<\cf(\beta)\) we see that \(\sup g[\alpha]<\beta\) so
+        this is a well-defined \(g:\cf(\beta)\to\beta\).
+
+        We see that \(g\) is strictly increasing because \(g(\alpha)\geq
+        g(\gamma)+1\) for all \(\gamma<\alpha\). To see \(g\) is cofinal we
+        observe that \(g(\alpha)\geq f(\alpha)\) and \(f[\cf(\beta)]\) is
+        unbounded so \(g[\cf(\beta)]\) must be as well. This means \(g\) is a
+        strictly increasing cofinal map \(\cf(\beta)\to\beta\).
+
+        From this \(g\) we now construct a continuous strictly increasing
+        function \(h:\cf(\beta)\to\beta\). We define
+        \[
+            h(\alpha)=\begin{cases}
+                h(0)           & \alpha=0,                                       \\
+                h(\alpha)      & \textnormal{\(\alpha\) is a successor ordinal,} \\
+                \sup h[\alpha] & \textnormal{\(\alpha\) is a limit ordinal.}
+            \end{cases}
+        \]
+        This function is clearly continuous by construction. It must be strictly
+        increasing on the successor ordinals because \(g\) is. For the limit
+        ordinal case we have that for any \(\gamma<\alpha\) we see
+        \(h(\gamma)<h(\gamma+1)\leq\sup f[\alpha]=h(\alpha)\) so \(h\) is
+        strictly increasing. We also see that \(h\) is cofinal because
+        \(h(\alpha)=g(\alpha)\) for all non-limit \(\alpha\) so the image is
+        unbounded.
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    Let \(\alpha,\beta\) be limit ordinals and \(f:\alpha\to\beta\) a strictly
+    increasing cofinal map, then \(\cf(\beta)=\cf(\alpha)\).
+
+    \begin{proof}
+        Pick the map continuous strictly increasing map
+        \(g:\cf(\alpha)\to\alpha\) witnessing cofinality and consider \(f\circ
+        g\). This is a strictly increasing map, the image of which must be
+        unbounded because \(f\) and \(g\) are both unbounded and strictly
+        increasing. This proves \(\cf(\beta)\leq\cf(\alpha)\).
+
+        To show \(\cf(\alpha)\leq\cf(\beta)\) we construct a cofinal map
+        \(h:\cf(\beta)\to\alpha\) using a strictly increasing cofinal
+        \(g:\cf(\beta)\to\beta\) and \(f\). We do this by defining it as
+        follows:
+        \[
+            h(\gamma)=\min\setwith{\delta}{f(\delta)>g(\gamma)}.
+        \]
+        This map is strictly increasing because both \(f\) and \(g\) are. The
+        image of this map is also unbounded: let \(\gamma\in\alpha\) be any
+        ordinal. Then there is a \(\delta\in\cf(\beta)\) such that
+        \(g(\delta)>f(\gamma)\in\beta\) by cofinality of \(g\). Then
+        \(f(h(\delta))>g(\delta)>f(\gamma)\) so because \(f\) is strictly
+        increasing \(h(\delta)>\gamma\). This proves cofinality of \(h\).
+    \end{proof}
+\end{proposition}
+
+\begin{corollary}
+    For all ordinals \(\beta\) we have \(\cf(\cf(\beta))=\cf(\beta)\).
+
+    \begin{proof}
+        For successor ordinals, this is immediately clear because
+        \(\cf(\beta)=1\) which has cofinality \(1\) as well.
+
+        For limit ordinals \(\cf(\beta)\) is a limit ordinal as well, else it
+        would be a successor and thus \(\beta\) would be as well. This means
+        that we can apply the previous proposition to get
+        \(\cf(\cf(\beta))=\cf(\beta)\).
+    \end{proof}
+\end{corollary}
+
+\begin{definition}
+    We call an ordinal \(\beta\) regular if \(\cf(\beta)=\beta\) and
+    singular if not.
+\end{definition}
+
+\begin{proposition}
+    The following facts are true about regular and singular ordinals:
+    \begin{enumerate}
+        \item Regular ordinals are cardinals,
+        \item \(\cf(\beta)\) is regular for all ordinals \(\beta\in\ordinals\),
+        \item \(\cf(\beta)\) is a cardinal for all ordinals \(\beta\),
+        \item Given the axiom of choice, if \(\kappa\) is a cardinal
+              \(\kappa^{+}\) is regular.
+        \item For all limit ordinals \(\aleph_{\lambda}\) its cofinality
+              is \(\cf(\lambda)\).
+    \end{enumerate}
+
+    \begin{proof}
+        Let \(\alpha\) be a regular ordinal of cardinality \(\kappa<\alpha\).
+        Let \(f:\kappa\to\alpha\) be a bijection, then the image of \(f\) is
+        unbounded so \(\cf(\alpha)\leq\kappa<\alpha\) unless \(\kappa=\alpha\).
+        This proves \(\alpha\) is a cardinal.
+
+        By the previous corollary \(\cf(\cf(\beta))=\cf(\beta)\) for all
+        ordinals so we see \(\cf(\beta)\) is regular.
+
+        This is simply a corollary from the previous two remarks.
+
+        Suppose there is a cofinal map \(f:\alpha\to\kappa^{+}\). Then
+        \(\kappa^{+}=\bigcup\setwith{f(\gamma)}{\gamma<\alpha}\). We have
+        \(\abs{f(\gamma)}\leq\kappa\) so the union has cardinality
+        \(\kappa\cdot\abs{\alpha}=\max\set{\kappa,\abs{\alpha}}\). Therefore
+        \(\abs{\alpha}=\kappa^{+}\).
+
+        We have a cofinal strictly increasing map
+        \(f:\lambda\to\aleph_{\lambda}\) given by \(f(\alpha)=\aleph_{\alpha}\).
+        This proves \(\cf(\aleph_{\lambda})=\cf(\lambda)\).
+    \end{proof}
+\end{proposition}
+
+\begin{definition}
+    A cardinal is weakly inaccessible if it is a regular limit cardinal.
+
+    A cardinal is strongly inaccessible if it is not the sum of less than
+    \(\kappa\) ordinals of size less than \(\kappa\) and \(2^{\mu}<\kappa\) for
+    all cardinals \(\mu<\kappa\).
+
+    The existence of neither can be proven in ZFC. Assuming the generalized
+    continuum hypothesis the two are equivalent.
+\end{definition}
+
+\begin{theorem}
+    For any infinite cardinal \(\kappa\) we have
+    \(\kappa<\kappa^{\cf(\kappa)}\).
+
+    \begin{proof}
+        Let \(f:\cf(\kappa)\to\kappa\) be a cofinal function and
+        \(g:\kappa\to{}^{\cf(\kappa)}\kappa\) be arbitrary. We apply a
+        diagonalisation argument to prove this inequality.
+
+        We define \(h:\cf(\kappa)\to\kappa\) by
+        \[
+            h(\alpha)=\min\kappa\setminus\setwith{g(\beta)(\alpha)}{\beta<f(\alpha)}.
+        \]
+        The set \(\kappa\setminus\setwith{g(\beta)(\alpha)}{\beta<f(\alpha)}\)
+        must be non-empty. We see this because \(f(\alpha)<\kappa\) and
+        therefore also
+        \(\abs{\setwith{g(\beta)(\alpha)}{\beta<f(\alpha)}}<\kappa\).
+
+        This function \(h\) is not in the image of \(g\). To see this take any
+        ordinal \(\beta\). We show there is some \(\alpha\) such that
+        \(h(\alpha)\neq g(\beta)(\alpha)\). We take \(\alpha=f(\gamma)\) for
+        some \(\gamma\) with \(f(\gamma)>\beta\). Then \(h(\alpha)\neq
+        g(\beta)(\alpha)\).
+    \end{proof}
+\end{theorem}
+
+\begin{corollary}
+    For all cardinals \(\kappa\) it must be that \(\kappa<\cf(2^{\kappa})\).
+
+    \begin{proof}
+        If \(\lambda\geq\cf(2^{\lambda})\) then we would have
+        \begin{align*}
+            2^{\lambda} & =(2^{\lambda})^{\lambda}             \\
+                        & \geq(2^{\lambda})^{\cf(2^{\lambda})} \\
+                        & >2^{\lambda}
+        \end{align*}
+        which is a contradiction.
+    \end{proof}
+\end{corollary}
+
+\subsection{Infinite sums and products}
+
+\begin{definition}[Infinite cardinal sums and products]
+    We define the sum of an infinite sequence of cardinals
+    \(\sequence{\kappa_{\alpha}}{\alpha<\beta}\) as
+    \[
+        \sum_{\alpha<\beta}\kappa_{\alpha}=\abs*{\bigcup_{\alpha<\beta}\set{\alpha}\times\kappa_{\alpha}}
+    \]
+    which is the cardinality of the disjoint sum.
+
+    We define the product of an infinite sequence of cardinals as
+    \[
+        \prod_{\alpha<\beta}\kappa_{\alpha}=\abs*{\prod_{\alpha<\beta}\kappa_{\alpha}}.
+    \]
+\end{definition}
+
+\begin{proposition}
+    For any infinite sequence of cardinals
+    \(\sequence{\kappa_{\alpha}}{\alpha<\lambda}\) with \(\kappa_{\alpha}>0\)
+    for all \(\alpha<\beta\) the infinite sum is given by
+    \[
+        \sum_{\alpha<\lambda}\kappa_{\alpha}=\lambda\cdot\sup_{\alpha}\kappa_{\alpha}.
+    \]
+
+    \begin{proof}
+        Define \(\kappa=\sup_{\alpha}\kappa_{\alpha}\). We see
+        \[
+            \bigcup_{\alpha<\beta}\set{\alpha}\times\kappa_{\alpha}\subseteq\lambda\times\kappa
+        \]
+        the latter has cardinality \(\lambda\cdot\kappa\) so
+        \(\sum_{\alpha<\beta}\kappa_{\alpha}\leq\lambda\cdot\kappa\).
+
+        On top of that we have
+        \[
+            \lambda\times\set{0}\subseteq\lambda\cdot\sup_{\alpha<\beta}\kappa_{\alpha}
+        \]
+        and
+        \[
+            \kappa\leq\sum_{\alpha<\lambda}\kappa_{\alpha}
+        \]
+        so therefore
+        \[
+            \max\set{\lambda,\kappa}=\lambda\cdot\kappa=\sum_{\alpha<\lambda}\kappa_{\alpha}.
+        \]
+    \end{proof}
+\end{proposition}
+
+\begin{corollary}
+    A cardinal \(\kappa\) is singular iff there is some increasing sequence of
+    cardinals \(\sequence{\kappa_{\alpha}}{\alpha<\lambda}\) with
+    \(\lambda<\kappa\) and \(\kappa_{\alpha}<\kappa\) for all
+    \(\alpha<\lambda\).
+\end{corollary}
+
+\begin{proposition}
+    If \(\sequence{\kappa_{\alpha}}{\alpha<\lambda}\) is a sequence with
+    \(\kappa_{\alpha}\geq 2\) for all \(\alpha<\lambda\) then
+    \[
+        \sum_{\alpha<\lambda}\kappa_{\alpha}<\prod_{\alpha<\lambda}\kappa_{\alpha}.
+    \]
+
+    \begin{proof}
+        No proof by boredom.
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    If \(\lambda\) is an infinite cardinal and
+    \(\sequence{\kappa_{\alpha}}{\alpha<\lambda}\) is a sequence of
+    non-decreasing non-zero cardinals then
+    \[
+        \prod_{\alpha<\lambda}\kappa_{\alpha}=\left(\,\sup_{\alpha<\lambda}\kappa_{\alpha}\right)^{\lambda}.
+    \]
+
+    \begin{proof}
+        Taking \(\kappa=\sup_{\alpha<\lambda}\kappa_{\alpha}\) we have
+        \[
+            \prod_{\alpha<\lambda}\kappa_{\alpha}\subseteq\Hom(\lambda,\kappa).
+        \]
+        The other inclusion is more work: because
+        \(\lambda=\lambda\cdot\lambda\) we can write \(\lambda\) as the disjoint
+        union of \(\lambda\) many sets \(A_{\alpha}\) of cardinality
+        \(\lambda\). Each set \(A_{\alpha}\) must be cofinal in \(\lambda\) so
+        \(\kappa=\sup_{\gamma\in A_{\alpha}\kappa_{\alpha}}\). On top of that we
+        also have
+        \[
+            \prod_{\gamma\in A_{\alpha}}\kappa_{\gamma}\geq\kappa
+        \]
+        by the same cofinality argument. Combining these two gives
+        \begin{align*}
+            \prod_{\alpha<\lambda}\kappa_{i} & =\prod_{\alpha<\lambda}\prod_{\gamma\in A_{\alpha}}\kappa_{\gamma} \\
+                                             & \geq\prod_{\alpha<\lambda}\kappa                                   \\
+                                             & =\kappa^{\lambda}.
+        \end{align*}
+        This proves both inequalities, which by Cantor-Schröder-Bernstein gives
+        equipotence.
+    \end{proof}
+\end{proposition}
+
+\begin{theorem}[König's inequality]
+    Let \(\sequence{\kappa_{\alpha}}{\alpha<\lambda}\) and
+    \(\sequence{\mu_{\alpha}}{\alpha<\lambda}\) be two sequences such that
+    \(\kappa_{\alpha}<\lambda_{\alpha}\) for all \(\alpha<\lambda\). Then
+    \[
+        \sum_{\alpha<\lambda}\kappa_{\lambda}<\prod_{\alpha<\lambda}\mu_{\alpha}.
+    \]
+
+    \begin{proof}
+        Let
+        \(f:\bigcup_{\alpha<\lambda}\set{\alpha}\times\kappa_{\alpha}\to\prod_{\alpha\leq\lambda}\mu_{\alpha}\)
+        be any map and consider the projection maps
+        \(\pi_{\alpha}:\prod_{\alpha\leq\lambda}\mu_{\alpha}\to\mu_{\alpha}\)
+        and injections
+        \(\imath_{\alpha}:\kappa_{\alpha}\to\bigcup_{\alpha<\lambda}\set{\alpha}\times\kappa_{\alpha}\).
+
+        The map \(\pi_{\alpha}\circ f\circ\imath_{\alpha}\) cannot be surjective
+        because \(\kappa_{\alpha}<\lambda_{\alpha}\). This means
+        \(V_{\alpha}=\lambda_{\alpha}\setminus(\pi_{\alpha}\circ
+        f\circ\imath_{\alpha})[\kappa_{\alpha}]\neq\varnothing\).
+
+        The function \(g(\alpha)=\min V_{\alpha}\) is then not in the image of
+        \(f\) so \(f\) is not surjective.
+    \end{proof}
+\end{theorem}
+
+\begin{corollary}
+    This theorem gives many previously proven statements:
+    \begin{align*}
+        \kappa & <2^{\kappa},           \\
+        \kappa & <\cf(2^{\kappa}),      \\
+        \kappa & <\kappa^{\cf(\kappa)}.
+    \end{align*}
+
+    \begin{proof}
+        For the first inequality take \(\kappa_{\alpha}=1\) and
+        \(\mu_{\alpha}=2\) as sequences of length \(\kappa\).
+
+        For the second take any sequence
+        \(\sequence{\kappa_{\alpha}}{\alpha<\kappa}\) with
+        \(\kappa_{i}<2^{\kappa}\) and \(\sequence{2^{\kappa}}{\alpha<\kappa}\).
+        Then
+        \[
+            \kappa\cdot\sup_{\alpha<\kappa}\kappa_{\alpha}<(2^{\kappa})^{\kappa}=2^{\kappa}.
+        \]
+        This means there is no cofinal sequence in \(2^{\kappa}\) of length
+        \(\kappa\).
+
+        For the third let \(\lambda=\cf(\kappa)\) and
+        \(\sequence{\kappa_{\alpha}}{\alpha<\lambda}\) be a sequence witnessing
+        the cofinality. Then
+        \[
+            \kappa=\sum_{\alpha<\lambda}\kappa_{\alpha}<\prod_{\alpha<\lambda}\kappa=\kappa^{\cf(\kappa)}.
+        \]
+    \end{proof}
+\end{corollary}
+
+\subsection{The continuum function}
+We now examine the exponentiation function
+\[
+    \kappa\mapsto 2^{\kappa}.
+\]
+
+\begin{proposition}
+    Assuming the generalized continuum hypothesis, the following is true about
+    the continuum function:
+    \begin{enumerate}
+        \item If \(\kappa<\lambda\)  then \(\kappa^{\lambda}=\lambda^{+}\),
+        \item If \(\cf(\kappa)\leq\lambda<\kappa\) then
+              \(\kappa^{\lambda}=\kappa^{+}\),
+        \item If \(\lambda<\cf(\kappa)\) then \(\kappa^{\lambda}<\kappa\).
+    \end{enumerate}
+
+    \begin{proof}
+        We have \(\kappa^{\lambda}\leq2^{\lambda}\) by \Cref{thm:exp-smaller}.
+        The other inequality is trivial.
+
+        The rest I don't want to prove.
+    \end{proof}
+\end{proposition}
+
+\begin{definition}[Beth function]
+    The Beth function is a class function defined recursively as:
+    \begin{align*}
+        \beth_{0}        & \aleph_{0},                           \\
+        \beth_{\alpha+1} & =2^{\beth_{\alpha}}.                  \\
+        \beth_{\lambda}  & =\sup_{\alpha<\lambda}\beth_{\alpha},
+    \end{align*}
+    where \(\lambda\) is a limit ordinal.
+\end{definition}
+
+\begin{definition}
+    We define \(\kappa^{<\lambda}\) as the set of sequences with elements in
+    \(\kappa\) of length at most \(\lambda\). Its cardinality is
+    \[
+        \sup_{\mu<\lambda}\kappa^{\mu}.
+    \]
+
+    We also define \([\kappa]^{\lambda}\) for \(\lambda\leq\kappa\) to be the
+    set \(\setwith{x\subseteq\kappa}{\abs{x}=\lambda}\). This has cardinality
+    \(\kappa^{\lambda}\).
+
+    We also define the gimel function \(\gimel(\kappa)=\kappa^{\cf(\kappa)}\).
+\end{definition}
+
+For singular cardinals, there are some things we can say about exponentiation:
+
+\begin{proposition}
+    If \(\kappa\) is a singular cardinal and suppose \(\mu\mapsto 2^{\mu}\) is
+    eventually constant on some interval \((\nu,\kappa]\). Then
+    \(2^{\kappa}=2^{<\kappa}\). If the map is not eventually constant below
+    \(\kappa\) then \(2^{\kappa}=\gimel(\kappa)\).
+
+    If \(\kappa\) is regular \(2^{\kappa}=\gimel(\kappa)\).
+
+    \begin{proof}
+        Let \(\lambda=2^{\mu}\) for all \(\mu\in(\nu,\kappa]\), pick some
+        \(\mu\geq\cf(\kappa)\) in that interval. Then
+        \begin{align*}
+            2^{\kappa} & =(2^{<\kappa})^{\cf(\kappa)} \\
+                       & =(2^{\mu})^{\cf(\kappa)}     \\
+                       & =2^{\mu}                     \\
+                       & =\lambda.
+        \end{align*}
+        Else we have \(2^{<\kappa}=\sup_{\mu<\kappa}2^{\mu}\) so
+        \(\cf(2^{<\kappa})=\cf(\kappa)\). This means
+        \begin{align*}
+            2^{\kappa} & =(2^{<\kappa})^{\cf(\kappa)} \\
+                       & =\lambda^{\cf(\lambda)}      \\
+                       & =\gimel(\lambda).
+        \end{align*}
+
+        If \(\kappa\) is a regular cardinal \(\kappa=\cf(\kappa)\) so
+        \begin{align*}
+            2^{\kappa} & =\kappa^{\kappa}      \\
+                       & =\kappa^{\cf(\kappa)} \\
+                       & =\gimel(\kappa).
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+\begin{theorem}[Hausdorff's formula]
+    For any two ordinals \(\alpha,\beta\) we have
+    \[
+        \aleph_{\alpha+1}^{\aleph_{\beta}}=\aleph_{\alpha}^{\aleph_{\beta}}\cdot\aleph_{\alpha+1}.
+    \]
+\end{theorem}
+
+\begin{proposition}
+    For any limit cardinal \(\kappa\) and \(\lambda\geq\cf(\kappa)\) we have
+    \[
+        2^{\kappa}=(\lim_{\alpha\to\kappa}\alpha^{\lambda})^{\cf(\kappa)}.
+    \]
+
+    \begin{proof}
+        Let \(\sequence{\kappa_{\alpha}}{\alpha<\cf(\kappa)}\) be a cofinal
+        continuous strictly increasing sequence of cardinals with the property
+        that \(\sum_{\alpha<\cf(\kappa)}\kappa_{\alpha}=\kappa\). Then
+        \begin{align*}
+            \kappa^{\lambda} & \leq\left(\prod_{\alpha<\cf(\kappa)}\kappa_{i}\right)^{\lambda} \\
+                             & =\prod_{\alpha<\cf(\kappa)}\kappa_{i}^{\lambda}                 \\
+                             & \leq\lim_{\alpha^{\lambda}}^{\cf(\kappa)}                       \\
+                             & =(\kappa^{\lambda})^{\cf(\kappa)}                               \\
+                             & =\kappa^{\lambda}.
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+\subsection{Infinatory combinatorics}
+\begin{definition}[Filters and ideals]
+    Let \(A\) be a set. Then \(\filter\subseteq\powset(A)\) is a filter
+    if
+    \begin{enumerate}
+        \item \(A\in\filter\),
+        \item \(\filter\) is closed under intersections,
+        \item \(\filter\) is upward closed.
+    \end{enumerate}
+    A set \(\ideal\subseteq\powset(A)\) is an ideal if
+    \begin{enumerate}
+        \item \(\varnothing\in\ideal\),
+        \item \(\ideal\) is closed under unions,
+        \item \(\ideal\) is downward closed.
+    \end{enumerate}
+    These two concepts are dual: taking complements of each element of a filter
+    gives an ideal and vice versa.
+
+    A filter is \(\kappa\)-complete if for \(G\subseteq\filter\) of cardinality
+    less than \(\kappa\) we have \(\bigcap G\in\filter\).
+\end{definition}
+
+\begin{definition}[Closed unbounded sets]
+    Let \(\kappa\) be a limit cardinal.
+
+    We say \(C\subseteq\kappa\) is closed if if \(\sup\delta\cap C=\delta\) then
+    \(\delta\in C\) for all limit ordinals \(\delta<\kappa\). Alternatively a
+    set is closed if it closed in the order topology applied to \(\kappa\).
+
+    A set is called a closed unbounded set (cub/club) if \(C\subseteq\kappa\) is
+    closed and unbounded. When talking about club sets, we will assume
+    \(\cf(\kappa)>\aleph_{0}\). This is because we're usually interested
+    in infinite sequences of length smaller than \(\cf(\kappa)\).
+\end{definition}
+
+\begin{proposition}
+    The club sets of a cardinal \(\mu\) generate a \(\cf(\mu)\)-complete filter
+    by collecting all sets containing a club set. This filter is written as
+    \(\club(\mu)\).
+
+    \begin{proof}
+        This set is clearly upward closed and \(\mu\subset\mu\) is a club set.
+        If we show that the set is closed under intersections of less than
+        \(\cf(\mu)\) many club sets then it is a filter.
+
+        Let \(\sequence{C_{\alpha}}{\alpha<\lambda<\cf(\mu)}\) be a sequence of club
+        sets shorter than \(\cf(\mu)\).
+
+        The intersection \(C=\bigcap_{\alpha<\lambda}C_{\alpha}\) is closed
+        because it is the intersection of closed sets.
+
+        To see it is unbounded take any \(\alpha<\mu\). We will show there is
+        some element in \(C\) larger than \(\alpha\). To do this we construct
+        \(\lambda\) many (strictly increasing) sequences of length \(\omega\).
+
+        We define \(\gamma_{0,0}=\min\setwith{\beta\in C_{0}}{\beta>\alpha}\).
+        Afterwards we recursively define
+        \[
+            \gamma_{0,n+1}=\min\setwith{\beta\in C_{0}}{\forall\eta<\lambda:\beta>\gamma_{\eta,n}}
+        \]
+        and
+        \[
+            \gamma_{\eta,n}=\min\setwith{\beta\in C_{\eta}}{\forall\zeta<\eta:\gamma_{\zeta,n}<\beta}.
+        \]
+        This will never run out of elements because
+        \(\aleph_{0}\cdot\lambda<\cf(\mu)\). Then
+        \(\beta=\sup_{\eta<\lambda,n<\omega}\gamma_{\eta,n}\) is an element of
+        each \(C_{\eta}\) by closedness. Therefore the intersection is closed
+        unbounded.
+    \end{proof}
+\end{proposition}
+
+\begin{definition}
+    A set \(S\subseteq\kappa\) is stationary if it intersects all cub sets of
+    \(\kappa\) or equivalently if \(S\notin\club^{*}(\kappa)\). This ideal is
+    called the non-stationary ideal because it contains exactly the
+    non-stationary sets.
+\end{definition}
+
+\begin{proposition}
+    Let \(\lambda\) be a regular cardinal and \(\mu\) be a cardinal with
+    \(\cf(\mu)>\lambda\). Then
+    \[
+        S^{\mu}_{\lambda}=\setwith{\gamma<\mu}{\cf(\gamma)=\lambda}
+    \]
+    is stationary. This is also sometimes written as \(E^{\mu}_{\lambda}\).
+
+    \begin{proof}
+        Let \(\delta\) be the order type of a club set \(C\). Then
+        \(\delta>\cf(\mu)>\lambda\). Let \(f:\delta\to C\) be the function
+        witnessing this isomorphism. Then \(f(\lambda)\in C\cap
+        S^{\mu}_{\lambda}\) because \(f\) is strictly increasing and continuous.
+    \end{proof}
+\end{proposition}
+
+\begin{example}
+    The set \(\omega_{2}\) has at least two disjoint stationary sets:
+    \(S^{\omega_{2}}_{\omega}\) and \(S^{\omega_{2}}_{\omega_{1}}\).
+\end{example}
+
+\begin{proposition}[Ulam matrix]
+    Let \(\kappa=\lambda^{+}\) be a successor cardinal. It has a family of
+    \(\kappa\) many pairwise disjoint stationary sets.
+
+    \begin{proof}
+        Let \(\sequence{f_{\alpha}:\alpha\to\lambda}{\alpha<\kappa}\) be a
+        sequence of injective functions (which must exist by the axiom of
+        choice).
+
+        For \(\alpha<\kappa\) and \(\xi<\lambda\) define
+        \[
+            X(\alpha,\xi)=\setwith{\beta>\alpha}{f_{\beta}(\alpha)=\xi}.
+        \]
+        %TODO
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    Let \(\mathcal{F}\) be a set of finitary functions on \(\kappa\) of
+    cardinality less than \(\kappa\). Then
+    \[
+        C=\setwith{\gamma<\kappa}{\textnormal{\(\gamma\) is closed under \(\mathcal{F}\)}}
+    \]
+    is a club set.
+
+    \begin{proof}
+        To show \(C\) is closed suppose \(C\cap\delta\) is cofinal in a limit
+        ordinal \(\delta\). Then for some \(f\in\mathcal{F}\) taking \(n_{f}\)
+        arguments we have
+        \begin{align*}
+            f[\delta^{n_{f}}] & =\bigcup\setwith{f[\gamma^{n_{f}}]}{\gamma\in C\cap\delta} \\
+                              & \subseteq\setwith{\gamma}{\gamma\in C\cap\delta}           \\
+                              & =\delta.
+        \end{align*}
+
+        To show \(C\) is unbounded take any \(\xi\in\kappa\) and consider the
+        closure of \(\xi\) under \(\mathcal{F}\). This has cardinality
+        \(\abs{\xi}\cdot\abs{\mathcal{F}}<\kappa\) and is therefore bounded. Now
+        for all \(\xi\) define \(g(\xi)\) such that \(G(\xi)\subseteq g(\xi)\).
+
+        Then for all \(\alpha\in\kappa\) define \(\alpha_{0}=0\) and
+        \(\alpha_{n+1}=g(\alpha_{n})\). Then \(\sup_{n\in\omega}\alpha_{n}\in
+        C\) and this supremum is larger than \(\alpha\).
+    \end{proof}
+\end{proposition}
+
+\begin{definition}
+    Let \(\sequence{C_{\alpha}}{\alpha<\kappa}\) be a sequence of subsets of
+    \(\kappa\). Then
+    \[
+        \bigtriangleup_{\alpha<\kappa}C_{\alpha}=\setwith{\delta\in\kappa}{\forall\alpha<\delta:\delta\in C_{\alpha}}
+    \]
+    is the diagonal intersection.
+\end{definition}
+
+\begin{proposition}
+    If \(\kappa>\aleph_{0}\) is regular and
+    \(\sequence{C_{\alpha}}{\alpha<\kappa}\) is a sequence of club sets then
+    then
+    \[
+        C=\bigtriangleup_{\alpha<\kappa}C_{\alpha}
+    \]
+    is a club set.
+
+    \begin{proof}
+        The diagonal intersection doesn't change if we redefine
+        \(C_{\alpha}=\bigcap_{\xi\leq\alpha}C_{\alpha}\) and therefore we can
+        assume \(C_{\alpha}\subseteq C_{\beta}\) for \(\alpha\leq\beta\).
+
+        To see \(C\) is closed take \(\delta\) such that \(C\cap\delta\) is
+        cofinal in \(\delta\). Then \(C\cap\delta\subseteq C_{\alpha}\) for all
+        \(\alpha<\delta\). This proves \(\delta=\sup C_{\alpha}\cap\delta\) for
+        all \(\alpha<\delta\) and thus that \(\delta\in C_{\alpha}\) for all
+        \(\alpha<\delta\) which means \(\delta\in C\).
+
+        To see \(C\) is unbounded take \(\alpha\in\kappa\). We will construct a
+        sequence \(\sequence{\alpha_{n}}{n<\omega}\) as follows: Take
+        \(\alpha_{0}\in C_{0}\) to be larger than \(\alpha\) and choose
+        \(\alpha_{n+1}\) recursively such that \(\alpha_{n+1}\in
+        C_{\alpha_{n}}\) and \(\alpha_{n+1}>\alpha_{n}\). The limit
+        \(\beta=\lim_{n<\omega}\alpha_{n}\) is an element of \(C\), in particular we
+        will show that if \(\xi<\beta\) then \(\beta\in C_{\xi}\).
+
+        Because \(\xi<\beta\) there is an \(n\) such that \(\xi<\alpha_{n}\).
+        Each \(\alpha_{k}\) for \(k>n\) belongs to \(C_{\alpha_{n}}\) and
+        therefore \(\beta\in C_{\beta_{n}}\). This means in particular that
+        \(\beta\in C_{\xi}\) because \(\xi<\beta_{n}\) and \(C_{\xi}\subseteq
+        C_{\beta_{n}}\).
+
+        Ths proves that \(C\) is a club set.
+    \end{proof}
+\end{proposition}
+
+\begin{definition}
+    A function \(f:S\to\kappa\) for some \(S\subseteq\kappa\) is regressive
+    if \(f(\alpha)<\alpha\).
+\end{definition}
+
+\begin{theorem}[Fodor's pressing down lemma]
+    Let \(S\subseteq\kappa\) be a stationary set and \(f:S\to\kappa\) a
+    regressive function. There is then some stationary \(T\subseteq S\) such
+    that \(f(\alpha)=\gamma\) for all \(\alpha\in T\).
+
+    \begin{proof}
+        Assume that for each \(\gamma<\kappa\) the fibre \(f^{-1}[\gamma]\) is
+        non-stationary. Then there is a club set \(C_{\gamma}\) such that
+        \(\gamma\notin f[C_{\gamma}\cap S]\). Define
+        \(C=\bigtriangleup_{\gamma<\kappa}C_{\gamma}\). Then for all \(\alpha\in
+        S\cap C\) we see that \(f(\alpha)\neq\gamma\) for all \(\gamma<\alpha\).
+        This means that \(S\cap C\) is empty: a contradiction because \(S\) is
+        stationary. This means that at least one fibre of \(f\) must be
+        stationary.
+    \end{proof}
+\end{theorem}
+
+\begin{definition}
+    Let \(A\) be a family of sets. A \(\Delta\)-system is a subset \(B\subseteq
+    A\) with the property that for two different \(x,y\in B\) the intersection
+    \(x\cap y\) is independent of \(x\) and \(y\).
+\end{definition}
+
+\begin{theorem}[Delta system lemma]
+    An uncountable family of finite sets contains an uncountable
+    \(\Delta\)-system.
+
+    \begin{proof}
+        We can assume that \(\bigcup A\subseteq\omega_{1}\) by just relabelling
+        all elements of the sets in \(A\). Let
+        \(\sequence{A_{\alpha}}{\alpha<\omega_{1}}\) be an enumeration of
+        \(\aleph_{1}\) many elements of \(A\). We show this contains an
+        uncountable \(\Delta\)-system.
+
+        Define \(f:\omega_{1}\to\omega_{1}\) by \(f(\alpha)=\max\set{0}\cup
+        A_{\alpha}\cap\alpha\). This maximum exists because \(A_{\alpha}\) is
+        finite and \(f\) is regressive. Define
+        \(C=\setwith{\delta<\omega_{1}}{\forall\alpha<\delta:\max
+            A_{\alpha}<\delta}\). This is a club set, and thus in particular
+        stationary. There must then be a stationary set \(S\subseteq C\) on
+        which \(f\) is constant with value \(\beta\).
+
+        For any \(\alpha\in S\) we have
+        \(A_{\alpha}\subseteq[0,\beta]\cup[\alpha,\omega_{1}]\) and for
+        \(\alpha_{1}<\alpha_{2}\) both elements of \(S\) we see
+        \[
+            A_{\alpha_{1}}\cap A_{\alpha_{2}}\subseteq[0,\beta]\cup[\alpha_{2},\omega_{1}].
+        \]
+        We assumed however that \(\max A_{\alpha_{1}}<\alpha_{1}\) so the
+        (finite) intersection is contained in the countable set \([0,\beta]\).
+
+        The set \([\beta]^{<\omega}\) is countable but we have uncountably many
+        sets. This means there is at least one finite \(R\subseteq[0,\beta]\)
+        such that \(B=\setwith{A_{\alpha}}{A_{\alpha}\cap[0,\beta]=R}\) is
+        uncountable. This set \(B\) is the \(\Delta\)-system.
+    \end{proof}
+\end{theorem}
+
+\begin{definition}
+    Let \(f:X\to\powset(X)\) be a function with the property that \(y\notin
+    f(y)\) for all \(y\in X\). A set \(M\subseteq X\) is free if for all \(y\neq
+    z\) in \(M\) we have \(y\notin f(z)\) and \(z\notin f(y)\). Stated otherwise
+    this means that \(f[y]\cap M=\varnothing\) for all \(y\in M\).
+\end{definition}
+
+\begin{theorem}[Hajnals free set lemma]
+    If \(\kappa,\lambda\) are infinite cardinals with \(\lambda<\kappa\) and
+    \(f:\kappa\to\powset(\kappa)\) is a function with
+    \(\abs{f(\alpha)}=\lambda\) for all \(\alpha\in\kappa\). Then there exists a
+    free set \(M\subseteq\kappa\) of cardinality \(\kappa\).
+\end{theorem}
+
+\subsection{Ramsey theory}
+
+\begin{definition}
+    Let \(\kappa,\lambda,\mu,\nu\) be cardinals. We write
+    \[
+        \ramsey{\kappa}{\lambda}{\mu}{\nu}
+    \]
+    if for any function \(F:[\kappa]^{\nu}\to\mu\) there is a set
+    \(H\subseteq\kappa\) of cardinality \(\lambda\) such that \(F\) is constant
+    on \([H]^{\nu}\). Usually \(\nu\) is a finite cardinal.
+\end{definition}
+
+\begin{proposition}
+    For any two natural numbers \(n,m\in\omega\) we have
+    \[
+        \ramsey{\aleph_{0}}{\aleph_{0}}{n}{k}.
+    \]
+
+    \begin{proof}
+        This will be a proof by induction on \(n\) and \(k\). The induction on
+        \(k\) is trivial so we won't show it here. We only look at \(k=2\).
+
+        For \(n=1\) let \(F:\aleph_{0}\to 2\) be any function. Then because
+        \([\aleph_{0}]^{1}\) is countable either the fibre \(F^{-1}[0]\) or
+        \(F^{-1}[1]\) is infinite.
+
+        Assume the theorem holds for \(n\) and consider a function
+        \(F:[\aleph_{0}]^{n+1}\to 2\). We define then for each \(a\in\omega\)
+        \(F_{a}:[\aleph_{0}\setminus\set{a}]^{n}\to 2\) given by
+        \(F_{a}(X)=F(X\cup\set{a})\). By assumption for every infinite
+        \(S\subseteq\aleph_{0}\) there is an infinite \(H^{S}_{a}\subseteq S\)
+        such that \(F\) is homogenous on \(H^{S}_{a}\).
+
+        Now we construct an infinite sequence \(\sequence{a_{n}}{n\in\omega}\)
+        and helper sequence \(\sequence{S_{n}\subseteq\omega}{n\in\omega}\).
+
+        Then we define \(S_{0}=\omega\) and \(a_{0}=0\) and continue recursively
+        defining \(S_{n+1}=H^{S_{n}}_{a_{n}}\) and \(a_{n+1}=\min S_{n+1}\).
+
+        For each \(a_{i}\) then, \(F_{a_{i}}\) is constant on
+        \([\setwith{a_{m}}{m>i}]^{n}\). Define \(G(a_{i})\) to be this specific
+        value. Then there is an infinite
+        \(H\subseteq\setwith{a_{i}}{i\in\omega}\) such that \(G\) is constant on
+        \(H\) (by the base case of the induction). The function \(F\) is then
+        given on \(H^{n}\) by \(F(x)=G(\min x)\) which is constant on \(H\)
+        by assumption.
+    \end{proof}
+\end{proposition}
+
+This theorem does not generalise well:
+\begin{enumerate}
+    \item \(\nramsey{2^{\kappa}}{\kappa^{+}}{2}{2}\),
+    \item \(\nramsey{2^{\aleph_{0}}}{3}{2}{\kappa}\),
+    \item \(\nramsey{\kappa}{\aleph_{0}}{0}{\aleph_{0}}\).
+\end{enumerate}
+
+\begin{proposition}
+    Any uncountable cardinal \(\kappa\) with \(\ramsey{\kappa}{\kappa}{2}{2}\)
+    is a strong limit.
+
+    \begin{proof}
+        This is outside of the scope of the course and this summary.
+    \end{proof}
+\end{proposition}
+
+\begin{theorem}[Erdős-Rado theorem]
+    For all infinite cardinals we have
+    \[
+        \ramsey{(2^{\kappa})^{+}}{\kappa^{+}}{\kappa}{2}
+    \]
+
+    \begin{proof}
+        %TODO: maybe
+    \end{proof}
+\end{theorem}
