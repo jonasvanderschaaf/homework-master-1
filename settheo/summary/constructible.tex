@@ -1,0 +1,486 @@
+\section{Gödels constructible universe}
+The goal of this section is to build a model of ZF satisfying choice and the
+coninuum hypothesis given an arbitrary model of ZF. We do this in a similar
+fashion to constructing a well-founded model of set theory.
+
+\begin{definition}
+    Given a formula \(\varphi\) and set/class \(M\) we define \(\varphi^{M}\) to
+    be \(\varphi\) restricted to the domain of \(M\) inductively\footnote{We
+        only give the definition for one connective, the rest goes the same.}:
+    \begin{align*}
+        (x\in y)^{M}            & =x\in y                 \\
+        (x=y)^{M}               & =x=y                    \\
+        (\varphi\wedge\psi)^{M} & =\varphi\wedge\psi      \\
+        (\forall x:\varphi)^{M} & =\forall x\in M:\varphi \\
+        (\exists x:\varphi)^{M} & =\exists x\in M:\varphi
+    \end{align*}
+\end{definition}
+
+\begin{definition}
+    Given a set \(M\) we say \(A\subseteq M\) is definable if there is a formula
+    \(\varphi(x,m_{1},\ldots,m_{n})\) such that
+    \[
+        A=\setwith{x\in M}{\varphi^{M}(x,m_{1},\ldots,m_{n})}
+    \]
+    where \(m_{1},\ldots,m_{n}\) are elements of \(M\). We then define
+    \(\definable(M)\) to be the set of all definable subsets of \(M\).
+\end{definition}
+
+\begin{proposition}
+    For a set \(M\) we have the following:
+    \begin{enumerate}
+        \item \(M\in\definable(M)\),
+        \item \(M\subseteq\definable(M)\) if \(M\) is transitive,
+        \item \(M\subseteq\powset(M)\).
+    \end{enumerate}
+
+    \begin{proof}
+        The only not entirely trivial statement is 2. Let \(M\) be transitive
+        and take \(x\in M\). Then
+        \begin{align*}
+            x & =\setwith{y\in M}{(y\in x)^{M}} \\
+              & =\setwith{y\in M}{y\in x}       \\
+              & =x.
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+\begin{definition}
+    Now we define a class sequence
+    \(\sequence{L_{\alpha}}{\alpha\in\ordinals}\). We define it inductively:
+    \begin{align*}
+        L_{0}        & =\varnothing,                        \\
+        L_{\alpha+1} & =\definable(L_{\alpha}),             \\
+        L_{\lambda}  & =\bigcup_{\alpha<\lambda}L_{\alpha}.
+    \end{align*}
+    Gödels constructible universe is then defined as
+    \[
+        \bigcup_{\alpha\in\ordinals}L_{\alpha}.
+    \]
+\end{definition}
+
+\begin{proposition}
+    These sets have the following property:
+    \begin{enumerate}
+        \item Each \(L_{\alpha}\) is transitive,
+        \item \(\alpha=L_{\alpha}\cap\ordinals\),
+        \item If \(\beta<\alpha\) then \(L_{\beta}\in L_{\alpha}\).
+    \end{enumerate}
+
+    \begin{proof}
+        For \(\alpha=0\) and limit ordinals this is immediately clear. For the
+        successor case this takes a bit more work.
+
+        For transitivity
+        \[
+            L_{\alpha}\subseteq L_{\alpha+1}\subseteq\powset(L_{\alpha}).
+        \]
+        Therefore if \(x\in L_{\alpha+1}\) then \(x\in\powset(L_{\alpha})\) so
+        \(x\subseteq L_{\alpha}\subseteq L_{\alpha+1}\).
+
+        The ordinal thing is trivial.
+
+        This follows immediately from transitivity and the fact that
+        \(L_{\alpha}\in L_{\alpha+1}\).
+    \end{proof}
+\end{proposition}
+
+\begin{definition}
+    Similarly to the well-founded shizzle we can define a rank
+    \(\rho(x)=\alpha\) as the smallest \(\alpha\) such that \(x\in
+    L_{\alpha+1}\).
+\end{definition}
+
+\begin{proposition}
+    We have the following properties of \(L_{\alpha}\):
+    \begin{enumerate}
+        \item \(L_{\alpha}\subseteq V_{\alpha}\),
+        \item If \(F\subseteq L_{\alpha}\) is finite then \(F\in L_{\alpha+1}\),
+        \item \(L_{n}=V_{n}\) for \(n\in\omega\),
+        \item Given the axiom of choice \(\abs{L_{\alpha}}=\abs{\alpha}\) for
+              \(\alpha\geq 0\),
+    \end{enumerate}
+
+    \begin{proof}
+        This is because \(L_{\alpha+1}\subseteq\powset(L_{\alpha})\) so by
+        induction this follows.
+
+        This is a proof by induction on the cardinality of the finite set. Let
+        \(f:n\to F\) be a bijection. Then \(f[\varnothing]=\varnothing\in
+        L_{\alpha+1}\)
+
+        Suppose \(f[i]\in L_{\alpha+1}\). Then there is some formula \(\varphi\)
+        such that \(f[i]=\setwith{y\in
+            L_{\alpha}}{\varphi^{L}}(y,m_{1},\ldots,m_{n})\). Then
+        \((\varphi(x,m_{1},\ldots,m_{n})\vee(x=f(i)))^{L}\) gives the image
+        of \(f[i+1]\).
+
+        From the previous statement \(L_{n}=V_{n}\) follows immediately by a
+        simple induction proof. Because there are countably many formulas which
+        have finitely many arguments we see
+        \[
+            \abs{L_{\alpha+1}}\leq\aleph_{0}\cdot \abs{L_{\alpha}}
+        \]
+        for successor ordinals and
+        \begin{align*}
+            \abs{L_{\lambda}} & \leq\sum_{\alpha<\lambda}L_{\alpha}                      \\
+                              & =\abs{\lambda}\cdot\sup_{\alpha<\lambda}\abs{L_{\alpha}} \\
+                              & =\abs{\lambda}.
+        \end{align*}
+        Conversely we have \(\alpha\subseteq L_{\alpha}\) for all ordinals
+        \(\alpha\) so the other inequality holds by definition.
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    \(L\) is a model of ZF.
+
+    \begin{proof}
+        We show this by demonstrating \(L\) satisfies all axioms of ZFC.
+
+        Extensionality is satisfied because \(L\) is a transitive class.
+
+        The empty set is contained in \(L_{1}\) and \(\omega\in L_{\omega+1}\).
+
+        For union take \(x\in L_{\alpha}\). Then \(\bigcup x=\setwith{y\in
+            L_{\alpha}}{\exists z\in x:y\in z}\). By transitivity
+        \[
+            (\exists z\in x:y\in z)\leftrightarrow(\exists z\in x:y\in z)^{L_{\alpha}}
+        \]
+        so \(\bigcup x\in L_{\alpha+1}\).
+
+        Pair is pretty trivial as well.
+
+        Powerset and replacement are a bit trickier we prove the weakened
+        version which together with separation gives the full versions.
+
+        For powerset take any \(x\in L\) and consider the set
+        \[
+            \setwith{\rho(y)}{y\in\powset(x)\cap L}.
+        \]
+        This must have a supremum \(\alpha\). Then all subsets of \(x\) in \(L\)
+        are elements of \(L_{\alpha+1}\).
+
+        For replacement take any \(A\in L\) and \(w_{1},\ldots,w_{n}\in L\) such
+        that
+        \[
+            \forall x\in A:\exists!y\in L:\varphi(x,y,w_{1},\ldots,w_{n}).
+        \]
+        Once again take the set of all ranks of such \(y\):
+        \[
+            \setwith{\rho(y)}{\exists x\in A:\varphi(x,y,w_{1},\ldots,w_{n})}
+        \]
+        which has supremum \(\alpha\). Then \(L_{\alpha+1}\) contains all such
+        \(y\).
+
+        Now for the axiom schema of separation let
+        \(\varphi(x,z,w_{1},\ldots,w_{n})\) be a formula and \(z\in L\) be any
+        set. We want
+        \[
+            \setwith{x\in z}{\varphi(x,z,w_{1},\ldots,w_{n})}
+        \]
+        to be a set in \(L\). Take \(\alpha\) such that
+        \(x,z,w_{1},\ldots,w_{n}\in L_{\alpha}\). Then not necessarily
+        \[
+            \varphi^{L}(x,z,w_{1},\ldots,w_{n})\leftrightarrow\varphi^{L_{\alpha}}(x,z,w_{1},\ldots,w_{n})
+        \]
+        but there is some \(\beta>\alpha\) such that
+        \[
+            \varphi^{L}(x,z,w_{1},\ldots,w_{n})\leftrightarrow\varphi^{L_{\beta}}(x,z,w_{1},\ldots,w_{n})
+        \]
+        We will show this later. Then the set
+        \[
+            \setwith{x\in L_{\beta}}{x\in z\wedge\varphi(x,z,w_{1},\ldots,w_{n})}
+        \]
+        is in \(L_{\beta+1}\).
+    \end{proof}
+\end{proposition}
+
+\begin{definition}
+    A formula \(\varphi\) is called \(\Delta_{0}\) if all of its quantifiers are
+    bounded.
+\end{definition}
+
+\begin{definition}
+    A formula \(\varphi\) is absolute for a set/class \(M\) iff
+    \(\varphi(w_{1},\ldots,w_{n})\leftrightarrow\varphi^{M}(w_{1},\ldots,w_{n})\)
+    for \(w_{1},\ldots,w_{n}\in M\).
+
+    Given two sets/classes \(M\subseteq N\) a formula
+    \(\varphi(x_{1},\ldots,x_{n})\) is upward absolute if
+    \[
+        \varphi^{M}(x_{1},\ldots,x_{n})\to\varphi^{N}(x_{1},\ldots,x_{n})
+    \]
+    and downward absolute if
+    \[
+        \varphi^{N}(x_{1},\ldots,x_{n})\to\varphi^{M}(x_{1},\ldots,x_{n}).
+    \]
+\end{definition}
+
+\begin{proposition}
+    If \(M\) is a set or class and \(\varphi\) is a \(\Delta_{0}\) formula then
+    \(\varphi\) is absolute for \(M\).
+
+    \begin{proof}
+        This is a simple proof by induction on the complexity of \(\varphi\).
+    \end{proof}
+\end{proposition}
+
+\begin{definition}[Gödel operations]
+    The following class functions form the Gödel operations used to define
+    definability rigorously:
+    \begin{align*}
+        G_{1}(x,y) & =\set{x,y}                            \\
+        G_{2}(x,y) & =x\times y                            \\
+        G_{3}(x,y) & =\setwith{(u,v)\in x\times y}{u\in v} \\
+        G_{4}(x,y) & =x\setminus y                         \\
+        G_{5}(x,y) & =x\cap y                              \\
+        G_{6}(x)   & =\bigcup x                            \\
+        G_{7}(x)   & =\dom x                               \\
+        G_{8}(x)   & =\setwith{(u,v)}{(v,u)\in x}          \\
+        G_{9}(x)   & =\setwith{(u,v,w)}{(u,w,v)\in x}      \\
+        G_{10}(x)  & =\setwith{(u,v,w)}{(v,w,u)\in x}.
+    \end{align*}
+\end{definition}
+
+\begin{proposition}
+    Let \(\varphi_{1},\ldots,\varphi_{n}\) be a set of formulas closed under
+    taking subformulas. Then these formulas are absolute for classses
+    \(M\subseteq N\) iff whenever
+    \[
+        \varphi_{i}(w_{1},\ldots,w_{m})=\exists x:\varphi_{j}(x,w_{1},\ldots,w_{m})
+    \]
+    then
+    \[
+        \forall w_{1},\ldots,w_{n}\in M:(\exists x\in N:\varphi_{j}^{N}(x,w_{1},\ldots,w_{n}))\to\exists x\in M:\varphi_{j}^{N}(x,w_{1},\ldots,w_{n})
+    \]
+
+    \begin{proof}
+        \(\Longrightarrow\) Take \(w_{1},\ldots,w_{m}\in M\) and assume
+        \(\exists x\in N:\varphi^{M}(x,w_{1},\ldots,w_{m})\). Then
+        \(\varphi_{i}^{N}\) holds and so by absoluteness down
+        \(\varphi_{i}^{M}\) holds. By absoluteness up
+        \(\varphi_{j}^{N}(x,w_{1},\ldots,w_{m})\) holds so
+        \(\exists x\in M:\varphi_{j}^{N}(x,w_{1},\ldots,w_{m})\) holds as well.
+
+        \(\Longleftarrow\) For the converse absoluteness is proven by induction
+        on the complexity of formulas. The only interesting case is the
+        existential quantifier:
+        \begin{align*}
+            \varphi_{i}^{M}(w_{1},\ldots,w_{m}) & \leftrightarrow\exists x\in M:\varphi_{j}^{M}(x,w_{1},\ldots,w_{m}) \\
+                                                & \leftrightarrow\exists x\in M:\varphi_{j}^{M}(x,w_{1},\ldots,w_{m}) \\
+                                                & \leftrightarrow\exists x\in N:\varphi_{j}^{N}(x,w_{1},\ldots,w_{m}) \\
+                                                & \leftrightarrow\varphi_{i}^{N}(w_{1},\ldots,w_{m}).
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    If \(M_{0}\) is a set and \(\varphi(x,w_{1},\ldots,w_{n})\) a formula then
+    there is a set \(M\supseteq M_{0}\) such that if \(\exists
+    x:\varphi(x,w_{1},\ldots,w_{n})\) for \(w_{1},\ldots,w_{n}\in M_{0}\)
+    then \(\exists x\in M:\varphi(x,w_{1},\ldots,w_{n})\).
+
+    \begin{proof}
+        Close under existence but only things with minimal rank to things remain
+        sets.
+
+        Given choice pick just one element.
+    \end{proof}
+\end{proposition}
+
+\begin{corollary}
+    The above theorem is also true for finitely many formulas.
+
+    If \(M_{0}\subseteq L\) then \(M\) can be of the form \(L_{\alpha}\) for
+    some limit ordinal \(\alpha\). This finishes the proof that \(L\) is a model
+    of ZF.
+\end{corollary}
+
+\begin{definition}
+    We define \(H(\kappa)=\setwith{x\in V}{\trcl(x)<\kappa}\). This is a model
+    of ZF-P for regular cardinals (see homework).
+\end{definition}
+
+\begin{theorem}
+    A formula \(\varphi(w_{1},\ldots,w_{n})\) is \(\Delta_{0}\) iff there is a
+    composition \(G\) of Gödel operations such that
+    \[
+        G(x_{1},\ldots,x_{n})=\setwith{(u_{1},\ldots,u_{n})}{\bigwedge_{i}u_{i}\in x_{i}\wedge\varphi(u_{1},\ldots,u_{n})}.
+    \]
+\end{theorem}
+
+\begin{corollary}
+    If \(M\) is transitive and closed under the Gödel operations then \(M\)
+    satisfies separation for \(\Delta_{0}\) formulas.
+\end{corollary}
+
+\begin{definition}
+    Now we redefine \(\definable(M)\) as the closure of \(M\cup\set{M}\) under
+    the Gödel operations intersected with the powerset.
+\end{definition}
+
+\begin{definition}
+    A formula is \(\Sigma_{1}\) if it is of the type \(\exists x:\varphi\) where
+    \(\varphi\) is a \(\Delta_{0}\) formula.
+
+    A formula is \(\Pi_{1}\) if it of the type \(\forall x:\varphi\) where
+    \(\varphi\) is a \(\Delta_{0}\) formula. These are downward absolute.
+
+    A formula is \(\Delta_{1}\) if it is equivalent to a \(\Sigma_{1}\) and
+    \(\Pi_{1}\) formula. These are then absolute.
+\end{definition}
+
+\begin{proposition}
+    \(\sequence{L_{\alpha}}{\alpha\in\ordinals}\) is absolute for transitive
+    models of ZF-P.
+
+    \begin{proof}
+        We want to show the map \(\alpha\mapsto L_{\alpha}\) is \(\Delta_{1}\)
+        so absolute.
+
+        It is \(\Sigma_{1}\) because definability it is given by:
+        \begin{align*}
+            y & =\definable(x)\equiv\exists W:\textnormal{\(W\) is a function}                             \\
+              & \wedge(\dom W=\omega)\wedge W(0)=x                                                         \\
+              & \wedge\forall n\in\omega: W(n+1)=W\cup\setwith{G_{i}(x,y)}{x,y\in W(n),i\in 11\setminus 1} \\
+              & \wedge y=\bigcup\range W.
+        \end{align*}
+        Recursion applied to \(\Sigma_{1}\) function gives \(\Sigma_{1}\)
+        function.
+
+        It is also \(\Pi_{1}\).
+    \end{proof}
+\end{proposition}
+
+\begin{corollary}
+    The statement \(x\) is constructible is absolute.
+\end{corollary}
+
+\begin{corollary}
+    If \(M\) is a transitive class satisfying the finitely many axioms used to
+    prove the above let \(\varphi\) be the conjunction of these axioms. If
+    \(\varphi^{M}\) is true then \(L\subseteq M\).
+
+    If \(M\) is a transitive set then \(o(M):=M\cap\ordinals\) is the smallest
+    ordinal not in \(M\). Conjunct \(\varphi\) with the axiom that there is no
+    largest ordinal to het \(\psi\). Then if \(M^{\psi}\) the ordinal
+    \(o(M)\) is a limit ordinal and \(L(M)=\bigcup_{\alpha<o(M)}L_{\alpha}\).
+    This means
+    \[
+        L^{M}=\setwith{x\in M}{\exists\alpha:x\in L_{\alpha}}=\bigcup_{\alpha<o(M)}L_{\alpha}.
+    \]
+    Now define \(\chi=\psi\wedge (V=L)\). If \(M\) is a transitive proper class
+    and \(M^{\chi}\) then \(M=L\). If \(M\) is a transitive set with
+    \(M^{\chi}\) then \(M=L(o(M))\).
+\end{corollary}
+
+\subsection{Choice in \texorpdfstring{\(L\)}{L}}
+
+\begin{theorem}
+    In \(L\) the axiom of choice holds.
+
+    \begin{proof}
+        To prove the axiom of choice in \(L\) we construct a sequence of well
+        orders \(\sequence{<_{\alpha}}{\alpha\in\ordinals}\) with the properties
+        that
+        \begin{enumerate}
+            \item \(<_{\alpha}\subseteq<_{\beta}\) if \(\alpha<\beta\),
+            \item \(x<_{\beta}y\) if \(\rho(x)<\rho(y)\).
+        \end{enumerate}
+
+        We construct this by recursion on ordinals.
+
+        The empty set is the only well-order of \(L_{0}\). For limit ordinals
+        \(\lambda\) we take \(<_{\lambda}=\bigcup_{\alpha<\lambda}<_{\alpha}\).
+
+        Now for the successor case. Let \(\alpha\) be an ordinal such that
+        \(<_{\alpha}\) is a well-order on \(L_{\alpha}\). We know
+        \[
+            L_{\alpha+1}=\powset(L_{\alpha})\cap\bigcup_{n<\omega}W^{\alpha}_{n}
+        \]
+        where \(W^{\alpha+1}_{0}=L_{\alpha}\bigcup\set{L_{\alpha}}\) and
+        \[
+            W^{\alpha+1}_{n+1}=W^{\alpha+1}_{n}\cup\setwith{G_{i}(x,y)}{x,y\in W^{\alpha+1}_{n},i\in11\setminus1}.
+        \]
+        We recursively define a well-order \(<^{\alpha+1}_{n}\) on each
+        \(W^{\alpha+1}_{n}\). For \(n=0\) define
+        \[
+            <^{\alpha+1}_{0}=<^{\alpha}\cup\setwith{(x,L_{\alpha+1})}{x\in L_{\alpha}}.
+        \]
+        For \(n+1\) define \(x<^{\alpha+1}_{n+1}\) as follows
+        \(x<^{\alpha+1}_{n+1}\) iff
+        \begin{enumerate}
+            \item \(x^{\alpha}_{n}y\) for \(x,y\in W^{\alpha+1}_{n}\),
+            \item \(x\in W^{\alpha+1}_{n}\) and \(y\notin W^{\alpha+1}_{n}\),
+            \item \(x,y\in W^{\alpha+1}_{n+1}\) and
+
+                  \begin{enumerate}
+                      \item \(x\) is produced by an earlier Gödel operation than
+                            \(y\),
+                      \item \(x=G_{i}(u,v)\) and \(y=G_{i}(u',v')\) and
+                            \(u<^{\alpha+1}_{n}u'\),
+                      \item \(x=G_{i}(u,v)\) and \(y=G_{i}(u',v')\) and
+                            \(v<^{\alpha+1}_{n}v'\).
+                  \end{enumerate}
+        \end{enumerate}
+
+        This is a well-order.
+    \end{proof}
+\end{theorem}
+
+This well-order is in fact absolute for all \(M\) where the \(\chi\) from before
+holds.
+
+\subsection{Generalized Continuum Hypothesis in \texorpdfstring{\(L\)}{L}}
+
+\begin{definition}
+    A transitive set \(M\) is adequate if one of the following is true:
+    \begin{enumerate}
+        \item \(M\) is closed under the Gödel operations,
+        \item if \(\alpha\in M\) then \(\sequence{L_{\beta}}{\beta<\alpha}\in
+              M\).
+    \end{enumerate}
+
+    If \(\delta\) is a limit ordinal then \(L_{\delta}\) is adequate.
+
+    There is a formula \(\sigma\) such that \(\sigma^{M}\) iff \(M\) is
+    adequate, this can be improved to a \(\sigma\) such that \(M=L_{\delta}\)
+    for some \(\delta\) if \(\sigma^{M}\).
+\end{definition}
+
+\begin{theorem}[Gödels condensation lemma]
+    Every elementary substructructure \(M\prec L_{\delta}\) is isomorphic to an
+    \(L_{\gamma}\) for \(\gamma<\delta\).
+
+    \begin{proof}
+        By Mostowski's collapse lemma \(M\) is isomorphic to a transitive
+        \(N\subseteq L_{\delta}\). Because \(\sigma^{L_{\delta}}\) is true
+        \(\sigma^{M}\) must also be true. Therefore \(\sigma^{N}\) is also true,
+        which means \(N=L_{\delta}\) for some \(\gamma<\delta\).
+    \end{proof}
+\end{theorem}
+
+\begin{theorem}
+    The generalized continuum hypothesis is true in Gödels constructible
+    universe.
+
+    \begin{proof}
+        We know that \(\abs{L_{\alpha}}=\abs{\alpha}\). The proof was given for
+        models of set theory where choice holds. Choice holds in \(L\) and
+        \(L_{\alpha}\) is absolute so \(\abs{L_{\alpha}}=\abs{\alpha}\) for
+        infinite ordinals. In particular for infinite cardinals
+        \(\abs{L_{\kappa^{+}}}=\kappa^{+}\). If we show that
+        \(\powset(\kappa)\subseteq L_{\kappa^{+}}\) then we are done.
+
+        Let \(X\subseteq\powset(\kappa)\) be a constructible subset and
+        \(\delta>\kappa\) an infinite ordinal such that \(X\in L_{\delta}\).
+
+        Let \(M\prec L_{\delta}\) be an elementary substructure containing
+        \(L_{\kappa}\cup\set{X}\) and \(\abs{M}=\kappa\). Then there is an
+        isomorphism \(\pi:M\to L_{\gamma}\) for some \(\gamma<M\) which must
+        have \(\pi(X)=X\) because \(L_{\kappa}\cup X\) is transitive.
+
+        The existence of such an \(M\) is left as an exercise.
+    \end{proof}
+\end{theorem}
