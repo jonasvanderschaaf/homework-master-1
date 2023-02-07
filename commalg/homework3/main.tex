@@ -1,0 +1,347 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{scalerel}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{quiver}
+\usepackage{float}
+\usepackage{nicefrac}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator*{\bigplus}{\scalerel*{+}{\sum}}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Hom}{Hom}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\JRad}{JRad}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\Idem}{Idem}
+\DeclareMathOperator{\Rad}{Rad}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Mat}{Mat}
+\DeclareMathOperator{\ch}{ch}
+
+\newcommand{\maxid}{\mathfrak{m}}
+\newcommand{\primeid}{\mathfrak{p}}
+\newcommand{\ideal}{\triangleleft}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\newtheorem{question}{Question}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework Commutative Algebra}
+\author{Jonas van der Schaaf}
+\date{October 24, 2022}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Let \(A\) be a ring and \(S\subseteq A\) a multiplicative subset. Prove that
+    \(S^{-1}A[x]\cong S^{-1}(A[x])\) as \(A\)-algebras using the universal
+    property.
+
+    \begin{proof}
+        Let \(B\) be an \(A\)-algebra such that \(f:A[x]\to B\) is a morphism
+        such that \(f(s)\in B^{*}\) for all \(s\in S\). We will prove \(f\)
+        factors uniquely through \(S^{-1}A[x]\) by the trivial inclusion map
+        \[
+            \incl:A[x]\hookrightarrow S^{-1}A[x]:\sum_{i=0}^{n}a_{i}x^{i}\mapsto\sum_{i=0}^{n}\frac{a_{i}}{1}x^{i}.
+        \]
+
+        We define a map \(\tilde{f}:S^{-1}A[x]\to B\) as follows: for
+        \(b=\sum_{i=0}^{n}\nicefrac{a_{i}}{s_{i}}x^{i}\) define
+        \[
+            \tilde{f}\left(\sum_{i=0}^{n}\frac{a_{i}}{s_{i}}x^{i}\right)=\sum_{i=0}^{n}\frac{f(a_{i})}{f(s_{i})}f(x)^{i}.
+        \]
+        Note that this is well defined because \(f(b_{i})\) is a unit in \(B\)
+        for all \(s\in S\). Then \(\tilde{f}\) is clearly an additive
+        multiplicative function and
+        \begin{align*}
+            \tilde{f}\left(c\sum_{i=0}^{n}\frac{a_{i}}{s_{i}}x^{i}\right) & =\tilde{f}\left(\sum_{i=0}^{n}\frac{ca_{i}}{s_{i}}x^{i}\right) \\
+                                                                          & =\sum_{i=0}^{n}\frac{f(ca_{i})}{f(s_{i})}f(x)^{i}              \\
+                                                                          & =c\sum_{i=0}^{n}\frac{f(a_{i})}{f(s_{i})}f(x)^{i}
+        \end{align*}
+        by linearity of \(f\) in \(A\).
+        Therefore \(\tilde{f}\) is a well-defined \(A\)-algebra homomorphism.
+
+        Because
+        \[
+            \tilde{f}\imath\left(\sum_{i=0}^{n}a_{i}x^{i}\right)=\sum_{i=0}^{n}f(a_{i})f(x)^{i}
+        \]
+        we get that \(\tilde{f}\imath=f\).
+
+        To prove uniqueness of \(\tilde{f}\) notice that for each \(a\in A\) we
+        must have
+        \begin{align*}
+            f(a) & =\tilde{f}\imath(a)                 \\
+                 & =\tilde{f}\left(\frac{a}{1}\right).
+        \end{align*}
+        Because ring morphisms preserve units
+        \(\tilde{f}(s^{-1})=\tilde{f}(s)^{-1}=f(s)^{-1}\) for all \(s\in S\).
+        Therefore \(\tilde{f}\) applied to the coefficients of any polynomial is
+        fixed. Also \(\tilde{f}(x)=\tilde{f}\imath(x)=f(x)\) is fixed uniquely
+        by \(f\). Therefore \(\tilde{f}\) is determined uniquely by the original
+        map \(f\).
+    \end{proof}
+\end{question}
+
+\begin{question}
+    Compute the cardinality of the module
+    \(\Z/525\Z\otimes_{\Z}\Z\left[\nicefrac{1}{33}\right]\).
+
+    \begin{proof}
+        Because \(33\) is coprime with \(525\) it's a unit in \(\Z/525\Z\).
+        Therefore the localization of \(\nicefrac{1}{33}\) in \(\Z/525\Z\) is
+        just \(\Z/525\Z\) again. Rewriting the module above using properties of
+        the tensor product we obtain:
+        \begin{align*}
+            \Z/525\Z\otimes_{\Z}\Z\left[\nicefrac{1}{33}\right] & \cong\Z\left[\frac{1}{33}\right]/\left(525\Z\left[\frac{1}{33}\right]\right)                                        \\
+                                                                & \cong\Z/525\Z\left[\frac{1}{33}\right]                                                                              \\
+                                                                & \cong\left(\Z/3\Z\oplus\Z/5^{2}\Z\oplus\Z/7\Z\right)\left[\frac{1}{33}\right]                                       \\
+                                                                & \cong\Z/3\Z\left[\frac{1}{33}\right]\oplus\Z/5^{2}\Z\left[\frac{1}{33}\right]\oplus\Z/7\Z\left[\frac{1}{33}\right].
+        \end{align*}
+        Because \(33\equiv0\mod 3\) the first localization is \(0\). Because
+        \(33\) is coprime with \(5^{2}\) and \(7\) it must be invertible in the
+        rings \(\Z/5^{2}\Z\) and \(\Z/7\Z\) by elements \(y\in\Z/5^{2}\Z\) and
+        \(z\in\Z/7\Z\). Then in both rings the elements \(x/33^{i}\) already
+        exist and are given by \(xy^{i}\) and \(xz^{i}\) respectively so the
+        module is isomorphic to \(\Z/5^{2}\Z\oplus\Z/7\Z\) which has
+        \(175\) elements.
+    \end{proof}
+\end{question}
+
+\begin{question}
+    For each of the following rings determine whether it is a field:
+    \begin{enumerate}[(a)]
+        \item \(\Q(\sqrt{2})\otimes_{\Q}\R\)
+
+              \begin{solution}
+                  Consider the map \(f:\Q(\sqrt{2})\times\R\twoheadrightarrow\R\)
+                  given by \(f(x,y)=xy\). This is clearly a surjective bilinear
+                  map to a field. The lifted map must therefore also be
+                  surjective so if the tensor product is a field the map must be
+                  injective (the kernel cannot be the entire ring). We have
+                  \(\sqrt{2}\otimes\sqrt{2}\neq 2\otimes 1\) because there is no
+                  \(x\in\Q\) such that \((\sqrt{2}x,\sqrt2)=(2,1)\). However
+                  \(\tilde{f}(\sqrt{2}\otimes\sqrt{2}-2\otimes
+                  1)=\sqrt{2}^{2}-2=0\). Therefore \(\tilde{f}\) is not
+                  injective so \(\Q(\sqrt{2})\otimes_{\Q}\R\) is not a field.
+              \end{solution}
+
+        \item \(\Q(\sqrt{-2})\otimes_{\Q}\Q(\sqrt{-1})\)
+
+              \begin{solution}
+                  I will prove \(\Q(\sqrt{-2},\sqrt{-1})\) is isomorphic to the
+                  tensor product as \(\Q\)-algebra. We have a surjective
+                  bilinear map of modules
+                  \[
+                      f:\Q(\sqrt{-2})\times\Q(\sqrt{-1})\twoheadrightarrow\Q(\sqrt{-1},\sqrt{-2}):(x,y)\mapsto xy.
+                  \]
+                  This map is an isomorphism because both have equal dimension
+                  as \(\Q\)-vector spaces (tensor product is multiplicative in
+                  dimension) and \(f\) is injective because the codomain is an
+                  integral domain. Therefore also a surjective
+                  \[
+                      \tilde{f}:\Q(\sqrt{-2})\otimes_{\Q}\Q(\sqrt{-1})\twoheadrightarrow\Q(\sqrt{-1},\sqrt{-2}):x\otimes y\mapsto xy.
+                  \]
+                  which is an isomorphism of \(\Q\)-modules by the same
+                  dimension argument.
+
+                  The map \(\tilde{f}\) however is also multiplicative with
+                  respect to the ring structures of both modules as algebras,
+                  therefore \(\tilde{f}\) is a bijective algebra morphism, so
+                  \(\Q(\sqrt{-2},\sqrt{-1})\) is the tensor product, so it is a
+                  field.
+              \end{solution}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(k\) be a field and \(R=k[x,y]\) a polynomial ring, and
+    \(I=(x,y)\subseteq R\). We begin with the following sequence:
+    \[
+        0\to R\overset{f}{\to}R\oplus R\overset{g}{\to}I\to 0
+    \]
+    where \(f(1)=(y,-x)\), \(g(1,0)=x\), and \(g(0,1)=y\).
+
+    \begin{enumerate}[(a)]
+        \item Show that the above sequence is exact.
+
+              \begin{proof}
+                  Because \(R\) is an integral domain any \(h\in R\) with
+                  \((hx,hy)=(0,0)\) must have \(h=0\) so therefore we get
+                  \(\ker(f)=(0)\).
+
+                  The map \(g\) is surjective because for
+                  \(h=\sum_{i,j}a_{ij}x^{i}y^{j}\) the element
+                  \(\left(a_{11},\sum_{i\neq 1,j}a_{ij}x^{i}y^{j-1}\right)\) is
+                  clearly mapped onto \(h\).
+
+                  Also for \(h\in R\) we have
+                  \begin{align*}
+                      gf(h) & =g(yh,-xh) \\
+                            & =xyh-yxh   \\
+                            & =0
+                  \end{align*}
+                  so \(\im(f)\subseteq\ker(g)\).
+
+                  For some \((a,b)\in\ker(g)\) we have \(xa+yb=0\). Because
+                  \(R\) is a unique factorization domain \(xa\) and \(yb\) must
+                  have a unique decomposition. In particular \(x|b\) and \(y|a\)
+                  such that \(b/x=d\) and \(a/y=-d\). Therefore
+                  \((a,b)=d(x,y)\).
+
+                  Therefore \(f\) is injective, \(g\) is surjective and
+                  \(\im(f)=\ker(g)\): the sequence is exact.
+              \end{proof}
+
+        \item Show that \(I\) is not flat as an \(R\)-module.
+
+              \begin{proof}
+                  Because the tensor product is right-exact the sequence
+                  \[
+                      R\otimes I\to (R\oplus R)\otimes I\to I\otimes I\to 0
+                  \]
+                  is exact. We obtain the following commutative diagram:
+                  \begin{figure}[H]
+                      \[
+                          \begin{tikzcd}[ampersand replacement=\&]
+                              \&\& {R\otimes I} \&\& {(R\oplus R)\otimes I} \&\& {I\otimes I} \&\& 0 \\
+                              \\
+                              0 \&\& R \&\& {R\oplus R} \&\& I \&\& 0
+                              \arrow["f\otimes\Id", from=1-3, to=1-5]
+                              \arrow["g\otimes\Id", from=1-5, to=1-7]
+                              \arrow[from=1-7, to=1-9]
+                              \arrow["{a\otimes b\mapsto ab}", from=1-3, to=3-3]
+                              \arrow["{(a\oplus b)\otimes c\mapsto ac\oplus bc}", from=1-5, to=3-5]
+                              \arrow["{\varphi:a\otimes b\mapsto ab}", from=1-7, to=3-7]
+                              \arrow["f", from=3-3, to=3-5]
+                              \arrow["g", from=3-5, to=3-7]
+                              \arrow[from=3-1, to=3-3]
+                              \arrow[from=3-7, to=3-9]
+                          \end{tikzcd}
+                      \]
+                      \caption{A commutative diagram}
+                  \end{figure}
+
+                  The snake lemma then induces the following diagram with exact
+                  columns where the long sequence of the top and bottom rows are
+                  also exact:
+                  \begin{figure}[H]
+                      \[\begin{tikzcd}[ampersand replacement=\&]
+                              \&\& 0 \&\& 0 \&\& {\ker(\varphi)} \\
+                              \\
+                              \&\& {R\otimes I} \&\& {(R\oplus R)\otimes I} \&\& {I\otimes I} \&\& 0 \\
+                              \\
+                              0 \&\& R \&\& {R\oplus R} \&\& I \&\& 0 \\
+                              \\
+                              \&\& {R/I} \&\& {R/I\oplus R/I} \&\& {I/I^{2}}
+                              \arrow["f\otimes\Id", from=3-3, to=3-5]
+                              \arrow["g\otimes\Id", from=3-5, to=3-7]
+                              \arrow[from=3-7, to=3-9]
+                              \arrow["{a\otimes b\mapsto ab}", from=3-3, to=5-3]
+                              \arrow["{(a\oplus b)\otimes c\mapsto ac\oplus bc}", from=3-5, to=5-5]
+                              \arrow["{\varphi:a\otimes b\mapsto ab}", from=3-7, to=5-7]
+                              \arrow["f", from=5-3, to=5-5]
+                              \arrow["g", from=5-5, to=5-7]
+                              \arrow[from=5-5, to=7-5]
+                              \arrow[from=5-7, to=7-7]
+                              \arrow[from=5-3, to=7-3]
+                              \arrow[from=1-3, to=3-3]
+                              \arrow[from=1-5, to=3-5]
+                              \arrow[from=1-3, to=1-5]
+                              \arrow[from=1-5, to=1-7]
+                              \arrow[from=1-7, to=3-7]
+                              \arrow["0"{description}, from=7-3, to=7-5]
+                              \arrow[from=7-5, to=7-7]
+                              \arrow[from=1-7, to=7-3, out=0, in=180, looseness=2, overlay]
+                              \arrow[from=5-1, to=5-3]
+                              \arrow[from=5-7, to=5-9]
+                          \end{tikzcd}\]
+                      \caption{Yet another commutative diagram}
+                  \end{figure}
+                  In particular the map \(R/I\to R/I\oplus R/I\) in the bottom
+                  left square is the zero map. This is because
+                  \(\Im(f)=\subseteq I\oplus I\) so \(\overline{f(x)}=0\in
+                  R/I\oplus R/I\) for all \(x\in R\). Because the projection
+                  \(R\to R/I\) is surjective this means the map must be zero.
+
+                  By exactness of the long sequence this means that the map
+                  \(\ker(\varphi)\to R/I\) is surjective and therefore
+                  \(\ker(\varphi)\neq 0\).
+
+                  Now consider the trivially exact sequence
+                  \[
+                      0\to I\to R\to R/I\to 0.
+                  \]
+                  Tensored with \(I\) this will immediately give the sequence
+                  \[
+                      I\otimes I\to R\otimes I\to R/I\to 0
+                  \]
+                  is exact. Because \(R\otimes I\cong I\) by the isomorphism
+                  \(r\otimes i\mapsto ri\) we get the same exact sequence
+                  \[
+                      I\otimes I\overset{\varphi}{\to} I\to I/I^{2}\to 0.
+                  \]
+                  However \(\varphi\) is not injective, so the original map
+                  \(I\otimes I\to R\otimes I\) was not either. Therefore the
+                  functor \(-\otimes_{R}I\) does not preserve injectiveness of
+                  functions and is not exact. This means \(I\) is not flat.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

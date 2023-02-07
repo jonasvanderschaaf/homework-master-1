@@ -1,0 +1,259 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs,stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikz}
+
+\newtheorem*{lemma}{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem*{corollary}{Corollary}
+
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\set{#1\colon#2}}
+
+\newcommand{\powset}{\mathcal{P}}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\range}{ran}
+\DeclareMathOperator{\field}{field}
+
+\newcommand{\restrict}{\upharpoonright}
+
+\DeclarePairedDelimiter{\abs}{|}{|}
+
+\title{Homework Set Theory}
+\date{October 11, 2022}
+\author{Jonas van der Schaaf}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    \begin{enumerate}[a.]
+        \item Prove the axiom of choice implies \(T\).
+
+              \begin{proof}
+                  Let \(x,y\) be two sets. By the axiom of choice these can be
+                  well-ordered by relations the relations \(<,\prec\)
+                  respectively. Then as we have seen before \(x\) is an initial
+                  segment of \(y\), \(y\) is an initial segment of \(x\), or
+                  \(x\cong y\).
+
+                  If \(x\) is an initial segment of \(y\), then we have the
+                  injective embedding \(x\hookrightarrow y\) mapping \(x\) to
+                  its isomorphic initial segment in \(y\). If \(x\cong y\) then
+                  in particular the isomorphism is injective which gives the
+                  injective map. The last case is identical to the first with
+                  the roles of \(x,y\) switched around.
+              \end{proof}
+
+        \item For every set \(x\) there is an ordinal \(\alpha\) such that there
+              is no injective map \(\alpha\hookrightarrow x\).
+
+              \begin{proof}
+                  Consider the set
+                  \[
+                      A=\setwith{(y,R)\in\powset(x)\times\powset(x\times x)}{\text{\(R\) is a well-order on \(y\)}}.
+                  \]
+                  Then each pair \((y,R)\) is isomorphic to a unique ordinal
+                  \(\beta\). Using the axiom of replacement, this means there is
+                  a unique set of ordinals \(A'\) which is the image of \(A\)
+                  under the class function mapping to the unique ordinal.
+
+                  This set is transitive for the following reason: take any
+                  \(\beta\in A'\) and \(\gamma\in\beta\). Then
+                  \(\gamma\subseteq\beta\) so \(\gamma\) is well-orderable by
+                  the induced relation. Because \(\beta\) is equipotent to a
+                  subset of \(x\) we get that \(\gamma\subseteq\beta\) is as
+                  well to some \(y\subseteq x\). This \(y\) can be endowed with
+                  the well-order induced by the bijection to \(\gamma\).
+                  Therefore \(\gamma\in A'\). This means \(A'\) is a transitive
+                  set of ordinals which can be well-ordered by \(\in\).
+                  Therefore \(\alpha:=A'\) is an ordinal.
+
+
+                  Now suppose there is an injection \(f:\alpha\hookrightarrow
+                  x\). Then \(f[\alpha]\subseteq x\) can be well-ordered with
+                  the well-order induced by \(f\). In particular
+                  \(f[\alpha]\cong \alpha\) as a well-order. This means that as
+                  an ordinal \(\alpha\in\alpha\) which contradicts the fact that
+                  \(\in\) well-orders the ordinals.
+              \end{proof}
+
+        \item Prove \(T\) implies the axiom of choice.
+
+              \begin{proof}
+                  Consider any set \(x\) and take \(\alpha\) as in part b. Then
+                  there is no injective \(\alpha\hookrightarrow x\), therefore
+                  there is an injective \(x\hookrightarrow\alpha\). This induces
+                  a well-order on \(x\). Therefore any set can be well-ordered.
+                  This is equivalent to the axiom of choice.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(\gamma:\powset(M)\setminus\set{\varnothing}\to M\) be a choice
+    function. A subfamily \(\mathcal{A}\) of \(\powset(M)\) is a
+    \(\gamma\)-chain if
+    \begin{enumerate}[(1)]
+        \item \(M\in\mathcal{A}\),
+        \item if \(A\in\mathcal{A}\) then \(A'=A\setminus\set{\gamma(A)}\)
+              belongs to \(\mathcal{A}\) too,
+        \item if \(\mathcal{A}'\subseteq\mathcal{A}\) then
+              \(\bigcap\mathcal{A}'\in\mathcal{A}\).
+    \end{enumerate}
+
+    \begin{enumerate}[a.]
+        \item Verify that \(\powset(M)\) is a \(\gamma\)-chain.
+
+              \begin{proof}
+                  We have \(M\subset M\) so \(M\in\powset(M)\). For any
+                  \(A\subseteq M\) we have
+                  \(A'=A\setminus\set{\gamma(A)}\subseteq M\) so
+                  \(A'\in\powset(M)\). If \(\mathcal{A}'\subseteq\powset(A)\)
+                  then each \(A\in\mathcal{A}'\) is an element of
+                  \(\powset(M)\). Therefore
+                  \(\bigcap\mathcal{A}'\in\powset(M)\).
+              \end{proof}
+
+        \item Show if \(\mathfrak{U}\) is a family of \(\gamma\)-chains, then
+              \(\bigcap\mathfrak{U}\) is a \(\gamma\)-chain.
+
+              \begin{proof}
+                  Because each \(\mathcal{A}\in\mathfrak{U}\) is a
+                  \(\gamma\)-chain, \(M\in\mathcal{A}\) for each
+                  \(\mathcal{A}\in\mathfrak{U}\). Therefore
+                  \(M\in\bigcap\mathfrak{U}\).
+
+                  If \(A\in\mathcal{A}\) for each \(\mathcal{A}\in\mathfrak{U}\)
+                  then also \(A'=A\setminus\set{\gamma(A)}\in\mathcal{A}\) for
+                  each chain. Therefore \(A'\in\bigcap\mathfrak{U}\).
+
+                  If \(\mathcal{A}'\subseteq\bigcap\mathfrak{U}\), then
+                  \(\mathcal{A}'\subseteq\mathcal{A}\) for each
+                  \(\mathcal{A}\in\mathfrak{U}\). Therefore
+                  \(\bigcap\mathcal{A}'\in\mathcal{A}\) for each
+                  \(\mathcal{A}\in\mathfrak{U}\). Therefore
+                  \(\bigcap\mathcal{A}\in\bigcap\mathfrak{U}\).
+              \end{proof}
+    \end{enumerate}
+    Now let \(\mathcal{W}\) be the intersection of the collection of all
+    \(\gamma\)-chains. Call \(A\in\mathcal{W}\) comparable if for all
+    \(U\in\mathcal{W}\) \(A\subseteq U\) or \(U\subseteq A\).
+    \begin{enumerate}[a.,resume]
+        \item Prove every member of \(\mathcal{W}\) is comparable.
+
+              \begin{proof}
+                  Consider the set \(\mathcal{W}'=\setwith{A\in
+                      \mathcal{W}}{\text{\(A\) is comparable}}\). Then this is a
+                  \(\gamma\)-chain. It is clear that \(M\) is comparable
+                  because every possible element of a \(\gamma\)-chain is a
+                  subset of \(M\).
+
+                  Take \(A\in\mathcal{W}\), define
+                  \(A'=A\setminus\set{\gamma(A)}\) and consider
+                  \(\mathcal{U}=\setwith{U\in\mathcal{W}}{U\subseteq A'\vee
+                      A'\subseteq U}\). I will prove this is a chain.
+
+                  \begin{lemma}
+                      The set \(\mathcal{U}\) is a chain.
+
+                      \begin{proof}
+                          It is clear that \(M\in\mathcal{U}\).
+
+                          If \(U\in\mathcal{U}\) then either \(U\subseteq A'\)
+                          or \(A'\subseteq U\subseteq A\) or \(A'\subseteq
+                          A\subseteq U'\). If \(U\subseteq A'\) also
+                          \(U'\subseteq A'\). If \(A'\subseteq U\subseteq A\)
+                          either \(A'=U\) in which case \(U'\subseteq A'\) or
+                          \(U=A\) in which case \(U'=A'\). If \(A'\subseteq
+                          A\subseteq U\) then we have \(A\subseteq U'\) in which
+                          case \(A'\subseteq U'\) or \(U'\subseteq A\subseteq
+                          U\) which means that \(U'=A\) or \(U=A\). In these
+                          cases we either get \(A'\subseteq U'\) or \(U'=A'\)
+                          respectively so \(U'\in\mathcal{U}\).
+
+                          Now take any \(\mathcal{U}'\subseteq \mathcal{U}\).
+                          Then \(\bigcap\mathcal{U}'\in\mathcal{W}\) because it
+                          is a chain. If for each \(U\in\mathcal{U'}\) we have
+                          \(A'\subseteq U\) then
+                          \(A'\subseteq\bigcap\mathcal{U'}\) so
+                          \(\bigcap\mathcal{U'}\in\mathcal{U}\). If there is any
+                          \(U\in\mathcal{U'}\) with \(U\subsetneq A'\) then
+                          \(\bigcap\mathcal{U}'\subseteq A'\) so
+                          \(\bigcap\mathcal{U}'\in\mathcal{U}\).
+
+                          This proves all properties of a \(\gamma\) chain hold
+                          for \(\mathcal{U}\).
+                      \end{proof}
+                  \end{lemma}
+
+                  Therefore \(\mathcal{U}\subseteq\mathcal{W}\) is a chain so
+                  \(\mathcal{U}=\mathcal{W}\) and \(A'\) is comparable.
+
+                  Take any \(\mathcal{A}'\subseteq\mathcal{W}'\). Then
+                  \(\bigcap\mathcal{A}'\in\mathcal{W}\). Take any
+                  \(U\in\mathcal{W}\). If for all \(A\in\mathcal{A}'\) we have
+                  \(U\subseteq A\) we get \(U\subseteq\bigcap\mathcal{A}'\). If
+                  there is an \(A\in\mathcal{A}'\) such that \(A\subsetneq U\)
+                  then \(\bigcap\mathcal{A}'\subseteq U\). This means that
+                  \(\bigcap\mathcal{A}'\) is comparable so an element of
+                  \(\mathcal{W}'\).
+
+                  This means that \(\mathcal{W}'\subseteq\mathcal{W}\) is a
+                  chain so \(\mathcal{W}=\mathcal{W}'\) i.e. every element of
+                  \(\mathcal{W}\) is comparable.
+              \end{proof}
+
+        \item Let \(Y\subseteq M\) be non-empty. Show there is a unique member
+              \(W\in\mathcal{W}\) such that \(Y\subseteq W\) and \(\gamma(W)\in
+              Y\).
+
+              \begin{proof}
+                  Consider \(W=\bigcap\setwith{W'\in\mathcal{W}}{Y\subseteq
+                      W'}\). Then \(W\in\mathcal{W}\) by property 3 of
+                  \(\gamma\)-chains. If \(\gamma(W)\notin Y\) then
+                  \(Y\subseteq W'=W\setminus\set{\gamma(W)}\subsetneq W\).
+                  This means that \(W\subseteq W'\subsetneq W\) which is
+                  impossible.
+
+                  To prove uniqueness, take two \(W,X\in\mathcal{W}\) with the
+                  desired properties. Then without loss of generality
+                  \(W\subseteq X\) by comparability. We get \(W\nsubseteq X'\)
+                  because \(X\not\ni\gamma(X)\in Y\subseteq W\). By
+                  comparibility this means \(X'\subsetneq W\) because
+                  \(\gamma(X)\notin X\). Therefore \(X'\subsetneq W\subseteq X\)
+                  so \(W=X\) which proves uniqueness.
+              \end{proof}
+    \end{enumerate}
+    In particular for each \(x\in M\) we have a unique \(W_{x}\in\mathcal{W}\)
+    such that \(x\in W_{x}\) and \(\gamma(W_{x})=x\). Define \(x\prec y\) iff
+    \(y\in W_{x}'\).
+    \begin{enumerate}[a.,resume]
+        \item Prove that \(\prec\) is a well-order on \(M\).
+
+              \begin{proof}
+                  Let \(S\subset M\). By part d there is a unique
+                  \(W\in\mathcal{W}\) such that \(S\subseteq W\) and
+                  \(\gamma(W)\in S\). This \(x:=\gamma(S)\) will be the minimal
+                  element.
+
+                  This unique \(W\) must also be \(W_{x}\) because it satisfies
+                  the same properties. Therefore for any \(y\in
+                  S\setminus\set{x}\) we have that \(y\in
+                  W_{x}\setminus\set{x}\). This means that \(x\prec y\)
+                  for all \(y\in S\) different from \(x\).
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

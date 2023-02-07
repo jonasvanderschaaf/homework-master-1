@@ -1,0 +1,358 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs,stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cleveref}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikz}
+
+\newtheorem*{lemma}{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem*{corollary}{Corollary}
+
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\set{#1\colon#2}}
+\newcommand{\sequence}[2]{\left<#1:#2\right>}
+
+\newcommand{\powset}{\mathcal{P}}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\range}{ran}
+\DeclareMathOperator{\field}{field}
+\DeclareMathOperator{\cof}{cf}
+
+\newcommand{\restrict}{\upharpoonright}
+
+\DeclarePairedDelimiter{\abs}{|}{|}
+
+\newenvironment{solution}{\begin{proof}[Solution]}{\end{proof}}
+
+\title{Homework Set Theory}
+\date{Novenber 21, 2022}
+\author{Jonas van der Schaaf}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Let \(S\) be a stationary subset of \(\omega_{1}\). Prove that for every
+    \(\alpha\in\omega_{1}\) there is a closed subset of any \(S\) of order type
+    \(\alpha\).
+
+    \begin{proof}
+        This will be a proof by transfinite induction. For \(0\), the empty set
+        \(\varnothing\subseteq S\) is closed because the empty set is closed in
+        any topology.
+
+        Suppose for \(\alpha\in\omega_{1}\) and \(S\) is stationary then there
+        is a subset \(X\subseteq S\) with order type \(\alpha\). There is some
+        element \(a\) such that \(x<a\) for all \(x\in X\). This is true because
+        \(X\) cannot be cofinal in \(\omega_{1}\) so it must have a supremum
+        smaller than \(\omega_{1}\). The set \(\set{a}\subseteq S\) is closed
+        because it is the complement of the open set \([0,a)\cup(a,\omega_{1})\)
+        which is open. Therefore \(X\cup\set{a}\) is closed. Because \(X\) has
+        order type \(\alpha\) and \(a\) is larger than all elements of \(X\)
+        \(X\cup\set{a}\) has order type \(\alpha+1\). Therefore \(S\) has a
+        subset of order type \(\alpha+1\).
+
+        Now let \(\lambda\) be a countable limit ordinal such that there is a
+        closed subset \(X_{\alpha}\subseteq S\) for all stationary \(S\) such
+        that the order type of \(X_{\alpha}\) is \(\alpha\). Let
+        \(\sequence{\alpha_{n}}{n\in\omega}\) be a strictly increasing
+        continuous cofinal sequence. This exists because \(\lambda\) is
+        countable and a limit ordinal and thus must have at most countable
+        cofinality and clearly at most countable cofinality.
+
+        By recursion we will construct a sequence
+        \(\sequence{C_{\gamma}}{\gamma\in\omega_{1}}\) of countable closed
+        subsets such that \(C_{\gamma}\subseteq S\) for all \(\gamma\), \(\max
+        C_{\gamma}<\min C_{\delta}\) for \(\gamma<\delta\) and if
+        \(\gamma=\omega\cdot\delta+n\) then \(C_{\gamma}\) has order type
+        \(\alpha_{n}+1\).
+
+        Let \(C_{0}\) be a closed subset of order type \(\alpha_{0}+1\) in
+        \(S\). This exists by induction. Also define \(\beta_{0}\) to be some
+        ordinal strictly larger than \(\sup C_{0}\) which exists because nothing
+        of order type \(\alpha_{0}+1\) can be cofinal in \(\omega_{1}\). Then
+        the set \([\beta_{0},\omega_{1})\) is closed and unbounded so
+        \(S_{1}=S\cap[\beta_{0},\omega_{1})\) must be stationary with \(\min
+        S_{1}>\max C_{0}\).
+
+        If \(\gamma=\delta+1\) is a successor ordinal we have a stationary set
+        \(S_{\gamma}\) such that all \(C_{\delta}\) are below \(S_{\gamma}\).
+        This must have a closed subset of order type \(\alpha_{n}+1\) where
+        \(n\) is chosen such that \(\gamma=\omega\cdot\delta+n\) by assumption
+        of the induction hypothesis. Defining \(\beta_{\gamma}=\max
+        C_{\gamma}+1\) we have a new stationary set
+        \(S_{\gamma}=S_{\delta}\cap[\beta_{\gamma},\omega_{1})=S\cap[\beta_{\gamma},\omega_{1})\).
+
+        If \(\gamma\) is a limit ordinal then we have the sequence
+        \(\sequence{\beta_{\delta}}{\delta<\gamma}\) where each
+        \(\beta_{\delta}\) is a strict upper bound of \(C_{\delta}\). Because it
+        is a countable sequence and \(\omega_{1}\) has uncountable cofinality it
+        must have some supremum \(\eta=\sup_{\delta<\gamma}\beta_{\delta}\)
+        which is an upper bound for all \(C_{\delta}\) with \(\delta<\gamma\).
+        Then \(S\cap [\eta,\omega_{1})\) is a stationary set so it must have a
+        closed subset \(C_{\gamma}\) of order type \(\alpha_{0}+1\). We have
+        \(\gamma=\omega\cdot\delta+0\) for some \(\delta\) because it is a limit
+        so this satisfies the required property. Define \(\beta_{\gamma}=\max
+        C_{\gamma}+1\) and \(S_{\gamma}=S\cap[\beta_{\gamma},\omega_{1})\) to
+        continue the recursion.
+
+        This gives an uncountable sequence of closed sets which satisfies all
+        the required definitions. Each \(C_{\gamma}\subseteq S\) because it is
+        chosen to be in a subset of \(S\). They are also closed by construction.
+        Because we define each \(\beta_{\gamma}\) to be a strict upper bound we
+        get that \(\max C_{\gamma}<\min C_{\delta}\) for \(\gamma<\delta\). The
+        order typed are also as required because we picked each \(C_{\gamma}\)
+        such that it had the desired order type.
+
+        I don't know how to proceed from here.
+    \end{proof}
+\end{question}
+
+\begin{question}
+    Some standard applications of Ramsey theory:
+    \begin{enumerate}[a.]
+        \item Let \(\left< L,<\right>\) be an infinite linearly
+              ordered set. Prove that \(L\) has an infinite subset \(X\) that is
+              well-ordered by \(<\) or an infinite subset \(Y\) that is
+              well-ordered by \(>\).
+
+              \begin{proof}
+                  Let \(L'\) be a countable subset with bijection \(f:\omega\to
+                  L'\) of \(L\) and consider the following colouring:
+                  \[
+                      F:[\omega]^{2}\to 2:X=\set{x,y}\mapsto\begin{cases}
+                          0 & f(\min X)=\min\set{f(x),f(y)}, \\
+                          1 & f(\min X)=\max\set{f(x),f(y)}.
+                      \end{cases}
+                  \]
+                  By Ramsey's theorem there is a subset \(H\subseteq\omega\)
+                  with \(\abs{H}=\aleph_{0}\) such that \(F\) is constant on
+                  \([H]^{2}\subseteq[\omega]^{2}\). Then either \(<\) or \(>\)
+                  well-orders \(H\). We will prove that if \(F\) is constantly
+                  \(0\) then \(<\) well-orders \(H\). In the other case \(>\)
+                  well-orders \(H\) but the proof is completely dual to the
+                  below proof so we will not give it.
+
+                  The order \(<\) restricted to \(f[H]\) is still ha linear
+                  order, so if we prove that every \(X\subseteq f[H]\) has a
+                  least lement \(<\) well-orders \(H\). Let \(X\neq\varnothing\)
+                  be a subset of \(H\). Then taking \(i=\min f^{-1}[X]\) we know
+                  that \(f(i)<f(j)\) for all \(j\in f^{-1}[X]\) different from
+                  \(i\) by definition of \(F\). This means that \(f(i)\) is a
+                  minimal element of \(X\subseteq H\).
+
+                  This means every non-empty subset of \(H\) has a least element
+                  so \(<\) well-orders \(H\).
+              \end{proof}
+
+        \item Prove that every bounded sequence of real numbers has a convergent
+              subsequence.
+
+              \begin{proof}
+                  Let \(s\) be a bounded sequence and consider the following
+                  function:
+                  \[
+                      F:[\omega]^{2}\to 2:X=\set{x,y}\mapsto\begin{cases}
+                          0 & s_{\min X}=\min\set{s_{x},s_{y}}, \\
+                          1 & s_{\min X}=\max\set{s_{x},s_{y}}.
+                      \end{cases}
+                  \]
+                  Then by Ramsey's theorem there is a subset
+                  \(H\subseteq\omega\) with \(\abs{H}=\aleph_{0}\) and \(F\)
+                  constant on \([H]^{2}\subseteq[\omega]^{2}\). This means that
+                  \(s\restrict_{H}\) must be monotone (weakly)
+                  increasing/decreasing.
+
+                  Bounded monotone sequences converge, and a subsequence of a
+                  bounded sequence is bounded so \(s\restrict H\) must converge.
+              \end{proof}
+
+        \item Let \(\left<P,\leq\right>\) be an infinite partially ordered set.
+              Prove \(P\) has an infinite subset \(C\) that is linearly ordered
+              or an infinite subset \(U\) that is unordered.
+
+              \begin{proof}
+                  Let \(\left<P,\leq\right>\) be an infinite partially ordered
+                  set and let \(P'\subseteq P\) be a subset of countable
+                  cardinality and \(f:\omega\to P'\) a bijection. Define the
+                  following colouring function
+                  \[
+                      F:[\omega]^{2}\to 3:X=\set{x,y}\mapsto\begin{cases}
+                          0 & f(\min X)=\min\set{f(x),f(y)},                       \\
+                          1 & f(\min X)=\max\set{f(x),f(y)},                       \\
+                          2 & \textnormal{\(f(x)\) and \(f(y)\) are incomparable}.
+                      \end{cases}
+                  \]
+                  By Ramsey's theorem there is an infinite \(H\subseteq\omega\)
+                  such that \(F\) is constant on \([H]^{2}\). If
+                  \(f[[H]^{2}]=\set{0}\) then \(\leq\) linearly orders \(H\) so
+                  \(f\) is a monotone increasing function on \(f^{-1}[H]\) by
+                  the same reasoning as in part a. If \(f[[H]^{2}]=\set{1}\)
+                  then \(f\) is a monotone decreasing function on \(f^{-1}[H]\).
+                  If \(F[[H]^{2}]=\set{0}\) then \(\sequence{f(i)}{i\in
+                      f^{-1}[H]}\) is a monotone increasing sequence in \(P'\). In
+                  either of these cases, it's an infinite chain.
+
+                  If \(F([H]^{2})=\set{2}\) then all elements of \(f[H]\) must
+                  be incomparable.
+
+                  Therefore \(P'\) contains either an infinite chain
+                  or an infinite set of incomparable elements and therefore so
+                  does \(P\supseteq P'\).
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Here are four well-behaved subfamilies of \(\omega\):
+    \begin{enumerate}[(1)]
+        \item \(\mathcal{A}=\setwith{\set{n}}{n\in\omega}\),
+        \item \(\mathcal{B}=\setwith{n}{n\in\omega}\),
+        \item \(\mathcal{C}=\setwith{\omega\setminus\set{n}}{n\in\omega}\),
+        \item \(\mathcal{D}=\setwith{\omega\setminus n}{n\in\omega}\).
+    \end{enumerate}
+    Let \(X\) be an infinite set and \(\mathcal{S}\) an infinite family of
+    subsets of \(X\). Prove that there is a sequence
+    \(\sequence{x_{n}}{n\in\omega}\) of points in \(X\) and a sequence
+    \(\sequence{S_{n}}{n\in\omega}\) such that
+    \[
+        \setwith{\setwith{m\in\omega}{x_{m}\in S_{n}}}{n\in\omega}
+    \]
+    is equal to one of the above sets.
+
+    \begin{enumerate}[a.]
+        \item Construct a sequence \(\sequence{x_{n}}{n\in\omega}\) of points in
+              \(X\) and a sequence \(\sequence{\mathcal{S}_{n}}{n\in\omega}\) of
+              infinite subfamilies of \(\mathcal{S}\) such that
+              \(\mathcal{S}_{0}=\mathcal{S}\) and for every \(n\) the following
+              hold: either
+              \(\mathcal{S}_{n+1}=\setwith{S\in\mathcal{S}_{n}}{x_{n}\in S}\) or
+              \(\mathcal{S}_{n+1}=\setwith{S\in\mathcal{S}_{n}}{x_{n}\notin
+                  S}\).
+
+              \begin{solution}
+                  We will construct the sequence recursively. Given an infinite
+                  \(\mathcal{S}_{n}\) we will give an \(x_{n}\) such that one of
+                  the above properties hold.
+
+                  We know that for each \(x\in X\) either the set
+                  \(\setwith{S\in S_{n}}{x_{n}\in S}\) or \(\setwith{S\in
+                      S_{n}}{x_{n}\in S}\) must be infinite. This is because they
+                  are clearly disjoint and their union is \(\mathcal{S}_{n}\)
+                  which is infinite. Because \(\mathcal{S}_{n}\) is infinite it
+                  has two different elements, so in particular there is an
+                  \(x\in X\) such that \(x\in S\in\mathcal{S}_{n}\) but
+                  \(x\notin S'\in\mathcal{S}_{n}\). Defining \(x_{n}\) to be any
+                  such \(n\) and defining \(\mathcal{S}_{n+1}\) to be the larger
+                  of \(\setwith{S\in S_{n}}{x_{n}\in S}\) and \(\setwith{S\in
+                      S_{n}}{x_{n}\in S}\).
+
+                  This gives recursive sequences
+                  \(\sequence{x_{n}}{n\in\omega}\) and
+                  \(\sequence{\mathcal{S}_{n}}{n\in\omega}\) with the desired
+                  properties.
+              \end{solution}
+
+        \item Choose \(S_{n}\in\mathcal{S}_{n}\setminus\mathcal{S}_{n+1}\) for
+              every \(n\). Verify if \(x_{m}\in S_{m}\) then \(x_{m}\notin
+              S_{n}\) for all \(n>m\) and conversely if \(x_{m}\notin S_{m}\)
+              then \(x_{m}\in S_{n}\) for all \(n>m\).
+
+              \begin{proof}
+                  Suppose \(x_{m}\in S_{m}\). Then by the given property we know
+                  that \(\mathcal{S}_{m+1}\) must be the set given by
+                  \(\setwith{S\in\mathcal{S}_{m+1}}{x_{m}\notin S}\) because
+                  else \(S_{m}\) would not be in
+                  \(\mathcal{S}_{m}\setminus\mathcal{S}_{m+1}\). Because for
+                  \(n>m\), \(\mathcal{S}_{n}\subsetneq\mathcal{S}_{m}\) we have
+                  \(x_{m}\notin S\) for all \(S\in\mathcal{S}_{n}\) so in
+                  particular \(x_{n}\notin S_{n}\).
+
+                  Similarly if \(x_{m}\notin S_{m}\) then we must have
+                  \(x_{m}\in S\) for all \(S\in\mathcal{S}_{m+1}\) because else
+                  \(S_{m}\in\mathcal{S}_{m+1}\). This means by the same
+                  reasoning as before that \(x_{m}\in S\) for all
+                  \(S\in\mathcal{S}_{n}\) for all \(n>m\).
+              \end{proof}
+
+        \item Now consider the colouring \(F:[\omega]^{2}\to4\) given by: if
+              \(i<j\) then
+              \[
+                  F(\set{i,j})=\begin{cases}
+                      0 & x_{i}\notin S_{j}\wedge x_{j}\notin S_{i}, \\
+                      1 & x_{i}\notin S_{j}\wedge x_{j}\in S_{i},    \\
+                      2 & x_{i}\in S_{j}\wedge x_{j}\notin S_{i},    \\
+                      3 & x_{i}\in S_{j}\wedge x_{j}\in S_{i}.
+                  \end{cases}
+              \]
+
+              \begin{proof}
+                  By Ramsey's theorem there is some subset \(H\subseteq\omega\)
+                  such that \(F\) is constant on \([H]^{2}\).
+
+                  We will define \(\imath:\omega\to H\) as the strictly
+                  increasing enumeration of \(H\) which is countable. Then we
+                  will define \(x'_{n}=x_{\imath(n)}\) and
+                  \(S'_{n}=S_{\imath(n)}\) as subsequences of
+                  \(\sequence{x_{n}}{n\in\omega}\) and
+                  \(\sequence{S_{n}}{n\in\omega}\). These are the sequences with
+                  the desired property\footnote{I am sorry for the abundance of
+                      mixed up \(m\) and \(n\) indices that probably occur in the
+                      following text. Bookkeeping is not my strong suit.}.
+
+                  Suppose \(F\) is constantly \(0\) on \([H]^{2}\). Then for any
+                  \(i,j\in \omega\) with we have \(x'_{i}\notin S'_{j}\) and
+                  \(x'_{j}\notin S'_{i}\). In particular this means that the set
+                  \(\setwith{m\in \omega}{x'_{m}\in S'_{n}}\) cannot contain any
+                  other element than \(n\) for all \(n\in \omega\). By the
+                  contrapositive of part b this means that \(x'_{n}\in S'_{n}\),
+                  after all there is some \(m>n\) with \(m\in \omega\) such that
+                  \(x'_{m}\notin S'_{n}\) because \(H\) is infinite. This means
+                  \[
+                      \setwith{\setwith{m\in\omega}{x'_{m}\in S'_{n}}}{n\in\omega}=\mathcal{A}.
+                  \]
+
+                  If \(F\) is constantly \(1\) on \([H]^{2}\) this means that
+                  \(x_{i}\notin S_{j}\) and \(x_{j}\in S_{i}\) for all \(i,j\in
+                  H\) with \(i<j\). This means that the set
+                  \(\setwith{m\in\omega}{x'_{m}\in S'_{n}}\) contains all
+                  elements greater than \(n\) and no elements smaller than \(n\)
+                  for all \(n\in\omega\). It must also contain \(n\) by
+                  contraposition: there is an \(m>n\) such that \(x'_{n}\notin
+                  S'_{m}\) so not \(x'_{n}\notin S'_{n}\) which is equivalent to
+                  \(x'_{n}\in S'_{n}\) if the intuitionists among us are
+                  ignored. This means that \(\setwith{m\in\omega}{x'_{m}\in
+                  S'_{n}}=\omega\setminus n\) so
+                  \[
+                      \setwith{\setwith{m\in\omega}{x'_{m}\in S'_{n}}}{n\in\omega}=\mathcal{D}.
+                  \]
+
+                  If \(F\) is constantly \(2\) on \([H]^{2}\) then for all
+                  \(m<n\) we have \(x'_{m}\in S_{n}\) and for all \(m>n\) we
+                  have \(x'_{m}\notin S_{n}\). By contraposition of part b this
+                  gives that \(x'_{n}\notin S_{n}\) for all \(n\) so
+                  \[
+                      \setwith{\setwith{m\in\omega}{x'_{m}\in S'_{n}}}{n\in\omega}=\mathcal{B}.
+                  \]
+
+                  If \(F\) is constantly \(3\) on \([H]^{2}\) then for all
+                  \(m<n\) and \(m>n\) we have \(x'_{m}\in S'_{j}\). By
+                  contrapositive of part b this means \(x'_{n}\notin S'_{n}\).
+                  \[
+                      \setwith{\setwith{m\in\omega}{x'_{m}\in S'_{n}}}{n\in\omega}=\mathcal{C}.
+                  \]
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

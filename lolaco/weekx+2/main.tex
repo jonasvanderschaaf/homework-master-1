@@ -1,0 +1,33 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+
+\title{Ronald de Haan: Algorithms for Logical Reasoning}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+Ronald's talk started with positive logic programs: a collection of rules and
+facts (logical formulas) without negation. These are sets of formulas for which
+it is easy to find models. In fact there exists a unique minimal model for this
+set of formulas which can easily be computed. This minimal model is an
+assignment of proposition letters such that the amount of positive assignments
+is minimal.
+
+These kinds of programs can be extended with stratified negations: an extension
+of the language where negation is allowed within certain strict conditions.
+These programs still have a unique minimal model.
+
+For full propositional logic finding assignments satisfying formulas is a
+problem called satisfiability or SAT for short. It is unknown if it is possible
+to efficiently find solutions but all currently known algorithms take
+exponential time to finish.
+
+Two ``efficient'' algorithms for SAT were discussed in the lecture. One is DPLL,
+an algorithm based on unit propagation which will cleverly simplify formulas to
+find a solution. The other one is called CDCL which is an algorithm based on a
+structure called a conflict graph to determine how to satisfy a formula.
+\end{document}

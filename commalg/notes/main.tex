@@ -1,0 +1,2599 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[shortlabels]{enumitem}
+\usepackage{scalerel}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd,nicefrac}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{quiver}
+\usepackage{float}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator*{\bigplus}{\scalerel*{+}{\sum}}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Hom}{Hom}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\JRad}{JRad}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\Idem}{Idem}
+\DeclareMathOperator{\Rad}{Rad}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Ass}{Ass}
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\lc}{lc}
+
+\newcommand{\maxid}{\mathfrak{m}}
+\newcommand{\primeid}{\mathfrak{p}}
+\newcommand{\primeidd}{\mathfrak{q}}
+\newcommand{\ideal}{\triangleleft}
+
+\newenvironment{question}[1][]{\begin{paragraph}{Question #1}}{\end{paragraph}}
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Notes Commutative Algebra}
+\author{Jonas van der Schaaf}
+\date{2022}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\section{Rings}
+
+\begin{definition}
+    We only consider commutative rings with unit. For more information see an
+    introductory course on rings.
+\end{definition}
+
+Important subsets of rings:
+
+\begin{enumerate}
+    \item Units: \(A^{*}:=\setwith{a\in A}{\exists b\in A:ab=1}\),
+    \item Zero divisors: \(\setwith{a\in A}{\exists b\in A:b\neq0\wedge ab=0}\),
+    \item Nilpotent elements: \(\nil(A):=\setwith{a\in A}{\exists m\in\Z_{>0},a^{m}=0}\)
+    \item Idempotent elements: \(\idem(A):=\setwith{a\in A}{a^{2}=a}\).
+\end{enumerate}
+
+The units are an abelian group under multiplication. What about the others?
+
+\begin{proposition}
+    The following are equivalent formulations of a ring \(A\) being a field:
+    \begin{enumerate}
+        \item Every non-zero element is a unit,
+        \item The only ideals of \(A\) are \((0)\) and \((1)\),
+        \item Every ring morphism \(A\to B\neq 0\) is injective.
+    \end{enumerate}
+\end{proposition}
+
+\begin{definition}
+    An integral domain is a ring with no non-zero zero divisors.
+\end{definition}
+
+\begin{proposition}
+    There is a bijection between product decompositions
+    \[
+        \set{A=A_{1}\times A_{2}}\leftrightarrow\set{\text{Pairs of idempotents \(e_{1},e_{2}\) with \(e_{1}e_{2}=0\) and \(e_{1}+e_{2}=0\)}}.
+    \]
+
+    \begin{proof}
+        \begin{align*}
+            (A_{1},A_{2})               & \mapsto e_{1} =(1,0), e_{2}=(0,1) \\
+            A=A/(e_{2})\times A/(e_{1}) & \mapsfrom (e_{1},e_{2})
+        \end{align*}
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    If \(f:A\to B\) ring hom and \(p\subseteq B\) prime, then
+    \(f^{-1}(p)\subseteq A\) prime.
+
+    The same doesn't hold for maximal ideals.
+\end{proposition}
+
+\begin{theorem}
+    Every non-zero ring \(A\) has a maximal ideal.
+
+    Consider the set \(\Sigma\) of proper ideals of \(A\). We have
+    \((0)\in\Sigma\) so it's non empty. It is ordered by \(\subseteq\).
+
+    Consider a chain \((I_{\alpha})_{\alpha}\), and take the ideal
+    \(\bigcup_{\alpha}I_{\alpha}\). This is an upper bound. By Zorn's lemma
+    the chain has a maximal element, which is a maximal ideal.
+\end{theorem}
+
+\begin{corollary}
+    Every proper ideal \(I\) is contained in a maximum ideal.
+
+    \begin{proof}
+        Apply the theorem to \(A/I\).
+    \end{proof}
+\end{corollary}
+
+\begin{corollary}
+    Every non-unit \(x\) is contained in a maximal ideal.
+
+    \begin{proof}
+        Apply previous corollary to \(x\).
+    \end{proof}
+\end{corollary}
+
+\begin{corollary}
+    \(A\cong A^{*}\sqcup\bigcup I\) where \(I\) are the maximal ideals.
+\end{corollary}
+
+\begin{definition}
+    A ring is local if it has exactly one maximal ideal.
+\end{definition}
+
+\begin{example}
+    Localisation
+    \[
+        \Z_{(p)}=\setwith{q\in\Q}{\exists a,b:q=\frac{a}{b}, p\nmid b}
+    \]
+
+    This has unique maximal ideal \(\Z_{(p)}\).
+
+    \begin{proof}
+        We have \(f:\Z_{(p)}\to\F_{p}:a/b\mapsto a/b\) because \(p\neq b\). The
+        kernel is \(p\Z_{(p)}\) and \(\F_{p}\) is a field so that is maximal.
+
+        Suppose there is an \(x\in\Z_{(p)}\setminus p\Z_{(p)}\). Then
+        \(1/x\in\Z_{(p)}\) so \(x\) is a unit so it cannot be contained in a
+        maximum ideal.
+    \end{proof}
+\end{example}
+
+\begin{proposition}
+    A ring is a local ring iff \(A\setminus A^{*}\) is an ideal.
+
+    \begin{proof}
+        \(\Rightarrow\)
+
+        If \(A\setminus A^*\) is an ideal, then it must be maximal, because if
+        you add any element, it is a unit so the ideal is not proper.
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    \(\nil(A)\) is an ideal called nilradical and is given by \(\bigcap_{I\text{
+            prime}}I\).
+\end{proposition}
+
+\begin{definition}
+    The Jacobson radical is given by
+    \[
+        \JRad(A)=\bigcap_{I\text{ maximal}}I.
+    \]
+\end{definition}
+
+\section{Radical ideals}
+\begin{definition}
+    For any ideal \(I\), define \(r(i)=\sqrt{I}=\setwith{x\in A}{\exists
+        n\in\N:x^{n}\in I}\).
+\end{definition}
+
+\begin{example}
+    For \(\primeid\triangleleft A\), \(\sqrt{\primeid}=\primeid\).
+\end{example}
+
+\begin{proposition}
+    Let \(A\) be a ring. Then
+    \[
+        \Nil(A)=\bigcap_{\primeid\triangleleft A,\textnormal{\(\primeid\) prime}}.
+    \]
+\end{proposition}
+
+\begin{proposition}
+    For any \(I\ideal A\) we have
+    \(\sqrt{I}=\bigcap_{I\subseteq\primeid,\textnormal{\(\primeid\)
+            prime}}\primeid\).
+\end{proposition}
+
+\begin{definition}
+    A ring is reduced if \(\sqrt{(0)}=(0)\). We also have
+    \[
+        \setwith{p\ideal A}{\textnormal{\(p\) prime}}\cong
+        \setwith{p\ideal A/\sqrt{(0)}}{\textnormal{\(p\) prime}}
+    \]
+\end{definition}
+
+\(A\) is an integral domain iff \(\sqrt{0}=(0)\).
+
+\begin{example}
+    \(T\) a top space, then \(C^{0}(T)=\set{\textnormal{cont. func.
+            \(T\to\R\)}}\).
+
+    Define \(\maxid_{t}=\setwith{f\in C^{0}(T)}{f(t)=0}\). Then
+    \(C^{0}(T)\cong\R\) by \(\varphi:f\mapsto f(t)\) has kernel \(\maxid_{t}\).
+
+    Then \(\bigcup_{t\in T}\maxid_{t}=(0)\). The Jacobson radical must be
+    contained in \((0)\), so \((0)\subseteq\JRad\subseteq(0)\).
+\end{example}
+
+\begin{example}
+    Let \(A=k[x_{1},\ldots,x_{n}]\) be an infinite field. Then
+    \(\maxid_{a}=\bigplus_{1\leq i\leq n}(x_{i}-a_{i})\) which is the kernel
+    of \(\varphi:A\twoheadrightarrow k:f\mapsto f(a)\).
+
+    Because we work in an infinite field \(\bigcap_{a\in k^{n}}\maxid_{a}=(0)\).
+
+    We have \(\JRad(A)\subseteq\bigcap_{a}\maxid_{a}=(0)\).
+\end{example}
+
+\begin{example}
+    \[
+        \Nil(\Z/4\Z)=(2)=\JRad(\Z/4\Z)
+    \]
+    \[
+        \Nil(k[x]/(x^{2}))=(x)=\JRad(k[x]/x^{2}).
+    \]
+    In a local ring, the Jacobson radical is a maximal ideal.
+\end{example}
+
+\begin{example}
+    \begin{align*}
+        \Nil(\Z_{(p)})  & =(0)  \\
+        \JRad(\Z_{(p)}) & =(p).
+    \end{align*}
+    Because \(\Z_{p}\) is a local ring and an integral domain.
+\end{example}
+
+\begin{proposition}[Weird but useful]
+    Let \(A\) be a ring and \(x\in A\). Then \(x\in\JRad(A)\) iff \(\forall y\in
+    A:1-xy\in A^{*}\).
+
+    \begin{proof}
+        If \(x\in\JRad(A)\) and \(1-xy\notin A^{*}\) for some \(y\). Then there is a
+        \(\maxid\ideal A\) maximal with \(1-xy\in\maxid\) so \(q\in\maxid\) which is
+        a contradiction.
+
+        If \(x\notin\JRad(A)\), then there is  a \(\maxid\ideal A\) maximal ideal
+        with \(x\notin\maxid\) so \((x)+\maxid=A\). Therefore there is some \(a\) such that
+        \(xy+a=1\) for some \(a\in\maxid\), \(y\in A\).
+
+        Therefore \(1-xy\in\maxid\) so \(1-xy\) is not a unit.
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    Let \(A\) be a ring and \(I,J\ideal A\). Then
+    \(\sqrt{IJ}=\sqrt{I}\cap\sqrt{J}\).
+\end{proposition}
+
+\begin{definition}
+    For any ring \(A\) and \(I,J\ideal A\), \(I,J\) are coprime iff \(I+J=A\).
+
+    Equivalently \(x\) is a unit in \(A/(y)\) or \(y\) is a unit in \(A/(x)\).
+\end{definition}
+
+\begin{proposition}
+    For any ideals \(I,J\ideal A\), then \(\sqrt{I}+\sqrt{J}=(1)\) iff
+    \(I+J=1\).
+\end{proposition}
+
+\begin{proposition}
+    Let \(A\) be a ring and \(I_{1},\ldots,I_{n}\ideal A\). Then
+    \[
+        \varphi:A\to\prod_{i}A/I_{i}:a\mapsto (a+I_{1},\ldots,a+I_{n})
+    \]
+    has:
+    \begin{enumerate}
+        \item \(\varphi\) is injective iff \(\bigcap_{i}I_{i}=(0)\),
+        \item \(\varphi\) is surjective iff \(\forall i,j:I_{i}+I_{j}\neq(1)\).
+    \end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+    Let \(A\) be a ring.
+    \begin{enumerate}[i.]
+        \item If \(\primeid_{1},\ldots,\primeid_{n}\ideal A\) prime ideals and
+              \(I\subseteq\bigcup_{i}\primeid_{i}\), then
+              \(I\subseteq\primeid_{i}\) for some \(i\).
+
+        \item If \(I_{1},\ldots,I_{n}\ideal A\), \(\primeid\ideal A\) a prime
+              ideal and \(\bigcap_{i}I_{i}\subseteq\primeid\), then
+              \(I_{i}\subseteq\primeid\) for some \(i\).
+    \end{enumerate}
+\end{proposition}
+
+\begin{definition}
+    Let \(A\) be a ring and \(I\subseteq J\ideal A\). Then
+    \[
+        (I:J):=\setwith{x\in A}{xJ\subseteq I}.
+    \]
+    Think of \(x=\frac{a\in I}{b\in J}\). This is an ideal.
+\end{definition}
+
+\begin{example}
+    We have \(J\subseteq I\ideal A\) iff \((I:J)=A\).
+
+    \((I:A)=I\).
+
+    \(((0):I)=\setwith{x\in A}{xJ=0}=\Ann(I)\).
+\end{example}
+
+\begin{definition}
+    For a ring \(A\) define \(D=\setwith{x\in A}{\exists y:xy=0}\).
+    Then
+    \begin{align*}
+        D & =\bigcup_{x\neq0}\Ann(x)        \\
+          & =\bigcup_{x\neq0}\sqrt{\Ann(x)} \\
+          & =\sqrt{D}
+    \end{align*}
+    where \(\sqrt{D}\) is just the set theoretic radical.
+\end{definition}
+
+\begin{definition}
+    Let \(A,B\) be rings and \(f\in\Hom(A,B)\). Take \(I\ideal A\).
+    Then \(f[I]\) is not necessarily an ideal, so we define \(I^{e}:=(f[I])\).
+
+    If \(J\ideal B\) then \(J^{c}=f^{-1}[J]\) is an ideal in \(A\).
+\end{definition}
+
+\begin{proposition}
+    If \(J\) is prime then \(J^{c}\) is prime. The same does not hold for
+    extensions.
+\end{proposition}
+
+\begin{proposition}
+    \begin{enumerate}[i.]
+        \item \(I\subseteq I^{ec}\),
+        \item \(J\supset J^{ce}\),
+        \item \(I^{ece}=I^{e}\),
+        \item \(J^{c}=J^{cec}\).
+    \end{enumerate}
+
+    \[
+        \setwith{J^{c}}{J\ideal B}\cong \setwith{I^{c}:I\ideal A}.
+    \]
+\end{proposition}
+
+\section{Modules and Nakayama's lemma}
+\begin{definition}
+    The definition of a module is trivial. So is the definitions of their
+    morphisms.
+\end{definition}
+
+\begin{definition}
+    For any two \(N,M\in\modules_{R}\) the homset \(\Hom(M,N)\) is an
+    \(R\)-module by
+    \begin{align*}
+        r\times f & \mapsto (x\mapsto f(rx))     \\
+        f+g       & \mapsto(x\mapsto f(x)+g(x)).
+    \end{align*}
+
+    For any \(u:M'\to M,v:N\to N'\) we have
+    \[
+        \alpha:\Hom(M,N)\to\Hom(M',N'):f\mapsto u\circ f\circ v.
+    \]
+\end{definition}
+
+\begin{proposition}
+    For all \(M\) we have
+    \[
+        \Hom_{R}(R,M)\cong M
+    \]
+    by
+    \[
+        \alpha:f\mapsto f(1).
+    \]
+\end{proposition}
+
+\begin{definition}
+    For \(M\in\modules_{R}\) we define a submodule as a subgroup
+    \(N\subseteq M\) closed under multiplication by \(R\).
+
+    The quotient \(M/N\) is also an \(R\)-module. The quotient map
+    \(M\twoheadrightarrow M/N\) is \(R\)-linear.
+\end{definition}
+
+\begin{definition}
+    If \(f\in\Hom(M,N)\) then \(\ker f\subseteq M\) is the largest subset with
+    \(f(\ker(f))=0\) and is a module.
+
+    The image \(f[M]\subseteq N\) is also a module.
+
+    The cokernel \(\coker(f)=N/\im(f)\) is also an \(R\) module.
+
+    For any \((M_{i})_{i\in I}\subseteq M\) we define
+    \[
+        \sum_{i\in I}M_{i}=\bigoplus_{i\in I}M_{i}.
+    \]
+\end{definition}
+
+\begin{example}
+    More ways to build modules. If \(R\) is a ring, \(I\ideal R\) is an ideal
+    and \(M\in\modules_{R}\) then \(IM=\setwith{im}{i\in I,m\in M}\subseteq M\)
+    is also a module and \(M/(IM)\) is a \(R/I\) module.
+\end{example}
+
+\begin{example}
+    For any \(M\in\Hom_{R}\) and \(N,P\subseteq M\) submodules then
+    \[
+        (N:P)=\setwith{r\in R}{rP\subseteq N}
+    \]
+    is an ideal.
+
+    In particular \((0:M):=\Ann_{R}(M)\) are the annihilators of \(M\).
+\end{example}
+
+\begin{definition}
+    The module \(M\in\modules_{R}\) is faithful if \(\Ann(M)=0\). We can regard
+    \(M\) as a module over \(R/\Ann(M)\) by the remark that \(M/IM\) is a module
+    over \(R/I\).
+\end{definition}
+
+\begin{definition}
+    For any collection \((M_{i})_{i\in I}\) we define
+    \[
+        \bigoplus_{i}M_{i}=\setwith{(m_{i})_{i\in I}}{\text{The tuple has finite support.}}
+    \]
+    And also
+    \[
+        \prod_{i}M_{i}=\set{(m_{i})_{i\in I}}.
+    \]
+\end{definition}
+
+\begin{definition}
+    A module \(M\in\modules_{R}\) is free if
+    \[
+        M\cong R^{(I)}:=\bigoplus_{i}R
+    \]
+    for some set \(I\).
+\end{definition}
+
+\begin{definition}
+    A module \(M\in\modules_{R}\) is finitely generated if for some finite set
+    \(I\) there is an \(f:R^{(I)}\twoheadrightarrow M\).
+\end{definition}
+
+\begin{lemma}[Nakayama's lemma]
+    Let \(R\) be a ring and \(M\in\modules_{R}\) finitely generated. \(I\ideal
+    R\) and \(\varphi:M\to M\) such that \(\varphi(M)\subseteq IM\). Then
+    \(\exists n\in\N\) and \(a_{1},\ldots,a_{n}\in I\) such that
+    \[
+        \varphi^{n}+a_{1}\varphi^{n-1}+\cdots+a_{n-1}\varphi+a_{n}=0.
+    \]
+
+    \begin{proof}
+        Let \(x_{1},\ldots,x_{n}\) generate \(M\). We have \(\varphi(x_{i})\in
+        IM\) so \(\varphi(x_{i})=\sum_{j=1}^{n}a_{ij}x_{j}\). Define the matrix
+        \(P_{ij}=(\delta_{ij}\varphi-a_{ij})_{ij}\). The entries of \(P\) are
+        elements of \(\End(M)\): \(P_{ij}\in \End(M)\). Then
+        \[
+            P\cdot\begin{bmatrix}
+                x_{1}  \\
+                \vdots \\
+                x_{n}
+            \end{bmatrix}=\begin{bmatrix}
+                0      \\
+                \vdots \\
+                0.
+            \end{bmatrix}
+        \]
+        Therefore \(P^{adj}\) is the adjugate matrix.
+        \(P^{adj}P=\det(P)\cdot\Id_{n\times n}\). \(\det(P)\) is an element of
+        \(\End(M)\) with \(\det(P)x_{i}=0\) for all \(x_{i}\) and therefore
+        \(\det(P)\in\Ann(M)\).
+
+        The determinant \(\det(P)\) is monically polynomial in \(\varphi\) with
+        coefficients which are elements of \(I\). This means that \(\det(P)\) is
+        the zero map in \(\End(M)\).
+    \end{proof}
+\end{lemma}
+
+\begin{corollary}
+    Let \(M\in\modules_{R}\) and \(I\ideal R\) such that \(IM=M\). Then there is
+    an \(x\in 1+I\) such that \(xM=0\).
+
+    \begin{proof}
+        Apply the lemma with \(\varphi=\Id\). Then
+        \[
+            x:=\varphi^{n}+a_{1}\varphi^{n-1}+\ldots=1+a_{1}+\ldots+a_{n}
+        \]
+        with \(a_{1}+\ldots+a_{n}\in I\) which is zero in \(\End(M)\).
+    \end{proof}
+\end{corollary}
+
+\begin{corollary}
+    Let \(M\in\modules_{R}\) and \(I\ideal R\) with \(I\subseteq\JRad(R)\)
+    and suppose \(IM=M\). Then \(M=0\).
+
+    \begin{proof}
+        By the corollary there is an \(x\in 1+I\) such that \(xM=0\). But
+        \(1+I\) is a unit so \(M\) must be a unit.
+    \end{proof}
+\end{corollary}
+
+\begin{remark}
+    For any local ring, the previous corollary is true for any ideal with
+    \(IM=M\).
+\end{remark}
+
+\begin{corollary}
+    Let \(M\in\modules_{R}\) be finitely generated and \(N\subseteq M\) and
+    \(I\ideal R\) contained in \(\JRad(R)\) such that \(M=IM+N\). Then \(M=N\).
+
+    \begin{proof}
+        Apply the previous corollary to \(M/N\).
+    \end{proof}
+\end{corollary}
+
+\begin{example}
+    If \(R\) is local and \(\maxid\ideal R\) maximal. Then \(M/\maxid M\) is
+    annihilated by \(\maxid\). Therefore \(M/\maxid M\) is a module over the
+    field \(R/\maxid\) so a vector space. If \(M\) is finitely generated then
+    \(M/\maxid M\) is a finitely generated vector space.
+\end{example}
+
+\begin{proposition}
+    Let \(M\in\modules_{R}\) be finitely generated and \((x_{i})_{i}\) be such
+    that their images in \(M/\maxid M\) generate as an \(R/\maxid\) module. Then
+    \(x_{i}\) generate \(M\).
+
+    \begin{proof}
+        Let \(N=\gen{x_{1},\ldots,x_{n}}\subseteq M\) Then
+        \[
+            N\to M\to M/\maxid M
+        \]
+        is surjective so \(N+\maxid M=M\). Therefore \(M=N\) by a previous
+        corollary.
+    \end{proof}
+\end{proposition}
+
+\begin{definition}
+    Let \(R\) be a ring and \((M_{i})_{i\in I}\) a sequence with maps
+    \(f_{i}:M_{i-1}\to M_{i}\) is exact if \(\im(f_{i-1})=\ker(f_{i})\).
+\end{definition}
+
+\begin{proposition}
+    Let \(R\) be a ring and \(M,M',M''\in\modules_{R}\).
+
+    \begin{enumerate}
+        \item Let \(M'\to M\to M''\to 0\) be a sequence. It is exact iff for all
+              \(N\in\modules_{R}\) the sequence
+              \[
+                  0\to\Hom(M'',N)\to\Hom(M,N)\to\Hom(M',N)
+              \]
+              is exact.
+
+        \item Let \(0\to M'\to M\to M''\) be a sequence. Then this is exact iff
+              for all \(N\) the sequence
+              \[
+                  0\to\Hom(N,M')\to\Hom(N,M)\to\Hom(N,M'')
+              \]
+              is exact.
+    \end{enumerate}
+
+    \begin{proof}
+        Proof by go fuck yourself.
+    \end{proof}
+\end{proposition}
+
+\section{Tensor products and flatness}
+\begin{definition}
+    Let \(M,N,R\in\modules_{R}\). Then \(\varphi:M\times N\to P\) is bilinear
+    if
+    \begin{itemize}
+        \item For all \(m\in M\) the map \(\varphi_{m}:N\to
+              P:n\mapsto\varphi(m,n)\) is \(R\)-linear.
+        \item For all \(n\in N\) the map \(\varphi_{n}:M\to
+              P:m\mapsto\varphi(m,n)\) is \(R\)-linear.
+    \end{itemize}
+\end{definition}
+
+\begin{definition}
+    Let \(M,N\in\modules_{R}\). The tensor product of \(M,N\) is a pair
+    \((M\otimes N,g:M\times N\to M\otimes N)\) such that every bilinear map from
+    \(M\times N\) factors uniquely through \(M\otimes N\) by \(g\).
+\end{definition}
+
+\begin{proposition}
+    The tensor product exists and is unique up to unique isomorphism.
+\end{proposition}
+
+\begin{proposition}
+    Take \(M,N,P\in\modules_{R}\). Then
+    \begin{align*}
+        M\otimes N           & \cong N\otimes M                    \\
+        (M\otimes N)         & \otimes P\cong M\otimes(N\otimes P) \\
+        (M\oplus N)\otimes P & \cong M\otimes P\oplus N\otimes P   \\
+        R\otimes M           & \cong M
+    \end{align*}
+    sending respectively
+    \begin{align*}
+        m\otimes n            & \mapsto n\otimes n             \\
+        (m\otimes n)\otimes p & \mapsto m\otimes(n\otimes p)   \\
+        (m,n)\otimes p\otimes & \mapsto(m\otimes p,n\otimes p) \\
+        r\otimes m            & \mapsto rm
+    \end{align*}
+\end{proposition}
+
+\begin{definition}[Restriction of scalars]
+    Take \(f:R\to S\) for \(R,S\) rings. If \(N\in\modules_{S}\) then
+    \(N\) is an \(R\)-module with \(r\cdot m=f(r)m\).
+\end{definition}
+
+\begin{proposition}
+    If \(f:R\to S\) is a ring morphism,\(S\) is finitely generated as
+    \(R\)-module, and that \(M\) is finitely generated as an \(S\)-module. Then
+    \(N\) is finitely generated as an \(R\)-module.
+\end{proposition}
+
+\begin{definition}[Extension of scalars]
+    If \(f:R\to S\) is a ring morphism and \(M\in\modules_{R}\) then
+    \(S\otimes_{R}M\) is an \(S\)-module by \(s(s'\otimes m)=(ss')\otimes m\).
+\end{definition}
+
+\begin{proposition}
+    If \(M\) is finitely generated \(R\)-module then \(S\otimes_{R} M\) is
+    finitely generated as \(S\)-module.
+\end{proposition}
+
+\begin{proposition}
+    Let \(M\in\modules_{R}\) and \(N,P\in\modules_{S}\) then
+    \((M\otimes_{R}N)\otimes_{S}P\cong M\otimes_{R}(N\otimes_{S}P)\) as
+    \(S\)-modules.
+\end{proposition}
+
+\begin{proposition}
+    Let \(M,M',N,N'\in\modules_{R}\) with maps \(f:M\to M',g:N\to N'\) then
+    there is a unique \(R\)-linear map \(f\otimes g:M\otimes N\to M'\otimes N'\)
+    with \(m\otimes n\mapsto f(m)\otimes g(m)\). This is compatible with
+    composition.
+\end{proposition}
+
+\begin{proposition}[Tensor-\(\Hom\) adjunction]
+    Let \(R\) be a ring and \(M,N\in\modules_{R}\).
+
+    Then there is a unique \(R\)-linear isomorphism
+    \[
+        \varphi:\Hom(M\otimes N, P)\to Hom(M,\Hom(N,P))
+    \]
+    with
+    \[
+        f\mapsto(m\mapsto(n\mapsto f(m\otimes n))).
+    \]
+    The inverse is given by
+    \[
+        f\mapsto (m\otimes n\mapsto f(m)(n)).
+    \]
+\end{proposition}
+
+\subsection{Tensor products and exact sequences}
+\begin{proposition}
+    If
+    \[
+        M'\to M\to M''\to 0
+    \]
+    is an exact sequence of \(R\)-modules, then for \(N\in\modules_{R}\)
+    \[
+        M'\otimes N\to M\otimes N\to M''\otimes N\to 0
+    \]
+
+    \begin{proof}
+        The proof is by tensor-\(\Hom\) adjunction. We know \(\Hom\) is right
+        (or left I don't know) exact, so \(\otimes N\) is that as well.
+    \end{proof}
+\end{proposition}
+
+\begin{example}
+    Take \(R=\Z\). Then
+    \[
+        0\to \Z\overset{\cdot 2}{\to} \Z\to \Z/2\Z\to 0
+    \]
+    is exact but
+    \[
+        0\to \Z\otimes\Z/2\Z\overset{\cdot2}{\to}\Z\otimes \Z/2\Z\to \Z/2\Z\otimes\Z/2\Z\to 0
+    \]
+    is not because the second map is \(0\) so it is not injective.
+\end{example}
+
+\begin{definition}
+    Let \(R\) be a ring and \(N\in\modules_{R}\). We say \(N\) is flat if any of the following exact conditions hold:
+    \begin{enumerate}[i]
+        \setcounter{enumi}{1}
+        \item If
+              \[
+                  0\to M'\to M\to M''\to 0
+              \]
+              is exact then
+              \[
+                  0\to M'\otimes N\to M\otimes N\to M''\otimes N\to 0
+              \]
+              is exact.
+
+        \item If \(f:M\to M'\) is injective then \(f\otimes N:M\otimes N\to
+              M'\otimes N\) is injective.
+
+        \item If \(f:M'\to M\) is injective and \(M,M'\) are finitely generated
+              then \(f\otimes N:M'\otimes N\to M\otimes N\) is injective.
+    \end{enumerate}
+\end{definition}
+
+\begin{example}
+    The module \(\Z/n\Z\) is flat over \(\Z\) iff \(n=1\).
+
+    The module \(\Z/n\Z\) is flat over \(\Z/n\Z\).
+\end{example}
+
+\begin{proposition}
+    Free modules are flat.
+
+    \begin{proof}
+        Let \(N=\bigoplus_{I}R\). Then
+        \[
+            f\otimes N:(\bigoplus_{I}R)\otimes M'\to (\oplus_{I}R)M
+        \]
+        has equivalent map
+        \[
+            f\otimes N:\bigoplus_{I} R\otimes M'=\bigoplus_{I}M'\to \bigoplus_{I}M
+        \]
+        given by
+        \[
+            (m_{i})_{i\in I}\mapsto (f(m_{i}))_{i\in I}
+        \]
+        which is injective so \(f\otimes N\) is injective.
+    \end{proof}
+\end{proposition}
+
+\begin{definition}
+    An \(R\)-algebra is a a pair \((A,f)\) with \(A\) a ring and \(f:R\to A\) a
+    ring hom.
+\end{definition}
+
+\begin{definition}
+    Let \(R\) be a ring and \(A\) an \(R\)-algebra.
+    \begin{itemize}
+        \item We say \(A\) is finite if it is finitely generated as
+              \(R\)-module.
+
+        \item We say \(A\) is of finite type if it is finitely generated as an
+              \(R\)-algebra. This is equivalent to existance of some
+              \(g:R[x_{1},\ldots,x_{n}]\twoheadrightarrow A\).
+    \end{itemize}
+\end{definition}
+
+\begin{definition}
+    Let \(R\) be a ring and \(A,B\) two \(R\)-algebras. Then the tensor product
+    over \(R\) is a triple \((A\otimes B, f:A\to A\otimes B, g:B\to A\otimes
+    B)\) such that for every diagram there is a unique dashed arrow
+    making it commute:
+    \begin{figure}[H]
+        \[
+            \begin{tikzcd}[ampersand replacement=\&]
+                R \&\& A \\
+                \\
+                B \&\& {A\otimes B} \\
+                \&\&\& C
+                \arrow[from=1-1, to=1-3]
+                \arrow[from=1-1, to=3-1]
+                \arrow["f", from=1-3, to=3-3]
+                \arrow["g", from=3-1, to=3-3]
+                \arrow[curve={height=-12pt}, from=1-3, to=4-4]
+                \arrow[curve={height=12pt}, from=3-1, to=4-4]
+                \arrow["{\exists !}"{description}, dashed, from=3-3, to=4-4]
+            \end{tikzcd}
+        \]
+        \caption{A commutative diagram.}
+        \label{fig:alg-tensor}
+    \end{figure}
+\end{definition}
+
+\begin{remark}
+    It turns out the algebra tensor product \(A\otimes B\) as modules is isomorphic
+    to module tensor product.
+\end{remark}
+
+\section{Rings and Modules of Fractions}
+\begin{definition}
+    Let \(A\) be a ring. Then \(S\subseteq A\) is multiplicatively closed if
+    \(S\) is a monoid with respect to multiplication.
+\end{definition}
+
+\begin{theorem}[Localisation]
+    Let \(S\) be a multiplicatively closed set. Then there is a unique pair
+    \((S^{-1}A,f)\) where \(S^{-1}A\) is a ring and \(f:A\to S^{-1}A\) such that
+    the following diagram commutes for all maps \(g:A\to B\) such that \(g[S]\)
+    is a group:
+    \begin{figure}[H]
+        \[
+            \begin{tikzcd}[ampersand replacement=\&]
+                A \&\& {S^{-1}A} \\
+                \\
+                \&\& B
+                \arrow["f", from=1-1, to=1-3]
+                \arrow["g"', from=1-1, to=3-3]
+                \arrow["\exists!", dashed, from=1-3, to=3-3]
+            \end{tikzcd}
+        \]
+        \caption{The universal property of localization.}
+        \label{fig:localization}
+    \end{figure}
+
+    \begin{proof}
+        Uniqueness: by universal property.
+
+        Existence: Define \(S^{-1}A=\nicefrac{A\times A}{\sim}\) where
+        \((a,s)\sim (a',s')\) iff \(\exists u\in S\) with \(u(as'-a's)=0\). This
+        is an equivalence relation.
+
+        To define ring operations we define \((a,s)+(b,s')=(as'+bs,ss')\) and
+        \((a,s)\cdot (a',s')=(aa',ss')\). This is well-defined on the
+        equivalence classes. This is unital ring by \(1=(1,1)\),
+        \(0=(0,1)\), \(-(a,s)=(-a,s)\).
+
+        Define \(f:A\to S^{-1}A\) by \(f(a)=(a,1)\). This is a ring morphism
+        which maps \(a\in A\) to a unit in \(S^{-1}A\).
+
+        To demonstrate the universal property let \(g:A\to R\) be a map such
+        that \(f[S]\) is a group. Define \(\tilde{g}(a,s)=g(a)g(s)^{-1}\). This
+        is a well-defined ring morphism. It is unique by \(g(1)=1\).
+    \end{proof}
+\end{theorem}
+
+\begin{example}
+    The following are examples of localisation:
+    \begin{itemize}
+        \item \(A\) integral domain \(S=A\setminus\set{0}\). Then
+              \(S^{-1}A=Q(A)\).
+
+        \item \(A=\Z\) and \(S=\setwith{2^{m}}{m\in\N}\) then
+              \(S^{-1}A=\Z[\nicefrac{1}{2}]\).
+
+        \item \(A=\Z\), \(S=\Z\setminus(2)\), then \(S^{-1}A=\Z_{(2)}\).
+
+        \item Let \(A\) be a ring, then \(0\in S\) iff \(S^{-1}A=0\).
+
+        \item Also \(a/1=0\) in \(S^{-1}A\) iff \(\exists u\in S\) with
+              \(ua=0\).
+
+        \item If \(\primeid\ideal A\) and \(S=A\setminus\primeid\) then
+              \(S^{-1}A=:A_{\primeid}\) is local:
+              \(A_{\primeid}=A_{\primeid}^{*}\sqcup \primeid A_{\primeid}\).
+    \end{itemize}
+\end{example}
+
+\begin{definition}
+    Let \(A\) be a ring \(S\subseteq A\) mult. closed and \(M\) an \(A\)-module.
+
+    Then \(S^{-1}M=\nicefrac{M\times S}{\sim}\) where \((m,s)\sim(m',s')\) iff
+    \(\exists u\) such that \(u(sm'-s'm)=0\). The set \(S^{-1}M\) is an
+    \(S^{-1}A\)-module.
+
+    Any \(\varphi:M\to N\) induces a map \(S^{-1}\varphi:S^{-1}M\to
+    S^{-}N:(m,s)\mapsto (\varphi(m),s)\).
+
+    The map \(S^{-1}\) is a functor \(\modules_{A}\to \modules_{S^{-1}A}\).
+\end{definition}
+
+\begin{proposition}
+    The functor \(S^{-1}\) is exact.
+\end{proposition}
+
+\begin{proposition}
+    Let \(A\) be a ring \(S\) multiplicatively closed.
+    \begin{itemize}
+        \item for \(M,N\ideal P\) we have \(S^{-1}(M+ N)\cong S^{-1}M+ S^{-1}N\)
+        \item for \(M,N\ideal P\) we have \(S^{-1}(M+ N)\cong S^{-1}M\cap
+              S^{-1}N\)
+        \item for \(N\ideal M\) we have \(S^{-1}(M/N)\cong S^{-1}M/S^{-1}N\)
+        \item \(S^{-1}(M\oplus N)\cong S^{-1}M\oplus S^{-1}N\)
+        \item \(S^{-1}(M\otimes_{A} N)\cong S^{-1}M\otimes_{S^{-1}A}S^{-1}N\)
+        \item \(S^{-1}A\) as a ring is an \(A\)-module so
+              \(S^{-1}A\otimes_{A}M\cong S^{-1}M\)
+        \item \(S^{-1}S^{-1}M\cong S^{-1}M\)
+        \item \(S^{-1}A\) is flat as an \(A\)-module because localization
+              functor is exact and \(S^{-1}M\cong S^{-1}A\otimes_{A}M\)
+    \end{itemize}
+\end{proposition}
+
+\begin{proposition}[Local properties]
+    Let \(A\) be a ring, \(S\subseteq A\) mult. closed and \(M\) an \(A\)-module.
+    \begin{itemize}
+        \item
+              \begin{align*}
+                  M=0 & \Leftrightarrow \forall\primeid\ideal A:M_{\primeid}=(A\setminus\primeid)^{-1}M=0 \\
+                      & \Leftrightarrow \forall\maxid\ideal A:M_{\maxid}=(A\setminus\maxid)^{-1}M=0,
+              \end{align*}
+
+        \item \(\varphi:M\to N\) is injective/surjective iff
+              \(\varphi_{\primeid}:M_{\primeid}\to N_{\primeid}\) is injective
+              \(\forall\primeid\ideal A\). Same for all \(\maxid\ideal A\),
+
+        \item Same for flatness of \(M\).
+    \end{itemize}
+\end{proposition}
+
+\begin{proposition}
+    Let \(f:A\to S^{-1}A\) be the universal map. If \(I\ideal A\) and \(J\ideal
+    S^{-1}A\) then
+    \begin{itemize}
+        \item \(J^{ce}=J\)
+        \item \(I^{ec}=\bigcup_{s\in S}(I:(s))\)
+        \item \(I^{e}=(1)\) iff \(I\cap S\neq\varnothing\)
+        \item No element of \(s\) is a zero-divisor in \(\nicefrac{A}{J^{c}}\)
+        \item
+              \[
+                  \setwith{\primeid\ideal A}{\primeid\cap S=\varnothing}\overset{\sim}{\leftrightarrow}\set{\primeid\ideal S^{-1}A}.
+              \]
+
+        \item \(S^{-1}\) commutes with sums, products, radicals, and
+              intersection of ideals,
+        \item \(\Nil(S^{-1}A)=S^{-1}\Nil(A)\)
+        \item \(Q(A/\primeid)=(A\setminus\primeid)^{-1}A/\primeid\cong\nicefrac{A_{p}}{pA_{\primeid}}\)
+        \item if \(M\in\modules_{A}\) then \(S^{-1}\Ann(M)=\Ann(S^{-1}M)\)
+        \item \(S^{-1}(N:P)=(S^{-1}N:S^{-1}P)\)
+    \end{itemize}
+\end{proposition}
+
+\begin{proposition}
+    Take \(f:A\to B\) and \(\primeid A\) a prime ideal. Then \(\primeid\) is a
+    contraction of a prime ideal of \(B\) iff \(\primeid^{ec}=\primeid\).
+
+    \begin{proof}
+        If \(p=q^{c}\) with \(q\) prime, then
+        \(\primeid^{ec}=q^{cec}=q^{c}=\primeid\).
+    \end{proof}
+\end{proposition}
+
+\section{Primary decomposition}
+
+\begin{example}
+    In algebraic geometry if \(I,J\ideal k[x_{1},\ldots,x_{n}]\). Then \(Z(I\cap
+    J)=Z(I)\cup Z(J)\). Primary decomposition will correspond to decomposition
+    in irreducibles.
+\end{example}
+
+\begin{example}
+    In number theory, any integer is a unique product of primes. The unique
+    decomposition of ideals in rings of integers is a specific instance of
+    primary decomposition.
+\end{example}
+
+\begin{definition}
+    Given an ideal \(I\ideal A\). Then \(I\) is a primary ideal if
+    \(I\neq A\) and for all \(a,b\in A\) if \(ab\in A\) then \(a\in I\)
+    or \(b\in\sqrt{I}\).
+\end{definition}
+
+\begin{remark}
+    The following is true for primary ideals:
+    \begin{itemize}
+        \item For a prime ideal \(I\ideal A\), the radical \(\sqrt{I}\) is a prime ideal.
+
+              \begin{proof}
+                  Take \(xy\in\sqrt{I}\). Then \(x^{n}y^{n}\in I\). Therefore \(x^{n}\in
+                  I\) or \(y^{n}\in\sqrt{I}\). In both cases \(x\in\sqrt{I}\) or
+                  \(y\in\sqrt{I}\).
+              \end{proof}
+
+        \item If \(I\ideal A\) is primary then all zero divisors of \(A/I\) are
+              nilpotents.
+    \end{itemize}
+\end{remark}
+
+\begin{proposition}
+    If \(I\ideal A\) is a primary ideal. Then \(\sqrt{I}\) is the smallest prime
+    ideal that contains \(I\).
+
+    \begin{proof}
+        By the previous remark \(\sqrt{I}\) is prime.
+
+        Then consider \(\sqrt{I}=\bigcap_{\primeid\supseteq I}\primeid\).
+    \end{proof}
+\end{proposition}
+
+\begin{definition}
+    If \(\primeid\) we say \(I\) is \(\primeid\)-primary if
+    \(\sqrt{I}=\primeid\) and \(I\) is primary.
+\end{definition}
+
+\begin{example}
+    Examples of primary ideals:
+    \begin{itemize}
+        \item Prime ideals are primary
+    \end{itemize}
+\end{example}
+
+\begin{example}
+    Powers of primary ideal are not necessarily primary:
+    \(A=\Q[x,y,z]/(xy-z^{2})\) with \(I=(x,z)^{2}\). This is not primary but
+    \((x,z)\) is primary.
+
+    Primary ideals are not necessarily prime: \(A=k[x,y]\) and \((x,y^{2})\) is
+    \((x,y)\)-primary.
+\end{example}
+
+\begin{proposition}
+    If \(I\ideal A\) has the property that \(\sqrt{I}\) is maximal, then \(I\)
+    is primary.
+
+    \begin{proof}
+        We have that \(\sqrt{I}=\bigcap_{\primeid\supseteq I}\primeid\) is a
+        maximal ideal, so \(\primeid=\sqrt{I}\) is the only prime ideal
+        containing \(I\). Therefore \(A/I\) has exactly one prime ideal:
+        \(\sqrt{I}/I\). Therefore \(A/I\) is local so \(\Nil(A/I)=\sqrt{I}/I\).
+
+        Then \(A/I=(A/I)^{*}\sqcup\Nil(A/I)\). Zero divisors are not units,
+        therefore they must be nilpotent so \(I\) is primary.
+    \end{proof}
+\end{proposition}
+
+\begin{example}
+    For \(A=k[x_{1},\ldots,x_{n}]\) the ideals
+    \((x_{1}^{m_{1}},\ldots,x_{n}^{m_{n}})\ideal A\) are primary.
+\end{example}
+
+\begin{example}
+    For \(A=k[x,y]\) the ideal \(I=(x^{2},xy)\) is not primary because
+    \(\sqrt{I}=(x)\) and \(xy\in I\) but \(x\notin I\) and
+    \(y\notin\sqrt{I}\).
+\end{example}
+
+\begin{example}
+    Take \(I\ideal A\) an ideal. Call \(I\) irreducible if it cannot be written
+    as \(I=I_{1}\cap I_{2}\) with \(I_{1},I_{2}\ideal A\) proper ideals of \(A\)
+    then \(I\) is irreducible.
+
+    Irreducible ideals in Noetherian ring (such as \(k[x_{1},\ldots,x_{n}]\))
+    are primary.
+\end{example}
+
+\begin{lemma}
+    If \(I_{1},I_{2}\) are \(\primeid\)-primary ideals in \(A\) for some prime
+    \(\primeid\ideal A\). Then \(I_{1}\cap I_{2}\) is also \(\primeid\)-primary.
+
+    \begin{proof}
+        If \(ab\in I_{1}\cap I_{2}\) then if not \(a\in I_{1}\cap I_{2}\) we
+        have \(b\in\sqrt{I_{i}}=\primeid\) for \(i\in\set{1,2}\). Therefore
+        \(b\in\sqrt{I_{3-i}}\). Because
+        \begin{align*}
+            \sqrt{I_{1}\cap I_{2}} & =\sqrt{I_{1}}\cap\sqrt{I_{2}} \\
+                                   & =\primeid
+        \end{align*}
+        we have \(b\in\sqrt{I_{1}\cap I_{2}}\).
+    \end{proof}
+\end{lemma}
+
+\begin{lemma}
+    Let \(I\ideal\primeid\) be primary and \(x\in A\).
+    \begin{itemize}
+        \item If \(x\in I\) then \((I:x)=(1)\).
+
+              \begin{proof}
+                  For all \(a\in A\) we have \(ax\in I\) so \((I:x)=(1)=A\).
+              \end{proof}
+
+        \item If \(x\notin I\) then \((I:x)\) is \(\primeid\)-primary.
+
+              \begin{proof}
+                  If \(ab\in(I:(x))\) and \(a\notin(I:x)\), then \(abx\in I\)
+                  and \(a\notin I\).
+
+                  We have \(\sqrt{I}\subseteq\sqrt{(I:x)}\). If
+                  \(a\in\sqrt{(I:x)}\) then \(a^{n}\in(I:x)\) for some \(n\).
+                  Because \(x\notin I\) this gives that \(a^{n}\in I\) so
+                  \(a\in\sqrt{I}\).
+              \end{proof}
+
+        \item If \(x\notin\primeid\) then \((I:x)=I\).
+
+              \begin{proof}
+                  Use definition and observation that \(x\notin\primeid\) then
+                  \(\overline{x}\in A/I\) is a unit. Then \(b^{n}\in I\) for
+                  some \(n>0\).
+              \end{proof}
+    \end{itemize}
+\end{lemma}
+
+\begin{definition}
+    An ideal \(I\ideal A\) is decomposable if there are
+    \(q_{1},\ldots,q_{n}\) primary ideals such that \(I=\bigcap_{i}q_{i}\).
+    This is called the primary decomposition.
+
+    A primary decomposition is minimal if \(\sqrt{q_{i}}\neq\sqrt{q_{j}}\) for
+    \(i\neq j\) and \(\bigcap_{j\neq i}q_{j}\nsubseteq q_{i}\) for all \(i\).
+\end{definition}
+
+\begin{example}
+    For \(I=(x^{2},xy)\ideal k[x,y]\) we have that \(I=(x)\cap (x^{2},y)\) is a
+    minimal primary decomposition. So is \((x)\cap(x,y^{2})^{2}\). So is
+    \((x)\cap(x^{2},xy,y^{1},y^{2},y^{3},\ldots)\).
+
+    The minimal primary decomposition is not unique.
+\end{example}
+
+\begin{example}
+    Not all ideals are decomposable: consider \(C^{0}(T)\) for \(T\) compact and
+    Hausdorff. Then \((0)\) is not decomposable.
+\end{example}
+
+\begin{theorem}
+    If \(I\ideal A\) is decomposable with minimal decomposition
+    \(I=\bigcap_{i}q_{i}\) then
+    \[
+        \Ass(I)=\set{\sqrt{q_{1}},\ldots,\sqrt{q_{m}}}=\setwith{\sqrt{(I:x)}}{x\in A}\cap\Spec(A)
+    \]
+    is independent of the decomposition
+
+    \begin{proof}
+        We have
+        \begin{align*}
+            (I:x)        & =\bigcap_{i}(q_{i}:x)                   \\
+            \sqrt{(I:x)} & =\bigcap_{i}\sqrt{(q_{i}:x)}            \\
+                         & =\bigcap_{i,x\notin q_{i}}\sqrt{q_{i}}.
+        \end{align*}
+        by def of minimal decomposition so choose an \(x\) such that
+        \(x\in\bigcap_{j\neq i}q_{j}\). If \(\sqrt{(I:x)}\) is prime there is an
+        \(i\) such that \(q_{i}=\sqrt{(I:x)}\).
+    \end{proof}.
+\end{theorem}
+
+\begin{definition}
+    The prime ideals in \(\Ass(I)\) are called the associative primes.
+
+    If \(\primeid\in\Ass(I)\) and it is minimal for inclusion in \(\Ass(I)\)
+    then it is called an isolated prime or minimal prime.
+
+    If not then \(\primeid\) is called an embedded prime.
+\end{definition}
+
+\begin{proposition}
+    If \(I\ideal A\) is decomposable then
+    \[
+        \bigcup_{\primeid\in\Ass(I)}\primeid=\setwith{x\in A}{(I:x)\neq I}.
+    \]
+
+    \begin{proof}
+        Use definition, previous lemma (\((q_{i}:x)\)), and minimal decomposition.
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    If \(S\subseteq A\) multiplicatively closed set, \(q\ideal A\) primary.
+    \begin{itemize}
+        \item If \(S\cap\sqrt{q}\neq\varnothing\) then \(S^{-1}q=(1)\).
+        \item If \(S\cap\sqrt{q}=\varnothing\) then \(S^{-1}q\) is
+              \(S^{-1}\sqrt{q}\)-primary and \((S^{-1}q)^{c}=q\) under \(A\to
+              S^{-1}A\).
+    \end{itemize}
+\end{proposition}
+
+\begin{proposition}
+    If \(S\subseteq A\) multiplicatively closed and \(A\to S^{-1}A\). If
+    \(I\ideal A\) decomposable by \(\bigcap_{i}q_{i}\) then
+    \begin{align*}
+        S^{-1}I       & =\bigcap_{i,S\cap\sqrt{q_{i}}=\varnothing}S^{-1}q_{i} \\
+        (S^{-1}I)^{c} & =\bigcap_{i,S\cap\sqrt{I}=\varnothing}q_{i}
+    \end{align*}
+    are primary decompositions.
+\end{proposition}
+
+\begin{definition}
+    A set \(\Sigma\subseteq\Ass(I)\) is isolated if
+    \(\primeid\in\Sigma,\primeid'\in\Ass(I)\) such that
+    \(\primeid'\ideal\primeid\) then \(\primeid'\in\Sigma\).
+\end{definition}
+
+\begin{proposition}
+    If \(I\ideal A\) has minimal decomposition \(\bigcap_{i}q_{i}\) and
+    \(\Sigma\subseteq\Ass(I)\) an isolated set
+    \(\set{\sqrt{q_{i_{1}}},\ldots\sqrt{q_{i_{s}}}}\). Then
+    \(\bigcap_{j}q_{i_{j}}\) is independent of the decomposition.
+
+    \begin{proof}
+
+    \end{proof}
+\end{proposition}
+
+\section{Integral extensions}
+\begin{definition}
+    Let \(A\subseteq B\) be an inclusion of rings. Then \(b\in B\) is integral
+    if there are \(a_{1},\ldots,a_{n}\) such that
+    \(b^{n}+a_{1}b^{n-1}+\ldots+a_{n}=0\): i.e. \(b\) is the root
+    of a monic polynomial \(f\in A[x]\).
+\end{definition}
+
+\begin{proposition}
+    For an inclusion \(A\subseteq B\), the following statements are equivalent:
+    \begin{enumerate}
+        \item \(b\) is integral over \(A\),
+        \item \(A[b]\) is a finitely generated \(A\)-module,
+        \item \(A[b]\) is contained in a submodule \(C\subseteq B\) which is
+              finitely generated as \(A\)-module,
+        \item There is a faithful \(A[b]\)-module \(M\) that is finitely
+              generated as \(A\)-module.
+    \end{enumerate}
+
+    \begin{proof}
+        \((1)\Rightarrow(2)\)Let \(f\in A[x]\) be a monic with \(f(b)=0\). Then
+        \(1,b,\ldots,b^{\deg f-1}\) generate \(A[b]\).
+
+        \((2)\Rightarrow(3)\) Take \(C=A[b]\).
+
+        \((3)\Rightarrow(4)\) We want to show \(\Ann(M)=0\). Take \(y\in A\)
+        such that \(yC=0\). Then \(y\cdot1 = 0\) so \(y=0\).
+
+        \((4)\Rightarrow(1)\) Let \(M\) be a faithful \(A[b]\) module and
+        \(\varphi:M\to M\) the map \(\varphi(m)=bm\). By Nakayama chapter
+        \(b^{n}+a_{1}b^{n-1}+\ldots+a_{n}\in\Ann(M)=0\). Therefore
+        \(b\) is integral.
+    \end{proof}
+\end{proposition}
+
+Useful to know:
+\begin{itemize}
+    \item If \(b_{1},\ldots,b_{r}\in B\) are integral over \(A\) then
+          \(A[b_{1},\ldots,b_{r}]\) are finitely generated as \(A\)-module.
+\end{itemize}
+
+\begin{definition}
+    The integral closure of \(A\) in \(B\): \(\setwith{b\in B}{\textnormal{\(b\)
+            integral over \(A\)}}\) is a subring of \(B\).
+
+    The ring \(B\) is integral over \(A\) if \(B\) is integral closure of \(A\).
+    We say \(A\) is integrally closed over \(B\).
+\end{definition}
+
+\begin{itemize}
+    \item An integral domain \(A\) is integrally closed in \(K(A)\).
+    \item Being integrally closed is a local property.
+\end{itemize}
+
+\begin{definition}
+    A morphism \(f:A\to B\) is integral if \(f(A)\subseteq B\) is integral.
+\end{definition}
+
+\begin{corollary}
+    A ring \(B\) of finite type and an integral extension over \(A\) is finitely
+    generated as an \(A\)-module.
+\end{corollary}
+
+\begin{proposition}
+    If \(A\subseteq B\subseteq C\) are integral extensions then
+    \(A\subseteq C\) is integral.
+
+    The integral closure of \(A\) in \(B\) is integrally closed in \(B\).
+\end{proposition}
+
+\begin{proposition}
+    If \(A\subseteq B\) is integral and \(J\ideal B\) then
+    \(A/J\cap A\subseteq B/J\) is integral.
+
+    If \(S\) is multiplicatively closed then
+    \(S^{-1}A\subseteq S^{-1}B\) is integral.
+\end{proposition}
+
+\begin{proposition}
+    If \(A\subseteq B\) and \(C\subseteq B\) integral closure of \(A\)
+    then \(S^{-1}C\) is integral closure of \(S^{-1}A\) in \(S^{-1}B\).
+\end{proposition}
+
+\begin{proposition}
+    \(A\subseteq B\) integral extension of integral domains, then \(A\) is a
+    field iff \(B\) is a field.
+\end{proposition}
+
+\begin{corollary}
+    \(A\subseteq B\) integral extension, \(\primeid\ideal B\) then \(\primeid\)
+    is maximal iff \(\primeid\cap A\) is maximal.
+\end{corollary}
+
+\begin{theorem}[Going up]
+    If \(A\subseteq B\) is an integral extension and
+    \(\primeid_{1}\subseteq\primeid_{2}\ideal A\) prime ideals of \(A\) and
+    \(\primeid_{1}'\ideal B\) prime ideal such that \(\primeid_{1}\cap
+    A=\primeid_{1}\). Then there is a \(\primeid_{2}'\ideal B\) prime such that
+    \(\primeid_{1}'\subseteq\primeid_{2}'\) and \(\primeid_{2}'\cap
+    A=\primeid_{2}\).
+\end{theorem}
+
+\begin{proposition}
+    If \(A\subseteq B\) is an integral extension and
+    \(\primeid\subseteq\primeid'\ideal B\) such that \(\primeid\neq\primeid'\)
+    then \(\primeid\cap A\neq q'\cap A\).
+
+    \begin{proof}
+        Assume \(\primeid\cap A=\primeid'\cap A\). We get the diagram:
+        \[
+            \begin{tikzcd}[ampersand replacement=\&]
+                \&\& A \&\& B \\
+                \\
+                {\primeid A_{\primeid}}\&\& {A_{\primeid}} \&\& {B_{\primeid}}
+                \arrow[hook, from=1-3, to=1-5]
+                \arrow[from=1-3, to=3-3]
+                \arrow[from=1-5, to=3-5]
+                \arrow[hook, from=3-3, to=3-5]
+                \arrow[hook, from=3-1, to=3-3]
+            \end{tikzcd}
+        \]
+        then \(\primeid\cap A A_{\primeid}\) is a maximal ideal of \(A\).
+        Therefore \(\primeid B_{\primeid}\subseteq\primeid' B_{\primeid}\) both
+        restrict to \((\primeid\cap A) A_{\primeid}\). Therefore both are maximal
+        so they are equal.
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    If \(A\subseteq B\) is an integral extension, \(\primeid\ideal A\) a prime
+    ideal then there is a \(\primeid'\ideal B\) prime such that \(\primeid'\cap
+    A=\primeid\).
+\end{proposition}
+
+\begin{theorem}[Going down]
+    Let \(A\subseteq B\) be an integral extension of integral domains and \(A\)
+    integrally closed.
+\end{theorem}
+
+\begin{definition}
+    If \(A\subseteq B\) is an integral extension, then there is a finite
+    morphism \(\Spec B\to\Spec A\) with dense image.
+
+    If \(A\subseteq A^{\nu}\subseteq Q(A)\) with \(A^{\nu}\) integral closure
+    we get \(\Spec A^{\nu}\to\Spec A\) called the normalization.
+\end{definition}
+
+\begin{proposition}[Noether normalization]
+    If \(k\) is a field, \(A\neq 0\) finite \(k\)-algebra. Then there are
+    \(a_{1},\ldots,a_{r}\) which are algebraically
+    independent\footnote{\(k[a_{1},\ldots,a_{r}]\cong k[x_{1},\ldots,x_{r}]\) as
+    \(k\)-algebras.} over \(k\). Then \(k[a_{1},\ldots,a_{r}]\subseteq A\) is
+    integral.
+\end{proposition}
+
+\section{Valuation rings}
+\begin{definition}
+    Let \(k\) be a field. A subring \(A\subseteq K\) is a valuation ring of
+    \(k\) if
+    \begin{itemize}
+        \item \(k=Q(A)\),
+        \item \(\forall x\in k, x\in A\vee x^{-1}\in A\).
+    \end{itemize}
+\end{definition}
+
+\begin{example}
+    For any field \(k\), \(k\) is a valuation rng.
+
+    For \(k=\Q\), \(\Z_{(p)}\) is a valuation ring for \(p\) prime.
+\end{example}
+
+\begin{remark}
+    Valuation rings have the following properties:
+    \begin{itemize}
+        \item Being a valuation ring implies being local (show that \(A\setminus A^{*}\)
+              is an ideal).
+        \item If \(A\subseteq B\subseteq k\) are subrings and \(A\) is a
+              valuation ring then \(B\) is as well.
+    \end{itemize}
+
+    Motivation: for a field \(k\) and \(\Gamma\) a totally ordered abelian group
+    \(v:K^{*}\to\Gamma\) is a valuation if \(v\) is a group morphism with
+    \(v(x+y)\geq\min(v(x),v(y))\). We say \(v(k^{*})\) is the value group of
+    \(k\).
+
+    Then \(A=\setwith{x\in k^{*}}{v(x)\geq 0}\cup\set{0}\) is a valuation ring.
+\end{remark}
+
+\begin{theorem}
+    Every valuation ring arises as above.
+
+    \begin{proof}
+        Take \(\Gamma=k^{*}/A^{*}\) with \(\overline{x}\geq\overline{y}\) iff
+        \(xy^{-1}\in A\). This is a totall order satisfying the required
+        property.
+    \end{proof}
+\end{theorem}
+
+\begin{example}
+    The following are examples of valuation rings
+
+    \begin{itemize}
+        \item Fields are valuation rings by \(k^{*}\to 0\).
+        \item \(v:\Q((t))^{*}\to\Z\) with \(\sum_{i=d}^{\infty}a_{i}t^{i}\mapsto
+              \min\setwith{i}{a_{i}\neq 0}\). Then \(\Q[[t]]\) is valuation
+              ring.
+    \end{itemize}
+\end{example}
+
+\begin{definition}
+    If \(A,B\subseteq k\) are local subrings, we say \(B\) dominates \(A\) if
+    \begin{itemize}
+        \item \(A\subseteq B\),
+        \item \(\maxid_{B}\cap A=\maxid_{A}\).
+    \end{itemize}
+\end{definition}
+
+\begin{remark}
+    Every local ring \(A\subseteq k\) is dominated by a valuation ring \(B\) of
+    \(k\).
+
+    \begin{proof}
+        Consider the set \(\setwith{B\subseteq k}{A\subseteq B\wedge 1\notin
+            \maxid_{A}B}\).
+
+        This set is non-empty because it contains \(A\). Zorn's lemma gives a
+        maximal element \(B\) w.r.t. inclusion and maximal ideal
+        \(\maxid_{B}=\maxid_{A}B\neq(1)\). Because \(B\) is maximal w.r.t.
+        inclusion \(\maxid_{A}B\) is maximal: invert an element of
+        \(\maxid_{B}-\maxid_{A}B\). This gives a larger ring with the same
+        property.
+
+        To prove \(\maxid_{B}\cap A=\maxid_{A}\) we get \(\maxid_{B}\cap
+        A\subseteq\maxid_{A}\). Also \(\maxid_{B}\neq 1\) so \(\maxid_{B}\cap
+        A\neq(1)\). Therefore \(\maxid_{A}=\maxid_{B}\cap A\).
+    \end{proof}
+\end{remark}
+
+\begin{proposition}
+    The above ring \(B\) is integrally closed by maximality.
+
+    \begin{proof}
+        If not then \(B\subseteq C\subseteq k\) has integral extension.
+
+        Then there is a prime \(q\ideal C\) such that \(q\cap B=\maxid_{B}\).
+        Therefore \(B\subseteq C_{q}\) which is therefore local and satisfies
+        the same properties as the maximal from before. Therefore \(B=C_{q}\)
+        which means \(B\) is integrally closed.
+
+        To prove \(B\) is a valuation ring first consider \(x\in K\) with
+        \(x\notin B\). Then \(1\in\maxid_{A}B[x]\).
+
+        Therefore \(1=u_{0}+\ldots+u_{n}x^{n}\) with
+        \(u_{i}\in\maxid_{A}B\neq(1)\).
+
+        Since \(B\) is local \(u_{0}-1\notin\maxid_{B}\) so
+        \(u_{0}-1\in B^{*}\).
+
+        \(x^{-n}+\nicefrac{u_{1}}{u_{0}-1}x^{-(n-1)}+\ldots+\nicefrac{u_{n}}{u_{0}-1}=0\).
+        \(B\) is integrally closed so \(x^{-1}\in B\).
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    Let \(k\) be a field and \(\Omega\) algebraically closed field.
+    Define
+    \[
+        \Sigma=\setwith{(A,f)}{A\subseteq k,f\in\Hom(A,\Omega)}
+    \]
+    with partial order \((A,f)\subseteq (A',f')\) iff \(A\subseteq A'\) and
+    \(f'|_{A}=f\). All maximal elements
+    \((A,f)\) of \(\Sigma\) are valuation rings for \(k\).
+
+    \begin{proof}
+        We have \(\primeid=\ker f\) is a prime ideal of \(A\) as \(\Omega\) is a
+        field. Universal property gives unique extension of \(f\) to
+        \(f_{\primeid}:A_{\primeid}\to\Omega\). We have \(A\subseteq
+        A_{\primeid}\) and \(f_{\primeid}|_{A}=f\). Therefore \(A=A_{\primeid}\):
+        \(A\) is local.
+
+        By the exercise there is a \(B\subseteq K\) valuation
+        ring that dominates \(A\).
+
+        If \(A\subseteq B\) is not algebraic, then there is an \(x\in B\) not
+        algebraic over \(A\) so \(A[t]\cong A[x]\).
+
+        We have that \(f\) extends to \(A[x]\to\Omega\). By maximality
+        \(A=A[x]\). Therefore \(A\subseteq B\) is an algebraic extension.
+
+        We have the diagram
+        \[
+            \begin{tikzcd}[ampersand replacement=\&]
+                B \&\& {B/\maxid_{B}} \\
+                \\
+                A \&\& {A/\maxid_{A}} \&\& \Omega
+                \arrow[from=3-1, hook, to=1-1]
+                \arrow[from=1-1, to=1-3]
+                \arrow[from=3-3, hook, to=1-3]
+                \arrow[from=3-1, to=3-3]
+                \arrow[from=3-3, to=3-5]
+                \arrow["f"', curve={height=18pt}, from=3-1, to=3-5]
+                \arrow["{\exists!}", dashed, from=1-3, to=3-5]
+            \end{tikzcd}
+        \]
+
+        By maximality of \(A\) therefore conclude that \(A=B\). \(B\) is a
+        valuation ring and therefore so is \(A\).
+    \end{proof}
+\end{proposition}
+
+\begin{remark}
+    All valuation rings are integrally closed.
+\end{remark}
+
+\begin{corollary}
+    If \(A\subseteq k\) with integral closure \(\overline{A}\), then
+    \(\overline{A}=\bigcap_{A\subseteq B,\textnormal{\(B\) valuation ring}}B\)
+\end{corollary}
+
+\section{Chain conditions}
+\begin{definition}
+    Fix a ring \(A\) and \(M\) an \(A\)-module. Define
+    \(\Sigma\) a partially ordered set. It has the ascending chain condition if
+    every ascending chain has some \(n\) such that \(x_{r}=x_{n}\) for all
+    \(r\geq n\).
+\end{definition}
+
+\begin{definition}
+    If \(\set{\textnormal{\(A\)-submodules of \(M\)}}\) has
+    ascending chain condition \(M\) is Noetherian. If descending then Artinian.
+\end{definition}
+
+\begin{example}
+    Finite modules are Noetherian and Artinian \(Z\)-modules.
+
+    \(\Z\) is Noetherian but not Artinian.
+\end{example}
+
+\begin{definition}
+    A ring is Noetherian/Artinian if it is Noetherian/Artinian as an
+    \(A\)-module of itself (submodules of \(A\) are ideals of \(A\)).
+\end{definition}
+
+\begin{proposition}
+    Noetherian and Artinian is compatible with:
+    \begin{enumerate}
+        \item Taking submodules,
+        \item taking quotients,
+        \item short exact sequences,
+        \item direct sums.
+    \end{enumerate}
+\end{proposition}
+
+\begin{definition}
+    A chain \(M=M_{0}\supseteq M_{1}\supseteq\ldots\supseteq M_{n}\) is a chain
+    of length \(n\). A chain is \emph{maximal} or a \emph{composition series} if
+    there are no intermediate submodules.
+
+    We define \(\ell(M)\) to be the length of a composition series of \(M\).
+    A module such that \(\ell(M)\) is finite is called of finite length.
+\end{definition}
+
+\begin{proposition}
+    Every composition series of \(M\) has the same length.
+\end{proposition}
+
+\begin{proposition}
+    A module \(M\) is Artinian and Noetherian iff it has a composition series of
+    finite length.
+\end{proposition}
+
+\begin{proposition}
+    Every chain can be extended to a composition series if \(M\) is both
+    Artinian and Noetherian.
+\end{proposition}
+
+\begin{proposition}
+    An \(A\)-module \(M\) is Noetherian iff any submodule is finitely generated.
+
+    \begin{proof}
+        \(\Longleftarrow\) Take a chain \(M_{1}\subseteq M_{2}\subseteq\ldots\)
+        of submodules. Take \(\bigcup_{i}M_{i}\subseteq M\). This is finitely
+        generated by \(x_{1},\ldots,x_{n}\). Take
+        \(m=\min\setwith{i\in\N}{\forall j:x_{j}\in M_{i}}\). Then
+        \(M_{m}=\bigcup_{i}M_{i}\) so the chain is constant after \(M_{m}\).
+
+        \(\Longrightarrow\) Fix any \(N\subseteq M\) a submodule. Let \(\Sigma\)
+        be the set of finitely generated submodules of \(N\). In particular
+        \(0\in\Sigma\) so it is non-empty. Therefore it has a maximal element
+        \(N_{0}\subseteq N\). If \(N_{0}\neq N\) then take \(x\in N\setminus
+        N_{0}\). Then \(N_{0}[x]\supsetneq N_{0}\) which contradicts with the
+        fact that \(N_{0}\) was maximal. Therefore \(N_{0}=N\) and thus
+        \(N\in\Sigma\) and \(N\) is finitely generated.
+    \end{proof}
+\end{proposition}
+
+\begin{corollary}
+    A ring is Noetherian iff every ideal is finitely generated.
+\end{corollary}
+
+\begin{proposition}
+    Let \(A\twoheadrightarrow B\) be a Noetherian ring. If \(A\) is Noetherian
+    then \(B\) is Noetherian.
+\end{proposition}
+
+\begin{theorem}[Hilbert's basis theorem]
+    If \(A\) is Noetherian then \(A[x]\) is Noetherian.
+
+    \begin{proof}
+        Let \(I\ideal A[x]\) be an ideal. For \(f=\sum_{i=0}^{n}a_{i}x^{i}\) we
+        define \(\lc(f)=a_{i}\) where \(i\) is the highest \(i\leq n\) such that
+        \(a_{i}\neq 0\).
+
+        The ideal \(L=\setwith{\lc(f)}{f\in I}\ideal A\) must be finitely
+        generated by some \(\lc(f_{1},\ldots,\lc(f_{n}))\). Define
+        \(N=\max\set{\deg(f_{1}),\ldots,\deg(f_{n})}\) and
+        \(L_{d}=\set{\lc(f):f\in I,\deg(f)\leq d}\ideal A\). The latter must be
+        finitely generated by some \(\lc(f_{d,1}),\ldots,\lc(f_{d,n_{d}})\).
+        Note that \(L_{N}=L\) and define \(I'=(\setwith{f_{d,i}}{0\leq d\leq
+            N,1\leq i\leq d})\subseteq I\).
+
+        Supose \(I'\neq I\) take \(f\in I\setminus I'\) of smallest degree.
+
+        If \(d=\deg(f)\leq N\) then \(\lc(f)\in L_{d}\) and thus
+        \(\lc(f)=\sum_{i=1}^{n_{d}}a_{i}\lc(f_{d,i})\) for some \(a_{i}\in A\).
+        Also \(f-\sum_{i=1}^{n_{d}}a_{i}d_{d,i}x^{d-\deg(f_{i})}\) has degree
+        smaller than \(d\) and is in the complement \(I\setminus I'\). But we
+        chose \(d=\deg(f)\) minimal so this is a contradiction.
+
+        If \(d=\deg(f)>N\) then \(\lc(f)\in L\). Therefore
+        \(\lc(f)=\sum_{i=1}^{n}a_{i}\lc(f_{i})\) and thus
+        \(f-\sum_{i=1}^{n}a_{i}f_{i}x^{d-\deg(f_{i})}\) must have degree smaller
+        than \(d=\deg(f)\) which is impossible because \(d\) was chosen to be
+        minimal.
+    \end{proof}
+\end{theorem}
+
+\begin{corollary}
+    Polynomial rings over Noetherian rings in finite variables are Noetherian.
+    Combining this with the fact that quotients of Noetherian rings are
+    Noetherian if \(B\) is a finitely generated \(A\)-algebra, then \(B\) is
+    Noetherian as a ring.
+
+    The \(A\)-module \(A[x]\) is not Noetherian.
+\end{corollary}
+
+\begin{proposition}
+    If \(A\subseteq B\subseteq C\), \(C\) is a finitely generated \(A\)-algebra,
+    and \(B\subseteq C\) is an integral extension then \(B\) is a finitely
+    generated \(A\)-algebra.
+\end{proposition}
+
+\begin{lemma}[Zariski lemma]
+    Let \(k\subseteq E\) be a field extension and \(E\) a finitely generated
+    \(k\)-algebra. Then \(E/k\) is finite.
+\end{lemma}
+
+\begin{theorem}[Weak nullstellensatz]
+    Let \(k\) be a field and \(A\) a finitely generated \(k\)-algebra and
+    \(\maxid\) a maximal ideal of \(A\). Then \(A/\maxid\) is finite over
+    \(k\).
+
+    \begin{proof}
+        This is a specific application of the Zariski lemma.
+    \end{proof}
+\end{theorem}
+
+\begin{theorem}
+    If \(A\) is a Noetherian ring every ideal of \(A\) is decomposable.
+
+    \begin{proof}
+        If \(I\ideal A\) is proper and irreducible then \(I\) is primary.
+
+        If there are \(xy\in A/I\) such that \(xy=0\) and \(y\neq 0\), then
+        \(y\) is nilpotent. Consider the chain
+        \(y\in\Ann(x)\subseteq\Ann(x^{2})\subseteq\ldots\). Then
+        \(\Ann(x^{n})=\Ann(x^{n+1})\). If \(a\in(x^{n})\cap(y)\), then
+        \(a=bx^{n}\) and \(b^{n}x^{n+1}=ax=0\) has
+        \(b\in\Ann(x^{n+1})=\Ann(x^{n})\). Therefore \(a=0\) so the intersection
+        \((x^{n})\cap (y)\) is \(0\) which is irreducible. Because \(y\neq 0\)
+        we get \(x^{n=0}\).
+    \end{proof}
+\end{theorem}
+
+\begin{proposition}
+    If \(A\) is Noetherian and \(I\ideal A\) then there is an \(r\) such that
+    \(\sqrt{I}^{3}\subseteq I\).
+
+    \begin{proof}
+        We have \(\sqrt{I}=(x_{1},\ldots,x_{s})\) because all ideals are
+        finitely generated. We have \(x_{i}^{r_{i}}\in\sqrt{I}\). Take
+        \(r=\sum_{i}r_{i}\). Then
+        \(\sqrt{I}^{r}=(\prod_{i}x_{i}^{\alpha_{i}}:\sum_{i}\alpha_{i}=r)\).
+        Then \(\alpha_{i}\geq r_{i}\) for some \(i\) so the product is contained
+        in \(I\).
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    If \(A\) is Noetherian and \(I\ideal A\) a proper ideal. Then
+    \(\Ass(I)=\setwith{(I:x)}{x\in A}\cap\Spec(A)\).
+\end{proposition}
+
+\section{Artins rings \& Dimension}
+\begin{definition}
+    The dimension of a ring \(R\) is the length of the longest chain of prime
+    ideals
+    \[
+        \primeid_{0}\subsetneq \primeid_{1}\subsetneq\ldots\subseteq \primeid_{n}.
+    \]
+    The above sequence has length \(n\) (the amount of inclusions). This the
+    dimension is an element of the set \(\N\cup\set{\infty,-\infty}\).
+\end{definition}
+
+\begin{proposition}
+    If \(R\) is an Artinian ring then every prime ideal is maximal.
+
+    \begin{proof}
+        Let \(\primeid\ideal R\) be prime. Then \(R/\primeid\) is an Artinian
+        domain. We want to show it is a field. Let \(x\in R/\primeid\) be
+        non-zero, then the sequence
+        \[
+            (x)\supseteq(x^{2})\supseteq\ldots
+        \]
+        stabilizes because \(R/\primeid\) is artin. This means that
+        \(x^{n}=yx^{n-1}\) for some \(n\in\N_{>0}\) and \(y\in R/\primeid\).
+        Because \(R/\primeid\) is a domain we get \(x^{n-1}(xy-1)=0\) so
+        \(y=x^{-1}\) and therefore \(x\) is invertible.
+    \end{proof}
+\end{proposition}
+
+\begin{corollary}
+    The dimension of an Artin ring is \(0\).
+
+    \begin{proof}
+        Any prime ideal is maximal so any chain of prime ideals has length
+        \(0\).
+    \end{proof}
+\end{corollary}
+
+\begin{corollary}
+    For an Artin ring \(R\), \(\JRad(R)=\nil(R)\).
+
+    \begin{proof}
+        We have \(\textnormal{Max}(R)=\Spec{R}\). This has the corollary as
+        immediate consequence.
+    \end{proof}
+\end{corollary}
+
+\begin{proposition}
+    Let \(R\) be an Artin ring, then \(\textnormal{Max}(R)\) is finite.
+
+    \begin{proof}
+        Define
+        \[
+            S=\set{\textnormal{Finite intersection of maximal ideals}}.
+        \]
+        then all chains in \(S\) stabilize. Therefore \(S\) has a minimal
+        element \(\maxid_{1}\cap\ldots\cap\maxid_{n}\).
+
+        Take \(x\in\textnormal{Max}(R)\). Then
+        \[
+            \maxid\cap\maxid_{1}\cap\ldots\cap\maxid_{n}=\maxid_{1}\cap\ldots\cap\maxid_{n}
+        \]
+        by minimality.
+
+        By earlier proposition this means there is an \(n\) such that
+        \(\maxid=\maxid_{n}\).
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    If \(R\) is Artinian then \(\Nil(R)\) is nilpotent.
+\end{proposition}
+
+\begin{proposition}
+    A ring \(R\) is Artinian iff it's Noetherian and has dimension \(0\).
+
+    \begin{proof}
+        Let \(R\) be Artinian. The dimension of \(R\) is zero by a previous
+        corollary.
+
+        There arefinitely many maximal ideals \(\maxid_{1},\ldots,\maxid_{n}\).
+        Then
+        \(\prod_{i}\maxid_{n}\subseteq\bigcap_{i}\maxid_{i}=\Nil(R)\).
+
+        Therefore \((\prod_{i}\maxid_{i})^{k}\subseteq(0)^{k}\) and so \(R\) is
+        Noetherian.
+
+        Suppose \(R\) is Noetherian with dimension \(0\). We want to write \(0\)
+        as the product of maximal ideals. The ideal \((0)\) has a primary
+        decomposition \((0)=q_{1}\cap\ldots\cap q_{n}\) because \(R\) is
+        Noetherian. Therefore \(R\) has only finitely many minimal primes.
+
+        Write \(\Nil(R)=\sqrt{0}=\bigcap_{i}\primeid_{i}\) where
+        \(\primeid_{i}\) are the minimal associated primes. All these primes are
+        maximal so \(\primeid_{i}\) is maximal. This means
+        \[
+            \prod_{i}\primeid_{i}\subseteq\bigcap_{i}\primeid_{i}=\Nil(R)
+        \]
+        which is nilpotent so \(0\) is the product of finitely many maximal
+        ideals. Therefore \(R\) is Artinian.
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    Every Artinian ring is a finite product of Artinian logcal rings.
+\end{proposition}
+
+\begin{corollary}
+    Let \(R\) be an Aritinian local ring with unique maximal ideal \(\maxid\).
+    Then \(\Spec(R)=\maxid\) and \(\maxid=\Nil(R)\). We know the nilradical is
+    nilpotent so \(\maxid\) is nilpotent.
+\end{corollary}
+
+\begin{proposition}
+    Let \(R\) be Noetherian local with maximal ideal \(\maxid\). Then one of the
+    following holds:
+    \begin{enumerate}
+        \item \(\maxid^{n}\neq\maxid^{n+1}\) for some \(n\in\N\),
+        \item there is an \(n\) such that \(\maxid^{n}=0\) in which case \(R\)
+              is Artin.
+    \end{enumerate}
+
+    \begin{proof}
+        Suppose 1 fails and so \(\maxid^{n}=\maxid^{n+1}\) for some \(n\).
+        By Nakayama's lemma \(\maxid^{n}=0\).
+
+        To prove it is Artin take \(\primeid\in\Spec(R)\). Then
+        \((0)=\maxid^{n}\subseteq\primeid\). Therefore
+        \(\maxid=\sqrt(\maxid^{n})=\sqrt{\primeid}=\primeid\).
+
+        This means that \(\dim(R)=0\).
+    \end{proof}
+\end{proposition}
+
+\section{Discrete valuation rings}
+We want to study Noetherian rings of dimension \(1\) but these are hard.
+Therefore we look at domains and (usually) integrally closed rings.
+
+\begin{definition}
+    Let \(k\) be a field. A discrete valuation on \(k\) is a group homomorphism
+    \[
+        v:k^{*}\twoheadrightarrow\Z
+    \]
+    such that \(v(x+y)\geq\min(v(x),v(y))\). Extend to map \(v:k\to
+    \Z\cup\set{\infty}\) with \(v(0)=\infty\). The valuation ring of \(v\) is
+    \[
+        O(v)=\setwith{x\in k}{v(x)\geq 0}
+    \]
+    which is a subring of \(k\). The ring \(O_{v}\) is a valuation ring.
+\end{definition}
+
+\begin{definition}
+    A discrete valuation ring is a domain \(R\) such that there is a discrete
+    valuation \(v\) on \(Q(R)\) such that \(O_{v}=R\).
+\end{definition}
+
+\begin{proposition}
+    Let \(R\) be a discrete valuation ring. Then
+    \begin{enumerate}
+        \item \(R\) is local,
+        \item \(R\) is Noetherian,
+        \item \(\dim(R)=1\),
+        \item \(R\) is integrally closed.
+    \end{enumerate}
+
+    \begin{proof}
+        Let \(k=Q(R)\) and \(v\) a discrete valuation with \(O_{v}=R\). Let
+        \(\maxid=v^{-1}[\Z_{>0}]\). Then \(\maxid\) is a maximal ideal and
+        \(R\setminus\maxid=v^{-1}[\set{0}]\). Every element of
+        \(v^{-1[\set{0}]}\) is a unit, hence \(\maxid\) is maximal and \(R\) is
+        local.
+
+        Let \(I\ideal R\). Then \(I=\maxid^{n}\). Let
+        \(k=\min\setwith{v(x)}{x\in I}\). Then \(I=v^{-1}(\Z_{\geq
+            0})=\maxid^{k}\). The left to right inclusion is clear.
+
+        Take \(x\in v^{-1}(\Z_{\geq k})\), suppose \(v(x)=k'\). Then there is a
+        \(y\in I\) such that \(v(y)=k'=v(x)\). Claim: \(\nicefrac{x}{y}\in
+        R^{*}\):
+        \begin{align*}
+            v\left(\frac{x}{y}\right) & =v(x)-v(y) \\
+                                      & =k'-k'     \\
+                                      & =0.
+        \end{align*}
+        This proves the claim. We have the chain of all ideals except \((0)\):
+        \[
+            \maxid\supsetneq\maxid^{1}\supseteq\ldots
+        \]
+        so ascending chain condition holds. Therefore there are two prime ideals
+        \(\Spec(R)=\set{(0),\maxid}\) so \(\dim(R)=1\).
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    Let \(R\) be a Noetherian local domain of dimension \(1\) with maximal ideal
+    \(\maxid\) and residual field \(k=R/\maxid\). The following are equivalent:
+    \begin{enumerate}
+        \item \(R\) is a discrete valuation ring,
+        \item \(R\) is integrally closed,
+        \item \(\maxid\) is principal,
+        \item \(\dim_{k}\maxid/\maxid^{2}=1\),
+        \item Every non-zero ideal is a power of \(\maxid\).
+    \end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+    Let \(R\) be a Noetherian domain of dimension \(1\). Let \(0\neq I\ideal
+    R\). Then \(I\) can be written in a unique way as the product of primary ideals
+    with distinct radicals.
+
+    \begin{proof}
+        Because \(R\) is Noetherian \(I\) has a primary decomposition
+        \(I=\bigcap_{i}q_{i}\). Each \(\sqrt{q_{i}}=\primeid_{i}\) is non-zero
+        prime and must therefore be maximal because \(R\) has dimension \(1\) so
+        they are pairwise coprime. This means the \(q_{i}\) are also coprime so
+        \[
+            \bigcap_{i}q_{i}=\prod_{i}q_{i}.
+        \]
+
+        For uniqueness we can obtain primary decomposition from product
+        which means uniqueness.
+    \end{proof}
+\end{proposition}
+
+\begin{theorem}
+    Let \(R\) be a Noetherian domain of dimension \(1\). The following are
+    equivalent:
+    \begin{enumerate}
+        \item \(R\) is integrally closed,
+        \item Every primary ideal \(I\ideal R\) is a prime power,
+        \item For all \(\maxid\ideal R\) maximal the local ring \(R_{\maxid}\)
+              is a discrete valuation ring.
+    \end{enumerate}
+
+    \begin{proof}
+        We've seen all implications.
+    \end{proof}
+\end{theorem}
+
+\begin{definition}
+    Rings of the above form are called Dedekind domains.
+\end{definition}
+
+\begin{example}
+    The rings \(\Z\) and \(k[x]\) are Dedekind domains.
+\end{example}
+
+\begin{corollary}
+    In a Dedekind domain every non-zero ideal is a unique product of primary
+    ideals.
+\end{corollary}
+
+\section{Completions}
+\begin{definition}
+    A topological group is a topological space \(G\) with am abelian group
+    operation \(G\times G\to G\) such that \(a\cdot-\), \(-\cdot a\), and
+    \((-)^{-1}\) are continuous.
+\end{definition}
+
+\begin{lemma}
+    Let \(G\) be a topological group. Then it is Hausdorff iff
+    \(\set{0}\) is a closed subset.
+
+    \begin{proof}
+        Proof by wizardry.
+    \end{proof}
+\end{lemma}
+
+\begin{lemma}
+    Let \(G\) be a topological group and \(H=\bigcap\setwith{U\subseteq G}{0\in
+        U}\). Then
+    \begin{enumerate}
+        \item \(H\) is a subgroup of \(G\),
+
+              \begin{proof}
+                  Use that \(+\) and \(-\) are continuous. Take \(x,y\in H\). Then we want
+                  that \(x+y\in H\). We have the continuous \(G\times G\to U\) given by \(+\).
+                  We want \((x,y)\in+^{-1}(U)\). There is a map
+                  \((\Id,0):G\to G\times G\). Therefore \((id,0)^{-1}+^{-1}U\)
+                  is an open neighbourhood of \(0\in G\) so it contains \(x\).
+                  Repeat for \(y\).
+              \end{proof}
+
+        \item \(H\) is the closure of \(\set{0}\),
+
+              \begin{proof}
+                  \begin{align*}
+                      x\in\overline{0} & \Leftrightarrow\forall U\ni x: 0\in U    \\
+                                       & \Leftrightarrow\forall U\ni 0: 0\in -U+x \\
+                                       & \Leftrightarrow\forall U\ni 0: x\in U    \\
+                                       & x\in U.
+                  \end{align*}
+              \end{proof}
+
+        \item \(G/H\) is Hausdorff,
+
+              \begin{proof}
+                  By part 2 we know \(\set{0}\) is closed in \(G/H\).
+              \end{proof}
+
+        \item \(G\) is Hausdorff iff \(H=\set{0}\).
+
+              \begin{proof}
+                  \(\Leftarrow\) Easy
+
+                  \(\Rightarrow\) By 3
+              \end{proof}
+    \end{enumerate}
+\end{lemma}
+
+\subsection{Topologies generated by sequences of subgroups}
+\begin{definition}
+    Let \(G\) be a topological group. A fundamental system of open
+    neighbourhoods of \(0\) is a sequence \((U_{n})_{n\in\omega}\) with
+    \begin{enumerate}
+        \item \(U_{n+1}\subseteq U_{n}\),
+        \item \(0\in U_{n}\)
+        \item \(U_{n}\) open
+        \item If \(V\subseteq G\) open with \(0\in V\) then there is some
+              \(n\) such that \(U_{n}\subseteq V\).
+    \end{enumerate}
+    We focus on systems such that \(U_n\) are subgroups.
+\end{definition}
+
+\begin{definition}
+    Given a group and a decreasing sequence of subsets \((U_{n})_{n\in\omega}\)
+    containing \(0\), equip \(G\) with the topology such that all \(U_{i}\) are
+    open.
+\end{definition}
+
+\begin{lemma}
+    In the above setting, suppose \(U_{n}\) are subgroups. Then this is a
+    fundamental system of neighbourhoods of \(0\) and \(G/U_{n}\) has discrete
+    topology.
+\end{lemma}
+
+\begin{example}
+    Given a ring \(R\) then \(I^{n}\) is sequence of decreasing subgroups.
+    Call generated topology the \(I\)-adic topology.
+\end{example}
+
+We want to define completion.
+
+\begin{definition}
+    An inverse system is a sequence of abelian groups \((A_{n})_{n\in\omega}\)
+    and morphisms \(\vartheta_{n}:A_{n}\to A_{n-1}\). A coherent sequence is a
+    sequence \((a_{n})_{n\in\omega}\in\prod_{n\in\omega}A_{i}\) such that
+    \(\vartheta(a_{n})=a_{n-1}\). This is an abelian group by pointwise
+    addition.
+
+    Notation: \(\lim_{A_{n}}\).
+
+    Projection maps are group morphisms. If each \(A_{n}\) are topological groups then we can equip \(\lim A_{n}\)
+    with the coarsest topology making \(\pi_{i}:\lim A_{n}\to A_{i}\)
+    continuous.
+\end{definition}
+
+\begin{definition}
+    If \(G\) is a topological group with \((U_{n})_{n\in\omega}\) a fundamental
+    system op open neighbourhoods with \(U_{n}\) subgroups. The completion of \(G\)
+    is
+    \[
+        \widehat{G}=\lim\nicefrac{G}{U_{n}}
+    \]
+    where \(G/U_{n}\) has discrete topology (which is the quotient topology).
+\end{definition}
+
+\begin{remark}
+    \begin{enumerate}
+        \item This definition coincides with ``Cauchy sequences mod null
+              sequences''.
+        \item There is a continuous map \(\varphi:G\to \widehat{G}:(g\to
+              U_{n})_{n\in\omega}\).
+        \item If \(f:G\to H\) is a continuous maps to topological groups
+              with fsno given by subgroups. Then there is a natural continuous map
+              \(\psi:\widehat{G}\to\widehat{H}\).
+    \end{enumerate}
+\end{remark}
+
+\begin{definition}
+    The topological group \(G\) is complete if the natural \(G\to \widehat{G}\) is a
+    homeomorphism.
+\end{definition}
+
+\begin{theorem}
+    The group \(\widehat{G}\) is complete.
+\end{theorem}
+
+\begin{example}
+    Let \(k\) be a field, \(G=k[x]\) and \(I=(x)\). Give \(G\) the \(I\)-adic
+    topology. Then \(\widehat{G}=k[[x]]\).
+\end{example}
+
+If \(G\) is a topological group, \((G_{n})_{n}\) fsno.
+
+\begin{enumerate}
+    \item We will show that \(\widehat{G^{n}}\) is a subgroup of \(\widehat{G}\).
+    \item \((\widehat{G_{n}})\) is a fsno in \(\widehat{G}\).
+    \item The natural map \(\widehat{G}\to\widehat{\widehat{G}}\) is an iso of topological
+          groups.
+\end{enumerate}
+
+\begin{definition}
+    A morphism of inverse systems makes the following square commute:
+    \[
+        \begin{tikzcd}[ampersand replacement=\&]
+            {A_{n}} \&\& {A_{n-1}} \\
+            \\
+            {B_{n}} \&\& {B_{n-1}}
+            \arrow["{\vartheta_{n}}", from=1-1, to=1-3]
+            \arrow["{f_{n}}"', from=1-1, to=3-1]
+            \arrow[from=3-1, to=3-3]
+            \arrow["{f_{n-1}}", from=1-3, to=3-3]
+        \end{tikzcd}
+    \]
+\end{definition}
+
+\begin{definition}
+    A sequence of inverse systems
+    \[
+        0\to (A_{n})_{n}\to (B_{n})_{n}\to (C_{n})_{n}\to 0
+    \]
+    is exact if each
+    \[
+        0\to A_{n}\to B_{n}\to C_{n}\to 0
+    \]
+    is exact.
+\end{definition}
+
+\begin{proposition}
+    Given an exact sequence of an inverse system as above, we get an exact
+    sequence:
+    \[
+        0\to \lim(A_{n})_{n}\to \lim(B_{n})_{n}\to \lim(C_{n})_{n}.
+    \]
+    If \((A_{n})_{n}\) is surjective (\(\vartheta_{n}:A_{n}\to A_{n-1}\) is
+    surjective) then the final map is surjective.
+
+    \begin{proof}
+        Define \(\tilde{A}=\prod_{n}A_{n}\) and \(d_{A}:\tilde{A}\to\tilde{A}\)
+        with \(d((a_{n})_{n})=(a_{n}-\vartheta_{n+1}(a_{n+1}))\). Then
+        \(\lim(A_{n})_{n}=\ker d_{A}\). Similarly for \((B_{n})_{n}\) and
+        \((C_{n})_{n}\). We then get the commutative diagram and by snake lemma:
+
+        \[\begin{tikzcd}[ampersand replacement=\&]
+                0 \&\& {\ker d_{A}} \&\& {\ker d_{B}} \&\& {\ker d_{C}} \\
+                \\
+                0 \&\& {\tilde{A}} \&\& {\tilde{B}} \&\& {\tilde{C}} \&\& 0 \\
+                \\
+                0 \&\& {\tilde{A}} \&\& {\tilde{B}} \&\& {\tilde{C}} \&\& 0 \\
+                \\
+                \&\& {\coker d_{A}}
+                \arrow[from=3-1, to=3-3]
+                \arrow[from=3-3, to=3-5]
+                \arrow[from=3-5, to=3-7]
+                \arrow[from=3-7, to=3-9]
+                \arrow[from=5-1, to=5-3]
+                \arrow[from=5-3, to=5-5]
+                \arrow[from=5-5, to=5-7]
+                \arrow[from=5-7, to=5-9]
+                \arrow["{d_{A}}"{description}, from=3-3, to=5-3]
+                \arrow["{d_{B}}"{description}, from=3-5, to=5-5]
+                \arrow["{d_{C}}"{description}, from=3-7, to=5-7]
+                \arrow[from=1-3, to=3-3]
+                \arrow[from=1-5, to=3-5]
+                \arrow[from=1-7, to=3-7]
+                \arrow[from=1-1, to=1-3]
+                \arrow[from=1-3, to=1-5]
+                \arrow[from=1-5, to=1-7]
+                \arrow[from=5-3, to=7-3]
+                \arrow[out=0, in=180, looseness=1, from=1-7, to=7-3]
+            \end{tikzcd}\]
+
+        If \(\coker d_{A}=0\) then the entire sequence is exact.
+
+        Let \((a_{n})_{n}\in\tilde{A}\). Define each \(x_{n}\in A_{n}\)
+        recursively such that \(x_{n}-\vartheta_{n+1}(x_{n+1})=a_{n}\) and
+        \(x_{1}=0\). This is possible because \(\vartheta_{n+1}\) is surjective.
+    \end{proof}
+\end{proposition}
+
+\begin{corollary}
+    Let
+    \[
+        0\to G'\to G\stackrel{p}{\to} G''\to 0
+    \]
+    be an exact sequence of abelian groups. Give \(G\) the topology
+    from a sequence of subgroups \((G_{n})_{n}\) which form a fnso.
+
+    Let \(G'_{n}=G'\cap G_{n}\) and \(G''_{n}=p[G_{n}]\). Then the sequence
+    \[
+        0\to\widehat{G'}\to\widehat{G}\to\widehat{G''}\to 0
+    \]
+    is exact.
+
+    \begin{proof}
+        Apply 2.10 to the sequence of inverse systems given by
+        \[
+            0\to G'/G'_{n}\to G/G_{n}\to G''/G''_{n}\to 0.
+        \]
+        The left inverse system is surjective so we get the desired exact
+        sequence.
+    \end{proof}
+\end{corollary}
+
+\begin{corollary}
+    The group \(\widehat{G_{n}}\) is a subgroup of \(\widehat{G}\) and
+    \[
+        \frac{\widehat{G}}{\widehat{G_{n}}}\cong\frac{G}{G_{n}}.
+    \]
+
+    \begin{proof}
+        Apply the previous corollary to
+        \[
+            0\to G_{n}\to G\to G/G_{n}\to 0.
+        \]
+        Therefore we have exact
+        \[
+            0\to\widehat{G_{n}}\to\widehat{G}\to G/G_{n}\to 0.
+        \]
+    \end{proof}
+\end{corollary}
+
+\begin{proposition}
+    The natural map \(\widehat{G}\to\widehat{\widehat{G}}\) is an isomorphism.
+
+    \begin{proof}
+        Take the inverse limit with the above isomorphisms. Therefore the two
+        completions are isomorphic.
+    \end{proof}
+\end{proposition}
+
+When do different fsno's give the same topology/completion?
+
+\begin{lemma}
+    Let \(G\) be an abelian group and two decreasing sequences of subgroups
+    \((G_{n})_{n}\) and \((H_{n})_{n}\). Consider four conditions
+    \begin{enumerate}
+        \setcounter{enumi}{-1}
+        \item There is some \(n_{0}\) such that for all \(n>n_{0}\)
+              \[
+                  H_{n_{0}+n}\subseteq G_{n}
+              \]
+              and
+              \[
+                  G_{n_{0}+n}\subseteq H_{n},
+              \]
+        \item For all \(n\) there is an \(m\) such that
+              \[
+                  H_{m}\subseteq G_{n}
+              \]
+              and
+              \[
+                  G_{m}\subseteq H_{n}.
+              \]
+        \item \((G_{n})_{n}\) and \((H_{n})_{n}\) induce the same topology,
+        \item \((G_{n})_{n}\) and \((H_{n})_{n}\) induce the same completion.
+    \end{enumerate}
+    Then \(0\Rightarrow1\), \(1\Leftrightarrow2\) and \(2\Rightarrow3\).
+
+    \begin{proof}
+        \(0\Rightarrow1\) is trivial.
+
+        \(1\Rightarrow 2\) The topology is given by the union of translates
+        of\(G_{n}\) and \(H_{n}\).
+
+        \(2\Rightarrow 1\) Use that \(H_{n}\) are fsno in the \(H\) topology on
+        \(G\) and vice versa.
+
+        \(1\Rightarrow3\) Let \((h_{n})_{n\in\omega}\)  be a coherent sequence
+        in \((G/H_{n})_{n}\). Fox \(m\). We want to build alement \(g_{m}\in
+        G/G_{n}\).
+
+        There is an \(m'\) such that \(H_{m'}\subseteq G_{m}\). So we get
+        \(f:G/H_{m'}\to G/G_{m}\). Define \(g_{m}=f(h_{m'})\).
+    \end{proof}
+\end{lemma}
+
+\begin{example}
+    Let \(R\) be a ring and \(I\ideal R\) an ideal. Let \(M'\subseteq M\) be two
+    \(R\)-modules. Then there are two natural topologies on \(M'\).
+    \begin{itemize}
+        \item \(I\)-adic: \(M'_{n}=I^{n}M'\),
+        \item restricted \(I\)-adic: \(M''_{n}=M'\cap I^{n}M\).
+    \end{itemize}
+\end{example}
+
+\begin{definition}
+    Let \(I\ideal R\) and \(M\in\modules_{R}\). A filtration is an infinite
+    decreasing sequence of submodules
+    \[
+        M=M_{0}\supseteq M_{1}\supseteq M_{2}\supseteq\ldots.
+    \]
+    A filtration is an \(I\)-filtration if \(IM_{n}\subseteq M_{m+1}\).
+
+    A stable \(I\)-filtration if \(IM_{n}=M_{n+1}\) for sufficiently large
+    \(n\).
+\end{definition}
+
+\begin{lemma}
+    Any two stable \(I\)-filtrations have bounded difference and so generate the
+    same topology.
+
+    \begin{proof}
+        Left to the reader.
+    \end{proof}
+\end{lemma}
+
+\begin{lemma}[Artin-Rees lemma]
+    If \(R\) is a Noetherian ring, \(I\ideal R\), and \(M\) a fin. gen
+    \(R\)-module. If \((M_{n})_{n}\) is a stable \(I\)-filtration and
+    \(M'\subseteq M\) a submodule then \(((M'\cap M_{n}))_{n}\) is a stable
+    \(I\)-filtration on \(M'\).
+\end{lemma}
+
+\begin{corollary}
+    The above lemma applied to \(M_{n}=I^{n}M\).
+\end{corollary}
+
+\begin{corollary}
+    Completion is exact. Let \(R\) be a Noetherian ring, \(I\ideal R\) and
+    \[
+        0\to M'\to M\to M''\to 0
+    \]
+    exact sequence of fin. gen. modules. Then the sequence
+    \[
+        0\to\widehat{M'}\to\widehat{M}\to\widehat{M''}\to 0
+    \]
+    is exact.
+
+    \begin{proof}
+        By theorems.
+    \end{proof}
+\end{corollary}
+
+\begin{proposition}
+    In general for a Noetherian ring \(R\) we have
+    \begin{enumerate}
+        \item \(\widehat{R}\) (as \(I\)-adic completion) is a flat \(R\)-module,
+        \item If \(M\) is finitely generated then
+              \(\widehat{R}\otimes_{R}M\cong\widehat{M}\).
+    \end{enumerate}
+\end{proposition}
+
+\begin{theorem}[Krull's theorem]
+    Let \(R\) be a Noetherian ring and \(I\ideal R\). If \(M\) is a fin. gen.
+    \(R\)-module then
+    \[
+        \ker(M\to\widehat{M})=\bigcap_{n}I^{n}M=\setwith{x\in M}{\exists a\in 1+I:ax=0}.
+    \]
+\end{theorem}
+
+\begin{proposition}
+    Let \((R,\maxid)\) be Noetherian local. Then \(\widehat{R}\) is local
+    with maximal ideal \(\maxid\).
+\end{proposition}
+
+\section{Graded Rings}
+\begin{definition}
+    A graded ring is a pair \((R,(R_{i})_{i\in\omega})\) such that
+    \begin{enumerate}
+        \item \(R_{n}\) is a subgroup of \(R^{+}\),
+        \item \(R_{m}R_{n}\subseteq R_{m+n}\),
+        \item \(\bigoplus_{n\in\omega}R_{n}\to R\) is an isomorphism of abelian
+              groups.
+    \end{enumerate}
+\end{definition}
+
+\begin{remark}
+    \(R_{0}\) is a subring of \(R\) and \(R\) is an \(R_{0}\)-algebra. Furthermore
+    each \(R_{i}\) is an \(R_{0}\)-module.
+\end{remark}
+
+\begin{definition}
+    If \((R,(R_{n})_{n\in\omega})\) is a graded ring then a graded
+    \((R,(R_{n})_{n\in\omega})\) module is a pair \((M,(M_{n})_{n\in\omega})\)
+    where
+    \begin{enumerate}
+        \item \(M\) is an \(R\)-module,
+        \item each \(M_{n}\) is a subgroup such that \(R_{n}M_{n'}\subseteq
+              M_{n+n'}\)
+        \item \(\bigoplus_{i\in\omega}M_{i}\to M\) is an isomorphism.
+    \end{enumerate}
+    A morphism of graded modules is a module morphism \(f:M\to N\)
+    such that \(f(M_{n})\subseteq N_{n}\).
+\end{definition}
+
+\begin{example}
+    Let \(M=(x^{2}+y^{2},y^{3})\ideal R=k[x,y]\). Define \(M_{n}=M\cap R_{n}\).
+
+    The following is NOT an example: \(M=(x^{2}+y^{3})\ideal R\). Notice that
+    the generator is not homogeneous. Taking \(M_{n}=M\cap R_{n}\). Then the
+    direct sum property fails. This is because the map from the direct sum is
+    not surjective. We have \(M_{2}=M_{1}=0\) and \(x^{2}+y^{3}\) cannot be
+    written as the sum of homogeneous polynomials of degree \(\geq 3\).
+
+    In general: an ideal \(I\ideal k[x_{1},\ldots,x_{n}]\) admits the structure
+    of a graded module iff it can be generated by homogeneous polynomials.
+\end{example}
+
+\begin{proposition}
+    For a graded ring \(R\) the following are equivalent:
+    \begin{enumerate}
+        \item \(R\) is Noetherian
+        \item \(R_{0}\) is Noetherian and \(R\) is finitely generated as an
+              \(R_{0}\)-algebra.
+    \end{enumerate}
+
+    \begin{proof}
+        \(2\Rightarrow1\) By theorem from book.
+
+        \(1\Rightarrow 2\) \(R^{+}=\bigoplus_{i>1}R_{n}\ideal R\) is an ideal of
+        \(R\) and  \(R/R^{+}=R_{0}\) so \(R\) is Noetherian. The other part is
+        omitted.
+    \end{proof}
+\end{proposition}
+
+\begin{definition}[Blowup algebra]
+    Let \(R\) be a ring, \(I\ideal R\) an ideal, \(M\) an \(R\)-module and
+    \((M_{n})_{n\in\omega}\) an \(I\)-filtration.
+
+    The blowup algebra and module are \(R^{*}\) and \(M^{*}\). Then
+    \(R^{*}:=\bigoplus_{i\in\omega}I^{n}\). Similarly
+    \(M^{*}=\bigoplus_{i\in\omega}M_{n}\).
+\end{definition}
+
+\begin{definition}[Associated graded ring]
+    Let \(R\) be a ring, \(I\ideal R\) an ideal, \(M\) an \(R\)-module and
+    \((M_{n})_{n\in\omega}\) an \(I\)-filtration.
+
+    We define
+    \begin{align*}
+        G_{I}(R) & =\bigoplus_{n\in\omega}I^{n}/I^{n+1}, \\
+        G_{I}(M) & =\bigoplus_{n\in\omega}M_{n}/M_{n+1}.
+    \end{align*}
+\end{definition}
+
+\begin{example}
+    \(R=\Z\), \(I=(p)\). Then \(G(R)\cong\F_{p}[t]\).
+\end{example}
+
+\begin{proposition}
+    Let \(R\) be a Noetherian ring and \(I\ideal R\). Then
+    \begin{enumerate}
+        \item \(G_{U}(R)\) is Noetherian,
+        \item \(G_{I}(R)=G_{\widehat{I}}(\widehat{R})\) where \(\widehat{R}\) is the
+              \(I\)-adic completion.
+    \end{enumerate}
+\end{proposition}
+
+\begin{proposition}
+    If \(R\) is Noetherian and \(I\ideal R\), then \(\widehat{R}\) is
+    Noetherian.
+\end{proposition}
+
+If \(R\) is a graded ring and \(R_{0}\) is a field, how does
+\(\dim_{R_{0}}R_{n}\) vary with \(n\)?
+
+\begin{example}
+    Let \(R=k[x_{1},\ldots,x_{s}]\). Then
+    \[
+        \lambda(R_{n}):=\dim_{R_{0}}R_{n}=\frac{(s+n-1)!}{n!(s-1)!}.
+    \]
+
+    Generating function:
+    \begin{align*}
+        P(R,t) & =\sum_{n=0}^{\infty}\lambda(R_{n})t^{n} \\
+               & =\frac{1}{(1-t)^{s}}.
+    \end{align*}
+
+    The function \(\N\to\Z\) given by \(n\mapsto \lambda(R_{n})\) is a
+    polynomial in \(n\) with \(\Q\)-coefficients.
+\end{example}
+
+\begin{remark}
+    Let \(R\) be a Noetherian graded ring (\(R_{0}\) Noetherian and \(R\) fin.
+    gen as \(R_{0}\)-algebra). Let's say it's generated by
+    \(x_{1},\ldots,x_{s}\). We can choose these to be homogeneous of degree
+    \(k_{i}>0\).
+
+    Let \(M\) be a fin. gen. graded \(R\)-module. Then each \(M_{n}\) is
+    finitely generated as \(R_{0}\)-module.
+
+    Let \(\lambda:\set{\textnormal{fin. gen. \(R_{0}\)-modules}}\to\Z\) be an
+    additive function: given short exact sequence
+    \[
+        0\to M'\to M\to M''\to 0
+    \]
+    we have \(\lambda(M)=\lambda(M')+\lambda(M'')\).
+\end{remark}
+
+\begin{theorem}[Hilbert series]
+    \(P(M,t)\) is a rational function of the form
+    \[
+        \frac{f(t)}{\prod_{i=1}^{s}(1-t^{k_{i}})}
+    \]
+    where \(f\in\Z[t]\).
+
+    \begin{proof}
+        Induction on \(s\).
+
+        For \(s=0\) this is easy.
+
+        Let \(s>0\) and assume the theorem is true for \(s-1\) generators.
+        Then we have an exact sequence
+        \[
+            0\to K_{n}\to M_{n}\stackrel{\cdot x_{s}}{\to}M_{n+k_{s}}\to L_{n+k_{s}}\to 0.
+        \]
+        Let \(L=\bigoplus_{i\in\omega}K_{n}\) and
+        \(L=\bigoplus_{i\in\omega}L_{n+k_{s}}\). Both are finitely generated
+        \(R\)-modules killed by \(x_{s}\) so both are finitely generated
+        \(R/(x_{s})\)-modules.
+
+        Additivity of \(\lambda\) gives that
+        \[
+            \lambda(K_{n})-\lambda(M_{n})+\lambda(M_{n+k_{s}})-\lambda(L_{n+k_{s}})=0.
+        \]
+        Multiply this equality by \(t^{n+k_{s}}\) and sum over \(n\) to get
+        \begin{align*}
+            (1-t^{k_{s}})P(M,t) & =P(L,t)-t^{k_{s}}P(K,t)+g(t)
+        \end{align*}
+        with \(g\in\Z[t]\). Algebraic manipulation I don't want to \LaTeX{}
+        gives the proof.
+    \end{proof}
+\end{theorem}
+
+\begin{definition}
+    We define \(d(M)\) as the order of the pole of \(P(M,t)\) at \(t=1\).
+    Explicitly this means \(f(t)=(1-t)^{r}\tilde{f}(t)\) with
+    \((1-t)\nmid\tilde{f}\). Then \(d(M)=s-r\).
+\end{definition}
+
+\begin{proof}[Hilbert polynomial of \(M\)]
+    If all \(k_{i}=1\) then for \(n\) sufficiently large \(\lambda(M_{n})\) is a
+    polynomial in \(n\) with \(\Q\)-coefficients and degree \(d(M)-1\).
+
+    \begin{proof}
+        Proof by authority.
+    \end{proof}
+\end{proof}
+
+\begin{corollary}
+    If \(x\in R_{k}\) for some \(k\geq 0\) is a non-zero divisor of \(M\) then
+    \(d(M/xM)=d(M)-1\).
+\end{corollary}
+
+\section{Something}
+Let \((R,\maxid)\) be a Noetherian local ring and \(\primeid\ideal R\) an
+\(\maxid\)-primary ideal. \(M\) a finitely generated \(R\)-module, \(M_{n}\) a
+\(\primeidd\)-stable filtration.
+
+Associated graded ring \(\bigoplus_{n}\primeidd^{n}/\primeidd^{n+1}\) and
+associated graded module \(\bigoplus_{n}M_{i}/M_{i+1}\).
+\end{document}

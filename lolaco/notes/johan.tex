@@ -1,0 +1,40 @@
+\section{Johan van Benthem: Interleaving logic and counting}
+
+\subsection{Reasoning practices: logic and counting}
+Incorporate counting in language of a logic
+
+First order syntax plus \(\#_{x}\varphi(x)\), number of elements that satisfy
+\(\varphi(x)\).
+
+Existential: \(\#_{x}\varphi(x)\geq\#_{x}\varphi(x)\)
+
+This logic is very complex
+
+\subsection{Taming the complexity}
+Consider fragments or change interpretation (these two are related)
+
+\subsection{Monadic counting logic}
+Syntax: \(Ax,x=y,\#_{x}\varphi(x)\leq\#_{x}\psi(x)\).
+
+This contains monadic first order logic
+
+This is automorphic invariant: points which satisfy the same predicates behave
+the same (and cannot be distinguished by free variable) and can therefore be
+permuted:
+\[
+    \exists(\alpha^{y}(x)\wedge\varphi(x))\to\forall x(\alpha^{y}(x)\to\varphi).
+\]
+
+Normal forms: every formula is equivalent to one using \(\exists\) but without
+nested \(\#\) operators.
+
+Corollary: MFO(\(\#\)) is decidable
+
+\subsection{System extensions}
+Monadic second order logic admits normal forms and is decidable.
+You can define first-order Presburger Arithmetic
+
+Counting tuples: \(\#xy.(Ax\wedge By)\) counts \(A\times B\). This language
+encodes satisfiability of Diophantine equations. Therefire this is undecidable.
+
+\subsection{Generalized semantics}

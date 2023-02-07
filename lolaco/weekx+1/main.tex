@@ -1,0 +1,33 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+
+\title{Ule Endriss: Automated Reasoning for Social Choice Theory}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+The goal of social choice theory is to find good solutions for the problem of
+preference aggregation. This is the problem where a group of people need to
+decide on some issue and all have certain preferences. Social choice theory
+examines voting rules, rules to decide the outcome of an election based on the
+votes, and their properties. Some examples of voting rules are plurality (choose
+the most popular option), plurality with runoff (choose the 2 most popular
+options and hold another election) and borda (give points based on votes).
+
+One of the main theorems in computational social choice is that of
+Gibbard-Satterwaithe: any voting rule for more than three candidates in which
+every candidate has a possibility of winning and a winner is chosen must have at
+least one of two flaws: either voting differently to your preferences leads to a
+more desirable result or the preference of one fixed voters preference is always
+chosen.
+
+The final part of his talk was dedicated to computational aspects. One example
+of an application of computation theory is the proof of the aforementioned
+Gibbard-Satterwaithe theorem. This is reducible to a satisfiability problem.
+
+\hfill\emph{190 words}
+\end{document}

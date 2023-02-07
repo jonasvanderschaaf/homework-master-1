@@ -1,0 +1,289 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{quiver}
+\usepackage{float}
+\usepackage{cleveref}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\catt}{\mathcal{D}}
+\newcommand{\pcat}{\mathcal{P}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\rad}{Rad}
+
+\newenvironment{question}[1][]{\begin{paragraph}{Question #1}}{\end{paragraph}}
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework Category Theory}
+\author{Jonas van der Schaaf}
+\date{October 10, 2022}
+
+\begin{document}
+\maketitle
+
+\begin{question}[1]
+    Let \(\cat\) be a category with binary products. Show that for any triples
+    \(X,Y,Z\in\objects(\cat)\) we have the isomorphism
+    \[
+        X\times(Y\times Z)\cong (X\times Y)\times Z.
+    \]
+
+    \begin{proof}
+        To prove the products are isomorphic, I will show \((X\times Y)\times
+        Z\) satisfies the universal property of \(X\times(Y\times Z)\). Let
+        \(A\) be an object with maps \(A\to X,A\to Y,A\to Z\), then there are
+        unique maps \(A\to X\times Y\) and \(A\to Y\times Z\) such that
+        \Cref{fig:comm-dia-1} commutes.
+        \begin{figure}[H]
+            \[
+                \begin{tikzcd}[ampersand replacement=\&]
+                    \&\&\&\& A \\
+                    \\
+                    \\
+                    X \&\& {X\times Y} \&\& Y \&\& {Y\times Z} \&\& Z \\
+                    \arrow["f"',from=1-5, to=4-1]
+                    \arrow["g",from=1-5, to=4-5]
+                    \arrow["h",from=1-5, to=4-9]
+                    \arrow["\pi_{Z}",from=4-7, to=4-9]
+                    \arrow["\pi_{Y}'"',from=4-7, to=4-5]
+                    \arrow["\pi_{Y}", from=4-3, to=4-5]
+                    \arrow["\pi_{X}"',from=4-3, to=4-1]
+                    \arrow["{\exists!}f\times g", dashed, from=1-5, to=4-3]
+                    \arrow["{\exists!}g\times h"', dashed, from=1-5, to=4-7]
+                \end{tikzcd}
+            \]
+            \caption{The commutative diagram indicating the universal property of the products.}
+            \label{fig:comm-dia-1}
+        \end{figure}
+        This means that there are also unique maps \(A\to (X\times Y)\times Z\)
+        and \(A\to X\times(Y\times Z)\) such that the diagram in
+        \Cref{fig:comm-dia-2} commutes.
+        \begin{figure}[H]
+            \[
+                \begin{tikzcd}[ampersand replacement=\&]
+                    \&\&\&\& A \\
+                    \\
+                    \\
+                    X \&\& {X\times Y} \&\& Y \&\& {Y\times Z} \&\& Z \\
+                    \&\&\& {(X\times Y)\times Z} \&\& {X\times(Y\times Z)}
+                    \arrow["f"',from=1-5, to=4-1]
+                    \arrow["g",from=1-5, to=4-5]
+                    \arrow["h",from=1-5, to=4-9]
+                    \arrow["\pi_{Z}",from=4-7, to=4-9]
+                    \arrow["\pi_{Y}'"',from=4-7, to=4-5]
+                    \arrow["\pi_{Y}", from=4-3, to=4-5]
+                    \arrow["\pi_{X}"',from=4-3, to=4-1]
+                    \arrow["{f\times g}", from=1-5, to=4-3]
+                    \arrow["{g\times h}"', from=1-5, to=4-7]
+                    \arrow["\pi_{Y\times Z}"',from=5-6, to=4-7]
+                    \arrow["\pi_{X}'", , curve={height=-35pt}, from=5-6, to=4-1]
+                    \arrow["\pi_{X\times Y}", from=5-4, to=4-3]
+                    \arrow["\pi_{Z}'"', curve={height=35pt}, from=5-4, to=4-9]
+                    \arrow["{\exists!(f\times g)\times h}"', dashed, from=1-5, to=5-4]
+                    \arrow["{\exists!f\times(g\times h)}", dashed, from=1-5, to=5-6]
+                \end{tikzcd}
+            \]
+            \caption{The commutative diagram indicating the universal properties of \((X\times Y)\times Z\) and \(X\times (Y\times Z)\).}
+            \label{fig:comm-dia-2}
+        \end{figure}
+        On top of that because there are maps \(\pi_{Y}\circ\pi_{X\times
+            Y}:(X\times Y)\times Z\to Y\) and \(\pi_{Z}':(X\times Y)\times Z\to Z\)
+        there is a unique map \(\pi_{Y\times Z}':(X\times Y)\times Z\to (Y\times
+        Z)\) such that the diagram commutes. Note that this map is not dependent
+        on \(f,g,h\).
+
+        Now suppose there is a map \(k:A\to X\times Y\) and \(h:A\to Z\). Then
+        by composition of \(k\) with \(\pi_{X},\pi_{Y}\) we obtain maps
+        \(f=\pi_{X}k\) and \(g=\pi_{Y}k\). By the above reasoning there are
+        unique maps \((f\times g)\times h\) and \(f\times(g\times h)\) such that
+        \Cref{fig:comm-dia-3} commutes.
+        \begin{figure}[H]
+            \[
+                \begin{tikzcd}[ampersand replacement=\&]
+                    \&\&\&\& A \\
+                    \\
+                    \\
+                    X \&\& {X\times Y} \&\& Y \&\& {Y\times Z} \&\& Z \\
+                    \&\&\& {(X\times Y)\times Z} \&\& {X\times(Y\times Z)}
+                    \arrow["f"',from=1-5, to=4-1]
+                    \arrow["g",from=1-5, to=4-5]
+                    \arrow["h",from=1-5, to=4-9]
+                    \arrow["\pi_{Z}",from=4-7, to=4-9]
+                    \arrow["\pi_{Y}'"',from=4-7, to=4-5]
+                    \arrow["\pi_{Y}", from=4-3, to=4-5]
+                    \arrow["\pi_{X}"',from=4-3, to=4-1]
+                    \arrow["{f\times g}", from=1-5, to=4-3]
+                    \arrow["{g\times h}"', from=1-5, to=4-7]
+                    \arrow["\pi_{Y\times Z}"',from=5-6, to=4-7]
+                    \arrow["\pi_{X}'", , curve={height=-35pt}, from=5-6, to=4-1]
+                    \arrow["\pi_{X\times Y}", from=5-4, to=4-3]
+                    \arrow["\pi_{Z}'"', curve={height=35pt}, from=5-4, to=4-9]
+                    \arrow["{(f\times g)\times h}"', from=1-5, to=5-4]
+                    \arrow["{f\times(g\times h)}", from=1-5, to=5-6]
+                    \arrow["\pi_{Y\times Z}'", from=5-4, to=4-7]
+                \end{tikzcd}
+            \]
+            \caption{The commutative diagram indicating the universal properties of \(X\times(Y\times Z)\) is satisfied by \((X\times Y)\times Z\).}
+            \label{fig:comm-dia-3}
+        \end{figure}
+        But then this means that \((X\times Y)\times Z\) satisfies the universal
+        property of \(X\times(Y\times Z)\) so it must be isomorphic.
+    \end{proof}
+\end{question}
+
+\begin{question}
+    Let \(\cat\) be a category which has equalizers. Furthermore let \(\pcat\)
+    be the category generated by the quiver
+    \[
+        \begin{tikzcd}[ampersand replacement=\&]
+            1 \&\& 2
+            \arrow["f", shift left=1, from=1-1, to=1-3]
+            \arrow["g"',shift right=1, from=1-1, to=1-3]
+        \end{tikzcd}
+    \]
+
+    Show that there is a functor \(F:[\pcat,\cat]\to\cat\) which maps a functor
+    \(G\) to the equalizer of \(G(f)\) and \(G(g)\).
+
+    \begin{proof}
+        Define \(F\) as above on the functors \(\pcat\to\cat\). I will show that
+        each natural transformation \(\eta:G\to G'\) for \(G,G':\pcat\to\cat\)
+        induces a unique morphism \(F(G)\to F(G')\).
+
+        For any two functors \(G,G':\pcat\to\cat\) and \(\eta:G\to G'\) a
+        natural transformation we have the following (in general not
+        commutative because of the parallel arrows in the square) diagram:
+        \[
+            \begin{tikzcd}[ampersand replacement=\&]
+                E \&\& G1 \&\& G2 \\
+                \\
+                {E'} \&\& {G'1} \&\& {G'2}
+                \arrow["Gg"', shift right=1, from=1-3, to=1-5]
+                \arrow["Gf", shift left=1, from=1-3, to=1-5]
+                \arrow["{G'f}", shift left=1, from=3-3, to=3-5]
+                \arrow["{G'g}"', shift right=1, from=3-3, to=3-5]
+                \arrow["{\eta_{1}}"{description}, from=1-3, to=3-3]
+                \arrow["{\eta_{2}}"{description}, from=1-5, to=3-5]
+                \arrow["e"', from=1-1, to=1-3]
+                \arrow["{e'}"', from=3-1, to=3-3]
+            \end{tikzcd}
+        \]
+        Using diagram chasing we obtain
+        \begin{align*}
+            (G'f)\eta_{1}e & =\eta_{2}(Gf)e  \\
+                           & =\eta_{2}(Gg)e  \\
+                           & =(Gg)\eta_{1}e,
+        \end{align*}
+        which by the universal property of the equalizer means that
+        \(\eta_{1}e\) factorizes through the equalizer \(E'\):
+        \[
+            \begin{tikzcd}[ampersand replacement=\&]
+                E \&\& G1 \&\& G2 \\
+                \\
+                {E'} \&\& {G'1} \&\& {G'2}
+                \arrow["Gg"', shift right=1, from=1-3, to=1-5]
+                \arrow["Gf", shift left=1, from=1-3, to=1-5]
+                \arrow["{G'f}", shift left=1, from=3-3, to=3-5]
+                \arrow["{G'g}"', shift right=1, from=3-3, to=3-5]
+                \arrow["{\eta_{1}}"{description}, from=1-3, to=3-3]
+                \arrow["{\eta_{2}}"{description}, from=1-5, to=3-5]
+                \arrow["e"', from=1-1, to=1-3]
+                \arrow["{e'}"', from=3-1, to=3-3]
+                \arrow["{\exists!h}"{description}, dashed, from=1-1, to=3-1]
+            \end{tikzcd}
+        \]
+        We define \(F\eta=h\).
+
+        It is easy to see that for \(G'=G\) and \(\eta=\Id\) the map \(\Id:E\to
+        E'=E\) makes the diagram commute so \(F\Id_{G}=\Id_{FG}\).
+
+        To see this map is multiplicative consider the diagram
+        \[
+            \begin{tikzcd}[ampersand replacement=\&]
+                E \&\& G1 \&\& G2 \\
+                \\
+                {E'} \&\& {G'1} \&\& {G'2} \\
+                \\
+                {E''} \&\& {G''1} \&\& {G''2}
+                \arrow["Gg"', shift right=1, from=1-3, to=1-5]
+                \arrow["Gf", shift left=1, from=1-3, to=1-5]
+                \arrow["{G'f}", shift left=1, from=3-3, to=3-5]
+                \arrow["{G'g}"', shift right=1, from=3-3, to=3-5]
+                \arrow["{\eta_{1}}"{description}, from=1-3, to=3-3]
+                \arrow["{\eta_{2}}"{description}, from=1-5, to=3-5]
+                \arrow["e"', from=1-1, to=1-3]
+                \arrow["{e'}"', from=3-1, to=3-3]
+                \arrow["{\exists!h}"{description}, dashed, from=1-1, to=3-1]
+                \arrow["{\eta'_{1}}"{description}, from=3-3, to=5-3]
+                \arrow["{\eta'_{2}}"{description}, from=3-5, to=5-5]
+                \arrow["{G''f}", shift left=1, from=5-3, to=5-5]
+                \arrow["{G''g}"', shift right=1, from=5-3, to=5-5]
+                \arrow["{\exists!h'}"', dashed, from=3-1, to=5-1]
+                \arrow["{e''}"', from=5-1, to=5-3]
+            \end{tikzcd}
+        \]
+        Because adjacent commutative squares commute we get that
+        \(\eta'_{1}\circ\eta_{1}\circ e=e''h'h\) must factor through the
+        equalizer \(E''\) with a unique map \(h''\). This map must be \(h'h\)
+        because the left squares are commutative and therefore \(h'h\) satisfies
+        the requirements for the unique map.
+    \end{proof}
+\end{question}
+\end{document}

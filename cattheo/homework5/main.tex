@@ -1,0 +1,268 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{quiver}
+\usepackage{float}
+\usepackage{cleveref}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\catt}{\mathcal{D}}
+\newcommand{\pcat}{\mathcal{P}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone} \newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}} \newcommand{\setcat}{{\bf Set}}
+\DeclareMathOperator{\Ext}{Ext} \DeclareMathOperator{\nil}{Nil}
+\DeclareMathOperator{\idem}{Idem} \DeclareMathOperator{\rad}{Rad}
+\newcommand{\alg}[1]{T\textnormal{-Alg}} \DeclareMathOperator{\ev}{ev}
+\DeclareMathOperator{\psh}{Psh} \DeclareMathOperator{\famm}{Fam}
+\DeclareMathOperator{\dom}{dom} \DeclareMathOperator{\codom}{codom}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework Category Theory}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    There is a forgetful functor \(U:\psh(\cat)\to\famm(\cat_{0})\).
+
+    \begin{enumerate}[(a)]
+        \item Show that \(U\) has a right adjoint.
+
+              \begin{proof}
+                  Let \(R_{X}:\cat^{op}\to\psh(\cat)\) be
+                  the presheaf defined by
+                  \[
+                      R(C)=\prod_{\alpha:E\to C}X_{E}.
+                  \]
+                  We define the projection maps \(\pi_{\alpha:E\to
+                      C}:\prod_{\beta:E\to C}X_{E}\to X_{\codom(\alpha)}\) to
+                  project onto the corresponding copy of the codomain in the
+                  product.
+
+                  For a morphism \((f:C\to D)^{op}\) take \(R(f):R_{X}\) the
+                  unique morphism given by the universal property in the
+                  following manner: for each \(\beta:E\to C\) we have a map
+                  \(f\circ\beta:E\to D\). Therefore for each \(\beta:E\to C\)
+                  there is an \(\alpha:E\to D\) such that
+                  \(\beta=f\circ\alpha\). This means that for each \(\alpha:E\to
+                  C\) there is a morphism \(\pi_{f\circ\beta}:\prod_{\gamma:E\to
+                      D}X_{E}\to X_{\codom(\alpha)}\). This means by the universal
+                  property there is a unique morphism which is the image of
+                  \(f\) under \(R\): \(R(f):=\prod_{\alpha:E\to
+                      D}X_{E}\to\prod_{\beta:E\to C}X_{E}\) such that the cone of
+                  the latter product commutes.
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          \&\& {\prod_{\alpha:E\to F}X_{E}} \\
+                          \\
+                          {X_{\codom(\gamma)}} \&\& {\prod_{\alpha:E\to D}X_{E}} \\
+                          \\
+                          {X_{\codom(\varepsilon\circ\gamma)}} \&\& {\prod_{\alpha:E\to C}X_{E}}
+                          \arrow["{\pi_{\gamma}}", from=1-3, to=3-1]
+                          \arrow["{\pi_{f\circ\gamma}}"', from=3-3, to=3-1]
+                          \arrow["{\exists!R_{X}(f)}", dashed, from=1-3, to=3-3]
+                          \arrow["\Id", from=3-1, to=5-1]
+                          \arrow["{\pi_{g\circ\varepsilon\circ\gamma}}"', from=5-3, to=5-1]
+                          \arrow["{\exists!R_{X}(g)}", dashed, from=3-3, to=5-3]
+                          \arrow["{\pi_{\varepsilon\circ\gamma}}", curve={height=-6pt}, from=1-3, to=5-1]
+                          \arrow["{\pi_{\varepsilon}}", from=3-3, to=5-1]
+                      \end{tikzcd}
+                  \]
+
+                  First of all the identity map is preserved because
+                  \(\Id:\prod_{\alpha:E\to D}X_{E}\to\prod_{\alpha:E\to
+                      D}X_{E}\) satisfies the universal propert as described above
+                  because \(\pi_{\alpha}=\pi_{\alpha}\circ\Id\).
+
+                  On top of that for two morphisms \(f\circ g\), it's clear that
+                  in the below diagram \(R_{X}(g)\circ R_{X}(f)\) satisfies the
+                  universal property of the maps from \(\prod_{\alpha:E\to
+                      F}X_{E}\) to each \(X_{E}\). This makes \(R_{X}\) a
+                  contravariant functor \(\cat^{op}\to\catset\) and thus a
+                  presheaf.
+
+                  We will use exercise 67 to show the existence of a left
+                  adjoint.
+
+                  Let \(F\) be a presheaf and \(f:UF\to X\) be a morphism. We
+                  will show there is an \(\varepsilon:UR_{X}\to X\) such that
+                  there is a unique morphism \(\tilde{f}:F\to R_{X}\) with
+                  \(\varepsilon_{X}\circ U\tilde{f}=f\).
+
+                  For the map \(\varepsilon_{X}:UR_{X}\to X\) we define
+                  \[
+                      \varepsilon_{D}=\left(\pi_{\Id_{C}}:\prod_{\alpha:E\to C}X_{E}\to X_{C}\right)_{C\in\cat_{0}}.
+                  \]
+                  Now we define a natural transformation \(\tilde{f}:F\to
+                  R_{X}\) and prove its uniqueness to satisfy all conditions of
+                  exercise 67 and thus obtain a left adjoint.
+
+                  We define \(\tilde{f}\) componentwise in the following manner:
+                  for each \(\alpha:E\to C\) there is a morphism \(f_{E}\circ
+                  F(\alpha):F(C)\to X_{E}\). This means there is also a morphism
+                  \[
+                      \tilde{f}_{C}:F(C)\to\prod_{\alpha:E\to C}X_{E}=\prod_{\alpha:E\to C}f_{E}\circ F(\alpha).
+                  \]
+                  These are the components of a natural transformation, so we
+                  need to prove this forms a commutative diagram. It suffices to
+                  prove the diagram commutes for each component of the product.
+                  Given an \((f:C\to D)^{op}\), we know that for each component
+                  of the product the transformation is given by some
+                  \(\alpha:FD\to X_{E}\) with \(\beta f=\alpha\) for some
+                  \(\beta:FC\to X_{e}\). This means the following diagram
+                  commutes and thus that this is a natural transformation:
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          FD \&\& FC \\
+                          \\
+                          {X_{E}} \&\& {X_{E}}
+                          \arrow["Ff"', from=1-1, to=1-3]
+                          \arrow["F\beta", from=1-1, to=3-1]
+                          \arrow["\Id", from=3-1, to=3-3]
+                          \arrow["F\alpha"', from=1-3, to=3-3]
+                      \end{tikzcd}
+                  \]
+                  For any map natural transformation \(\tilde{f}'\) such that
+                  the diagram commutes we must have that \(\varepsilon_{X}\circ
+                  U\tilde{f}'=f\). However because the maps
+                  \(\varepsilon_{D,C}\) is the projection map \(\pi_{\Id_{C}}\)
+                  and thus an epimorphism, this makes this natural
+                  transformation unique with this property.
+
+                  This means that \(\tilde{f}\) is the unique morphism with this
+                  property and so \(U\) must have a right-adjoint.
+              \end{proof}
+
+        \item Show \(U\) has a left-adjoint.
+
+              \begin{proof}
+                  We will use exercise 68 to demonstrate \(U\) has a left
+                  adjoint.
+
+                  For any family of sets \(X\) we will demonstrate that the
+                  presheaf with
+                  \[
+                      L_{X}(C)=\bigsqcup_{\alpha:C\to E}X_{E}
+                  \]
+                  is an initial object in the category \(X\downarrow U\)
+                  together with a map \(g\).
+
+                  First we will show it is a presheaf. To do this for a morphism
+                  \((f:C\to D)^{op}\) we define \(R(f)\) a unique morphism
+                  \(L_{X}(D)\to L_{X}(D)\) in a similar way as in part a.
+
+                  For each \(\beta:D\to E\) we have \(\beta\circ
+                  f\in\Hom(C,E)\). This means for each \(\beta:D\to E\) there is
+                  a morphism \(X_{\codom(\beta)}\to\bigsqcup_{\alpha:C\to
+                      E}X_{E}\) and so a unique morphism \(\bigsqcup_{\beta:D\to
+                      E}X_{E}\to \bigsqcup_{\alpha:C\to E}X_{E}\). By the same
+                  reasoning as before this map preserves identities and function
+                  composition and this is therefore a presheaf.
+
+                  The map \(g:X_{C}\to U L_{X}(C)\) is given componentwise as
+                  \(g_{C}=\imath_{\Id_{C}}\) where \(\imath\) denotes coproduct
+                  inclusion.
+
+                  To show this presheaf is an initial object we will construct a
+                  morphism to every object and show it is unique. Let \((F,g')\)
+                  be an object of the category. Then we have a morphism
+                  \(X_{E}\to F(C)\) given by \(F(\alpha)\circ g'_{C}\) for all
+                  \(\alpha:C\to E\). This means we have maps \(f_{C}:L_{X}(C)\to
+                  F(C)\) given by the universal property of the coproduct. These
+                  form a morphism of presheafs \(f\), we show the following
+                  diagram commutes:
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          {\bigsqcup_{\beta:D\to E}X_{E}} \&\& {\bigsqcup_{\alpha:C\to E}X_{E}} \\
+                          \\
+                          FD \&\& FC
+                          \arrow["{f_{D}}", from=1-1, to=3-1]
+                          \arrow["{f_{C}}", from=1-3, to=3-3]
+                          \arrow["{L_{X}f}", from=1-1, to=1-3]
+                          \arrow["Ff"', from=3-1, to=3-3]
+                      \end{tikzcd}
+                  \]
+                  We do this by proving commutativity for each component of the
+                  coproduct Because by definition we have
+                  \(f_{C}\circ\imath_{\alpha}=F\alpha\circ g_{E}'\) and
+                  \(L_{X}h\circ\imath_{\alpha}=\imath_{\alpha\circ h}\) we can
+                  simply rewrite as below to obtain commutativity:
+                  \begin{align*}
+                      f_{D}\circ L_{X}h\circ\imath_{\alpha} & =f_{D}\imath_{\alpha\circ h}         \\
+                                                            & =F(\alpha\circ h)\circ\ g'_{E}       \\
+                                                            & =Fh\circ F\alpha\circ g'_{E}         \\
+                                                            & =Fh\circ f_{C}\circ \imath_{\alpha}.
+                  \end{align*}
+                  This proves there is a morphism of sheafs. As we defined it
+                  using the universal product it makes the desired triangle
+                  commute:
+                  \begin{align*}
+                      f_{C}\circ g_{C} & =f_{C}\circ\imath_{\Id} \\
+                                       & =g'_{C}.
+                  \end{align*}
+                  The uniqueness of this map follows immediately from the
+                  uniqueness condition of the universal product.
+
+                  This means that every category \(X\downarrow U\) has an
+                  initial object \(L_{X}\) and so \(U\) has a right-adjoint.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\end{document}

@@ -1,0 +1,268 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs,stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikz}
+
+\newtheorem*{lemma}{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem*{corollary}{Corollary}
+
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\set{#1\colon#2}}
+
+\newcommand{\powset}{\mathcal{P}}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\range}{ran}
+\DeclareMathOperator{\field}{field}
+
+\newcommand{\restrict}{\upharpoonright}
+
+\DeclarePairedDelimiter{\abs}{|}{|}
+
+\title{Homework Set Theory}
+\date{October 11, 2022}
+\author{Jonas van der Schaaf}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    This problem deals with the statement ``if \(A\) is an infinite set then
+    \(A\approx A\times A\)''; let us call it \(\mathbb{P}\).
+    \begin{enumerate}[a.]
+        \item Prove the axiom of choice implies \(\mathbb{P}\).
+
+              \begin{proof}
+                  Let \(A\) be an infinite set and \(\kappa=\abs{A}\) which
+                  exists by the axiom of choice. Then by
+                  Hessenbergs\footnote{This guy is really hard to google since
+                      he did ``useful'' linear algebra stuff as well.} theorem
+                  \(\abs{A\times A}=\kappa\cdot\kappa=\kappa=\abs{A}\).
+                  Therefore \(A\times A\approx A\).
+              \end{proof}
+
+        \item Prove \(\mathbb{P}\) implies the axiom of choice.
+
+              \begin{proof}
+                  Let \(f\) be a bijection from \(Y=X\sqcup\aleph(X)\) to
+                  \(Y^{2}=(X\sqcup\aleph(X))^{2}\) where \(X\sqcup\aleph\)
+                  denotes the disjoint union. By assumption there is now a
+                  bijection \(\varphi:Y^{2}\to Y\).
+
+                  For any \(x\in X\) there must be some \(\alpha,\beta\) such
+                  that \(\varphi(x,\alpha)=\beta\). To see this consider the
+                  fibres of the injective
+                  \[
+                      \varphi_{x}:\aleph(X)\to Y:\alpha\mapsto\varphi(x,\alpha).
+                  \]
+                  If the fibre \(\varphi_{x}^{-1}(\beta)\) is empty then
+                  \(\varphi_{x}:\aleph(X)\to X\) is an injective map. This
+                  cannot exist by definition of Hartogs number so such a
+                  \(\beta\in\aleph(X)\) exists.
+
+                  Now consider the set
+                  \[
+                      Z_{x}=\setwith{(\alpha,\beta)\in\aleph(X)^{2}}{\varphi(x,\alpha)=\beta}
+                  \]
+                  which when ordered co-lexicographically is well-ordered. For
+                  each \(x\in X\) define
+                  \[
+                      \psi:X\to\aleph(X)^{2}:x\mapsto\min Z_{x}
+                  \]
+                  which exists by the replacement axiom. Then \(\psi\) is
+                  injective because else \(\psi(x,\alpha)=\psi(y,\alpha)=\beta\)
+                  for some \(x,y\in X\). Therefore \(\psi\) is an injection
+                  from \(X\) into an ordinal \(\aleph(X)^{2}\) so \(X\) can be
+                  well-ordered.
+
+                  This means any set can be well-ordered and the axiom of choice
+                  must therefore hold.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Prove: \(\forall(n\in\omega):n\not\approx n+1\).
+
+    \begin{proof}
+        This is a proof by induction.
+
+        For \(n=0=\varnothing\) there is no map \(1\neq\varnothing\to0\).
+        Therefore there cannot be an invertible map \(0\to 1\) so no bijection
+        can exist.
+
+        Suppose the theorem is true for \(n-1\) and consider \(n\). Suppose
+        there is a bijection \(f:n\to n+1\). Then there is a bijection
+        \(f\restrict_{n-1}:n-1\to n+1\setminus\set{f(n-1)}\). I will prove that
+        \(n+1\setminus\set{f(n-1)}\approx n\) and therefore \(n-1\approx n\): a
+        contradiction.
+
+        Define \(g:n\to (n+1)\setminus\set{f(n-1)}\) as
+        \[
+            g(m)=\begin{cases}
+                m   & m<f(n-1)      \\
+                m+1 & m\geq f(n-1).
+            \end{cases}
+        \]
+        Then this is a bijection. To see this take \(m,m'\in n\). Then if
+        \(f(m)=f(m')\) it's clear that either we have \(g(m),g(m')>f(n-1)\) or
+        \(g(m),g(m')<f(n-1)\). In the former case this means \(m+1=m'+1\) so
+        \(m=m'\) and in the latter this directly gives \(m=m'\). Therefore \(g\)
+        is injective.
+
+        For any \(m\in (n+1)\setminus f(n-1)\) either \(m<f(n-1)\) or
+        \(m>f(n-1)\). In the former case \(m\in n\) so \(g(m)=m\) and in the
+        latter case (because \(m>f(n-1)\geq0\)) we have \(g(m-1)=m-1+1=m\).
+        Therefore \(g\) is surjective.
+
+        This means \(g:n\to (n+1)\setminus\set{f(n-1)}\) is a bijection so
+        \(n\approx(n+1)\setminus\set{f(n-1)}\approx n-1\). This means \(n\approx
+        n-1\) which by the induction hypothesis is impossible. Therefore the
+        bijection \(f\) cannot exist.
+    \end{proof}
+\end{question}
+
+\begin{question}
+    \begin{enumerate}[a.]
+        \item Prove every finite set is \(S\)-finite.
+
+              \begin{lemma}
+                  I will first prove every strict subset \(X\subsetneq
+                  n\in\omega\) is equipotent to an \(m<n\).
+
+                  \begin{proof}
+                      The empty set has no strict subsets so the statement is
+                      vacuous for \(n=0\).
+
+                      Assume the statement is true for \(n\) and consider
+                      \(X\subsetneq n+1\). Then \(Y=X\setminus\set{n}\subseteq n\).
+                      If \(Y=n\) then \(X=n\) because \(X\) is a strict subset and
+                      so cannot also contain \(n\).
+
+                      If \(Y\neq n\) then \(Y\subsetneq n\) so \(Y\approx m\) for
+                      some \(m<n\) by induction. If \(n\notin X\) then \(X=Y\) so
+                      \(X\approx m\). If \(n\in X\) then
+                      \begin{align*}
+                          X & =Y\cup\set{n}        \\
+                            & \approx m\cup\set{n} \\
+                            & \approx m+1          \\
+                            & \leq n<n+1.
+                      \end{align*}
+                      This proves the lemma.
+                  \end{proof}
+              \end{lemma}
+
+              \begin{proof}
+                  Because every finite set \(X\) is equipotent to a unique
+                  ordinal \(n\) it suffices to show the statement is true for
+                  all \(n\in\omega\).
+
+                  Let \(f:n\to n\) be a surjective non-injective map. There is
+                  some subset \(X\subsetneq n\) such that \(f[X]=n\) and
+                  \(f\restrict_{X}\) is injective (choose one element from the
+                  fibres of \(f\) using finite choice and stick them in a set).
+                  Then \(X\approx m\) for some \(m<n\) and \(f\restrict_{X}\) is
+                  an injective surjective (i.e. bijective) map to \(n\).
+                  Therefore \(m\approx X\approx n\) which contradicts the
+                  pidgeonhole principle so there is no surjective non-injective
+                  morphism \(f:n\to n\).
+              \end{proof}
+
+        \item Prove that every \(S\)-finite set is Dedekind-finite.
+
+              \begin{proof}
+                  Let \(X\) be an \(S\)-finite set and \(f:X\to X\) be
+                  injective. Then \(g=f^{-1}\restrict_{f[X]}:f[X]\to X\) is
+                  surjective. Then \(g\) can be extended to a surjective map
+                  \(\tilde{g}:X\to X\) by choosing a single \(a\in X\) and
+                  defining
+                  \[
+                      \tilde{g}(x)=\begin{cases}
+                          g(x) & x\in f[X],              \\
+                          a    & \textnormal{otherwise}.
+                      \end{cases}
+                  \]
+                  The map \(\tilde{g}\) is then still a surjective map, but this
+                  time from \(X\) onto \(X\). By \(S\)-finiteness \(\tilde{g}\)
+                  must therefore be injective. Because there is an \(x\in f[X]\)
+                  with \(g(x)=a\) it must be the case that there is no element
+                  \(y\in X\setminus f[X]\): \(f\) is surjective. Therefore
+                  \(X\) is Dedekind-finite.
+              \end{proof}
+
+        \item Prove the following are equivalent:
+
+              \begin{enumerate}[(1)]
+                  \item \(X\) is finite,
+                  \item \(X\) is \(T\)-finite,
+                  \item \(X\) is \(K\)-finite.
+              \end{enumerate}
+
+              \begin{proof}
+                  \((1)\Rightarrow(2)\) Let \(X\) be finite and consider a chain \(X_{1}\subsetneq
+                  X_{2}\subsetneq\ldots\subsetneq X_{n}\) be a chain in
+                  \(A\subseteq\powset(X)\). Because \(\powset(X)\approx
+                  2^{|X|}\) it must be the case that every such chain has length
+                  less than or equal to \(2^{\abs{X}}\). Therefore there is a
+                  longest chain \(X_{1}\subsetneq\ldots\subsetneq X_{m}\) with
+                  \(m\leq 2^{\abs{X}}\). Then \(X_{m}\) must be a maximal
+                  element of \(A\) because the chain is of maximal length.
+
+                  \((2)\Rightarrow(3)\) Let \(X\) be a \(T\)-finite set and let
+                  \(Y\) be the smallest set containing the singletons
+                  \(\set{x}\) for all \(x\in X\) which is closed under union.
+                  Consider any \(Z\subseteq X\) and consider \(Y'=\powset(Z)\cap
+                  Y\). By \(T\)-maximality this set has a maximal element
+                  \(A\subseteq Z\). If \(A\neq Z\) then there is an \(a\in
+                  Z\setminus A\) so \(A\subsetneq A\cup\set{a}\subseteq Z\) is a
+                  larger subset of \(Z\) contained in \(Y\). Therefore \(A=Z\)
+                  so each subset \(Z\subseteq X\) is an element of \(Y\).
+
+                  \((3)\Rightarrow(1)\) This will be a proof by contrapositive.
+                  Let \(X\) be an infinite set and consider
+                  \[
+                      Y=\setwith{A\in\powset(X)}{\textnormal{\(A\) is finite}}.
+                  \]
+                  Then \(Y\) clearly contains all singletons and is closed under
+                  union because the union of countable sets is countable.
+                  However \(X\subseteq X\) is infinite so \(X\notin Y\). This
+                  means that \(Y\neq\powset(X)\).
+              \end{proof}
+
+        \item Assume the axiom of choice and prove that Dedekind sets are
+              infinite.
+
+              \begin{proof}
+                  This will be a proof by contrapositive. Let \(X\) be infinite
+                  and let \(f:X\to\abs{X}\) be a bijection inducing a well order
+                  on \(X\) with \(\abs{X}>\omega\).
+
+                  Then the map
+                  \[
+                      g:\abs{X}\to\abs{X}:x\mapsto\begin{cases}
+                          x+1 & x<\omega               \\
+                          x   & \textnormal{otherwise}
+                      \end{cases}
+                  \]
+                  is clearly injective and non surjective because \(0\) is not
+                  in its image. Because \(f\) is a bijection the map
+                  \(f^{-1}gf\) is also injective non-surjective so \(X\) is
+                  Dedekind infinite.
+
+                  Therefore every infinite set is Dedekind-infinite. Therefore
+                  by the contrapositive every Dedekind-finite set is infinite.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

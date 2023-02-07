@@ -1,0 +1,125 @@
+\section{Maria Aloni: Nothing is logical}
+
+Formal semantics uses logic to analuze linguistic meaning.
+
+Semantic data is explained by translation into logical language:
+
+\[
+    \text{natural language} \mapsto \text{logical language} \Rightarrow \text{models}
+\]
+
+Many issues:
+\begin{enumerate}
+    \item How to collect semantic data
+    \item How to translate natural language expression
+    \item Which logic to adopt
+\end{enumerate}
+
+Natural language inferences are genuinely semantic data.
+
+In conversation we draw many inferences. Are all relevant for analysis of
+linguistic meaning.
+
+Grice's paradise:
+\begin{enumerate}
+    \item Sematnic innference: derivable by classical logic
+    \item Pragmatic inference: derivable by conversational factors (as the
+          product of rational interactions among cooperative language users)
+\end{enumerate}
+
+Goal of the project: provide formal account of third kind inferences which
+captures quasi-semantic behaviour.
+
+Strategy: decelop logic of conversation
+
+Hypothesis: neglect-zero tendency is crucial pragmatic factor
+
+\subsection{Challenge of free choice}
+
+Deontic inference:
+\[
+    \text{You may go to the beach or the cinema}\to\text{You may go to the beach and you may go to the cinema}
+\]
+
+Epistemic inference:
+\[
+    \text{Mr X might be in victoria or in brixton}\to\text{mr x might be in victoria and he might be in brixton}
+\]
+
+Logical rendering:
+\[
+    \lozenge(p\vee q)\to(\lozenge a\wedge\lozenge b).
+\]
+
+Paradox of free choice: You may do (A or B) \(\to\) You may A
+
+\[
+    \lozenge (p\vee q)\to \lozenge p\>\>(\text{FC})
+\]
+
+But FC is not true because
+\begin{enumerate}
+    \item \(\lozenge p\)
+    \item \(\lozenge p\vee q\)
+    \item \(\lozenge q\)
+\end{enumerate}
+allows you to do anyting.
+
+Natural language equivalent of the first step seems invalid: you may post this
+letter \(\not\to\) you may post this letter or burn it.
+
+Pragmatic solution: FC inferences are pragmatic inferences, step leading to 3 is
+unjustified. We keep the logic as is.
+
+Grammatical solution: FC inferences result from the application of covert
+grammatical operator. We keep the logic as is.
+
+Semantic solution: Change the logic to block the first step.
+
+Present proposal: FC inferences as neglect zero effects derived for ``enriched''
+formulas. This changes the logic.
+
+FC and related inferences are:
+\begin{enumerate}
+    \item Not the result of conversational reasoning
+    \item Not the effect of optional applications of grammatical application
+    \item Straightforward consequence of neglect zero tendency:
+
+          When interpreting a sentence, people neglect structures which verify
+          the sentence by virtue of empty configuration.
+
+          This tendency follows from the difficulty of a cognitive operation.
+
+          Example: every square is black. When evaluating a sentence, we ignore
+          models where it is vacuously true (models without squares).
+
+          This explains why we see zero as a different natural number for
+          example. Downward monotonic quantifiers are more costly to process than
+          upward monotonic.
+\end{enumerate}
+
+\subsection{Classical vs team based modal logic}
+Classical: formula true in one point
+
+Team: formula true on subsection
+
+\subsubsection{Bilateral state based modal logic}
+Teams \(\to\) information states
+
+Assertion and rejection conditions are modeled rather than truth:
+
+\(M,s,\models \varphi\): \(\varphi\) is assertible in \(s\subseteq W\)
+
+\(M,s,\dashv \varphi\): \(\varphi\) is rejectable in \(s\subseteq W\)
+
+Bivalence fails in bsml on information states
+
+\subsection{BSML}
+
+\[
+    \varphi := p \mid \neg\varphi \mid\varphi\vee\varphi\mid\varphi\wedge\varphi\mid\lozenge\varphi\mid \text{NE}.
+\]
+
+Models: classical Kripke models \((W,R,V)\).
+
+States \(s\subseteq W\).

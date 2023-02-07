@@ -1,0 +1,401 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs,stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cleveref}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikz}
+
+\newtheorem*{lemma}{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem*{corollary}{Corollary}
+
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\set{#1\colon#2}}
+
+\newcommand{\powset}{\mathcal{P}}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\range}{ran}
+\DeclareMathOperator{\field}{field}
+\DeclareMathOperator{\cof}{cf}
+
+\newcommand{\restrict}{\upharpoonright}
+
+\DeclarePairedDelimiter{\abs}{|}{|}
+
+\title{Homework Set Theory}
+\date{October 11, 2022}
+\author{Jonas van der Schaaf}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    In this problem we show that, assuming the Axiom of Foundation, the Axiom of
+    Choice is equivalent to the statement that for every ordinal \(\alpha\) the
+    power set \(\powset(\alpha)\) can be well-ordered. From now on we assume the
+    latter statement.
+    \begin{enumerate}[a.]
+        \item Prove that it suffices to show that for every ordinal \(\alpha\)
+              the set \(V_{\alpha}\) is well-orderable.
+
+              \begin{proof}
+                  Let \(X\) be a set of Mirimanoff rank \(\alpha\), that is
+                  \(X\in V_{\alpha+1}=\powset(V_{\alpha})\) but \(X\notin
+                  V_{\alpha}\). Then \(X\subseteq V_{\alpha}\). Because
+                  \(V_{\alpha}\) can be well-ordered by some relation \(R\),
+                  restricting \(R\) to \(X\) is a well-order on \(X\): every
+                  subset has a minimal element and the restriction of a linear
+                  order is still linear.
+              \end{proof}
+
+        \item Verify \(V_{0}\) can be well-ordered.
+
+              \begin{proof}
+                  For \(V_{0}=\varnothing\), the empty relation is a well-order.
+                  It is clearly a total order because being total is vacuous in
+                  this case. There is no non-empty subset of \(\varnothing\)
+                  either, so being a well-order is a totally vacuous statement
+                  on \(\varnothing\).
+              \end{proof}
+
+        \item Show: if \(V_{\alpha}\) can be well-ordered then \(V_{\alpha+1}\)
+              can be well-ordered.
+
+              \begin{proof}
+                  Suppose \(V_{\alpha}\) is well-ordered by \(R\) such that
+                  \((V_{\alpha},R)\cong(\beta,\in)\) for some unique ordinal
+                  \(\beta\). Then \(\powset(\beta)\) is equipotent to
+                  \(\powset(V_{\alpha})\) through some bijection
+                  \(f:V_{\alpha+1}\to\powset(\beta)\). By assumption the former
+                  can be well-ordered. The latter can then be well-ordered by
+                  lifting the well-order through the aforementioned bijection
+                  \(f\). This means \(V_{\alpha+1}\) can be well-ordered as
+                  well.
+              \end{proof}
+    \end{enumerate}
+    Now let \(\alpha\) be a limit and assume that for all \(\beta<\alpha\) the
+    set \(V_{\beta}\) can be well-ordered. Let \(\kappa=\aleph(V_{\alpha})\).
+    \begin{enumerate}[a., resume]
+        \item Show that \(\powset(\kappa\times\kappa)\) can be well-ordered.
+
+              \begin{proof}
+                  The set \(\kappa\times\kappa\) can be well-ordered according
+                  to Hessenberg's theorem and is therefore isomorphic to some
+                  ordinal \(\gamma\). By assumption then \(\powset(\gamma)\) can
+                  be well-ordered, and therefore so can
+                  \(\powset(\kappa\times\kappa)\).
+              \end{proof}
+
+        \item Show: if \(\beta<\alpha\) then there is a subset \(R\) of
+              \(\kappa\times\kappa\) such that \((\field R, R)\) is isomorphic
+              to \((V_{\beta},\in)\).
+
+              \begin{proof}
+                  Because \(V_{\beta}\) can be well-ordered and so can
+                  \(\kappa\times\kappa\) there is either an injective function
+                  \(V_{\beta}\to\kappa\times\kappa\) or \(\kappa\times\kappa\to
+                  V_{\beta}\). The latter cannot occur because the inclusion map
+                  \(\imath:V_{\beta}\to V_{\alpha}\) is injective, which would
+                  lead to an injective \(\kappa\times\kappa\to V_{\alpha}\).
+                  This cannot happen because there is not even an injective map
+                  \(\kappa\to V_{\alpha}\).
+
+                  This means that there is an injective map
+                  \(f:V_{\beta}\hookrightarrow\kappa\times\kappa\). Defining
+                  \[
+                      R=\setwith{(f(x),f(y))\in\kappa\times\kappa}{x,y\in V_{\beta},x<y}
+                  \]
+                  gives a relation \(R\) such that \((V_{\beta},<)\) and
+                  \(\field R,R\) are clearly isomorphic because \(x<y\) exactly
+                  iff \(f(x)<f(y)\) and \(f\) is bijective onto its range
+                  because it is injective.
+              \end{proof}
+
+        \item Prove: If \(R\) is as in the previous parts and if
+              \(f:V_{\beta}\to\field R\) such that \((\field R,R)\) is
+              isomorphic to \((V_{\beta},\in)\), then the inverse is given,
+              recursively, by \(g(x)=\setwith{g(y)}{yRx}\).
+
+              \begin{proof}
+                  Take \(x\in\kappa\times\kappa\). Then \(z\in f^{-1}(x)\) is
+                  equivalent to \(z<f^{-1}(x)\), which in turn is equivalent to
+                  \(f(z)<x\) by properties of isomorphisms. This means that the
+                  elements of \(f^{-1}(x)\) are exactly those
+                  \(f(y)\in\kappa\times\kappa\) such that \(f(y)<x\).
+                  Therefore \(f^{-1}(x)=\setwith{f(y)}{yRx}\).
+              \end{proof}
+
+        \item I don't want to write out this question, but I'm generous so I
+              will give a proof of the statement.
+
+              \begin{proof}
+                  We know for each \(\beta<\alpha\) there is at least one
+                  well-order \(R\in\powset(\kappa\times\kappa)\) such that there
+                  is an isomorphism \((\field R,R)\cong (V_{\beta},\in)\). Each
+                  set \(\setwith{R\in\powset(\kappa\times\kappa)}{(\field
+                      R,R)\cong(V_{\beta},\beta)}\) is non-empty and has a minimal
+                  element \(\prec_{\beta}\) because
+                  \(\powset(\kappa\times\kappa)\) can be well-ordered. These can
+                  be chosen because we can fix one well-order on the
+                  encompassing set \(\powset(\kappa\times\kappa)\). Collecting
+                  these using replacement will give the sequence of well-orders
+                  \(\left<R_{\beta},\prec_{\beta}\right>\).
+              \end{proof}
+
+        \item Define a well-order of \(V_{\alpha}\).
+
+              \begin{proof}
+                  We will define a relationship as follows: For \(x,y\in
+                  V_{\alpha}=\bigcup_{\beta<\alpha}V_{\beta}\) if the rank of
+                  \(x\) and \(y\) are different and \(\beta\) and \(\gamma\)
+                  respectively we define \(x<y\) if \(\beta<\gamma\) and \(x>y\)
+                  if \(\beta>\gamma\). If \(\beta=\gamma\) then we take the
+                  well-order \(\prec_{\beta}\) and say \(x<y\) iff
+                  \(x\prec_{\beta}y\).
+
+                  This defines a well-order. To see this, first notice that this
+                  is a linear order. It is irreflexive because each
+                  \(\prec_{\beta}\) is. For \(x,y,z\) with \(x<y<z\) it is
+                  transitive because if the ranks of two of \(x,y,z\in
+                  V_{\alpha}\) are different, then the ranks of \(x,z\) are
+                  different where \(z\) must have the higher rank so \(x<z\). If
+                  all ranks are the same then \(x\prec_{\beta}y\prec_{\beta}z\)
+                  so \(x\prec_{\beta}z\) and thus \(x<y\) by transitivity of
+                  \(\prec_{\beta}\). The relation is total because for \(x,y\in
+                  V_{\alpha}\) of different rank they are clearly ordered (the
+                  one with the lower rank is smaller). If they have the same
+                  rank \(\beta\) then one must be smaller because
+                  \(\prec_{\beta}\) is total.
+
+                  To see that every set has a minimal element take any
+                  \(X\subseteq V_{\alpha}\). Using replacement we can construct
+                  the set of all ranks of \(x\in X\): each element of \(X\) has
+                  a unique rank and thus these ordinals can be aggregated into a
+                  set using replacement. Call this set \(\Omega\). Because the
+                  ordinals are well-ordered take the least \(\beta\in\Omega\).
+                  Taking the least element of \(V_{\beta}\cap X\) using the well
+                  order \(\prec_{\beta}\) will give a least element \(x\in
+                  V_{\beta}\cap X\). This is the least element of \(X\).
+
+                  To see this notice that for every \(y\in X\) with rank
+                  \(\gamma>\beta\) we automatically get \(x<y\). If \(y\) has
+                  rank \(\beta\) as well then \(x\prec_{\beta}y\) by assumption
+                  that \(x\) is minimal in \(V_{\beta}\cap\Omega\).
+
+                  This means that \(V_{\alpha}\) is well-ordered by \(<\).
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+The next two questions were made in collaboration with Paul Talma.
+
+\begin{question}
+    Prove the following statements:
+    \begin{enumerate}[a.]
+        \item \(\aleph_{\omega}^{\aleph_{1}}=\aleph_{\omega}^{\aleph_{0}}\cdot
+              2^{\aleph_{1}}\).
+
+              \begin{proof}
+                  Using monotonicity of exponentiation in both variables and the
+                  fact that \(\aleph_{1}>\aleph_{0}\) we get
+                  \(\aleph_{\omega}^{\aleph_{1}}\geq\aleph_{\omega}^{\aleph_{0}}\).
+                  Similarly \(\aleph_{\omega}^{\aleph_{1}}\geq 2^{\aleph_{1}}\)
+                  is true. Therefore
+                  \begin{equation}
+                      \label{for:ineq1}
+                      \aleph_{\omega}^{\aleph_{0}}\cdot 2^{\aleph_{1}}
+                      =\max\set{\aleph_{\omega}^{\aleph_{0}},2^{\aleph_{1}}}\leq\aleph_{\omega}^{\aleph_{1}}.
+                  \end{equation}
+
+                  There are two possible cases, either there is some finite
+                  \(\alpha<\omega\) such that
+                  \(\aleph_{\alpha}^{\aleph_{1}}\geq\aleph_{\omega}\) or for all
+                  \(\alpha<\omega\) we have
+                  \(\aleph_{\alpha}^{\aleph_{1}}<\aleph_{\omega}\).
+
+                  First assume the former case: take \(\alpha\) such that
+                  \(\aleph_{\alpha}^{\aleph_{1}}\geq\aleph_{\omega}\). If
+                  \(\alpha=0\) then
+                  \(\aleph_{0}^{\aleph_{1}}=2^{\aleph_{1}}\geq\aleph_{\omega}^{\aleph_{1}}\).
+                  Combining this inequality with \Cref{for:ineq1} gives equality
+                  by a permutation of the Dedekind-Schröder-Bernstein-Cantor
+                  theorem:
+                  \begin{align*}
+                      \aleph_{\omega}^{\aleph_{0}}\cdot2^{\aleph_{1}} & \leq\aleph_{\omega}^{\aleph_{1}}                    \\
+                                                                      & \leq 2^{\aleph_{1}}                                 \\
+                                                                      & \leq\aleph_{\omega}^{\aleph_{0}}\cdot2^{\aleph_{1}}
+                  \end{align*}
+                  so \(\aleph_{\omega}^{\aleph_{0}}\cdot2^{\aleph_{1}}=\aleph_{\omega}^{\aleph_{1}}\).
+
+                  If \(\aleph<\omega\) is a successor ordinal then we can apply
+                  the Haussdorff formula finitely many times to obtain the
+                  following inequality:
+                  \begin{align*}
+                      \aleph_{\omega}^{\aleph_{1}} & \leq\aleph_{\alpha}^{\aleph_{1}}                                        \\
+                                                   & =\aleph_{0}^{\aleph_{1}}\cdot\prod_{1\leq\beta\leq\alpha}\aleph_{\beta} \\
+                                                   & =\aleph_{0}^{\aleph_{1}}\cdot\aleph_{\alpha}.
+                  \end{align*}
+                  However because \(\aleph_{\alpha}<\aleph_{\omega}\) we must
+                  get
+                  \(\aleph_{\omega}^{\aleph_{1}}\leq\aleph_{0}^{\aleph_{1}}\).
+                  Applying the same permutation of
+                  Bernstein-Schröder-Dedekind-Cantor in the same manner as
+                  before gives the same desired equality:
+                  \(\aleph_{\omega}^{\aleph_{1}}=\aleph_{\omega}^{\aleph_{0}}\cdot
+                  2^{\aleph_{1}}\).
+
+                  In the latter case we have
+                  \(\aleph_{\alpha}^{\aleph_{1}}<\aleph_{\omega}\) for all
+                  \(\alpha<\omega\). Then for the cofinality we have the
+                  following inequality:
+                  \(\cof(\aleph_{\omega})=\aleph_{0}\leq\aleph_{1}\). This means
+                  that
+                  \(\aleph_{\omega}^{\aleph_{1}}=\aleph_{\omega}^{\aleph_{0}}\).
+                  Combining this with the inequality of \Cref{for:ineq1} we
+                  obtain the desired equality in this case:
+                  \(\aleph_{\omega}^{\aleph_{1}}=\aleph_{\omega}^{\aleph_{0}}\cdot
+                  2^{\aleph_{1}}\).
+              \end{proof}
+
+        \item If \(2^{\aleph_{1}}=\aleph_{2}\) and
+              \(\aleph_{\omega}^{\aleph_{0}}>\aleph_{\omega_{1}}\) then
+              \(\aleph_{\omega_{1}}^{\aleph_{1}}=\aleph_{\omega}^{\aleph_{0}}\).
+
+              \begin{proof}
+                  By part a and because \(\aleph_{2}<\aleph_{\omega}\) we have
+                  \begin{align*}
+                      \aleph_{\omega_{1}}^{\aleph_{1}} & =\aleph_{\omega}^{\aleph_{0}}\cdot 2^{\aleph_{1}} \\
+                                                       & =\aleph_{\omega}^{\aleph_{0}}\aleph_{2}           \\
+                                                       & =\aleph_{\omega}^{\aleph_{0}}.
+                  \end{align*}
+              \end{proof}
+
+        \item If \(2^{\aleph_{0}}\geq\aleph_{\omega_{1}}\) then
+              \(\gimel(\aleph_{\omega})=2^{\aleph_{0}}\) and
+              \(\gimel(\aleph_{\omega_{1}})=2^{\aleph_{1}}\).
+
+              \begin{proof}
+                  We have \(\cof(\aleph_{\omega})=\aleph_{0}\) and so
+                  \(\gimel(\aleph_{\omega})=\aleph_{\omega}^{\aleph_{0}}\).
+                  Because \(2^{\aleph_{0}}\geq\aleph_{\omega_{1}}\) by
+                  monotonicity of exponentiation we get
+                  \(2^{\aleph_{0}}=\left(2^{\aleph_{0}}\right)^{\aleph_{0}}\geq\aleph_{\omega_{1}}^{\aleph_{0}}\geq\aleph_{\omega}^{\aleph_{0}}\).
+                  Monotonicity of exponentiation will give the other inequality:
+                  because \(2<\aleph_{\omega_{1}}\) we have
+                  \(2^{\aleph_{0}}\leq\aleph_{\omega_{1}}^{\aleph_{0}}\) as
+                  well. This means
+                  \(\gimel(\aleph_{\omega})=\aleph_{\omega}^{\aleph_{0}}=2^{\aleph_{0}}\).
+
+                  For the other inequality, first notice that
+                  \(\cof(\aleph_{\omega_{1}})=\omega_{1}=\aleph_{1}\). By almost
+                  the same reasoning as before we get because
+                  \(2^{\aleph_{0}}\geq\aleph_{\omega_{1}}\) we get
+                  \begin{align*}
+                      2^{\aleph_{1}} & =\left(2^{\aleph_{0}}\right)^{\aleph_{1}} \\
+                                     & \geq\aleph_{\omega_{1}}^{\aleph_{1}}.
+                  \end{align*}
+                  Monotonicity of exponentiation automatically gives
+                  \(2^{\aleph_{1}}\leq\aleph_{\omega_{1}}^{\aleph_{1}}\).
+                  Therefore
+                  \begin{align*}
+                      2^{\aleph_{1}} & =\aleph_{\omega_{1}}^{\aleph_{1}}                \\
+                                     & =\aleph_{\omega_{1}}^{\cof(\aleph_{\omega_{1}})} \\
+                                     & =\gimel(\aleph_{\omega_{1}}).
+                  \end{align*}
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Prove: If \(\beta\) is such that
+    \(2^{\aleph_{\alpha}}=\aleph_{\alpha+\beta}\) then \(\beta<\omega\).
+    Complete the following steps. Assume \(\beta\geq\omega\).
+    \begin{enumerate}[a.]
+        \item Let \(\alpha\) be minimal such that \(\alpha+\beta>\beta\).
+              Show that \(\beta\) is a limit.
+
+              \begin{proof}
+                  If \(\alpha=\gamma+1\) for some ordinal \(\gamma\) then
+                  \begin{align*}
+                      \gamma+\beta & =\gamma+(1+\beta) \\
+                                   & =\gamma+1+\beta   \\
+                                   & =\alpha+\beta     \\
+                                   & >\beta.
+                  \end{align*}
+                  This means that \(\alpha\) cannot be minimal such that
+                  \(\alpha+\beta>\beta\) if \(\alpha\) is a successor. Therefore
+                  it is a limit.
+              \end{proof}
+
+        \item Let \(\kappa=\aleph_{\alpha+\alpha}\). Show that \(\kappa\) is
+              singular.
+
+              \begin{proof}
+                  We will show
+                  \(\cof(\aleph_{\alpha+\alpha})=\alpha<\aleph_{\alpha+\alpha}\).
+
+                  There is a cofinal map \(f:\alpha\to\kappa\) given by
+                  \(f(\gamma)=\aleph_{\alpha+\gamma}\). We have
+                  \(\sup_{\gamma<\alpha}f(\gamma)\leq\kappa\) because
+                  \(\gamma+\alpha\leq\alpha+\alpha\) for all \(\gamma<\alpha\).
+                  We obtain the other inequality by noticing that for each
+                  \(\delta<\alpha\) there must be some \(\gamma<\alpha\) such
+                  that \(\alpha+\gamma=\delta\). Then \(\alpha+\gamma+1>\delta\)
+                  so the supremum of
+                  \(\setwith{f(\gamma)\in\aleph_{\alpha}}{\gamma<\alpha}\) is
+                  larger than each cardinal smaller than
+                  \(\aleph_{\alpha+\alpha}\).
+
+                  We get that \(\alpha\leq\aleph_{\alpha}\) because the
+                  \(\aleph_{\alpha}\) functions are strictly increasing and
+                  continuous by definition. We will show
+                  \(\alpha+\alpha>\alpha\) to get
+                  \(\aleph_{\alpha}<\aleph_{\alpha+\alpha}\) to get the required
+                  inequality. Assume \(\alpha+\alpha=\alpha\), then
+                  \[
+                      \alpha+\beta=\alpha+\alpha+\beta>\alpha+\beta
+                  \]
+                  which is an obvious contradiction. Therefore
+                  \[
+                      \cof(\kappa)\leq\alpha\leq\aleph_{\alpha}<\aleph_{\alpha+\alpha}
+                  \]
+                  so \(\kappa\) is singular.
+              \end{proof}
+
+        \item Prove \(2^{\alpha_{\alpha+\xi}}=\aleph_{\alpha+\beta}\) for all
+              \(\xi<\alpha\).
+
+              \begin{proof}
+                  Because \(\xi<\alpha\) \(\beta\leq\xi+\beta\leq\beta\).
+                  Therefore \(\xi+\beta=\beta\). This means that we obtain the
+                  following two equalities:
+                  \(2^{\aleph_{\alpha+\xi}}=\aleph_{\alpha+\xi+\beta}=\aleph_{\alpha+\beta}\).
+              \end{proof}
+
+        \item Calculate \(2^{\kappa}\) and derive a contradiction.
+
+              \begin{proof}
+                  The assumption gives us that
+                  \(2^{\kappa}=2^{\aleph_{\alpha+\alpha}}=\aleph_{\alpha+\alpha+\beta}>\aleph_{\alpha+\beta}\).
+
+                  Because \(\kappa\) is singular and \(2^{\aleph_{\gamma}}\) is
+                  eventually constant and equal to \(\aleph_{\alpha+\beta}\)
+                  below \(\kappa\) we also have that
+                  \(2^{\kappa}=\aleph_{\alpha+\beta}\). This gives the obvious
+                  contradiction \(\aleph_{\alpha+\beta}<\aleph_{\alpha+\beta}\).
+
+                  This means that \(\beta<\omega\).
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

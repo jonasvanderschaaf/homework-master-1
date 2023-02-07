@@ -1,0 +1,45 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+
+\title{Report meeting researcher}
+\author{Jonas van der Schaaf}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+My meeting with Nick Bezhanishvili was about a paper he wrote about choice-free
+Stone duality. Stone duality is a dual equivalence between the category of
+boolean algebras and the category of Stone spaces: topological spaces which are
+compact, Hausdorff, and totally disconnected. Unfortunately this duality
+is only a duality when the ultrafilter lemma is true, which is a weaker version
+of the axiom of choice. This means the proof is not constructive.
+
+The paper by Nick and Wesley Holliday gives an alternative duality between
+boolean algebras and the space of compact regular opens (CORO) of spaces called
+UV-spaces. This is given by taking all proper filters of the boolean algebra
+into a space as a functor to a topology, and constructing a boolean algebra from
+the CORO sets of the topology by taking intersections
+\(\textnormal{int}(X\setminus\cdot)\) and
+\(\textnormal{int}(\textnormal{cl}(U\cup V))\). This also induces a bijection
+between morphisms of the respective spaces such that this is a dual equivalence
+of categories.
+
+My talk with Nick mostly involved discussing the paper itself. He also shed a
+lot of context onto possible applications. In particular he was very interested
+in seeing whether there is some proof of a theorem that is easier to prove using
+this duality. Because any choice-free proof using this duality is choice-free,
+whereas no choice-free proof using Stone duality exists, this would mean that
+the proof is true in models of set theory without choice.
+
+He also highlighted applications in modal logic. In particular one can apply a
+similar construction to the standard canonical frame. He mentioned a
+construction of a different canonical frame, which leads to a different way of
+proving completeness.
+
+We also quickly talked about PhD defenses, because Nick had been part of a PhD
+defense the day before. This was really interesting to hear about because I
+haven't oriented myself too well in this area.
+\end{document}

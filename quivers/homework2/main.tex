@@ -1,0 +1,144 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{quiver}
+\usepackage{float}
+\usepackage{cleveref}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\rad}{Rad}
+
+\newenvironment{question}[1][]{\begin{paragraph}{Question #1}}{\end{paragraph}}
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework Quivers}
+\author{Jonas van der Schaaf}
+\date{October 3, 2022}
+
+\begin{document}
+\maketitle
+
+\begin{question}[3.19]
+    \begin{enumerate}[(i)]
+        \item Show that the quiver representation
+              \[
+                  M=\begin{tikzcd}[ampersand replacement=\&]
+                      {k^{2}} \&\& {k^{2}} \&\& k
+                      \arrow["{\begin{pmatrix}1&1\\0&1\end{pmatrix}}", from=1-1, to=1-3]
+                      \arrow["{\begin{pmatrix}1\\1\end{pmatrix}}"', from=1-5, to=1-3]
+                  \end{tikzcd}
+              \]
+              is decomposable.
+
+              \begin{proof}
+                  We know that \(k^{2}=k\cdot(1,0)\oplus k\cdot(1,1)\).
+
+                  Therefore the following is a decomposition of \(M\):
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          {k\oplus k} \&\& {k\cdot(1,0)\oplus k\cdot(1,1)} \&\& 0\oplus k
+                          \arrow["{\begin{pmatrix}1\\0\end{pmatrix}\oplus\begin{pmatrix}1\\1\end{pmatrix}}", from=1-1, to=1-3]
+                          \arrow["{\begin{pmatrix}0\\0\end{pmatrix}\oplus\begin{pmatrix}1\\1\end{pmatrix}}"', from=1-5, to=1-3]
+                      \end{tikzcd}
+                  \]
+                  This means that \(M\) is decomposable.
+              \end{proof}
+
+        \item What is the number of indecomposable factors of \(M\)?
+
+              \begin{solution}
+                  The above decomposition consists of indecomposables. I will
+                  show this by demonstrating that each part of the decomposition
+                  is indecomposable.
+
+                  The first indecomposable part is
+                  \[
+                      N=\begin{tikzcd}[ampersand replacement=\&]
+                          k \&\& {k\cdot\begin{pmatrix}1\\0\end{pmatrix}} \&\& 0
+                          \arrow["{\begin{pmatrix}1\\0\end{pmatrix}}", from=1-1, to=1-3]
+                          \arrow["0"', from=1-5, to=1-3]
+                      \end{tikzcd}
+                  \]
+                  This is indecomposable because each individual vector space of
+                  the representation has dimension 1 or 0. Therefore the only
+                  possible decomposition would be one where only a single point
+                  has a non-zero vector space. This is impossible because the
+                  map \(k\to k\cdot\begin{pmatrix}1\\0\end{pmatrix}\) is not the
+                  zero map.
+
+                  The representation
+                  \[
+                      N=\begin{tikzcd}[ampersand replacement=\&]
+                          k \&\& {k\cdot\begin{pmatrix}1\\1\end{pmatrix}} \&\& k
+                          \arrow["{\begin{pmatrix}1\\1\end{pmatrix}}", from=1-1, to=1-3]
+                          \arrow["{\begin{pmatrix}1\\1\end{pmatrix}}"', from=1-5, to=1-3]
+                      \end{tikzcd}
+                  \]
+                  is indecomposable because it is clearly isomorphic to the
+                  injective representation \(I(2)\) (if we consider the points
+                  to be ordered from left to right). This is indecomposable by
+                  exercise 6.
+
+                  Therefore \(M\) has two indecomposable factors.
+              \end{solution}
+    \end{enumerate}
+\end{question}
+\end{document}

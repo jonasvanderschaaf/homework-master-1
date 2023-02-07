@@ -1,0 +1,253 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs,stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikz}
+
+\newtheorem*{lemma}{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem*{corollary}{Corollary}
+
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\set{#1\colon#2}}
+
+\newcommand{\powset}{\mathcal{P}}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\range}{ran}
+\DeclareMathOperator{\field}{field}
+
+\newcommand{\restrict}{\upharpoonright}
+
+\DeclarePairedDelimiter{\abs}{|}{|}
+
+\title{Homework Set Theory}
+\date{\today}
+\author{Jonas van der Schaaf}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Prove: if \(x\in Z_{0}\), then \(x=\varnothing\) or \(x=\set{y}\) for some
+    \(y\in Z_{0}\).
+
+    \begin{proof}
+        Take \(x\in Z_{0}\) and suppose it is not \(\varnothing\) or \(\set{y}\)
+        for some \(y\in Z_{0}\). Then \(Z_{0}\setminus\set{x}\) is still closed
+        under the map \(x\mapsto\set{x}\) but is strictly smaller. This
+        contradicts the assumption that \(Z_{0}\) is the smallest set with these
+        desired properties.
+    \end{proof}
+\end{question}
+
+\begin{question}
+    Prove that \(A_{x}\) is indeed defined for all \(x\in Z_{0}\) and that
+    \(A_{x}\subseteq Z_{0}\) for all \(x\in Z_{0}\).
+
+    \begin{proof}
+        Take \(Z'=\setwith{x\in Z_{0}}{\textnormal{\(A_{x}\) exists}}\).
+
+        Then \(\varnothing\in Z'\) because \(\varnothing\) exists. Also if
+        \(A_{x}\) exists, then \(\set{x}\) exists by axiom of pair, so by axiom
+        of pair and union \(A_{\set{x}}=A_{x}\cup\set{x}\) exists as well.
+        Because \(Z_{0}\) is the smallest set with the desired property we have
+        \(Z_{0}\subseteq Z'\) so \(Z'=Z_{0}\).
+
+        To show \(A_{\set{x}}\subseteq Z_{0}\), consider the set
+        \(Z'=\setwith{x\in Z_{0}}{A_{x}\subseteq Z_{0}}\). We know that
+        \(A_{\varnothing}=\varnothing\subseteq Z_{0}\). On top of that if
+        \(A_{x}\subseteq Z_{0}\) for \(z\in Z_{0}\), then
+        \(A_{\set{x}}=A_{x}\cup\set{x}\subseteq Z_{0}\). By the same reasoning
+        as before we get equality of the sets \(Z'\) and \(Z_{0}\):
+        \(Z'=Z_{0}\).
+    \end{proof}
+\end{question}
+
+\begin{question}
+    Prove that for all \(x\in Z_{0}\) we have: if \(y\in A_{x}\), then
+    \(y=\varnothing\) or there is a \(z\in A_{x}\) such that \(y=\set{z}\).
+
+    \begin{proof}
+        Define
+        \[
+            Z'=\setwith{x\in Z_{0}}{\forall y\in A_{x}:y=\varnothing\vee\exists z\in A_{x}:y=\set{z}}.
+        \]
+
+        Then \(\varnothing\in Z'\) because the required property is vacuously
+        true.
+
+        Suppose \(x\in Z'\). Then consider \(A_{\set{x}}=A_{x}\cup\set{x}\). The
+        statement is true by assumption for all \(y\in A_{x}\). If \(y=x\) then
+        there is some \(z\in Z_{0}\) such that \(x=\set{z}\). Then
+        \(A_{\set{z}}=A_{x}\) and \(z\in A_{x}\). This is the necessary element
+        \(z\) of \(A_{\set{x}}\). This means that \(Z'\) is closed under the map
+        \(z\mapsto\set{z}\) so it is inductive and \(Z'=Z_{0}\).
+    \end{proof}
+\end{question}
+
+\begin{question}
+    Prove: for all \(x\in Z_{0}\) we have: if \(y\in A_{x}\) then
+    \(A_{y}\subseteq A_{x}\).
+
+    \begin{proof}
+        Consider the set
+        \[
+            Z'=\setwith{x\in Z_{0}}{\forall y\in A_{x}:A_{y}\subseteq A_{x}}.
+        \]
+
+        We have \(\varnothing\in Z'\) because \(A_{\varnothing}=\varnothing\) so
+        the statement is vacuously true.
+
+        Now suppose the statement is true for some \(x\) and consider \(y\in
+        A_{\set{x}}=A_{x}\cup\set{x}\). Then \(y\in A_{x}\) in which case
+        \(A_{y}\subseteq A_{x}\subseteq A_{\set{x}}\) by assumption. If \(y=x\)
+        then \(A_{x}\subseteq A_{x}\cup\set{x}=A_{\set{x}}\) so \(\set{x}\in
+        Z'\). Yet again by the same reasoning therefore \(Z'=Z_{0}\).
+    \end{proof}
+\end{question}
+
+\begin{lemma}
+    For any \(x,y\in Z_{0}\) if \(A_{x}=A_{y}\) then \(x=y\).
+
+    \begin{proof}
+        Consider the set \(Z'=\setwith{x\in Z_{0}}{\forall y\in
+        Z_{0}:A_{x}=A_{y}\Leftarrow x=y}\).
+
+        Then \(\varnothing\in Z'\) because only \(A_{\varnothing}\) is empty.
+
+        If \(x\in Z'\) is nonempty then consider \(A_{\set{x}}\). If
+        \(A_{y}=A_{\set{x}}\) then \(y\neq\varnothing\) by the base case of the
+        induction. Therefore there is a \(z\in Z_{0}\) such that \(y=\set{z}\).
+
+        This means that \(A_{\set{z}}=A_{\set{x}}=A_{x}\cup\set{x}\). This means
+        that \(z\in A_{x}\) or \(z=x\). Either way we get \(A_{z}\subseteq
+        A_{x}\). By the same reasoning we also obtain \(A_{x}\subseteq A_{z}\).
+        This means that \(x=z\) so \(\set{x}=\set{z}=y\). Therefore \(\set{x}\in
+        Z'\).
+    \end{proof}
+\end{lemma}
+
+\begin{lemma}
+    If for any two \(x,y\in Z_{0}\) with \(A_{y}\subseteq A_{x}\) and \(x\neq
+    y\) then \(y\in A_{x}\).
+
+    \begin{proof}
+        Define \(Z'=\setwith{y\in Z_{0}}{\forall x\in Z_{0}:A_{x}\subseteq
+        A_{y}\wedge x\neq y\to x\in y}\).
+
+        Then trivially \(\varnothing\in Z'\). Now assume \(x\in Z'\) and
+        consider \(\set{x}\). Take any \(y\in Z_{0}\) such that \(A_{y}\subseteq
+        A_{\set{x}}\) and \(y\neq\set{x}\). We consider two separate cases
+        \(x\in A_{y}\) or \(x\notin A_{y}\).
+
+        If \(x\in A_{y}\) then \(A_{x}\subseteq A_{y}\) and \(\set{x}\subseteq
+        A_{y}\). Therefore \(A_{\set{x}}\subseteq A_{y}\) so
+        \(A_{\set{x}}=A_{y}\). By the previous lemma this gives that
+        \(\set{x}=y\) which contradicts the assumption.
+
+        If \(x\notin A_{y}\) then because we assumed \(A_{y}\subseteq
+        A_{x}\cup\set{x}\) we know that \(A_{y}\subseteq A_{x}\). By induction
+        this means that \(y\in A_{x}\) so also \(y\in A_{\set{x}}\).
+    \end{proof}
+\end{lemma}
+
+\begin{question}
+    Prove: for all \(x,y\in Z_{0}\) we have \(A_{x}\subseteq A_{y}\) or
+    \(A_{y}\subseteq A_{x}\).
+
+    \begin{proof}
+        Define
+        \[
+            Z'=\setwith{x\in Z'}{\forall y\in Z_{0}:A_{x}\subseteq A_{y}\vee A_{y}\subseteq A_{x}}.
+        \]
+
+        Then trivially \(\varnothing\in Z'\) because
+        \(A_{\varnothing}=\varnothing\) is trivially a subset of all sets.
+
+        Now suppose the statement is true for \(x\in Z_{0}\) and consider
+        \(\set{x}\in Z_{0}\). Suppose there is a \(y\in Z_{0}\) such that
+        neither \(A_{\set{x}}\) nor \(A_{y}\) are a subset of the other. We can
+        assume that \(x\neq y\) because else \(A_{y}=A_{x}\subseteq
+        A_{\set{x}}\) which contradicts the assumption. It also can't be the
+        case that \(A_{y}\subseteq A_{x}\) because then \(A_{y}\subseteq
+        A_{\set{x}}\) by transitivity of \(\subseteq\). Therefore
+        \(A_{x}\subseteq A_{y}\) but \(A_{\set{x}}\nsubseteq A_{y}\). This means
+        that \(x\notin A_{y}\). However because \(A_{x}\subseteq A_{y}\) by
+        contraposition of the previous lemma we have that \(x=y\). Therefore
+        \(A_{\set{x}}\supseteq A_{y}\) which is a contradiction with the
+        assumption that this wasn't true. Therefore \(\set{x}\in Z'\) so \(Z'\)
+        is inductive so \(Z'=Z_{0}\).
+    \end{proof}
+\end{question}
+
+\begin{question}
+    Prove: if \(x\in Z_{0}\) and \(A\subseteq A_{x}\) is nonempty then there is
+    a \(y\in A\) such that \(A_{y}\subseteq A_{z}\) for all \(z\in A\).
+
+    \begin{proof}
+        Consider the set \(Z'=\setwith{x\in Z_{0}}{\forall A\subseteq
+            A_{x}\exists y\in A\forall z\in A: A_{y}\subseteq A_{z}}\). Then
+        vacuously \(\varnothing\in Z'\). Also if \(x\in Z'\) consider
+        \(A\subseteq A_{\set{x}}\). If \(A\subseteq A_{x}\) then we are
+        finished by assumption.
+
+        If not then \(x\in A\). If \(A=\set{x}\) then \(x\) is clearly the
+        minimal element such that all \(z\in A\) have \(A_{x}\subseteq A_{z}\).
+        If not then there is some \(z\in A\cap A_{x}\subseteq A_{\set{x}}\) such
+        that for all \(y\in A\cap A_{x}\) we have \(A_{z}\subseteq A_{y}\).
+        Because \(z\in A_{x}\subseteq A_{\set{x}}\) we also have
+        \(A_{z}\subseteq A_{\set{x}}\) so \(z\) has the desired property for all
+        \(y\in A\).
+    \end{proof}
+\end{question}
+
+\begin{question}
+    Prove if \(A\subseteq Z_{0}\) is nonempty then there is a \(y\in A\) such
+    that for all \(z\in A\) with \(A_{y}\subseteq A_{z}\).
+
+    \begin{proof}
+        Take any \(y\in A\). If \(A_{y}\cap A=\varnothing\) then by question 5,
+        we have \(A_{z}\subseteq A_{y}\) or \(A_{y}\subseteq A_{x}\) for any
+        \(z\in A\). It is clear that \(A_{y}\subseteq A_{y}\), but if \(x\neq
+        y\) and \(A_{y}\nsubseteq A_{z}\) then \(A_{z}\subseteq A_{y}\) so by
+        the previously proven lemma \(z\in A_{y}\). This contradicts the
+        assumption that \(A_{y}\cap A=\varnothing\) so no such \(z\) can exist.
+
+        If \(A_{y}\cap A\neq\varnothing\) then by question \(6\) there is an
+        \(x\in A_{y}\) such that \(A_{x}\subseteq A_{z}\) for all \(z\in
+        A_{y}\). Take any \(z\neq y\in A\) then if \(z\in A_{y}\) we know
+        \(A_{x}\subseteq A_{z}\). If \(z\notin A_{y}\) then we know that
+        \(A_{y}\subseteq A_{z}\) so \(A_{x}\subseteq A_{y}\subseteq A_{z}\).
+
+        This proves that \(x\) is the minimal element.
+    \end{proof}
+\end{question}
+
+\begin{question}
+    Prove the existence of \(x\times y\) by applying the Power Set Axiom and a
+    suitable instance of the Separation axiom.
+
+    \begin{proof}
+        Consider the set \(Z=\powset(\bigcup\set{x,y})\). Then for all \(a\in
+        x\) the set \(\set{a}\) is an element of \(Z\). Also for all \(a\in x\)
+        and \(b\in y\) and \(\set{a,b}\in Z\). Therefore for any \(a\in x\) and
+        \(b\in y\) it must be true that
+        \(\set{\set{a},\set{a,b}}\in\powset(Z)\). Therefore we can define
+        \[
+            x\times y=\setwith{c\in \powset(Z)}{\exists a\in x:\exists b\in y:c=\set{\set{a},\set{a,b}}}.
+        \]
+        Every element of \(x\times y\) is clearly a tuple, and by the
+        aforementioned reasoning all tuples are in the set.
+    \end{proof}
+\end{question}
+\end{document}

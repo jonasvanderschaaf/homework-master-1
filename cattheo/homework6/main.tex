@@ -1,0 +1,395 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{quiver}
+\usepackage{float}
+\usepackage{cleveref}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\newcommand{\catcat}{{\bf Cat}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\catt}{\mathcal{D}}
+\newcommand{\cattt}{\mathcal{E}}
+\newcommand{\pcat}{\mathcal{P}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\newcommand{\setcat}{{\bf Set}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\rad}{Rad}
+\newcommand{\alg}[1]{T\textnormal{-Alg}}
+\DeclareMathOperator{\ev}{ev}
+\DeclareMathOperator{\psh}{Psh}
+\DeclareMathOperator{\famm}{Fam}
+\DeclareMathOperator{\dfib}{DFib}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework Category Theory}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    \begin{enumerate}[(a)]
+        \item Show that if \(X\) is a presheaf over \(\cat\), then the forgetful
+              functor \(U:y\downarrow X\to \cat\) is a discrete fibration.
+
+              \begin{proof}
+                  Let \((C',\nu)\) be an object of the comma category
+                  \(y\downarrow X\) and \(f\in\Hom(C,UyC')=\Hom(C,C')\) a
+                  morphism of \(\cat\). Take \(\eta=yf:yC\to yC'\) the natural
+                  transformation and consider the object \((yC,\nu\circ\eta)\)
+                  of the comma category. Then by definition the following
+                  diagram commutes:
+                  \begin{figure}[H]
+                      \[
+                          \begin{tikzcd}[ampersand replacement=\&]
+                              {yC} \&\& yC' \\
+                              \& X
+                              \arrow["yf", from=1-1, to=1-3]
+                              \arrow["{\nu\circ yf}"', from=1-1, to=2-2]
+                              \arrow["\nu", from=1-3, to=2-2]
+                          \end{tikzcd}
+                      \]
+                      \caption{A commutative diagram showing that \(yf\) is a morphism in the comma category \(y\downarrow X\).}
+                      \label{fig:comm-dia-2}
+                  \end{figure}
+                  From this we see that \(yf:yC\to yC'\) is a morphism in the
+                  comma category. We have by definition of the forgetful functor
+                  \(Uyf=f\) and \(yf\) is unique in this regard because this
+                  forgetful functor \(U\) is faithful.
+
+                  This shows \(U\) is a discrete fibration.
+              \end{proof}
+
+        \item Show there is a functor \(\psh(\cat)\to\dfib(\cat)\) which is an
+              equivalence of categories.
+
+              \begin{proof}
+                  We define a functor \(F:\psh(\cat)\to\dfib(\cat)\) which acts
+                  on objects in the following manner \(FX=(y\downarrow
+                  X,U_{X}:y\downarrow X\to\cat)\) mapping \(X\) to the forgetful
+                  functor from part a. For a function \(f:X\to Y\) it maps
+                  \((yC,\nu)\) to \((yC,f\circ\nu)\). We now show this is a
+                  functor \(\psh(\cat)\to\dfib(\cat)\):
+
+                  The identity morphism results in the identity functor because
+                  postcomposition with identity is the identity. The map is
+                  multiplicative because for \(f:X\to Y\) and \(g:Y\to Z\) we
+                  have \(g\circ(f\circ\nu)=(g\circ f)\circ\nu\) by asociativity
+                  of function composition.
+
+                  To show \(F\) is an equivalence we show it's fully faithful
+                  and essentially surjective.
+
+                  To show faithfulness we take any \(f,g:X\to Y\) and show that
+                  if \(f\circ\nu=g\circ\nu\) for all \(C\in\objects(\cat)\) and
+                  morphisms \(\nu:yC\to X\) then \(f=g\). Suppose \(f\) and
+                  \(g\) are as above. Take any object \(C\) of \(\cat\) and any
+                  \(x\in X(C)\). By the Yoneda lemma there is a unique
+                  \(\nu:yC\to X\) such that \(\nu_{C}(\Id_{C})=x\). This means
+                  in particular that
+                  \begin{align*}
+                      f_{C}(x) & =f_{C}(\nu_{C}(\Id_{C}))    \\
+                               & =f_{C}\circ\nu_{C}(\Id_{C}) \\
+                               & =g_{C}\circ\nu_{C}(\Id_{C}) \\
+                               & =g_{C}(x).
+                  \end{align*}
+                  This means \(f_{C}=g_{C}\) so \(f=g\). This proves
+                  faithfulness of \(F\).
+
+                  To show fullness take any \(f:y\downarrow X\to y\downarrow Y\)
+                  for two presheaves \(X,Y\). We will construct a \(g:X\to Y\)
+                  such that \(Fg=f\). For any object \(C\) of \(\cat\) define
+                  \(g_{C}(x)=(F\nu^{x})(\Id_{C})\) where \(\nu^{x}:yC\to X\) is
+                  the unique natural transformation associated to \(x\) by the
+                  Yoneda lemma. We will show this is a morphism of presheaves
+                  such that \(Fg=f\).
+
+                  By definition of \(g\) we must have that
+                  \(g_{C}\circ\nu_{C}=(F\nu)_{C}\).
+
+                  Now we will show that this is a morphism of presheaves. Let
+                  \(C,D\) be any two objects of \(\cat\) and \(f:C\to D\) a
+                  morphism. Then take any \(x\in XC\) and let \(\nu^{x}\) be the
+                  associated natural transformation \(\nu^{x}:yC\to XC\) given
+                  by the Yoneda lemma. We then get the diagram of
+                  \Cref{fig:comm-dia-3}, where the top square is commutative and
+                  the outer square is as well because \(g\circ\nu=F\nu\) which
+                  is a morphism of presheaves.
+                  \begin{figure}[H]
+                      \[
+                          \begin{tikzcd}[ampersand replacement=\&]
+                              yC \&\& yD \\
+                              \\
+                              XC \&\& XD \\
+                              \\
+                              YC \&\& YD
+                              \arrow["yf"', from=1-1, to=1-3]
+                              \arrow["{\nu_{C}}", from=1-1, to=3-1]
+                              \arrow["{\nu_{D}}"', from=1-3, to=3-3]
+                              \arrow["Xf", from=3-1, to=3-3]
+                              \arrow["{g_{C}}", from=3-1, to=5-1]
+                              \arrow["{g_{D}}", from=3-3, to=5-3]
+                              \arrow["Yf"{description}, from=5-1, to=5-3]
+                          \end{tikzcd}
+                      \]
+                      \caption{A diagram where the outer and upper square commute.}
+                      \label{fig:comm-dia-3}
+                  \end{figure}
+                  We then have
+                  \begin{align*}
+                      Yf\circ g_{C}(x) & =Yf\circ g_{C}\circ\nu^{x}_{C}(\Id_{C}) \\
+                                       & =g_{D}\circ\nu_{D}\circ yf(\Id_{C})     \\
+                                       & =g_{D}\circ X_{f}\circ\nu_{C}(\Id_{C})  \\
+                                       & =g_{D}\circ X_{f}(x).
+                  \end{align*}
+                  From this we conclude that \(Yf\circ g_{C}=g_{D}\circ X_{f}\)
+                  so \(g\) is a morphism of presheaves with \(Fg=f\). This
+                  proves
+                  \(F\) is full as well.
+
+                  To show essential surjectivity let \((\catt,G:\catt\to\cat)\)
+                  be an object of \(\dfib(\cat)\), in particular \(G\) is a full
+                  fibration. We will define a presheaf \(X\) such that
+                  \((y\downarrow X,U_{X}:y\downarrow X\to \cat)\) is isomorphic
+                  to \((\catt,G)\).
+
+                  We define the set \(X(C)\) to be the set
+                  \(\setwith{E\in\catt}{FE=C}\). For any map
+                  \(f\in\Hom_{\cat}(C,D)\) and \(E\in X(D)\) we define \(Xf(E)\)
+                  as the unique \(E'\in X(C)\) such that there is a \(g:E'\to
+                  E\) such that \(GE'=C\) and \(Gg=f\) (we get well-definedness
+                  because \(G\) is a discrete fibration). We show that this
+                  defines a presheaf.
+
+                  If \(f:C\to C\) is the identity then for \(E\in X(C)\) we see
+                  that \(E\) and \(\Id_{E}:E\to E\) satisfy the desired
+                  property. This means \(Xf(E)=E\) for all \(E\in X(C)\) so
+                  \(Xf\) is the identity morphism.
+
+                  To show multiplicativity take any \(f_{1}:C_{1}\to C_{2}\) and
+                  \(f_{2}:C_{2}\to C_{3}\) and \(E\in X(C_{3})\) if it exists.
+                  We want to show that \(X(f_{2}\circ f_{1})=X(f_{1})\circ
+                  X(f_{2})\). Since \(F\) is a discrete fibration there are
+                  unique \(g_{1}:D_{1}\to D_{2}\) and \(g_{2}:D_{2}\to D_{3}\)
+                  with \(D_{3}=E\) such that \(Fg_{1}=f_{1}\) and
+                  \(Fg_{2}=f_{2}\). We then have that \(X(f_{1})\circ
+                  X(f_{2})(E)=D_{1}\). On the other hand we have \(F(g_{2}\circ
+                  g_{1})=f_{2}\circ f_{1}\). So \(g_{2}\circ g_{1}\) is the
+                  unique map as given by the fibration so \(X(f_{2}\circ
+                  f_{1})(E)=D_{1}\). This proves that \(X\) is multiplicative
+                  and so that \(X\) is a functor.
+
+                  We will now show that \((\catt,F)\cong (y\downarrow
+                  X,U_{X})\). We can define for each object
+                  \(E\in\objects(\catt)\) a presheaf \(yFE\) and natural
+                  transformation \(\nu^{E}:yFE\to X\) such that
+                  \(\nu^{E}_{FE}(\Id_{FE})=E\in X(FE)\). Define the functor
+                  \(G:\catt\to y\downarrow X\) as given by \(G(E)=(FE,\nu^{E})\)
+                  on objects. Given a morphism \(f:E\to E'\) define
+                  \(Gf:(FE,\nu^{E})\to (FE',\nu^{E'})\) as the functor
+                  \(Gf=yFf\). We will show this is a morphism in the comma
+                  category. This boils down to showing commutativity of the
+                  diagram in \Cref{fig:comm-dia-4}.
+                  \begin{figure}[H]
+                      \[
+                          \begin{tikzcd}[ampersand replacement=\&]
+                              yFE \&\& {yFE'} \\
+                              \& X
+                              \arrow["{yFf}", from=1-1, to=1-3]
+                              \arrow["{\nu^{E}}"', from=1-1, to=2-2]
+                              \arrow["{\nu^{E'}}", from=1-3, to=2-2]
+                          \end{tikzcd}
+                      \]
+                      \caption{A diagram indicating the defintion of the functor \(G\).}
+                      \label{fig:comm-dia-4}
+                  \end{figure}
+                  By the Yoneda lemma it suffices to show that the above maps
+                  agree on the image of \(\Id_{FE}\). By definition we have
+                  \(\nu^{E}_{FE}(\Id_{FE})=E\). We want to show that
+                  \[
+                      \nu^{E'}_{FE'}\circ yFf(\Id_{FE})=\nu^{E'}_{FE'}(Ff)=E.
+                  \]
+                  By naturality we have the diagram of \Cref{fig:comm-dia-5}.
+                  In this diagram the image of \(\Id_{FE'}\) is mapped by
+                  \((yFE')(Ff)\) onto \(Ff\). On the other hand we have
+                  \begin{align*}
+                      X(Ff)\circ\nu^{E'}_{FE'}(\Id_{FE'}) & =X(Ff)(E') \\
+                                                          & =E.
+                  \end{align*}
+                  This proves that we must have \(\nu^{E'}_{FE'}(Ff)=E\) as well
+                  as the diagram commutes.
+                  \begin{figure}[H]
+                      \[
+                          \begin{tikzcd}[ampersand replacement=\&]
+                              {yFE'(FE')} \&\& {yFE'(FE)} \\
+                              \\
+                              {X(FE')} \&\& {X(FE)}
+                              \arrow["{(yFE')(Ff)}", from=1-1, to=1-3]
+                              \arrow["{\nu^{E'}_{FE}}", from=1-3, to=3-3]
+                              \arrow["{\nu^{E'}_{FE'}}"', from=1-1, to=3-1]
+                              \arrow["{X(Ff)}"', from=3-1, to=3-3]
+                          \end{tikzcd}
+                      \]
+                      \caption{A diagram with a natural transformation.}
+                      \label{fig:comm-dia-5}
+                  \end{figure}
+                  This means that \(G\) maps morphisms to morphisms.
+
+                  It's easy to see \(G\) preserves identity because
+                  by functoriality of \(F\) and \(y\)
+                  \begin{align*}
+                      G\Id_{E} & =yF\Id_{E}  \\
+                               & =y\Id_{FE}  \\
+                               & =\Id_{yFE}.
+                  \end{align*}
+                  Multiplicativity goes very similar:
+                  \begin{align*}
+                      G(f\circ g) & =yF(f\circ g)     \\
+                                  & =yF(f)\circ yF(g) \\
+                                  & =Gf\circ Gg.
+                  \end{align*}
+                  Now we show this functor is an isomorphism of categories by
+                  constructing an inverse. We construct an inverse map on
+                  objects and images. This suffices because this is the inverse
+                  of a functor and therefore automatically a functor.
+
+                  For any object \(E\in\objects(\catt)\) we can easily recover
+                  it from \(GE=(FE,\nu^{E})\) by computing
+                  \[
+                      \nu^{E}_{FE}(\Id_{yFE})=E.
+                  \]
+
+                  Similarly for any function \(f,f':E\to E'\) we must have that
+                  if \(yFf=Gf=Gf'=yFf'\) then \(f=f'\) because \(F\) is a
+                  discrete fibration and therefore faithful and \(y\) is
+                  faithful by the Yoneda lemma.
+
+                  Now take any morphism \(f:(yFE,\nu^{E})\to (yFE',\nu^{E'})\)
+                  in the comma category. By the Yoneda lemma there is some
+                  \(f':FE\to FE'\) such that \(yf'=f\). Because \(F\) is a
+                  discrete fibration this gives a \(g:E\to E'\) with \(Fg=f'\)
+                  so \(Gg=yFg=yf'=f\).
+
+                  This shows that \(G\) is a bijective functor and therefore an
+                  isomorphism.
+
+                  This shows that \(F:\catt\to \dfib(\cat)\) is a fully faithful
+                  and essentially surjective functor and therefore an
+                  equivalence.
+              \end{proof}
+
+        \item Suppose we have a commuting triangle in \(\catcat\) of the form
+              \[
+                  \begin{tikzcd}[ampersand replacement=\&]
+                      \cattt \&\& \catt \\
+                      \& \cat
+                      \arrow["F", from=1-1, to=1-3]
+                      \arrow["H"', from=1-1, to=2-2]
+                      \arrow["G", from=1-3, to=2-2]
+                  \end{tikzcd}
+              \]
+              Show that if this \(G\) is a discrete fibration then \(H\) is if
+              and only if \(F\) is. Use this to do show \(\psh(\cat)/X\cong
+              \psh(y\downarrow X)\) for any presheaf \(X\) over \(\cat\).
+
+              \begin{proof}
+                  Suppose \(F\) is a discrete fibration and let
+                  \(C\in\objects(\cat)\) and \(E\in\objects(\catt)\) such that
+                  there is a morphism \(f:C\to HE\). By assumption \(G\) is a
+                  discrete fibration and \(H=G\circ F\). This means that by
+                  rewriting \(f\) as \(f:C\to GFE\) there must be a unique
+                  \(C'\in\objects\catt\) and \(f':C'\to FE\) such that \(GC'=C\)
+                  and \(Gf'=f\). Because \(F\) is also a discrete fibration this
+                  means there is a unique \(C''\in\objects(\cattt)\) and
+                  \(f'':C''\to E\) such that \(FC''=C'\) and \(Ff''=f'\). This
+                  means that \(C''\) and \(f''\) must also be a unique
+                  object-morphism pair such that \(HC''=C\) and \(Hf''=f\)
+                  because the triange commutes.
+
+                  Suppose \(H\) is a discrete fibration,
+                  \(D\in\objects(\catt)\), and \(f:D\to FE\) for some object
+                  \(E\in\objects(\cattt)\). Applying the functor \(G\) to both
+                  gives \(GD\) and \(Gf:GD\to GFE=HE\). Because \(H\) is a
+                  discrete fibration there is a unique \(E'\in\objects(\cattt)\)
+                  and \(f':E'\to E\) such that \(Hf:HE'\to HE=Gf:GD\to GFE\).
+                  Applying the functor \(F\) to \(f'\) and \(E'\) gives two
+                  objects \(FE'\) and \(Ff'\) such that \(GFE=FC\) and
+                  \(GFf'=f\). Because \(G\) is a discrete fibration by the
+                  uniqueness condition this means that \(FE'=D\) and \(Ff'=f\).
+                  These \(E'\) and \(f'\) were the unique objects with this
+                  condition and so \(F\) is a discrete fibration.
+
+                  Now let \(X\) be a presheaf over a category \(\cat\). Applying
+                  the equivalence \(\psh(\cat)\cong\dfib(\cat)\) this means
+                  there is also an induced equivalence of categories
+                  \(\psh(\cat)/X\to\dfib(\cat)/U_{X}\). This slice category has
+                  objects \((\catt,H)\) with \(H\) a discrete fibration and a
+                  functor \(F:\catt\to y\downarrow X\) such that \(F\circ
+                  U_{X}=Y\). From this we know that \(F\) is a discrete
+                  fibration as well. This gives an equivalence
+                  \[
+                      \dfib(\cat)/U_{X}\cong \dfib(y\downarrow X)\cong\psh(y\downarrow X).
+                  \]
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

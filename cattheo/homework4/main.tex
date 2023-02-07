@@ -1,0 +1,135 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{quiver}
+\usepackage{float}
+\usepackage{cleveref}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\catt}{\mathcal{D}}
+\newcommand{\pcat}{\mathcal{P}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\rad}{Rad}
+\newcommand{\alg}[1]{T\textnormal{-Alg}}
+\DeclareMathOperator{\ev}{ev}
+
+\newenvironment{question}[1][]{\begin{paragraph}{Question #1}}{\end{paragraph}}
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework Category Theory}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+\begin{question}[1]
+    Suppose \(X,Y\) are \(G\)-sets. Show that you can equip the set of functions
+    \(\Hom_{\catset}(X,Y)\) with a \(G\)-action in such a way that it becomes
+    the exponential \(Y^{X}\) in the category of \(G\)-sets.
+
+    \begin{proof}
+        The category of right \(G\)-actions has binary products because for
+        \(f:Z\to X,g:Z\to Y\) morphisms compatible with the respective
+        \(G\)-actions taking \(X\times Y\) as a set with \(G\)-action
+        \((x,y)a=(xa,ya)\) and projection morphisms \(\pi_{X}:X\times Y\to
+        X:(x,y)\mapsto x\) and \(\pi_{Y}:X\times Y\to Y:(x,y)\to y\) satisfies
+        the universal property. We clearly have the map \(Z\to X\times
+        Y:z\mapsto (f(z),g(z))\) which is a \(G\)-compatible function and it is
+        unique because any map with \(\pi_{X}(f'(z),g'(z))=f(z)\) must have
+        \(f'(z)=f(z)\) for all \(z\in Z\), the same argument holds for \(g'\).
+
+        We define a \(G\)-action \(f\cdot a:=(x\mapsto
+        f(xa^{-1})a)\in\Hom_{\catset}(X,Y)\). This is a \(G\)-action because
+        \begin{align*}
+            fe & =(x\mapsto f(xe^{-1})e) \\
+               & =(x\mapsto f(x))
+        \end{align*}
+        for the unit \(e\) of \(G\). The mapping is also compatible because
+        \begin{align*}
+            (fa)b & =(x\mapsto fa(xb^{-1})b)       \\
+                  & =(x\mapsto f(xb^{-1}a^{-1})ab) \\
+                  & =(x\mapsto f(x(ab)^{-1})ab)    \\
+                  & =f\cdot(ab)
+        \end{align*}
+        by the compatibility of \(G\) on \(X\) and \(Y\).
+
+        To show that \(Y^{X}:=\Hom_{\catset}(X,Y)\) is the exponential in the
+        category of \(G\)-sets we first define the evaluation map
+        \(\ev:Y^{X}\times X\to Y\) as \(\ev(f,x)=f(x)\). This is
+        \(G\)-compatible because
+        \begin{align*}
+            \ev((f,x)a) & =\ev(fa,xa)   \\
+                        & =fa(xa)       \\
+                        & =f(xaa^{-1})a \\
+                        & =f(x)a        \\
+                        & =\ev(f,x)a.
+        \end{align*}
+        To see this satisfies the universal property take any morphism
+        \(h:A\times X\to Y\) and define \(H:A\to Y{^X}\) as \(H(a)=(x\mapsto
+        h(a,x))\in\Hom_{\catset}(X,Y)\). Then clearly we have \(\ev\circ H\times
+        \Id_{X}(a,x)=\ev((z\mapsto h(a,z)),x)=h(a,x)\). To show \(H\) is the
+        unique map with this property consider an \(H'\) with the desired
+        property. Then \(\ev(H'(a),x)=H'(a)(x)=h(a,x)=H(a)(x)\) for all \(a\in
+        A,x\in X\). This clearly means \(H'(a)=H(a)\) so \(H'=H\). This proves
+        the universal property of \(Y^{X}\) and so this category of \(G\)-sets
+        is cartesian closed.
+    \end{proof}
+\end{question}
+\end{document}

@@ -1,0 +1,232 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{quiver}
+\usepackage{float}
+\usepackage{cleveref}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\maxid}{\mathfrak{m}}
+\newcommand{\primeid}{\mathfrak{p}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\rad}{Rad}
+\DeclareMathOperator{\JRad}{JRad}
+
+\newenvironment{question}[1][]{\begin{paragraph}{Question #1}}{\end{paragraph}}
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework Commutative Algebra}
+\author{Jonas van der Schaaf \and 12798797 \and Universiteit van Amsterdam \and jonas.vanderschaaf@student.uva.nl}
+\date{September 26, 2022}
+
+\begin{document}
+\maketitle
+
+\begin{question}[1]
+    Let \(A\) be a local ring. Show that \(A\) has exactly two idempotent
+    elements.
+
+    \begin{proof}
+        The ring \(A\) can clearly not be trivial, because the trivial ring has
+        no maximal ideals. Therefore \(0\) and \(1\) are two non-trivial
+        idempotents.
+
+        Suppose that \(x\) is an idempotent not equal to \(0\) or \(1\). Then
+        \(e^{2}=e\) so \(e^{2}-e=(e(e-1)=0)\). This means that \(e\) is a
+        zero-divisor in the ring \(A\). Then the ideal \((e)\) is clearly not
+        the whole ring \(A\), so it must be contained within the maximal ideal
+        \(\maxid\) and \(e\in\maxid\), and similarly \(e-1\in\maxid\).
+
+        Because \(\maxid\) is closed under addition \(1=e-(e-1)\in\maxid\), so
+        \(\maxid=A\). This is clearly a contradiction so there is no such
+        idempotent \(e\).
+    \end{proof}
+\end{question}
+
+\begin{question}[2]
+    Let \(A\) be the infinite product \(\prod_{i\in\N}\F_{2}\) with
+    componentwise addition and multiplication.
+
+    \begin{enumerate}[(a)]
+        \item Show that every prime ideal \(\primeid\) is maximal.
+
+              \begin{proof}
+                  In \(A\), we have the property that for all \(x\in A\)
+                  \(x(1-x)=0\). Therefore for any prime ideal \(\primeid\) we
+                  have \(x(x-1)=0\) in \(A/\primeid\). Because this is an
+                  integral domain this means \(x=0\) or \(x=1\) in
+                  \(A/\primeid\). This means that \(A/\primeid\cong\F_{2}\)
+                  which is a field, so \(\primeid\) is maximal.
+              \end{proof}
+
+        \item Let \(n\in\N\), and let \(\maxid_{n}\subset A\) be ideal
+              consisting of those elements \((x_{i})_{i\in\N}\) with \(x_{n}=0\).
+              Prove that \(\maxid_{n}\) is maximal.
+
+              \begin{proof}
+                  Take two \(x,y\in A\) with \(xy\in\maxid_{n}\), then
+                  \((xy)_{n}=0\) so \(x_{n}=0\) or \(y_{n}=0\) because
+                  \(\F_{2}\) is a field. Therefore \(x\in\maxid_{n}\) or
+                  \(y\in\maxid_{n}\).
+              \end{proof}
+
+        \item Is every maximal ideal \(\maxid\) of \(A\) of the form
+              \(\maxid_{n}\)?
+
+              \begin{solution}
+                  No it is not. The set \(I=\bigoplus_{i\in\N}\F_{2}\) is an
+                  ideal of \(A\). This is because it is closed under addition,
+                  contains \(0\), and is closed under multiplication because
+                  multiplication cannot increase the amount of non-zero parts of
+                  an element. The ideal \(I\) is not contained in \(\maxid_{n}\)
+                  so it is contained in a different maximal
+                  \(\maxid'\neq\maxid_{n}\) for all \(n\in\N\).
+              \end{solution}
+    \end{enumerate}
+\end{question}
+
+\begin{question}[3]
+    Let \(A=\Q[[t]]\) be the ring of formal power series
+    \(\sum_{n\in\N}a_{i}t^{i}\).
+    \begin{enumerate}[a)]
+        \item Show that \(A\) is a local ring.
+
+              \begin{proof}
+                  I will show that \((t)\) is the only maximal ideal by proving
+                  \(1+(t)=A\). By proposition 1.6, this means \(A\) is local.
+                  First of all the map
+                  \(\pi:\Q[[t]]\to\Q:\sum_{i\in\N}a_{i}t^{i}\) is a surjective
+                  map to the field \(\Q\) with kernel \((t)\), so \((t)\) is
+                  maximal.
+
+                  Now consider \(f=\sum_{i\in\N}a_{i}t^{i}\) with \(a_{0}=1\).
+                  Then for any \(g=\sum_{i\in\N}b_{i}t^{i}\) we have
+                  \((fg)_{k}=\sum_{i+j=k}a_{i}b_{j}\). If we define
+                  \(b_{k}=-a_{0}^{-1}\sum_{i=1}^{n}a_{i}b_{n-i}=-\sum_{i=1}^{n}a_{i}b_{n-i}\)
+                  we get \((fg)_{i}=\delta_{i0}\).
+              \end{proof}
+
+        \item Show that \(A\) is an integral domain.
+
+              \begin{proof}
+                  Let \(f,g\in A\) be non-zero elements with \(fg=0\). Then
+                  there are some smallest \(i,j\) such that \(a_{i}\) and
+                  \(b_{j}\) are both non-zero. Then
+                  \((fg)_{i+j}=a_{i}b_{j}\neq0\) because \(\Q\) is a field.
+                  Therefore \(fg\neq0\) which is a contradiction, so there are
+                  no such \(f,g\) and \(A\) is an integral domain.
+              \end{proof}
+
+        \item Compute the nilradical and Jacobson radical of \(A\).
+
+              \begin{solution}
+                  The ring \(A\) has no zero-divisors, so \(\Nil(A)=(0)\).
+                  Because \(A\) is local, it has the unique maximal ideal
+                  \((t)\). This is therefore the Jacobson ideal.
+              \end{solution}
+    \end{enumerate}
+\end{question}
+
+\begin{question}[4]
+    Find an integer \(n\) such that \(\Z/n\Z\) has a non-trivial unit,
+    zero-divisor, nilpotent, and idempotent.
+
+    \begin{solution}
+        Consider \(n=12\) and let \(A=\Z/12\Z\). Then \(5^{2}=25=24+1=1\) in
+        \(A\) so \(5\) is a unit. The element \(6\) is both nilpotent and a
+        zero-divisor because \(6^{2}=36=12\cdot3=0\) in \(A\). The element \(4\) has
+        \(4^{2}=16=12+4=4\) in \(A\).
+    \end{solution}
+\end{question}
+
+\begin{question}[5]
+    Determine all prime ideals of \(\Z[x]\). Compute the nilradical and Jacobson
+    ideal of \(\Z[x]/(2x^{2})\).
+
+    \begin{solution}
+        For any irreducible polynomial \(f\), the ideal \((f)\) is clearly prime
+        and for any prime number \(p\in\Z\) the ideal \((p)\) is also clearly
+        prime. For any prime number \(p\) and irreducible polynomial \(f\), the
+        ideal \((p,f)\) is also prime. There are no other prime ideals.
+
+        To find the nilradical, we need to find all nilpotents. Because
+        \(\Z[x]\) is a domain this means we need to find all elements
+        \(f\in\Z[x]\) for which \(f^{n}\in (2x^{2})\). Obviously this includes
+        the ideal \((2x^{2})\) itself. Another element in this ideal is \(2x\).
+        Any other element must have the property that \(2x^{2}\mid f^{n}\) for
+        some \(n\), however this means that \(2x\mid f^{n}\). Because \(2x\) is
+        irreducible this means that \(2x\mid f\). Therefore the nilradical is
+        given by \((2x)\).
+
+        To compute the Jacobson radical. We can take the quotient
+        \(\Z[x]/(2x^{2})/(x)/(2x^{2})\cong \Z[x]/(x)\cong\Z\) which has maximal
+        ideals \((p)\) for \(p\in\Z\). The intersection of these ideals is the
+        ideal \((x)\) so \(\JRad(\Z[x]/(2x^{2}))\subseteq(x)\). There is however
+        a maximal ideal which doesn't contain \(x\) at all: consider the ideal
+        \((2,x^{2}+x+1)\) which has its quotient given by
+        \(\Z[x]/(2x^{2})/(2,x^{2}+x+1)/(2x^{2})\cong\F_{4}\). In particular the
+        image of \(x\) under this quotient is the generator of \(\F_{4}^{*}\).
+
+        This means that \((2x)\subseteq\JRad(\Z[x]/(2x^{2}))\subsetneq (x)\).
+        This means that the Jacobson radical is \((2x)\).
+    \end{solution}
+\end{question}
+\end{document}

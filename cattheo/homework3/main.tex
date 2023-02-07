@@ -1,0 +1,320 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{quiver}
+\usepackage{float}
+\usepackage{cleveref}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\catt}{\mathcal{D}}
+\newcommand{\pcat}{\mathcal{P}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\rad}{Rad}
+\newcommand{\alg}[1]{T\textnormal{-Alg}}
+
+\newenvironment{question}[1][]{\begin{paragraph}{Question #1}}{\end{paragraph}}
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework Category Theory}
+\author{Jonas van der Schaaf}
+\date{October 10, 2022}
+
+\begin{document}
+\maketitle
+
+\begin{question}[1]
+    Let \(\cat\) be a category and \(T:\cat\Rightarrow\cat\) an endofunctor.
+
+    \begin{enumerate}[(a)]
+        \item Show that if \((X,a)\) is an initial \(T\)-algebra, then \(a\) is
+              an isomorphism.
+
+              \begin{proof}
+                  If \((X,a)\) is initial, there is a unique \(T\)-algebra
+                  morphism \((X,a)\to(Y,b)\) for all \(T\)-algebras \((Y,b)\).
+                  Taking \(f:(X,a)\to(TX,Ta)\) we obtain the commutative diagram
+                  in \Cref{fig:init-obj-iso}.
+                  \begin{figure}[H]
+                      \[
+                          \begin{tikzcd}[ampersand replacement=\&]
+                              TX \&\& TTX \&\& TX \\
+                              \\
+                              X \&\& TX \&\& X
+                              \arrow["Ta", from=1-3, to=3-3]
+                              \arrow["a", from=1-5, to=3-5]
+                              \arrow["a"{description}, from=3-3, to=3-5]
+                              \arrow["Ta"{description}, from=1-3, to=1-5]
+                              \arrow["Tf"{description}, from=1-1, to=1-3]
+                              \arrow["a", from=1-1, to=3-1]
+                              \arrow["f"{description}, from=3-1, to=3-3]
+                          \end{tikzcd}
+                      \]
+                      \caption{A commutative diagram.}
+                      \label{fig:init-obj-iso}
+                  \end{figure}
+                  Because the two inner squares in \Cref{fig:init-obj-iso} are
+                  commutative the outer square is commutative as well. Therefore
+                  \(f\circ a\) is the unique endomorphism \((X,a)\to(X,a)\) as
+                  given by the universal property. However \(\Id\) is another
+                  such map. Therefore \(f\circ a=\Id\) so \(a\) is split mono.
+
+                  We know \(fa=\Id\) so \(Taf=T\Id=\Id\). By commutativity of
+                  the left square of \Cref{fig:init-obj-iso} this means
+                  \(af=\Id\). Therefore \(f\) is a left and right inverse of
+                  \(a\) so \(a\) is an isomorphism.
+              \end{proof}
+
+        \item Show that if \(\cat\) is complete, then so is \(\alg{T}\) and the
+              forgetful functor \(U:\alg{T}\to\cat\) sending \((X,a)\) to \(X\)
+              preserves limits.
+
+              \begin{proof}
+                  We will show that for a complete category \(\alg{T}\) has
+                  equalizers and products. This is equivalent to \(\alg{T}\)
+                  being complete.
+
+                  Consider two morphisms \(f,g:(X,a)\to
+                  (Y,b)\in\Hom_{\alg{T}}((X,a),(Y,b))\). Let \(E\) be their
+                  equalizer with map \(e:E\to X\) in the category \(\cat\).
+                  Then we obtain the diagram in \Cref{fig:dia-1}.
+                  \begin{figure}[H]
+                      \[
+                          \begin{tikzcd}[ampersand replacement=\&]
+                              TE \&\& TX \&\& TY \\
+                              \\
+                              E \&\& X \&\& Y
+                              \arrow["f"', shift right=1, from=3-3, to=3-5]
+                              \arrow["g", shift left=1, from=3-3, to=3-5]
+                              \arrow["a", from=1-3, to=3-3]
+                              \arrow["b", from=1-5, to=3-5]
+                              \arrow["Tf"', shift right=1, from=1-3, to=1-5]
+                              \arrow["Tg", shift left=1, from=1-3, to=1-5]
+                              \arrow["e", from=3-1, to=3-3]
+                              \arrow["Te", from=1-1, to=1-3]
+                          \end{tikzcd}
+                      \]
+                      \caption{A diagram.}
+                      \label{fig:dia-1}
+                  \end{figure}
+                  Because \(fe=ge\) we get
+                  \begin{align*}
+                      gaTe & =bTgTe \\
+                           & =bTfTe \\
+                           & =faTe,
+                  \end{align*}
+                  so \(faTe=gaTe\). By the universal property of the equalizer
+                  there is then a unique map \(c:TE\to E\) such that the left
+                  square commutes. This gives a \(T\)-algebra \((E,c)\) which we
+                  will show has satisfies the universal property for the
+                  equalizer.
+
+                  Let \(h:(Z,d)\to (X,a)\) be a morphism of \(T\)-algebras such
+                  that \(fh=gh\). Then we obtain \Cref{fig:dia-2}.
+                  \begin{figure}[H]
+                      \[
+                          \begin{tikzcd}[ampersand replacement=\&]
+                              TZ \\
+                              \&\& TE \&\& TX \&\& TY \\
+                              \\
+                              \&\& E \&\& X \&\& Y \\
+                              Z
+                              \arrow["f"', shift right=1, from=4-5, to=4-7]
+                              \arrow["g", shift left=1, from=4-5, to=4-7]
+                              \arrow["a", from=2-5, to=4-5]
+                              \arrow["b", from=2-7, to=4-7]
+                              \arrow["Tf"', shift right=1, from=2-5, to=2-7]
+                              \arrow["Tg", shift left=1, from=2-5, to=2-7]
+                              \arrow["e", from=4-3, to=4-5]
+                              \arrow["Te", from=2-3, to=2-5]
+                              \arrow["c", from=2-3, to=4-3]
+                              \arrow["Th", curve={height=-12pt}, from=1-1, to=2-5]
+                              \arrow["h", curve={height=12pt}, from=5-1, to=4-5]
+                              \arrow["d", from=1-1, to=5-1]
+                              \arrow["{\exists!\tilde{h}}", dashed, from=5-1, to=4-3]
+                              \arrow["{T\tilde{h}}"', from=1-1, to=2-3]
+                          \end{tikzcd}
+                      \]
+                      \caption{Another diagram.}
+                      \label{fig:dia-2}
+                  \end{figure}
+                  I will show \(\tilde{h}\) is a morphism \((Z,d)\to(E,c)\),
+                  i.e. the left square commutes. The reasoning goes as follows:
+                  \begin{align*}
+                      ecT\tilde{h} & =aTeT\tilde{h} \\
+                                   & =aTh           \\
+                                   & =hd            \\
+                                   & =e\tilde{h}d.
+                  \end{align*}
+                  Because \(e\) is mono this gives \(\tilde{h}d=cT\tilde{h}\) so
+                  \(\tilde{h}\) is a morphism of \(T\)-algebras. It is the
+                  unique morphism such that the diagram commutes simply because
+                  it is the only morphism which makes the triangles commute.
+                  Therefore \(E\) is the equalizer.
+
+                  To show \(\alg{T}\) contains small products let
+                  \(\set{(X_{i},a_{i})}_{i}\) be a set of \(T\)-algebras. Then
+                  because \(\cat\) is complete the product \(\prod_{i}X_{i}\)
+                  exists in \(\cat\). As diagram in \Cref{fig:dia-3} below
+                  indicates because \(a_{i}T\pi_{i}:T\prod_{i}X_{i}\to X_{i}\)
+                  is a morphism for all \(i\) there is a unique
+                  \(\prod_{i}a_{i}:T\prod_{i}X_{i}\to\prod_{i}X_{i}\) such that
+                  \Cref{fig:dia-3} commutes
+                  \begin{figure}[H]
+                      \[
+                          \begin{tikzcd}[ampersand replacement=\&]
+                              {T\prod_{i}X_{i}} \&\& {TX_{i}} \\
+                              \\
+                              {\prod_{i}X_{i}} \&\& {X_{i}}
+                              \arrow["{a_{i}}", from=1-3, to=3-3]
+                              \arrow["{\pi_{i}}"', from=3-1, to=3-3]
+                              \arrow["{T\pi_{i}}", from=1-1, to=1-3]
+                              \arrow["{\exists!\prod_{i}a_{i}}"', dashed, from=1-1, to=3-1]
+                          \end{tikzcd}
+                      \]
+                      \caption{Yet another diagram.}
+                      \label{fig:dia-3}
+                  \end{figure}
+                  Now suppose there is a \(T\)-algebra \((Z,b)\) such that there
+                  are \(T\)-algebra morphisms \(h_{i}:Z\to X_{i}\). Then this
+                  map lifts in \(\cat\) to a unique map
+                  \(\prod_{i}h_{i}:Z\to\prod X_{i}\) by the universal property
+                  of the product. Therefore we obtain the diagram of
+                  \Cref{fig:dia-3}.
+                  \begin{figure}[H]
+                      \[
+                          \begin{tikzcd}[ampersand replacement=\&]
+                              TY \\
+                              \&\& {T\prod_{i}X_{i}} \&\& {TX_{i}} \\
+                              \\
+                              \&\& {\prod_{i}X_{i}} \&\& {X_{i}} \\
+                              Y
+                              \arrow["{a_{i}}", from=2-5, to=4-5]
+                              \arrow["{\pi_{i}}"', from=4-3, to=4-5]
+                              \arrow["{T\pi_{i}}"', from=2-3, to=2-5]
+                              \arrow["{\prod_{i}a_{i}}"', from=2-3, to=4-3]
+                              \arrow["b"', from=1-1, to=5-1]
+                              \arrow["Th_{i}", curve={height=-12pt}, from=1-1, to=2-5]
+                              \arrow["{h_{i}}"', curve={height=6pt}, from=5-1, to=4-5]
+                              \arrow["{\exists!\prod_{i}h_{i}}", dashed, from=5-1, to=4-3]
+                              \arrow["{T\prod_{i}h_{i}}"', from=1-1, to=2-3]
+                          \end{tikzcd}
+                      \]
+                      \caption{Yet another diagram\('\).}
+                      \label{fig:dia-4}
+                  \end{figure}
+                  If the left square commutes then \(\prod_{i}h_{i}\) is a
+                  morphism of \(T\)-algebras. To see the square commutes notice
+                  that \(a_{i}Th_{i}=h_{i}b\) so these maps
+                  \(a_{i}Th_{i},h_{i}b:Y\to X_{i}\) induce the same unique map
+                  \(g:TY\to\prod_{i}X_{i}\) by the universal property. However
+                  \(a_{i}Th_{i}=\pi_{i}\prod_{i}a_{i}T\prod_{i}h_{i}\) so the
+                  induces map for all these morphisms must be the same because
+                  they are the same map.
+
+                  \begin{figure}[H]
+                      \[
+                          \begin{tikzcd}[ampersand replacement=\&]
+                              TY \&\& {\prod_{i}X_{i}} \\
+                              \\
+                              Y \&\& {X_{i}}
+                              \arrow["b", from=1-1, to=3-1]
+                              \arrow["{\exists!g}"', dashed, from=1-1, to=1-3]
+                              \arrow["{a_{i}}"', from=1-3, to=3-3]
+                              \arrow["{h_{i}}", from=3-1, to=3-3]
+                              \arrow["{\prod_{i}h_{i}}"{description}, from=3-1, to=1-3]
+                          \end{tikzcd}
+                      \]
+                      \[
+                          \begin{tikzcd}[ampersand replacement=\&]
+                              TY \&\& {\prod_{i}X_{i}} \\
+                              \& {T\prod_{i}X_{i}}
+                              \arrow["{\exists!g}"', dashed, from=1-1, to=1-3]
+                              \arrow["{T\prod_{i}h_{i}}"', from=1-1, to=2-2]
+                              \arrow["{\prod_{i}a_{i}}"', from=2-2, to=1-3]
+                          \end{tikzcd}
+                      \]
+                      \caption{Two diagrams commutative by the universal property of products.}
+                  \end{figure}
+                  Because the maps \(g\) in both diagrams are the same this
+                  means that \(\prod_{i}a_{i}T\prod_{i}h_{i}=\prod_{i}h_{i}b\).
+                  Therefore the left square in \Cref{fig:dia-4} is commutative
+                  so \(\prod_{i}h_{i}\) is a morphism of \(T\)-algebras.
+
+                  Therefore \(\alg{T}\) has all small products and equalizers
+                  and is complete.
+
+                  To show all limits are preserved by \(U\), by exercise 43 it's
+                  sufficient to show \(\alg{T}\) is complete and \(U\) preserves
+                  small products and equalizers. The category \(U\) has just
+                  been shown to be complete so just the preservation needs to be
+                  demonstrated.
+
+                  As demonstrated above, the equalizer for two maps
+                  \(f,g:(X,a)\to(Y,b)\) is the equalizer \((E,c)\) for some
+                  morphism \(c:TE\to E\). Similarly the small product of
+                  \(\set{(X_{i},a_{i})}_{i}\) is
+                  \((\prod_{i}X_{i},\prod_{i}a_{i})\) for some morphism
+                  \(\prod_{i}a_{i}:T\prod_{i}X_{i}\to\prod_{i}X_{i}\). This
+                  means the forgetful functor \(U\) preserves small products and
+                  equalizers so it preserves all limits.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

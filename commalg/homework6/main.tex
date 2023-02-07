@@ -1,0 +1,333 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{scalerel}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{quiver}
+\usepackage{float}
+\usepackage{nicefrac}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator*{\bigplus}{\scalerel*{+}{\sum}}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Hom}{Hom}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\JRad}{JRad}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\Idem}{Idem}
+\DeclareMathOperator{\Rad}{Rad}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Mat}{Mat}
+\DeclareMathOperator{\ch}{ch}
+\DeclareMathOperator{\Ass}{Ass}
+
+\newcommand{\maxid}{\mathfrak{m}}
+\newcommand{\maxidd}{\mathfrak{n}}
+\newcommand{\primeid}{\mathfrak{p}}
+\newcommand{\primeeid}{\mathfrak{q}}
+\newcommand{\ideal}{\triangleleft}
+\newcommand{\powser}[2]{#1\llbracket#2\rrbracket}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\newtheorem{question}{Question}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework Commutative Algebra}
+\author{Jonas van der Schaaf}
+\date{November 7, 2022}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Let \(R\) be a ring, \(\maxid\ideal R\) a maximal ideal, and \(n\) a
+    positive integer. Show that \(R/\maxid^{n}\) is a local ring with maximal
+    ideal \(\maxid\).
+
+    \begin{proof}
+        It's clear that \(\maxid R/\maxid^{n}\) is a maximal ideal in
+        \(R/\maxid^{n}\) because by some isomorphism theorem we have
+        \(R/\maxid^{n}/(\maxid/\maxid^{n})\cong R/\maxid\) which is a field.
+
+        We will show this by induction. For \(n=1\) we have that
+        \(R/\maxid\) is a field which is a local ring.
+
+        Suppose the statement is true for \(n\) and let \(\maxid'\ideal
+        R/\maxid^{n+1}\) be any maximal ideal. We have the projection morphism
+        \(\pi:R/\maxid^{n}\twoheadrightarrow R/\maxid^{n+1}\) so we can contract
+        \(\maxid'\) to an ideal \(\maxid'^{c}\) of \(R/\maxid^{n}\). Because
+        \(\pi\) is a surjective map and \(\maxid'\) is in particular prime,
+        \(\maxid'^{c}\) must also be prime and therefore contained in \(\maxid
+        R/\maxid^{n}R\). Because \(\pi\) is surjective we also have
+        \(\pi[\maxid'^{c}]=\maxid'^{ce}=\maxid'\) and because
+        \(\maxid'^{c}\subseteq\maxid R/\maxid^{n}\) we must have
+        \(\maxid'^{ce}\subseteq\pi[\maxid R/\maxid^{n}]\subseteq\maxid
+        R/\maxid^{n+1}\). This means that \(\maxid'\) is contained within the
+        maximal ideal \(\maxid\) and so the two are equal.
+    \end{proof}
+\end{question}
+
+\begin{question}
+    Let \(R\) be a Noetherian ring and \(\primeid\ideal R\) a prime ideal. Show
+    that the following are equivalent:
+    \begin{enumerate}
+        \item \(\primeid\) is maximal,
+        \item \(R/\primeid^{n}\) is an Artin local ring for all \(n>0\),
+        \item \(R/\primeid^{n}\) is an Artin local ring for some \(n>0\).
+    \end{enumerate}
+
+    \begin{proof}
+        \(1\Rightarrow2\) Let \(\primeid\) be a maximal ideal and take any
+        \(n>0\). By question 1 \(R/\primeid^{n}\) is a local ring. It is also
+        Noetherian because it is a quotient of a Noetherian ring. The power
+        \((\primeid/\primeid^{n})^{n}=0\) so by theorem 8.6 we have that this
+        ring is Artin local.
+
+        \(2\Rightarrow3\) If the statement is true for all \(n>0\) then in
+        particular it is true for some \(n>0\).
+
+        \(3\Rightarrow1\) Suppose \(R/\primeid^{n}\) is Artin local for some
+        \(n>0\). Then \(\primeid/\primeid^{n}\) is a prime ideal of \(R\)
+        because the quotient is \(R/\primeid\) by some isomorphism theorem and
+        this is a domain because \(\primeid\) is prime. This means that the
+        ideal \(\primeid/\primeid^{n}\) must be maximal and its quotient a
+        field, the quotient is isomorphic to \(R/\primeid\) so this must also be
+        a field. This means \(\primeid\) is maximal.
+    \end{proof}
+\end{question}
+
+\begin{question}
+    There are natural ring homomorphisms \(\Z[x]\to\powser{\Z[x]}{y}\) and
+    \(\powser{\Z}{y}\to\powser{\Z[x]}{y}\), inducing a ring homomorphism
+    \[
+        f:\Z[x]\otimes_{\Z}\powser{\Z}{y}\to\powser{\Z[x]}{y}.
+    \]
+    \begin{enumerate}[(a)]
+        \item Is \(f\) injective?
+
+              \begin{solution}
+                  Yes this morphism is injective. This is too tiring to prove.
+              \end{solution}
+
+        \item Is \(f\) surjective?
+
+              \begin{solution}
+                  No \(f\) is not surjective. For example
+                  \[
+                      \sum_{i=0}^{\infty}x^{i}y^{i}\in\powser{\Z[x]}{y}
+                  \]
+                  is a formal power series because \(x^{i}\) is a polynomial in
+                  \(\Z[x]\) for each \(i\). This element is not in the image of
+                  the tensor product however. Any basis element \(p\otimes g\)
+                  for \(p\in\Z[x]\) and \(g\in\powser{\Z}{y}\) is mapped onto
+                  \begin{align*}
+                      p\cdot g & =\sum_{i=0}^{\infty}pa_{i}y^{i} \\
+                               & \in\powser{\Z[x]}{y}.
+                  \end{align*}
+                  This means that the coefficients of the above power series
+                  only differ by some constant factor
+                  \(\nicefrac{a_{i}}{a_{j}}\). In porticular all coefficients
+                  are polynomials of the same degree.
+
+                  This means that for a finite combination
+                  \[
+                      \sum_{i=1}^{n}p_{i}\otimes y_{i}
+                  \]
+                  the resulting coefficients also have constant degree. This
+                  means the above element cannot be in the image.
+              \end{solution}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(R\) be a ring and \(\maxid\) a maximal ideal with localisation
+    \(R_{\maxid}\), together with its natural map \(f:R\to R_{\maxid}\). We
+    write \(\maxidd=\maxid R_{\maxid}\) for the maximal ideal of \(R_{\maxid}\).
+
+    \begin{enumerate}[a]
+        \item Show that the map \(f\) is a continuous map of topological rings,
+              where \(R\) is equipped with the \(\maxid\)-adic topology and
+              \(R_{\maxid}\) with the \(\maxidd\)-adic topology.
+
+
+              \begin{proof}
+                  We will show the inverse image of any basis element of
+                  \(R_{\maxid}\) is open. This will give that the function is
+                  continuous. The set cosets \(\setwith{x+\maxidd^{k}}{x\in
+                      R_{\maxid},k\in\N}\) form a basis for the topology.
+
+                  We will show that
+                  \[
+                      f^{-1}[x+\maxidd^{i}]=\bigcup_{y,f(y)\in x+\maxidd^{i}}y+\maxidd^{i}.
+                  \]
+                  The right set is the union of open sets and so the thing
+                  is open which means the map is continuous.
+
+                  The right to left inclusion goes as follows: we take any \(y\)
+                  with \(f(y)\in x+\maxidd^{i}\). Then for \(z\in y+\maxid^{i}\)
+                  we have that \(f(z)=\nicefrac{z}{1}=\nicefrac{y+a}{1}\) for
+                  some \(a\in\maxidd^{i}\). This means that \(f(z)\in
+                  y+\maxidd^{i}\) and so
+                  \[
+                      \bigcup_{y,f(y)\in x+\maxidd^{i}}y+\maxidd^{i}\subseteq f^{-1}[x+\maxidd^{i}]
+                  \]
+                  For the other inclusion take any \(y\in
+                  f^{-1}[x+\maxidd^{i}]\). Then \(f(y)\in x+\maxidd^{i}\).
+                  \(y+\maxid^{i}\subseteq\bigcup_{y,f(y)\in
+                      x+\maxidd^{i}}y+\maxid^{i}\). This proves the other inclusion
+                  and therefore equality.
+
+                  As explained before this suffices to show continuity so \(f\)
+                  is continuous.
+              \end{proof}
+
+        \item Show for all non-negative integers \(i\) that \(\maxid^{i}\otimes
+              R_{\maxid}=\maxidd^{i}\).
+
+              \begin{proof}
+                  Using properties of localisation gives
+                  \begin{align*}
+                      \maxid^{i}\otimes R_{\maxid} & \cong(\maxid^{i})_{\maxid} \\
+                                                   & =\maxid^{i}R_{\maxid}.
+                  \end{align*}
+                  Therefore showing the desired statement is equivalent to
+                  showing
+                  \[
+                      \maxid^{i}R_{\maxid}=\maxidd^{i}=(\maxid R_{\maxid})^{i}.
+                  \]
+                  The right to left inclusion is immediate and so we will focus
+                  on the left to right inclusion.
+
+                  We will show this by showing the generators of
+                  \(\maxid^{i}R_{\maxid}\) are in the left ideal. This is
+                  sufficient. Take any \(\prod_{j=1}^{i}a_{i}\) for
+                  \(a_{i}\in\maxid\). The elements of this form generate
+                  \(\maxid^{i}\). For any \(\nicefrac{x}{y}\in R_{\maxid}\)
+                  where
+                  \[
+                      b_{i}=\begin{cases}
+                          y & i=1,    \\
+                          1 & i\neq1.
+                      \end{cases}
+                  \]
+                  This means that the ideals \(\maxid^{i}R_{\maxid}\) and
+                  \(\maxidd^{i}\) are equal.
+              \end{proof}
+
+        \item Given a positive integer \(i\), show that the map
+              \(R/\maxid^{i}\to R_{\maxid}/\maxidd^{i}\) induced by \(f\) is an
+              isomorphism.
+
+              \begin{proof}
+                  We know that \(\maxidd^{i}=(\maxid^{i})_{\maxid}\) by the
+                  previous part. This means that
+                  \begin{align*}
+                      R_{\maxid}/\maxidd^{i} & =R_{\maxid}/(\maxid^{i})_{\maxid} \\
+                                             & \cong(R/\maxid^{i})_{\maxid}      \\
+                                             & =R/\maxid^{i}
+                  \end{align*}
+                  because every element of \(R/\maxid^{i}\setminus \maxid
+                  R/\maxid^{i}\) is a unit because the ring is local.
+
+                  To show this is the induced map, we consider how this found
+                  isomorphism works. Given some \(x\in R\) we have get the
+                  following sequence from the above isomorphisms:
+                  \[
+                      R/\maxid^{i}\ni\overline{r}\mapsto \overline{\frac{r}{1}}\mapsto\frac{\overline{r}}{\overline{1}}=\overline{f(r)}\in R_{\maxid}/\maxidd^{i}.
+                  \]
+                  Therefore the isomorphism is the induced morphism.
+              \end{proof}
+
+        \item Show that the natural map
+              \(\widehat{f}:\widehat{R}\to\widehat{R_{\maxid}}\) is an
+              isomorphism of groups.
+
+              \begin{proof}
+                  For each \(i\in\Z_{>0}\) we have the following diagram:
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          \& R \\
+                          {R/\maxid^{i}} \&\& {R/\maxid^{i+1}} \\
+                          \\
+                          {R_{\maxid}/\maxidd^{i}} \&\& {R_{\maxid}/\maxidd^{i+1}}
+                          \arrow[from=1-2, to=2-1]
+                          \arrow[from=2-3, to=2-1]
+                          \arrow[from=2-1, to=4-1]
+                          \arrow[from=1-2, to=4-1]
+                          \arrow[from=2-3, to=4-3]
+                          \arrow[from=4-3, to=4-1]
+                          \arrow[from=1-2, to=2-3]
+                          \arrow[from=1-2, to=4-3]
+                      \end{tikzcd}
+                  \]
+                  Each of the triangles with apex \(R\) commutes. Because the
+                  maps from \(R\) are also epimorphisms this means the square
+                  square commutes as well.
+
+                  This means we have an exact sequence of inverse systems
+                  \[
+                      0\to0\to\set{0}\to\set{R/\maxid^{i}}\to\set{R_{\maxid}/\maxidd^{i}\to 0}
+                  \]
+                  so we have an exact sequence
+                  \[
+                      0\to\lim R/\maxid_{i}\to R_{\maxid}/\maxidd^{i}\to 0
+                  \]
+                  so the two limits are isomorphic.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

@@ -1,0 +1,292 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{scalerel}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{quiver}
+\usepackage{float}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator*{\bigplus}{\scalerel*{+}{\sum}}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Hom}{Hom}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\JRad}{JRad}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\Idem}{Idem}
+\DeclareMathOperator{\Rad}{Rad}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Mat}{Mat}
+\DeclareMathOperator{\ch}{ch}
+
+\newcommand{\maxid}{\mathfrak{m}}
+\newcommand{\primeid}{\mathfrak{p}}
+\newcommand{\ideal}{\triangleleft}
+
+\newenvironment{question}[1][]{\begin{paragraph}{Question #1}}{\end{paragraph}}
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework Commutative Algebra}
+\author{Jonas van der Schaaf \and 12798797 \and Universiteit van Amsterdam \and jonas.vanderschaaf@student.uva.nl}
+\date{September 26, 2022}
+
+\begin{document}
+\maketitle
+
+\begin{question}[1]
+    Let \(k\) be a field. Compute the nilradicals of the following rings:
+    \begin{enumerate}[(a)]
+        \item \(A=k[x,y]/(x^{3}, xy^{2})\)
+
+              \begin{solution}
+                  I will first prove that \(\Nil(k[x,y]/I)\) is given by the
+                  polynomials in \(\sqrt{I}\). Then \(f\in\sqrt{I}\) iff
+                  \(f^{n}\in I\) for some \(n\in\N_{>0}\) which is equivalent to
+                  \(0=\overline{f^{n}}=\overline{f}^{n}\) which in turn is true
+                  exactly iff \(f\in\Nil(k[x,y]/I)\). Therefore
+                  \(\overline{f}\in\Nil(k[x,y]/I)\) iff \(f\in\sqrt{I}\).
+
+
+                  It is clear that \((x)=(x,xy)\subseteq\sqrt{(x^{3},xy^{2})}\).
+                  Now take any \(f\in\sqrt{x^{3},xy^{2}}\). Then
+                  \(f^{n}=ax^{3}+bxy^{2}\). Because \(x\) is irreducible this
+                  means \(x\mid f\) so \(f\in(x)\). This means that
+                  \(\sqrt{I}=(x)\). Therefore also
+                  \(\Nil(k[x,y]/(x^{3},xy^{2}))=(\overline{x})\).
+              \end{solution}
+
+        \item \(k[x,y,z]/(x^{2}+y^{2}+z^{2})\)
+
+              \begin{solution}
+                  For \(k\) a field of characteristic \(2\) we have
+                  \((x+y+z)^{2}=x^{2}+y^{2}+z^{2}\). Therefore \(x+y+z\) is
+                  nilpotent and in the nilradical. It is also a linear
+                  polynomial and therefore irreducible. This means that for all
+                  \(f\in k[x,y,z]\) with
+                  \(f^{n}=a(x^{2}+y^{2}+z^{2})=a(x+y+z)^{2}\) we must have
+                  \(x+y+z\mid f\). This means that
+                  \(\Nil(k[x,y,z]/(x^{2}+y^{2}+z^{2}))=(x+y+z)\) if \(\ch k=2\).
+
+                  If \(k\) has characteristic different from \(2\), then in
+                  particular \(x^{2}+1\) has two distinct roots in
+                  \(\overline{k}\): \(\pm i\). We will show
+                  \(x^{2}+y^{2}+z^{2}\) is irreducible by applying the
+                  Eisenstein criterion over the algebraic closure of \(k\). In
+                  \(\overline{k}\) the polynomial \(x^{2}+y^{2}+z^{2}\) can be
+                  written as \(z^{2}+(x+iy)(x-iy)\) where \(x+iy\neq x-iy\).
+                  Each of these linear factors is irreducible so
+                  \(x^{2}+y^{2}+z^{2}\) must be an irreducible element of
+                  \(\overline{k}[x,y,z]\). In particular if
+                  \(fg\in(x^{2}+y^{2}+z^{2})\) for \(f,g\in
+                  k[x,y,z]\subseteq\overline{k}[x,y,z]\) then \(f\) or \(g\) is
+                  a unit in \(\overline{k}[x,y,z]\) so an element of
+                  \(\overline{k}\). We know \(f,g\in k[x,y,z]\) so it must also
+                  be an element of \(k\). Therefore the polynomial is
+                  irreducible.
+
+                  Because \(x^{2}+y^{2}+z^{2}\) is irreducible
+                  \(k[x,y,z]/(x^{2}+y^{2}+z^{2})\) is a domain so it has no
+                  nilpotents and \(\Nil(k[x,y,z]/(x^{2}+y^{2}+z^{2}))=(0)\).
+              \end{solution}
+    \end{enumerate}
+\end{question}
+
+\begin{question}[2]
+    Consider the ideal \(I=(x_{1}x_{3},x_{2}x_{3})\) of
+    \(\Q[x_{1},x_{2},x_{2}]\). Show that \((I:(x_{1},x_{2},x_{3})^{m})=I\) for
+    all \(m\geq 1\).
+
+    \begin{proof}
+        By exercise 1.12 we get
+        \begin{align*}
+            ((x_{1}x_{3},x_{2}x_{3}):(x_{1},x_{2},x_{3})) & =\bigcap_{1\leq i\leq 3}((x_{1}x_{3},x_{2}x_{3}):x_{i}) \\
+                                                          & =(x_{3})\cap(x_{3})\cap(x_{1},x_{2})                    \\
+                                                          & =(x_{3})\cdot(x_{1},x_{2})                              \\
+                                                          & =(x_{1}x_{3},x_{2},x_{3}).
+        \end{align*}
+        This proves the case for \(n=1\).
+
+        Suppose the statement is true for \(n\), then
+        \begin{align*}
+            ((x_{1}x_{3},x_{2}x_{3}):(x_{1},x_{2},x_{3})^{n+1}) & =((x_{1}x_{3},x_{2}x_{3}):(x_{1},x_{2},x_{3})^{n}(x_{1},x_{2},x_{3}))    \\
+                                                                & =(((x_{1}x_{3},x_{2}x_{3}):(x_{1},x_{2},x_{3})^{n}):(x_{1},x_{2},x_{3})) \\
+                                                                & =((x_{1}x_{3},x_{2},x_{3}):(x_{1},x_{2},x_{3}))                          \\
+                                                                & =I.
+        \end{align*}
+    \end{proof}
+\end{question}
+
+\begin{question}[3]
+    Let \(A\) be a ring. An \(A\)-module \(M\) is said to be simple if the only
+    submodules are \(0\) and \(M\).
+
+    \begin{enumerate}[(a)]
+        \item Show that every simple \(A\)-module is of the form \(Am\) for some
+              \(m\in M\).
+
+              \begin{proof}
+                  Take any \(m\in M\) non-zero then clearly \(Am\neq 0\).
+                  Therefore \(Am=M\).
+              \end{proof}
+
+        \item Let \(M\) be a module and let \(m\in M\). Show that the set
+              \(\Ann(M)\subseteq A\) is an ideal of \(A\) and that \(M\cong
+              A/\Ann(M)\) as \(A\)-modules.
+
+              \begin{proof}
+                  To show \(\Ann(M)\) is an ideal we need to show that it is
+                  closed under addition and multiplication with \(A\).
+
+                  Take any \(m\in M\), \(x,y\in\Ann(m)\) and \(a,b\in A\). Then
+                  \begin{align*}
+                      (ax+by)m & =axm+bym \\
+                               & =a0+b0   \\
+                               & =0.
+                  \end{align*}
+                  Therefore \(\Ann(M)\) is an ideal.
+
+                  The map \(\varphi:A\to Am:a\mapsto am\) is clearly surjective,
+                  so \(A/\ker(\varphi)\cong Am\) by the first isomorphism
+                  theorem. By definition \(\ker(\varphi)=\setwith{a\in
+                      A}{am=0}=\Ann(m)\). Therefore \(A/\Ann(m)\cong Am\).
+              \end{proof}
+
+        \item Let \(k\) be a field and \(M\) a simple \(k[x]\)-module. Prove
+              that \(M\cong k[x]/(f)\) for an irreducible polynomial \(f\).
+
+              \begin{proof}
+                  By part a and be we know that \(M=k[x]m\cong k[x]/\Ann(m)\)
+                  for some \(m\in M\). Because \(k[x]\) is a PID we know that
+                  \(\Ann(m)=(g)\) for some \(g\in k[x]\). Suppose \(g\) is not
+                  irreducible take \(f\) to be an irreducible factor of \(g\).
+                  Then \((f)/(g)\) is a non-zero strict submodule of
+                  \(k[x]/(g)\). But \(k[x]/(g)\cong M\) which is simple so this
+                  is a contradiction.
+              \end{proof}
+
+        \item Which of the following \(\Z\) modules are simple?
+              \(\Z,\Z/6\Z,\Z/7\Z\).
+
+              \begin{solution}
+                  The modules \(\Z\) and \(\Z/6\Z\) are not simple because
+                  \(\gen{2}\) is a non-zero strict submodule in both.
+
+                  The module \(\Z/7\Z\) is a simple module because it is
+                  generated by any single non-zero element. Therefore any
+                  non-zero submodule must be the entire module.
+              \end{solution}
+    \end{enumerate}
+\end{question}
+
+\begin{question}[4]
+    Let \(A\) be a ring, \(M\) a finitely generated \(A\) module, and
+    \(\varphi:M\to M\) a surjective \(A\)-linear map. Show that \(\varphi\) is
+    an isomorphism.
+
+    \begin{proof}
+        The module \(M\) is also an \(A[x]\) module with \(xm=\varphi(m)\). Then
+        \(xM=M\) by surjectivity of \(\varphi\). Therefore \((x)M=M\). This
+        means there is some \(y\in 1+(x)\) such that \(yM=0\).  This \(y\) in
+        particular has \(y=1+sx\) for some \(s\in A[x]\). This means that the
+        map \(f:A[x]\to\End(M)\) given by the module structure maps \(y\) to
+        zero so \(0=f(1+sx)\). Therefore \(\Id + f(s)\varphi=0\), or
+        equivalently \(f(-s)\) is the left inverse of \(\varphi\). This means
+        that \(\varphi\) is injective, so it is an automorphism.
+    \end{proof}
+\end{question}
+
+\begin{question}[5]
+    Let \(k\) be a field and \(A=k[[x]]\) a power series ring over \(k\) in one
+    variable. Let \(M=A\oplus A\) as module. Let
+    \(a=(\sum_{i}a_{i}x^{i},\sum_{i}a_{i}'x^{i})\) and
+    \((\sum_{i}b_{i}x^{i},\sum_{i}b_{i}'x^{i})\). Show \(a\) and \(b\) generate
+    \(M\) if and only if the matrix
+    \[
+        \begin{pmatrix}
+            a_{0} & a_{0}' \\
+            b_{0} & b_{0}' \\
+        \end{pmatrix}\in\Mat_{n\times n}(k)
+    \]
+    has non-zero determinant.
+
+    \begin{proof}
+        The quotient \(M/\maxid M\) for \(\maxid=(x)\ideal A\) is isomorphic to
+        \(k^{2}\). By proposition 2.8 if it is finitely generated by
+        \(\overline{a}=(a_{0},a'_{0}),\overline{b}=(b_{0},b'_{0})\) then \(a,b\)
+        generate \(M\). By basic linear algebra this is equivalent to
+        \[
+            \det\begin{pmatrix}
+                a_{0} & a'_{0} \\
+                b_{0} & b'_{0}
+            \end{pmatrix}\neq0.
+        \]
+        Therefore if the determinant is non-zero the elements \(a,b\) generate
+        \(M\).
+
+        Conversely if \(a,b\) generate \(M\) then they also generate
+        \(M/\maxid M\) which means once again
+        \[
+            \det\begin{pmatrix}
+                a_{0} & a'_{0} \\
+                b_{0} & b'_{0}
+            \end{pmatrix}\neq0.
+        \]
+        Therefore these statements are equivalent.
+    \end{proof}
+\end{question}
+\end{document}

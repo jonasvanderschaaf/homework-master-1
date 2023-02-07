@@ -1,0 +1,27 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+
+\title{Summary: Nothing is logical}
+\date{September 19, 2022}
+\author{Jonas van der Schaaf}
+
+\begin{document}
+\maketitle
+
+In her talk Maria explored particular difficulties in translation of speech to a
+logical formula. In particular she expressed difficulties in finding a logic to
+translate to such that common inferences people make when speaking are valid in
+the logical language. Her main interest were deontic and epistemic inference:
+consider for example the sentence ``Mr. X might be in Victoria or Brixton''.
+From this one can infer that ``Mr. X might be in Victoria and Mr. X might be in
+Brixton''. This pattern is an example of epistemic inference, but naive attempts
+to capture this inference swiftly lead to contradictions.
+
+Maria and her research group suggest that this pattern in reasoning can be
+modelled using the neglect-zero hypothesis. This is the idea that when reasoning
+about a statement people ignore configurations where it is vacuously true. This
+is implemented in the logic by considering enriched formulas: these have extra
+terms expressing that the model satisfying the formula is non-empty. This idea
+is very promising for modelling speech, conversation, and inference.
+\end{document}

@@ -1,0 +1,399 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs,stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cleveref}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikz}
+
+\newtheorem*{lemma}{Lemma}
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem*{corollary}{Corollary}
+
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\set{#1\colon#2}}
+\newcommand{\sequence}[2]{\left<#1:#2\right>}
+
+\newcommand{\powset}{\mathcal{P}}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\range}{ran}
+\DeclareMathOperator{\field}{field}
+\DeclareMathOperator{\cof}{cf}
+\DeclareMathOperator{\trcl}{trcl}
+\newcommand{\ordinals}{{\bf On}}
+
+\newcommand{\restrict}{\upharpoonright}
+
+\DeclarePairedDelimiter{\abs}{|}{|}
+
+\newenvironment{solution}{\begin{proof}[Solution]}{\end{proof}}
+
+\title{Homework Set Theory}
+\date{Novenber 21, 2022}
+\author{Jonas van der Schaaf}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    For an infinite cardinal \(\kappa\) let
+    \(H(\kappa)=\setwith{x}{\abs{\trcl(x)}<\kappa}\). Prove the following about
+    \(H(\kappa)\).
+
+    \begin{enumerate}[a.]
+        \item \(H(\kappa)\) is transitive.
+
+              \begin{proof}
+                  Let \(x\in H(\kappa)\), i.e. \(\trcl(x)<\kappa\). Then for
+                  \(y\in x\) we have \(\trcl{y}\subseteq\trcl{x}\) so
+                  \(\abs{\trcl{y}}<\kappa\). This proves that \(H(\kappa)\) is
+                  transitive.
+              \end{proof}
+
+        \item \(H(\kappa)\cap \ordinals=\kappa\).
+
+              \begin{proof}
+                  For any ordinal \(\alpha\) we have \(\trcl(\alpha)=\alpha\)
+                  because ordinals are transitive. This proves \(\alpha\in
+                  H(\kappa)\) iff
+                  \begin{align*}
+                      \abs{\trcl{\alpha}} & =\abs{\alpha} \\
+                                          & =\alpha       \\
+                                          & <\kappa.
+                  \end{align*}
+              \end{proof}
+
+        \item If \(x\in H(\kappa)\) and \(y\subseteq x\) then \(y\in
+              H(\kappa)\).
+
+              \begin{proof}
+                  If \(x\in H(\kappa)\) and \(y\subseteq x\) then
+                  \(\trcl(y)\subseteq\trcl{x}\) so
+                  \(\abs{\trcl(y)}\leq\abs{\trcl{x}}<\kappa\) so \(y\in
+                  H(\kappa)\).
+              \end{proof}
+
+        \item Show \(H(\kappa)\) is closed under the Gödel operations.
+
+              \begin{proof}
+                  For \(x,y\in H(\kappa)\) the set
+                  \(\trcl(\setwith{x,y})=\trcl{x}\cup\trcl{y}\cup\set{x,y}\).
+                  We have \(\abs{trcl(x)},\abs{\trcl(y)}<\kappa\) so
+                  \(\abs{\trcl{x,y}}\leq\abs{trcl(x)}+\abs{\trcl(y)}+2<\kappa\).
+                  This proves \(H\) is closed under \(G_{1}\).
+
+                  For \(x,y\in H(\kappa)\) the transitive closure of \(x\times
+                  y\) is given by
+                  \[
+                      \trcl{x}\cup\trcl{y}\cup\set{x\times y}\cup x\times y\cup\setwith{\trcl((a,b))}{a\in x, b\in y}.
+                  \]
+                  Each of these sets has cardinality less than kappa (in
+                  particular the tuples have this because it's the transitive
+                  closure of their coordinates with two extra sets). Therefore
+                  the total transitive closure has cardinality less than
+                  \(\kappa\) and therefore \(H(\kappa)\) is closed under
+                  \(G_{2}\).
+
+                  The set \(G_{3}(x,y)\) is a subset of \(G_{2}(x,y)\) and
+                  therefore its transitive closure is a subset of the
+                  aforementioned one. This means its cardinality is also less
+                  than \(\kappa\) so \(H(\kappa)\) is closed under \(G_{3}\).
+
+                  If \(x,y\in H(\kappa)\) then \(\trcl{x-y},\trcl{x\cap
+                      y}\subseteq\trcl{x}\) which has cardinality less than
+                  \(\kappa\) so \(\trcl{x-y}\) and \(\trcl{x\cap y}\) do as
+                  well. This means \(H(\kappa)\) is closed under \(G_{4}\) and
+                  \(G_{5}\).
+
+                  If \(x\in H(\kappa)\) then \(\trcl{\bigcup
+                      x}\subseteq\trcl{x}\). This means the former has cardinality
+                  of at most the latter one, which is less than \(\kappa\).
+                  Therefore \(H(\kappa)\) is closed under \(G_{6}\).
+
+                  For any set \(x\) and a tuple \((a,b)\in x\) \(a\in\trcl{x}\)
+                  so \(\trcl{\dom(x)}\subseteq\trcl{x}\) the latter of which has
+                  cardinality less than \(\kappa\), so \(\trcl{\dom(x)}\) does
+                  as well. This proves \(H(\kappa)\) is closed under \(G_{7}\).
+
+                  Careful examination shows that for any tuple \((a,b)\) we have
+                  \(\trcl((a,b))\setminus\set{(a,b)}=\trcl((b,a))\setminus\set{(b,a)}\).
+                  This proves that the only difference in the transitive closure
+                  of \(x\) and \(G_{8}(x)\) is the set \(\setwith{z\in
+                      x}{\textnormal{\(z\) is a tuple}}\) which is replaced with
+                  \(\setwith{z\in x}{\textnormal{\(z\) is a tuple with flipped
+                          coordinates in \(x\)}}\). Because flipping coordinates is
+                  invertible this means that the transitive closures of \(x\)
+                  and \(G_{8}(x)\) have the same cardinality so \(H(\kappa)\) is
+                  closed under \(G_{8}\).
+
+                  For a tuple
+                  \((x,y,z)=(x,(y,z))=\set{x,\set{x,\set{y,\set{y,z}}}}\)
+                  swapping \(y\) and \(z\) results in the set written as
+                  \(\set{x,\set{x,\set{z,\set{y,z}}}}\). The transitive closure
+                  of this swapped tuple \((x,(z,y))\) is given by
+                  \[
+                      \trcl(x)\cup\trcl(y)\cup\trcl(z)\cup
+                      \set{\set{x,\set{x,\set{y,\set{y,z}}}},\set{y,\set{y,z}},\set{y,z}}
+                  \]
+                  Because the last set of that union has cardinality \(3\) we
+                  can easily see that
+                  \begin{align*}
+                      \abs{\trcl(G_{9}(x))} & \leq\abs{\trcl(x)}+\abs{3\cdot x} \\
+                                            & <\kappa+\kappa                    \\
+                                            & =\kappa.
+                  \end{align*}
+
+                  Similarly for a tuple \((x,y,z)\) applying \(G_{10}\) gives
+                  \((y,z,x)=\set{y,\set{y,\set{z,\set{z,x}}}}\). The transitive
+                  closure of this is then
+                  \[
+                      \trcl(x)\cup\trcl(y)\cup\trcl(z)\cup\set{\set{y,\set{y,\set{z,\set{z,x}}}},\set{y,\set{z,\set{z,x}}},\set{z,x}}.
+                  \]
+                  Therefore
+                  \begin{align*}
+                      \abs{\trcl{G_{10}(x)}} & \leq\abs{\trcl(x)}+\abs{3\cdot x} \\
+                                             & <\kappa+\kappa                    \\
+                                             & =\kappa.
+                  \end{align*}
+
+                  This proves \(H(\kappa)\) is closed under \(G_{9}\) and
+                  \(G_{10}\) as well so \(H(\kappa)\) is closed under all Gödel
+                  operations.
+              \end{proof}
+
+        \item (Using choice) If \(\kappa\) is regular then \(x\in H(\kappa)\) if
+              and only if \(x\subseteq H(\kappa)\) and \(\abs{x}\leq\kappa\).
+
+              \begin{proof}
+                  For \(x\in H(\kappa)\) we have \(x\subseteq\trcl(x)\) so
+                  \(\abs{x}\leq\abs{\trcl(x)}<\kappa\). Because \(H(\kappa)\) is
+                  transitive we also immediately get \(x\subseteq H(x)\).
+
+                  Conversely let \(x\subseteq H(\kappa)\) be a set with
+                  \(\abs{x}<\kappa\). Then
+                  \(\trcl{x}=\bigcup\setwith{\trcl{y}}{y\in x}\cup{x}\). However
+                  because \(\abs{x}<\kappa\) and \(\trcl{y}<\kappa\) for all
+                  \(y\in x\) the set \(\setwith{\abs{\trcl{y}}}{y\in x}\) must
+                  have some supremum \(\lambda<\kappa\).
+
+                  Then we have
+                  \begin{align*}
+                      \abs{\trcl{x}} & =\abs{\bigcup_{y\in x} \trcl{y}\cup\set{x}} \\
+                                     & =\abs{\bigcup_{y\in x} \trcl{y}}+1          \\
+                                     & \leq\sum_{y\in x}\abs{\trcl{y}}             \\
+                                     & =\abs{x}\lambda                             \\
+                                     & <\kappa
+                  \end{align*}
+                  so \(x\in\trcl{\kappa}\).
+              \end{proof}
+
+        \item (Using choice) If \(\kappa\) is regular and uncountable then
+              \(H(\kappa)\) is a model of ZFC-P.
+
+              \begin{proof}
+                  The axiom of extensionality is immediately satisfied because
+                  it is expressed in terms of only universal quantifiers and
+                  therefore preserved under substructure.
+
+                  The axiom of union and pair are satisfied because
+                  \(H(\kappa)\) is closed under the Gödel operations.
+
+                  The axiom of regularity is satisfied because
+                  \(H(\kappa)\subseteq V\) is a subset of the well-founded
+                  universe because the class of sets is well-founded.
+
+                  The axiom of infinity is satisfied because
+                  \(\abs{\trcl{\omega}}=\abs{\omega}=\aleph_{0}<\kappa\).
+
+                  The axiom schema of separation is satisfied because for any
+                  \(y\subseteq x\subseteq H(\kappa)\) with \(\abs{x}<\kappa\) we
+                  have that \(\abs{y}\leq\abs{x}<\kappa\) and \(y\subseteq
+                  H(\kappa)\) so \(y\in H(\kappa)\).
+
+                  The axiom of choice is satisfied because for any set \(x\) and
+                  any choice function \(f\) has cardinality \(\abs{x}<\kappa\)
+                  and \(f\subseteq H(\kappa)\). The equality of \(\abs{f}\) and
+                  \(\abs{x}\) is simply by functionality of the relation \(f\).
+                  We have \(f\subseteq x\times\bigcup x\subseteq H(\kappa)\)
+                  because \(H(\kappa)\) is closed under Gödel operations and
+                  transitive. This proves \(f\in H(\kappa)\) for all choice
+                  functions.
+
+                  To show the axiom schema of replacement is satisfied let \(x\)
+                  be any set and \(\varphi\) a functional formula on \(x\). If
+                  for each \(z\in x\) we have (excusing terrible notation)
+                  \(\varphi(z)\in H(\kappa)\), then the set \(y\) obtained from
+                  the axiom of replacement in our original model is a subset of
+                  \(H(\kappa)\). The cardinalities \(\abs{\trcl(\varphi(z))}\)
+                  are smaller than \(\kappa\) for all \(z\in x\). By the same
+                  sequence of (in)equalities as part e this means that
+                  \(\abs{\trcl{y}}<\kappa\). This proves \(y\in H(\kappa)\) so
+                  it satisfies the axiom of replacement.
+
+                  This demonstrates all axioms except the powerset axiom and
+                  thus that \(H(\kappa)\) is a model for ZFC-P.
+              \end{proof}
+
+        \item Conclude that ZFC-P is consistent with the fact that every set is
+              countable.
+
+              \begin{proof}
+                  Consider \(H(\aleph_{1})\). This is a model of ZFC-P. We will
+                  show that for each infinite set there is a bijection to the
+                  natural numbers. This will prove all sets are countable.
+
+                  In the outer model we have
+                  \(\abs{x}\leq\abs{\trcl(c)}<\aleph_{1}\) for each infinite set
+                  \(x\). This shows that in the outer model there is a bijection
+                  \(f:\aleph_{1}\to x\). By reasoning similar to the one given
+                  in part f for the truth of the axiom of choice in
+                  \(H(\kappa)\) we must have that \(\abs{\trcl{f}}<\kappa\) and
+                  \(f\subseteq H(\kappa)\) so \(f\in H(\kappa)\). This proves
+                  \(\abs{x}=\aleph_{0}\) for each infinite set \(x\).
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    This exercise proves that ``\(x\) is finite'' is a \(\Delta_{1}\) property.
+
+    \begin{enumerate}[a.]
+        \item Verify that the definition of finiteness can be expressed as a
+              \(\Sigma_{1}\) formula.
+
+              \begin{proof}
+                  First we define a couple helper formulas which are all
+                  \(\Delta_{0}\):
+                  \begin{align*}
+                      \psi(z,a,b) & \equiv z=(a,b)                                                                                                                               \\
+                      \chi(z)     & \equiv\textnormal{\(z\) is an ordinal}                                                                                                       \\
+                      \xi(z)      & \equiv\chi(z)\wedge(\exists a\in z:\top)\wedge(\forall a\in z:a\cup\set{a}\in z\wedge (a\neq\varnothing\to(\exists b\in z:a=b\cup\set{b}))).
+                  \end{align*}
+                  The formula \(\xi\) is equivalent to \(z\) being \(\omega\):
+                  it is a non-empty ordinal containing the successor of each of
+                  its elements, so a limit ordinal, and all non-zero elements
+                  are a successor so it must be the smallest limit ordinal.
+
+                  Now we define the \(\Sigma_{1}\) formula ``\(x\) is finite''
+                  as follows:
+                  \begin{align*}
+                      \exists f,w:\xi(w)\wedge f\subseteq w\times x
+                       & \wedge(\exists n\in w:n=\dom(f) \wedge (\forall m\in n:\exists a\in x,z\in f:\psi(z,m,a)) \\
+                       & \wedge(\forall a\in x:\exists m\in n:\exists z\in f:\psi(z,m,a))).
+                  \end{align*}
+                  This formula is equivalent to the existence of a surjective
+                  \(f:n\to x\) for some \(n\in \omega\) which is equivalent to
+                  finiteness\footnote{But worded slightly weirdly, if you wanted
+                      something nice to read you should have given different
+                      homework.}.
+
+                  Therefore finiteness is a \(\Sigma_{1}\) property.
+              \end{proof}
+
+        \item Verify that the definition of finiteness can be expressed as a
+              \(\Pi_{1}\) formula.
+
+              \begin{proof}
+                  I will prove that \(T\)-finiteness, which is equivalent to
+                  finiteness, is \(\Pi_{1}\)-expressible. First I will define a
+                  couple of helper \(\Delta_{0}\) formulas:
+                  \begin{align*}
+                      \varphi(x,y) & =\forall z\in y:\forall t\in z:t\in x                             \\
+                      \psi(y)      & =\exists z\in y:\forall t\in y:t=z\vee \neg\forall a\in z:a\in t.
+                  \end{align*}
+                  The formula \(\varphi(x,y)\) means that \(x\) is a set of
+                  subsets of \(x\). The formula \(\psi\) means that there is an
+                  element \(z\in y\) such that it is equal to any other \(t\in
+                  y\) it is a subset of: \(y\) has a maximal element.
+
+                  By homework 3 we conclude that \(\forall
+                  y:\varphi(x,y)\to\psi(y)\) is equivalent to finiteness of
+                  \(x\).\
+
+                  Therefore that finiteness is \(\Pi_{1}\) and also
+                  \(\Delta_{1}\) in combination with part a.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    We work in \(H(\aleph_{2})\). One can extend the methods used in class to
+    prove the following: if \(A\in H(\aleph_{2})\) is countable then there is a
+    countable set \(M\in H(\aleph_{2})\) that contains \(A\) and that satisfies
+    the equivalence
+    \[
+        \phi^{M}(m_{1},\ldots,m_{k})\leftrightarrow\phi^{H(\aleph_{2})}(m_{1},\ldots,m_{k})
+    \]
+    for all formulas \(\phi\) and all \(m_{1},\ldots,m_{k}\in M\).
+
+    Now let \(f:\omega_{1}\to\omega_{1}\) be a regressive function and let \(M\)
+    be as above for the countable set \(f\).
+    \begin{enumerate}[a.]
+        \item Verify that \(\omega_{1}\in M\).
+
+              \begin{proof}
+                  Let \(\varphi\) be the formula given by \(\varphi(x)=\exists
+                  y:y=\dom(x)\). Then \(\varphi^{H(\aleph_{2})}(f)\) is clearly
+                  satisfied and \(\dom(f)=\omega_{1}\). This means
+                  \(\varphi^{M}(f)=\exists y\in M:y=\dom(f)\), let the element
+                  satisfying this be called \(x\). Then
+                  \((x=\dom(f))^{H(\kappa_{2})}\) as well, so by absoluteness of
+                  \(\dom\) under transitivity \(x=\dom(f)=\omega_{1}\) in
+                  \(H(\aleph_{2})\) so \(x=\omega_{1}\in M\).
+              \end{proof}
+
+        \item Prove that \(\omega\in M\) and \(\omega\subseteq M\).
+
+              \begin{proof}
+                  We borrow the formulas \(\chi,\xi\) from exercise 2.a we see that
+                  the formula
+                  \[
+                      \varphi(x)=\exists z:(\exists t\in z:\top)\wedge z\in\dom(x)\wedge\chi(z)\wedge\xi(z)
+                  \]
+                  clearly has the property that
+                  \[
+                      (\varphi(f))^{H(\aleph_{2})}.
+                  \]
+                  This means that
+                  \[
+                      (\varphi(f))^{M}.
+                  \]
+                  as well, which means there is an ordinal in \(M\) which
+                  contains at least one element only successor ordinals and zero
+                  and is closed under taking successors. This must be
+                  \(\omega\). Therefore \(\omega\in M\).
+
+                  For the second statement we first prove \(\varnothing\in M\)
+                  and proceed via induction. We have the formula \(\exists
+                  x:\forall y:y\notin x\). This denotes the existence of
+                  something acting like an empty set. It is clearly true in
+                  \(H(\aleph_{2})\), so there is an \(x\in M\) satisfying
+                  \(\forall y\in M:y\notin x\). This does not mean \(x\) is the
+                  empty set. We get this by stating that \((\forall y:y\notin
+                  x)^{M}\) so also \((\forall y:y\notin x)^{H(\aleph_{2})}\)
+                  so \(x=\varnothing\).
+
+                  Now let \(n\in M\) be a natural number. Then \(\exists
+                  x:x=z\cup\set{z}\) is satisfied in \(H(\aleph_{2})\) for
+                  \(z=n\). Therefore there is also a \(x\in M\) which has
+                  \(\exists x\in M:x=z\cup\set{z}\). We also have
+                  \(x=n\cup\set{n}=n+1\) in the model \(H(\aleph_{2})\)
+                  and therefore \(x=n+1\).
+
+                  This proves by induction that \(\omega\subseteq M\).
+              \end{proof}
+
+        \item I'm sorry I don't really have time for the rest even though you
+              essentially spoiled the answer in the lecture.
+    \end{enumerate}
+\end{question}
+\end{document}

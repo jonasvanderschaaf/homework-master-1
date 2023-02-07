@@ -1,0 +1,307 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{scalerel}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{quiver}
+\usepackage{float}
+\usepackage{nicefrac}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator*{\bigplus}{\scalerel*{+}{\sum}}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Hom}{Hom}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\JRad}{JRad}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\Idem}{Idem}
+\DeclareMathOperator{\Rad}{Rad}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Mat}{Mat}
+\DeclareMathOperator{\ch}{ch}
+\DeclareMathOperator{\Ass}{Ass}
+
+\newcommand{\maxid}{\mathfrak{m}}
+\newcommand{\primeid}{\mathfrak{p}}
+\newcommand{\primeeid}{\mathfrak{q}}
+\newcommand{\ideal}{\triangleleft}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\newtheorem{question}{Question}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework Commutative Algebra}
+\author{Jonas van der Schaaf}
+\date{November 7, 2022}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Let \(A=\Q[t]\). Let \(B\) be a ring such that \(A\subseteq B\subseteq
+    Q(A)\).
+
+    \begin{enumerate}[(a)]
+        \item Prove there exists a multiplicatively closed set \(S\) such that
+              \(B=S^{-1}A\).
+
+              \begin{proof}
+                  Define
+                  \[
+                      S=\Q[t]\cap B.
+                  \]
+                  This is multiplicatively closed because both \(\Q[t]\) and
+                  \(B\) are multiplicatively closed subsets of \(Q(A)\) and
+                  therefore their intersection is as well.
+
+                  For \(\nicefrac{a}{b}\in S^{-1}A\) we must have that \(b\in
+                  B^{*}\) and \(a\in A\) so \(\nicefrac{a}{b}\in B\). This means
+                  \(S^{-1}A\subseteq B\).
+
+                  Taking any \(\nicefrac{f}{g}\in B\) such that \(\gcd(a,b)=1\)
+                  we have that the ideal \((f,g)\) is a principal ideal a \(h\)
+                  such that \(h\mid f\) and \(h\mid g\). This means that \(h\)
+                  must be a unit so there are \(a,b\) such that \(af+bg=1\).
+                  Then
+                  \begin{align*}
+                      \frac{1}{g} & =\frac{af+bg}{g}      \\
+                                  & =a\frac{f}{g}+b\in B.
+                  \end{align*}
+                  This means \(g\) is a unit in \(B\) so \(g\in S^{*}\) so
+                  \(\nicefrac{f}{g}\in S^{-1}A\). This means \(S^{-1}A=B\).
+              \end{proof}
+
+        \item Determine all valuation rings \(B\) such that \(A\subseteq
+              B\subseteq\Q(t)\).
+
+              \begin{solution}
+                  For this exercise we need to determine all multiplicative sets
+                  \(S\) such that \(S^{-1}A\) is a valuation ring. We can assume
+                  that \(\Q\subseteq S\) because these are already invertible
+                  elements and this will change nothing about the ring.
+
+                  The ring \(B\) is a valuation rings iff for all
+                  \(\nicefrac{a}{b}\in Q(A)\) either \(\nicefrac{a}{b}\in B\) or
+                  \(\nicefrac{b}{a}\in B\). By assuming that \(a,b\in\Q[t]\) are
+                  coprime then this means that \(a\in S\) or \(b\in S\). In
+                  particular this holds for irreducible polynomials. This means
+                  that at most one irreducible polynomial up to multiplication
+                  with a constant cannot be in the set \(S\). This means that
+                  \(\Q[t]\setminus S\subseteq(f)\) for some irreducible
+                  polynomial \(f\).
+
+                  Conversely if \(\Q[t]\setminus S\subseteq(f)\) for some
+                  irreducible \(f\) then \(B=S^{-1}\Q[t]\) is a valuation ring.
+                  This is because for all \(\nicefrac{a}{b}\in\Q(t)\) with
+                  \(a,b\) coprime we know \(f\) divides at most one of \(a,b\)
+                  so either \(a\in S\) or \(b\in S\). This means that
+                  \(\nicefrac{a}{b}\in B\) or \(\nicefrac{b}{a}\in B\)
+                  so it is a valuation ring.
+
+                  This means \(B=S^{-1}A\) is a valuation ring iff
+                  \(\Q[t]\setminus S\subseteq (f)\) for some irreducible \(f\).
+              \end{solution}
+
+        \item Determine all Artin rings \(B\) such that \(A\subseteq
+              B\subseteq\Q(t)\).
+
+              \begin{solution}
+                  Any Artin ring which is a domain must be a field. Any ring
+                  \(A\subseteq B\subseteq\Q(t)\) is a subring of a domain, and
+                  so must be a domain as well. If it is Artin it must be a
+                  field. The smallest field which contains \(A\) is \(\Q(t)\),
+                  so \(\Q(t)\subseteq B\subseteq\Q(t)\). This means \(B=\Q(t)\).
+              \end{solution}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(A=\Q[x,y]/(x^{2},xy^{2},y^{4})\). Determine the length of \(A\) as an
+    \(A\)-module.
+
+    \begin{solution}
+        The ring \(A\) has length \(6\) as \(A\)-module. The chain of inclusions
+        is given by
+        \[
+            (0)\subsetneq (\overline{xy})\subsetneq (\overline{x})\subsetneq (\overline{x},\overline{y}^{3})\subsetneq (\overline{x},\overline{y}^{2})\subsetneq (\overline{x},\overline{y})\subsetneq A.
+        \]
+        To prove this is a decompostion chain we will prove all quotients of
+        this chain are simple.
+
+        The module \((\overline{xy})\) is simple. All elements of the ideal are
+        of the form \(a\overline{xy}\) for some \(a\in \Q\). This is easily seen
+        from the fact that \(\overline{x}^{2}=0=\overline{xy^{2}}\). This means
+        that any multiplication of \(\overline{xy}\) with a non-constant
+        polynomial will give \(0\). Therefore it has dimension \(1\) as
+        \(\Q\)-module so it must be simple.
+
+        The quotient \((\overline{x})/(\overline{xy})\) only has elements of the
+        form \(a\overline{x}\) for \(a\in\Q\). Any multiplication with
+        \(\overline{x}\) is zero because \(\overline{x}^{2}=0\) and
+        \(\overline{xy}\in(\overline{xy})\) so it is zero in the quotient.
+        Therefore it has dimension \(1\) as \(\Q\)-module so
+        \((\overline{x})/(\overline{xy})\) must be simple.
+
+        The quotient \((\overline{x},\overline{y}^{3})/(\overline{x})\) is
+        isomorphic to \((\overline{y^{3}})\) as \(A\)-module. Every product of
+        \(\overline{y^{3}}\) with a non-constant polynomial is zero so all
+        elements of this quotient are of the form \(a\overline{y^{3}}\) for
+        \(a\in\Q\). By the same reasoning as before this means the quotient is
+        simple.
+
+        The quotient
+        \((\overline{x},\overline{y^{2}})/(\overline{x},\overline{y^{3}})\) only
+        has elements of the form \(a\overline{y^{2}}\) for \(a\in\Q\) This is
+        because \(\overline{y^{3}}\in(\overline{x},\overline{y^{3}})\) so any
+        product with \(\overline{y}\) is zero and \(\overline{xy^{2}}=0\). This
+        means it is once again a simple module.
+
+        The exact same reasoning as before holds for the next quotient. The
+        quotient \((\overline{x},\overline{y})/(\overline{x},\overline{y^{2}})\)
+        only has elements of the shape \(a\overline{y}\) for \(a\in\Q\). This
+        means it is simple.
+
+        The quotient \(A/(\overline{x},\overline{y})\) is isomorphic to \(\Q\)
+        as \(A\)-module which is once again a \(1\)-dimensional \(\Q\) module
+        so it is simple.
+
+        Therefore the above chain consists of strict inclusions where the
+        quotients are simple: it is a decomposition chain. Therefore the length
+        of the module is \(6\).
+    \end{solution}
+\end{question}
+
+\begin{question}
+    Let \(A=\Q[x,y]/(y^{2}-x^{11})\).
+    \begin{enumerate}[(a)]
+        \item Determine the integral closure of \(A\).
+
+              \begin{solution}
+                  The ring \(A\) is isomorphic to \(\Q[x,x^{5}\sqrt{x}]\). To
+                  see this consider the ring morphism from the polynomial ring
+                  in two variables \(\varphi:\Q[x,y]\to\Q[x,x^{5}\sqrt{x}]\)
+                  determined by \(\varphi(x)=x\) and
+                  \(\varphi(y)=x^{5}\sqrt{x}\). This map is surjective because
+                  \(\Q\), \(x\), and \(x^{5}\sqrt{x}\) are in the image of
+                  \(\varphi\) and these generate the ring. On top of that the
+                  kernel of the morphism is exactly \((y^{2}-x^{11})\).
+
+                  The integral closure of \(\Q[x,x^{5}\sqrt{x}]\) is given by
+                  \(\Q[\sqrt{x}]\). It's clear that
+                  \(\sqrt{x}=\nicefrac{x^{5}\sqrt{x}}{x^{5}}\in\Q(x,x^{5}\sqrt{x})\)
+                  and the monic polynomial \(t^{11}-x^{5}\sqrt{x}\) has
+                  \(\sqrt{x}\) as root so \(\sqrt{x}\) is integral over
+                  \(\Q[x,x^{5}\sqrt{x}]\).
+
+                  To see that \(\Q[\sqrt{x}]\) is integrally closed, it suffices
+                  to see it is isomorphic to a polynomial ring. This isomorphism
+                  is given by \(\psi:\Q[t]\to\Q[\sqrt{x}]\) determined by
+                  \(\psi(t)=\sqrt{x}\). This is a surjective map because its
+                  generators are in the image. It also has trivial kernel
+                  because \(\sqrt{x}\) is algebraically independent from \(\Q\).
+
+                  This means that \(\Q[\sqrt[11]{y}]\) must be contained in the
+                  integral closure of \(A\), and it is integrally closed so it
+                  is the integral closure of \(A\).
+              \end{solution}
+
+        \item Determine a valuation ring of \(Q(A)\) that dominates
+              \(A_{(x,y)}\).
+
+              \begin{proof}
+                  Because valuation rings are integrally closed, any valuation
+                  ring dominating \(A\) must contain \(\Q[\sqrt{x}]\). The
+                  localization \(\Q[\sqrt{x}]_{(\sqrt{x})}\) is a valuation
+                  ring. The ideal \((\sqrt{x})\) is maximal so this is indeed a
+                  localization. Now take any \(\nicefrac{f}{g}\in\Q(\sqrt{x})\)
+                  such that \(f,g\) are coprime. Then \(\sqrt{x}\) divides at
+                  most one of \(f,g\). This means that \(f\) or \(g\) is a unit
+                  in the ring so \(\nicefrac{f}{g}\in\Q[\sqrt{x}]_{(\sqrt{x})}\)
+                  or \(\nicefrac{g}{f}\in \Q[\sqrt{x}]_{(\sqrt{x})}\) and so it
+                  is a valuation ring.
+
+                  The ring \(\Q[x,x^{5}\sqrt{x}]_{(x,x^{5}\sqrt{x})}\) is a
+                  subring of this ring as well. To see this take an
+                  \(\nicefrac{a}{b}\) in the ring. Then
+                  \(b\in\Q[x,x^{5}\sqrt{x}]\setminus(x,x^{5}\sqrt{x})\) so it
+                  must be a polynomial with non-zero constant term. This means
+                  it is also a unit in \(\Q[\sqrt{x}]_{(\sqrt{x})}\) so
+                  \(\nicefrac{a}{b}\) is also in \(\Q[\sqrt{x}]_{(\sqrt{x})}\).
+                  This means
+                  \(\Q[x,x^{5}\sqrt{x}]_{(x,x^{5}\sqrt{x})}\subseteq\Q[\sqrt{x}]_{(\sqrt{x})}\).
+
+                  The maximal ideal of this ring is \((\sqrt{x})\). Taking the
+                  intersection of this ideal with the ring of interest
+                  \(\Q[x,x^{5}\sqrt{x}]_{(x,x^{5}\sqrt{x})}\) clearly contains
+                  \((x,x^{5}\sqrt{x})\) because \(x=\sqrt{x}^{2}\) and
+                  \(x^{5}\sqrt{x}=\sqrt{x}^{11}\). There is no element of \(\Q\)
+                  in \((\sqrt{x})\subseteq\Q[\sqrt{x}]_{(\sqrt{x})}\) and so
+                  \(\Q\) has no common elements with
+                  \((\sqrt{x})\cap\Q[x,x^{5}\sqrt{x}]_{(x,x^{5}\sqrt{x})}\).
+                  This means that the intersection is not the entire ring and
+                  contains the maximal ideal \((x,x^{5}\sqrt{x})\) so
+                  \[
+                      (\sqrt{x})\cap\Q[x,x^{5}\sqrt{x}]_{(x,x^{5}\sqrt{x})}=(x,x^{5}\sqrt{x}).
+                  \]
+                  This means that \(\Q[\sqrt{x}]_{(\sqrt{x})}\) dominates
+                  \(\Q[x,x^{5}\sqrt{x}]_{(x,x^{5}\sqrt{x})}\). Applying the
+                  previously found isomorphism gives that \(\Q[x,y]_{(x,y)}\) is
+                  dominated by \(\Q[\sqrt[5]{y}]_{(\sqrt[5]{y})}\).
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

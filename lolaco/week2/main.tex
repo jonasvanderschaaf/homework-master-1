@@ -1,0 +1,27 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+
+\title{Summary: Fixpoints and Circularity}
+\date{September 19, 2022}
+\author{Jonas van der Schaaf}
+
+\begin{document}
+\maketitle
+
+The key concept in Yde's talk was the idea of circularity. Given some modal
+language we can look for a formula which is equivalent to a larger formula in
+which the original formula also occurs, similar to a recursive definition. These
+formulas are rarely expressible in the original language, so the language can be
+extended with a modal operator which will have the desired recursive properties.
+
+Syntactically this circularity is expressed as a directed graph similar to
+syntax trees with one major difference: these graphs are allowed to contain
+cycles. It is these cycles which correspond to circular formulas. This new
+definition of formulas also requires a new semantic interpretation. This is
+given by game semantics similar to focus games introduced by Martin Lange and
+Colin Stirling: two players play a game where they traverse the formula tree.
+The player Eloise attempts to reach a contradiction and the player Abelard tries
+to avoid one. A formula is satisfiable using this notion if there is a strategy
+such that Eloise always wins.
+\end{document}

@@ -849,7 +849,7 @@ For singular cardinals, there are some things we can say about exponentiation:
         \(F_{a}:[\aleph_{0}\setminus\set{a}]^{n}\to 2\) given by
         \(F_{a}(X)=F(X\cup\set{a})\). By assumption for every infinite
         \(S\subseteq\aleph_{0}\) there is an infinite \(H^{S}_{a}\subseteq S\)
-        such that \(F\) is homogenous on \(H^{S}_{a}\).
+        such that \(F\) is homogeneous on \(H^{S}_{a}\).
 
         Now we construct an infinite sequence \(\sequence{a_{n}}{n\in\omega}\)
         and helper sequence \(\sequence{S_{n}\subseteq\omega}{n\in\omega}\).
@@ -893,3 +893,158 @@ This theorem does not generalise well:
         %TODO: maybe
     \end{proof}
 \end{theorem}
+
+\subsection{Trees}
+
+\begin{definition}
+    A poset \((T,<)\) is a tree if all for all \(t\in T\) the set
+    \[
+        \setwith{s}{s<t}
+    \]
+    is well-ordered by \(<\). We say \(x\in T\) has level \(\alpha\) if
+    \(\setwith{s}{s<t}\) has order type \(\alpha\). All elements of \(T\) of
+    level \(\alpha\) are denoted by \(T_{\alpha}\).
+\end{definition}
+
+\begin{definition}
+    Let \(A\) be a set and \(\alpha\) an ordinal. Then
+    \[
+        A^{<\alpha}=\bigcup_{\beta<\alpha}A^{\beta}
+    \]
+    is a tree with regards to the ordering \(\subseteq\).
+\end{definition}
+
+\begin{theorem}[Königs infinity lemma]
+    Let \(T\) be an infinite tree with finite levels. Then there is a sequence
+    \(\sequence{x_{i}}{i<\omega}\) such that \(x_{i}\in T_{i}\) and
+    \(x_{i}<x_{j}\) for \(i<j\).
+
+    \begin{proof}
+        The set \(T\) is infinite so there is an \(x_{0}\) such that
+        \(\setwith{x}{x>x_{0}}\) is infinite as well. Define \(x_{n+1}\)
+        recursively given \(x_{n}\) as follows: the set \(\setwith{x\in
+            T_{n+1}}{x\in T_{n+1}\wedge x_{n}<x}\) is finite but \(\setwith{x\in
+            T}{x_{n}<x}\) is infinite. Therefore for one of the elements of the
+        former set must have infinitely many elements above it. Pick this one
+        for \(x_{n+1}\).
+
+        This defines the infinite sequence \(\sequence{x_{i}}{i<\omega}\).
+    \end{proof}
+\end{theorem}
+
+\begin{definition}
+    A maximal chain of a tree \(T\) is called a branch.
+\end{definition}
+
+\begin{proposition}
+    Given Königs lemma, Ramsey's theorem is true.
+
+    \begin{proof}
+        We will show Königs lemma implies
+        \(\ramsey{\aleph_{0}}{\aleph_{0}}{2}{2}\). We define a subtree of
+        \(2^{<\omega}\) defined by some function \(F:[\omega]^{2}\to2\) of which
+        the infinite branch will define a homogeneous set.
+
+        Let \(F:[\omega]^{2}\to2\) be a colouring. We define a sequence of
+        elements \(\sequence{t_{n}}{n<\omega}\) of the tree \(2^{<\omega}\)
+        which will form a subtree.
+
+        We define \(t_{0}=\varnothing\in 2^{<\omega}\). Now we recursively build
+        \(t_{n}\) given \(\sequence{t_{i}}{i<n}\). We build \(t\)
+        recursively as well. We define \(t(0)=F(\set{0,n})\).
+
+        If \(t\restrict k\) is not yet an element of the sequence then
+        \(t_{n}=t\), if it is we define \(t(k)=F(\set{k,n})\).
+
+        This recursively defines an infinite subtree of \(2^{<\omega}\) where
+        \(t_{n}\) is at level \(\abs{t_{n}}\). This is because each \(t_{n}\) is
+        unique. By Königs lemma there is now an infinite branch \(B\). If
+        \(t_{n}<t_{m}\) for \(t_{n},t_{m}\in B\) then \(n<m\) and
+        \(t_{m}(\abs{t_{n}})=F(\set{n,m})\). Now define
+        \[
+            H_{0}=\setwith{n\in\omega}{t_{n}\in B\wedge t_{n}\cup\set{(n,0)}\in B}.
+        \]
+        Then for all \(n,m\in H_{0}\) we must have \(F(\set{n,m})=0\). Defining
+        \(H_{1}\) similarly replacing \(0\) with \(1\) gives another homogeneous
+        set. We have \(B=H_{0}\cup H_{1}\) so at least one is infinite and
+        homogeneous.
+    \end{proof}
+\end{proposition}
+
+\begin{proposition}
+    Given Ramsey's theorem, Königs lemma is true.
+
+    \begin{proof}
+        Let \(T\) be an infinite tree and immediately redefine it
+        \(T=\bigcup_{n<\omega}T_{n}\). We want to show this has an infinite
+        chain. We take two different orders on \(T\): \(<_{T}\) which is the
+        partial order of the tree and \(<\) a linear order on \(T\) defined by
+        some bijection \(\omega\to T\).
+
+        We extend \(<_{T}\) to a linear order \(\prec\) on \(T\). We do this as
+        follows: if \(s\) and \(t\) are \(<_{T}\)-comparable then \(\prec\)
+        agrees on \(s\) and \(t\). If \(s\) and \(t\) are incomparable let take
+        \(s'=\min\setwith{x<s}{x\leq_{T}s\wedge x\not<_{T}t}\) and
+        \(t'=\min\setwith{x<s}{x\leq_{T}t\wedge x\not<_{T}s}\). Then \(s\prec
+        t\) iff \(s'<t'\).
+
+        Now define \(F:[T]^{2}\to\set{0,1}\) by
+        \[
+            F(\set{s,t})=\begin{cases}
+                0 & s<t\Leftrightarrow s\prec t, \\
+                1 & s<t\Leftrightarrow t\prec s.
+            \end{cases}
+        \]
+        Let \(H\subseteq T\) be such that \(F\) is homogeneous on \([H]^{2}\).
+        Define
+        \[
+            B=\setwith{t\in T}{\abs*{\setwith{h\in H}{t<_{T}h}\geq\aleph_{0}}}.
+        \]
+        Because each level is finite we must have that \(B\cap
+        T_{n}\neq\varnothing\) for all levels. If \(t\in B\) and \(s<_{T}t\)
+        then \(s\in B\) as well. If \(B\cap T_{n}\) has cardinality \(1\) then
+        \(B\) is a branch.
+
+        Suppose the cardinality is not \(1\). Take \(s,t\in B\cap T_{n}\) with
+        \(s\prec t\). Then there are \(u,v\in H\) such that \(s<_{T}u\) and
+        \(t<_{T}v\) and a \(w\in H\) such that \(s<_{T}w\) and
+        \[
+            u\prec v\prec w.
+        \]
+        This means that \(F(\set{u,v})=1\) and \(F(\set{v,w})=0\) which
+        contradicts the assumption that \(H\) is homogeneous. This proves
+        \(B\cap T_{n}\) has one element.
+    \end{proof}
+\end{proposition}
+
+\begin{definition}
+    Let \(\kappa\) be a cardinal number. An Aronszjajn tree is a tree of
+    cardinality \(\kappa\) with levels \(\abs{T_{\alpha}}<\kappa\) and
+    no branches of height \(\kappa\).
+\end{definition}
+
+\begin{proposition}
+    There is an Aronszjajn tree of cardinality \(\aleph_{1}\).
+
+    \begin{proof}
+        Consider the set
+        \[
+            \setwith{s\in\mathbb{Q}^{<\omega_{1}}}{\textnormal{\(s\) is increasing}}.
+        \]
+        This is uncountable but has no branch of order type \(\omega_{1}\). It
+        does have uncountable levels though, so we consider a subtree. We
+        construct it maintaining the following invariant: for \(\beta<\alpha\),
+        \(x\in U_{\beta}\) and \(q>\sup x\) there is a \(y\in U_{\alpha}\) such
+        that \(x\subseteq y\) and \(q\geq\sup y\).
+
+        Define \(T_{0}=\set{\varnothing}\) and given \(T_{\alpha}\) define
+        \[
+            T_{\alpha+1}=\setwith{s\cup\set{(\alpha+1,x)}}{s\in T_{\alpha},x>s(\alpha)}.
+        \]
+
+        For limit ordinals, this takes a bit more work. First of all we see that
+        for each \(x\in\bigcup_{\beta<\alpha}T_{\beta}\) and \(q>\sup x\) there
+        is some increasing \(\alpha\)-sequence \(y\) such that \(\sup y\leq q\)
+        and \(x\subseteq y\).
+    \end{proof}
+\end{proposition}

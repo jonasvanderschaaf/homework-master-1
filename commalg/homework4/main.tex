@@ -1,0 +1,284 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{scalerel}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{quiver}
+\usepackage{float}
+\usepackage{nicefrac}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator*{\bigplus}{\scalerel*{+}{\sum}}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Hom}{Hom}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\JRad}{JRad}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\Idem}{Idem}
+\DeclareMathOperator{\Rad}{Rad}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Mat}{Mat}
+\DeclareMathOperator{\ch}{ch}
+\DeclareMathOperator{\Ass}{Ass}
+
+\newcommand{\maxid}{\mathfrak{m}}
+\newcommand{\primeid}{\mathfrak{p}}
+\newcommand{\primeeid}{\mathfrak{q}}
+\newcommand{\ideal}{\triangleleft}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\newtheorem{question}{Question}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework Commutative Algebra}
+\author{Jonas van der Schaaf}
+\date{November 7, 2022}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Let \(k\) be a field. Compute the minimal primary decomposition and the
+    embedded primes of the following ideals:
+    \begin{enumerate}[(a)]
+        \item \(I=(x^{2},xy,yz,xz)\ideal k[x,y,z]\)
+
+              \begin{solution}
+                  The primary decomposition of \(I\) is given by
+                  \[
+                      I=(x^{2},y,z)\cap(x,y)\cap(x,z).
+                  \]
+                  These ideals are primary. The first one because its radical is
+                  maximal and the other ones because they are prime.
+
+                  To see this intersection is an equality, notice that
+                  \(I\subseteq(x^{2},y,z)\cap(x,y)\cap(x,z)\) because each ideal
+                  contains \(I\). To see the other inclusion, first by the
+                  modular law \((x^{2},y,z)\cap(x,y)=(x^{2},xy,xz,y)\). To see
+                  \((x^{2},xy,xz,y)\cap(x,z)\subseteq I\) we need to consider
+                  all elements in the intersection. These are exactly those
+                  elements with \(ax^{2}+bxy+cxz+dy=ex+fz\) for \(a,b,c,d,e,f\in
+                  k[x,y,z]\). Because no monomial with only a power of \(y\)
+                  occurs on the right side of the equality we get
+                  \(d=(d'x+d''z)\) for some \(d',d''\in k[x,y,z]\). This means
+                  that \(ax^{2}+bxy+cxz+dy\in I\). Therefore the intersection
+                  of primary ideals as given above is indeed a decomposition.
+
+                  The associated ideals are given by \((x,y,z),(x,y),(x,z)\)
+                  where \((x,y)\) and \((x,z)\) are embedded because they're
+                  contained in the minimal associated ideal \((x,y,z)\).
+              \end{solution}
+
+        \item \(I=(x^{2}+1)\ideal k[x]\)
+
+              \begin{solution}
+                  If \(x^{2}+1\) is irreducible in \(k[x]\) then \(I\) is a
+                  prime ideal so it is primary. Therefore it has a unique
+                  associated ideal which must be minimal: there are no embedded
+                  ideals.
+
+                  Suppose \(x^{2}+1\) is not irreducible. For \(k\) of
+                  characteristic \(2\) we have \(x^{2}+1=(x+1)^{2}\). Then
+                  \(r(x^{2}+1)=(x+1)\) which is maximal. Therefore \((x^{2}+1)\)
+                  is primary so its primary decomposition is given by just
+                  itself. There are no embedded ideals because this is a
+                  decomposition into one primary ideal.
+
+                  If \(k\) has character different from \(2\) and the polynomial
+                  is not irreducible then there is an \(i\in k\) such that
+                  \((x+i)(x-i)=x^{2}+1\). The ideals \((x+i),(x-i)\) are coprime
+                  because \(\nicefrac{i}{2}(x+i-(x-i))=1\) so \(1\in
+                  (x+i)+(x-i)\). This means
+                  \((x^{2}+1)=(x-i)\cdot(x+i)=(x+i)\cap(x-i)\). The latter is a
+                  decomposition into maximal (and therefore primary) ideals.
+                  From coprimality we conclude neither ideal contains the other
+                  so the decomposition is minimal. The associated primes are
+                  \((x+i)\) and \((x-i)\), both of which are minimal.
+              \end{solution}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(A\) be a ring.
+    \begin{enumerate}[(a)]
+        \item Let \(M,N\) be two \(A\)-modules. Show that \(\Ass(M\oplus
+              N)=\Ass(M)\cup\Ass(N)\).
+
+              \begin{proof}
+                  Suppose \(\primeid\in\Ass(M)\cup\Ass(N)\). Without loss of
+                  generality we can assume \(\primeid\in\Ass(M)\) so
+                  \(\primeid=\Ann(m)\) for some \(m\in M\). Then \(\primeid\cdot
+                  m\oplus 0=\primeid m\oplus0=0.\) so \(\primeid=\Ann(m\oplus
+                  0)\) and therefore \(\primeid\in\Ass(M\oplus N)\).
+
+                  If \(\primeid=\Ann(m\oplus n)\) is a prime ideal for \(m\in
+                  M,n\in N\) then \(\primeid=\Ann(m)\cap\Ann(n)\). Then
+                  \(\primeid=\Ann(m)\) or \(\primeid=\Ann(n)\) by proposition
+                  1.11 of Atiyah and MacDonald.
+              \end{proof}
+
+        \item Let \(n\notin\set{0,1,-1}\). Compute \(\Ass_{\Z}(M)\) for
+              \(M=\Z^{5}\oplus\Z/n\Z\). Justify your answer
+
+              \begin{solution}
+                  By the previous part we know
+                  \(\Ass_{\Z}(M)=\Ass_{\Z}(\Z^{5})\cup\Ass_{\Z}(\Z/n\Z)\).
+                  Because \(\Z\) is a torsion free module we have
+                  \(\Ass_{\Z}(\Z^{5})=\varnothing\).
+
+                  The torsion elements of \(\Z/n\Z\) are those elements
+                  \(\overline{x}\) with \(\gcd(x,n)\neq 1\). An torsion \(n\)
+                  element has a prime ideal \((p)\ideal\Z\) as annihilator
+                  exactly iff \(p\) divides every annihilator of \(n\). This
+                  means the torsion elements of \(\Z/n\Z\) with prime ideals as
+                  annihilators are given by \(\nicefrac{n}{p}\) where \(p\) is a
+                  prime dividing \(n\). Equivalently, the associated ideals of
+                  \(\Z/n\Z\) are \((p)\) where \(p\mid n\). Therefore
+                  \(\Ass(\Z^{5}\oplus\Z/n\Z)=\Ass_{\Z}(\Z/n\Z)=\setwith{(p)\ideal
+                      \Z}{\textnormal{\(p\)  is prime.}}\).
+
+              \end{solution}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(A=\Q[x,y,z]/((x+1)^{2}-z(y+z^{2022})^{2})\).
+    \begin{enumerate}[(a)]
+        \item Prove that \(A\) is an integral domain.
+
+              \begin{proof}
+                  There is a morphism \(\varphi:\Q[x,y,z]\to\Q[x,y,z]\) given by
+                  \[
+                      \varphi(x)=x+1,\varphi(y)=y+z^{2022},\varphi(z)=z
+                  \]
+                  which is invertible by
+                  \[
+                      \varphi(x)=x-1,\varphi(y)=y-z^{2022},\varphi(z)=z
+                  \]
+                  and is therefore an isomorphism. This means that
+                  \((x+1)^{2}-z(y-z^{2022})^{2}\) is irreducible in
+                  \(\Q[x,y,z]\) iff \(x^{2}-zy^{2}\) is as well.
+
+                  We can see that the latter satisfies the Eisenstein criterion
+                  because \(z\mid zy^{2}\), \(z^{2}\nmid zy^{2}\), and \(z\nmid
+                  x^{2}\). This means that \((x+1)^{2}-z(y+z^{2022})^{2}\) is
+                  also irreducible and therefore
+                  \(((x+1)^{2}-z(y+z^{2022})^{2})\) is a prime ideal and so it's
+                  quotient is a domain.
+              \end{proof}
+
+        \item Prove that the localization \(A_{y+z^{2022}}\) is integrally
+              closed.
+
+              \begin{proof}
+                  Applying the isomorphism from part a, this question equivalent
+                  to showing that for \(A'=\Q[x,y,z]/(x^{2}-zy^{2})\) its
+                  localization \(A'_{y}\) is integrally closed.
+
+                  First notice that \(z=x^{2}/y^{2}\) in \(A'\) and therefore we
+                  get the isomorphism \(A'\cong
+                  \Q[x,y,\nicefrac{x^{2}}{y^{2}}]\). We easily see that
+                  \(A'_{y}=\setwith{y^{n}}{n\in\N}^{-1}\Q[x,y,\nicefrac{x^{2}}{y^{2}}]=\setwith{y^{n}}{n\in\N}^{-1}\Q[x,y]\).
+
+                  Because \(\Q[x,y]\) is a UFD it's integrally closed in
+                  \(\Q(x,y)\). By proposition 5.12 this means \(S^{-1}\Q[x,y]\)
+                  is integrally closed in \(S^{-1}\Q(x,y)\). So in particular
+                  for \(S=\setwith{y^{n}}{n\in\N}\) we have
+                  \(\Q[x,y,\nicefrac{1}{y}]\) being integrally closed in
+                  \(S^{-1}\Q(x,y)=\Q(x,y)\). Therefore \(A_{y+z^{2022}}\) is
+                  integrally closed.
+              \end{proof}
+
+        \item Compute the integral closure of \(A\).
+
+              \begin{proof}
+                  The integral closure \(\overline{A}\) of \(A\) is a subset of
+                  \(A_{y-z^{2022}}\). To see this take any \(b\in\overline{A}\).
+                  Then it is the root of a monic polynomial \(f\in A[x]\).
+                  However because \(A[t]\subseteq A_{y+z^{2022}}[t]\) we get
+                  that \(b\) is also integral over \(A_{y+z^{2022}}\), which is
+                  integrally closed so \(b\in A_{y+z^{2022}}\). This gives
+                  \(\overline{A}\subseteq A_{y+z^{2022}}\).
+
+                  It's clear that \(\nicefrac{x}{y}\in\overline{A}\) because
+                  \(t^{2}-\nicefrac{x}{y}\) has \(\nicefrac{x}{y}\) as a root
+                  and is monic. We will show this is integrally closed.
+
+                  Now let \(\nicefrac{f}{y^{m}}\in \Q[x,y,\nicefrac{1}{y}]\) be
+                  integral over \(\Q[x,y,\nicefrac{x}y]\). We can assume
+                  \(y\nmid f\). Then defining \(g=y^{m}\)
+                  \[
+                      \frac{f^{n}}{g^{n}}+a_{1}\frac{f^{n-1}}{g^{n-1}}+\ldots+a_{n}=0.
+                  \]
+                  where \(a_{i}\) are coefficients in
+                  \(\Q[x,y,\nicefrac{x^{2}}{y^{2}}]\). Multiplying with
+                  \(g^{n}\) gives
+                  \[
+                      f^{n}+a_{1}f^{n-1}g+\ldots+a_{n}g^{n}=0
+                  \]
+                  which with minimal algebraic manipulation gives
+                  \[
+                      -(a_{1}f^{n-1}y^{m}+\ldots+a_{n}y^{nm})=f^{n}\in\Q[x,y,\nicefrac{x}{y}].
+                  \]
+                  From this someone smarter than me could conclude that
+                  \(x^{m}\mid f\) and thus that
+                  \(\nicefrac{f}{g}\in\Q[x,y,\nicefrac{x}{y}]\) which would mean
+                  it is integrally closed.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

@@ -1,0 +1,32 @@
+\documentclass{article}
+
+\usepackage[margin=1in]{geometry}
+
+\title{Summary: Complexity Theory and Quantum Computing}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+Ronald's talk discussed advantages of quantum computers over classical ones. He
+started his talk by discussing computability. A function is computable if there
+is a Turing machine which computes the output of that function in finitely many
+steps. Being computable or non-computable is not the only property a function
+can have with respect to Turing machines: often we care about how fast a Turing
+machine can calculate the answer.
+
+The measure of how fast a Turing machine can compute a function is called the
+complexity. Those machines which take a polynomial amount of steps to compute an
+output are in the complexity class P, while those which can be computed in
+polynomial time on a non-deterministic Turing machine are in the complexity
+class NP.
+
+A different model of computation from Turing machines are quantum computers.
+These are systems where bits can be in superposition: a bit can be both 0 and 1
+until measured. There are a few problems which can be computed efficiently on a
+quantum computer, this is done by performing computations on superpositions and
+then collapsing them, allowing for doing ``more computations at once''.
+
+\hfill\emph{194 words}
+\end{document}

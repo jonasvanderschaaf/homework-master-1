@@ -1,0 +1,140 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{quiver}
+\usepackage{float}
+\usepackage{cleveref}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\catt}{\mathcal{D}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\rad}{Rad}
+
+\newenvironment{question}[1][]{\begin{paragraph}{Question #1}}{\end{paragraph}}
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework Category Theory}
+\author{Jonas van der Schaaf}
+\date{September 22, 2022}
+
+\begin{document}
+\maketitle
+
+\begin{question}[1]
+    Throughout this exercise \(\cat\) is a locally small category.
+
+    \begin{enumerate}[(a)]
+        \item Let \(C\) be an object in \(\cat\). Show that there is a functor
+              \(G:\cat\to\catset\) which sends an object \(X\) to \(\Hom(C,X)\)
+              and whose action on morphisms in \(\cat\) is given by
+              postcomposition.
+
+              \begin{proof}
+                  Consider the given map \(G\). We will show that it is
+                  functorial: both compatible with function composition and it
+                  preserves the unit map.
+
+                  Let \(X,Y,Z\) be objects of \(\cat\) with \(f\in\Hom(X,Y)\)
+                  and \(g\in\Hom(Y,Z)\). Then for all \(h\)
+                  \begin{align*}
+                      G(gf)h & =gfh        \\
+                             & =Gg(fh)     \\
+                             & =(Gg)(Gf)h.
+                  \end{align*}
+                  This means that \(Ggf=(Gg)(Gf)\) for all compatible maps
+                  \(g,f\).
+                  On top of that for all \(f\in\Hom(X,Y)\)
+                  \begin{align*}
+                      (G\Id)f & =\Id f \\
+                              & =f     \\
+                  \end{align*}
+                  so this map preserves identity. It is therefore a functor.
+              \end{proof}
+
+        \item Show that a morphism is an absolute epi iff it is split epi.
+
+              \begin{proof}
+                  If a morphism \(f:X\to Y\) is split epi and \(\catt\) any
+                  category, then it is trivially absolute epi. This is because
+                  there is a map \(g:Y\to X\) with \(fg=\Id\). This means that
+                  all functors \(F:\cat\to\catt\) must satisfy
+                  \(F(f)F(g)=F(fg)=\Id\). This means that \(Ff\) is split epi
+                  and therefore also epi.
+
+                  Suppose \(f:X\to Y\) is absolute epi, then \(\Hom(Y,f)\) must
+                  be an epimorphism in \(\catset\), so
+                  \(\Hom(Y,f):\Hom(Y,X)\to\Hom(Y,Y)\) is a surjective map. In
+                  particular this means that there is a \(g\in\Hom(Y,X)\) such
+                  that \(fg=\Id\) which is equivalent to being a split epi in
+                  \(\cat\).
+              \end{proof}
+
+        \item Show that a morphism is absolute mono iff it is split mono.
+
+              \begin{proof}
+                  This is a proof by duality. It should be obvious that a
+                  morphism is absolute mono iff it is absolute epi in
+                  \(\cat^{op}\). By part b, this absolute epi in \(\cat^{op}\)
+                  is split in \(\cat^{op}\). Therefore it is split mono in
+                  \(\cat\).
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}
