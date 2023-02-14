@@ -1,0 +1,101 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs,stmaryrd}
+\usepackage[margin=3cm]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{ebproof}
+\usepackage{cleveref}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikz}
+
+\newcommand{\sequent}[2]{#1\Rightarrow#2}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\set{#1:#2}}
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem*{lemma}{Lemma}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand{\qedsymbol}{}}{\end{proof}}
+
+\title{Homework Proof Theory}
+\author{Jonas van der Schaaf}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Construct a derivation of \(\sequent{}{(p\to q)\to((\neg p\to q)\to q)}\).
+
+    \begin{solution}
+        A possible proof tree for the sequent is as follows:
+        \begin{figure}[ht]
+            \centering
+            \begin{prooftree}
+                \hypo{\sequent{q}{p,q}}
+
+                \hypo{\sequent{p}{p,q}}
+                \infer1[\(\neg L\)]{\sequent{}{\neg p,p,q}}
+                \infer2[\(\to L\)]{\sequent{\neg p\to q}{p,q}}
+
+                \hypo{\sequent{q,\neg p\to q}{q}}
+
+                \infer2[\(\to L\)]{\sequent{p\to q,\neg p\to q}{q}}
+                \infer1[\(\to R\)]{\sequent{p\to q}{(\neg p\to q)\to q}}
+                \infer1[\(\to R\)]{\sequent{}{(p\to q)\to((\neg p\to q)\to q)}}
+            \end{prooftree}
+            \caption{The proof tree for the desired sequent.}
+        \end{figure}
+    \end{solution}
+\end{question}
+
+\begin{question}
+    Show that the following sequent is unprovable: \(\sequent{}{(p\to q)\to\neg
+        p}\).
+
+    \begin{proof}
+        We will demonstrate this sequent is unprovable by showing the sequent
+        \[
+            \sequent{\Gamma}{\Delta}:=\sequent{p,q,p\to q}{(p\to q)\to\neg p,\neg p}
+        \]
+        is unprovable first. Then because the weakening rule is admissible the
+        original is also unprovable. Note that we have chosen this sequent to be
+        saturated without adding more formulas than necessary. This will be
+        important for our proof.
+
+        If this sequent were provable, there would be three rules which could be
+        applied resulting in the above sequent in a possible proof: \(\to L\),
+        \(\to R\) and \(\neg R\).
+
+        This sequent is not provable without using \(\to R\). If only \(\to L\)
+        and \(\neg R\) were used in the proof then \(\sequent{p,q}{(p\to
+            q)\to\neg p,p}\) and \(\sequent{p,q}{(p\to q)\to\neg p}\) would have to
+        be axioms. The former is one, but the latter is not. Therefore \(\to R\)
+        must have been applied to get to this sequent.
+
+        We can also assume that before the application of \(\to R\), the formula
+        \((p\to q)\to\neg p\) did not occur in the right sequent before the
+        application of the rule. This is by exactly the same reasoning above:
+        we know there is no way to get to derive the sequent from an axiom if
+        it contains the formula.
+
+        From this it is easy to see that in the hypothetical proof, there would
+        be a sequent above \(\sequent{\Gamma}{\Delta}\) which is a
+        ``subsequent'' of \(\sequent{p,q,p\to q}{\neg p}\). If we show this is
+        not provable, then \(\sequent{\Gamma}{\Delta}\) is not either so the
+        original sequent must be unprovable as well.
+
+        But this sequent is unprovable, exactly by the same reasoning as before:
+        applying both \(\neg p\) and \(\to L\) in either order shows that the
+        sequent is only provable if \(\sequent{p,q}{}\) is an axiom. It is not
+        so the original sequent is not provable.
+    \end{proof}
+\end{question}
+\end{document}
