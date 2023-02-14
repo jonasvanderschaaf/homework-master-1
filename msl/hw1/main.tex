@@ -1,0 +1,328 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{float}
+\usepackage{cleveref}
+\usepackage{svg}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+\newcommand{\powset}{\mathcal{P}}
+\DeclareMathOperator{\atoms}{At}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\set{#1:#2}}
+
+\renewcommand{\qedsymbol}{\raisebox{-0.5cm}{\includesvg[width=0.5cm]{../../qedboy.svg}}}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Up}{Up}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework: Mathematical Structures in Logic}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Let \(P\) be a poset and \(\Up(P)\) be the sets of all up-sets of \(P\).
+
+    \begin{enumerate}[a)]
+        \item Show that \((\Up(P),\subseteq)\) is a distributive lattice.
+
+              \begin{proof}
+                  We know that \(\Up(P)\) is a subposet of \(\powset(P)\) and
+                  \(\powset(P)\) has \(\cup\) as join and \(\cap\) as meet. The
+                  intersection and union of two upsets is also an upset and so
+                  these must be the meet and join in \(\Up(P)\). The inclusion
+                  \(\Up(P)\rightarrowtail\powset(P)\) is therefore an injective
+                  morphism of lattices.
+
+                  Distributivity then follows immediately from distributivity
+                  in \(\powset(P)\).
+                  \qedhere
+              \end{proof}
+
+        \item Characterize the join irreducible elements of \(\Up(P)\) for a
+              finite \(P\).
+
+              \begin{solution}
+                  Let \(X\subseteq P\) be join irreducible, we claim that
+                  \(X\) is join irreducible iff it is of the form
+                  \[
+                      \uparrow x=\setwith{y\in P}{x\leq y}.
+                  \]
+
+                  Suppose \(X\) is join irreducible, consider the finite
+                  collection of \(\leq\) minimal elements of \(X\):
+                  \(x_{1},\ldots,x_{n}\). Then clearly \(X=\bigcup_{i}\uparrow
+                  x_{i}\). If \(n>1\) none of the upsets \(\uparrow x_{i}\) are
+                  equal to \(X\) because no \(\uparrow x_{i}\) contains
+                  \(x_{j}\) for \(j\neq i\). Therefore \(n=1\) and \(X=\uparrow
+                  x_{1}\).
+
+                  Conversely if \(\uparrow x=X\cup Y\) for upward closed \(X,Y\)
+                  then \(x\in X\) or \(x\in Y\). Assume without loss of
+                  generality \(x\in X\). Then because \(X\) is upward-closed we
+                  have \(\uparrow x\subseteq X\subseteq \uparrow x\). This
+                  proves \(X=\uparrow x\) so \(\uparrow x\) is join-irreducible.
+              \end{solution}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(B\) be a boolean algebra and \(a,b\in B\). Show that
+    \begin{enumerate}[a)]
+        \item \(\neg 0=1\) and \(\neg 1=0\).
+
+              \begin{proof}
+                  We know that \(1=\neg 0\vee 0\) and \(0=(0\wedge\neg 0)\) so
+                  \begin{align*}
+                      1 & =1\wedge(\neg 0\vee 0)           & 0 & =0\vee(\neg 1\wedge 1)        \\
+                        & =(1\wedge\neg 0)\vee (1\wedge 0) &   & =(0\vee\neg 1)\wedge(0\vee 1) \\
+                        & =\neg 0\vee 0                    &   & =\neg 1\wedge 1               \\
+                        & =\neg 0                          &   & =\neg 1.
+                  \end{align*}
+                  Alternatively \(0\) and \(1\) are dual to each other and the
+                  dual preserves complements so we could have made do with one
+                  of these two calculations.
+              \end{proof}
+
+        \item \(\neg\neg a=a\).
+
+              \begin{proof}
+                  We know that the complement in a boolean algebra is unique.
+                  Therefore if we show that \(a\) is the complement of \(\neg
+                  a\), then \(\neg\neg a=a\).
+
+                  The element \(a\) is trivially the complement of \(\neg a\)
+                  because \(a\vee\neg a=1\) and \(a\wedge\neg a=0\) by
+                  assumption.
+              \end{proof}
+
+        \item \(\neg(a\vee b)=\neg a\wedge\neg b\) and \(\neg(a\wedge b)=\neg
+              a\vee \neg b\).
+
+              \begin{proof}
+                  To prove this we show that \(\neg a\wedge\neg b\) is the
+                  complement of \(a\vee b\).
+
+                  Firstly
+                  \begin{align*}
+                      (\neg a\wedge\neg b)\wedge(a\vee b) & =(\neg a\wedge(a\vee b))\wedge(\neg b\wedge (a\vee b))                               \\
+                                                          & =((\neg a\wedge a)\vee (\neg a\wedge b))\wedge((\neg b\wedge a)\vee(\neg b\wedge b)) \\
+                                                          & =(0\vee(\neg a\wedge b))\wedge((\neg b\wedge a)\vee 0)                               \\
+                                                          & =\neg a\wedge b\wedge\neg b\wedge a                                                  \\
+                                                          & =0
+                  \end{align*}
+                  and secondly
+                  \begin{align*}
+                      (\neg a\wedge\neg b)\vee(a\vee b) & =(\neg a\vee(a\vee b))\wedge(\neg b\vee (a\vee b)) \\
+                                                        & =(1\vee b)\wedge(1\vee a)                          \\
+                                                        & =1\wedge 1                                         \\
+                                                        & =1.
+                  \end{align*}
+                  This proves both properties of the complement and therefore
+                  the first equality.
+
+                  We derive the second equality using the first and the previous
+                  part:
+                  \begin{align*}
+                      \neg(\neg a\vee\neg b) & =\neg\neg a\wedge\neg\neg b \\
+                                             & =a\wedge b.
+                  \end{align*}
+                  This proves \(a\wedge b=\neg(\neg a\vee\neg b)\) so
+                  \begin{align*}
+                      \neg(a\wedge b) & =\neg\neg(\neg a\vee\neg b) \\
+                                      & =\neg a\vee\neg b.
+                  \end{align*}
+              \end{proof}
+
+        \item \(a\wedge\neg b=0\) iff \(a\leq b\).
+
+              \begin{proof}
+                  Making efficient use of whitespace, on the left side we assume
+                  \(a\wedge\neg b=0\) and show that \(b=a\vee b\) which means
+                  \(a\leq b\). On the right hand we assume \(a=a\wedge b\) and
+                  demonstrate \(a\wedge\neg b=0\):
+                  \begin{align*}
+                      b & =0\vee b                       & (a\wedge\neg b) & =(a\wedge b\wedge\neg b) \\
+                        & =(a\wedge\neg b)\vee b         &                 & =a\wedge 0               \\
+                        & =(a\vee b)\wedge(\neg b\vee b) &                 & =0.                      \\
+                        & =a\vee b.
+                  \end{align*}
+
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(B\) be a finite boolean algebra.
+
+    \begin{enumerate}[a)]
+        \item Prove that if \(a\in B\) is an atom, then \(a\) is
+              join-irreducible.
+
+              \begin{proof}
+                  I am proving the original question, that atoms are
+                  join-irreducible. This is equivalent to the new question, but
+                  I had already written this before the question was changed.
+
+                  Suppose \(a=x\vee y\). Then
+                  \begin{align*}
+                      x\wedge a & =x\wedge(x\vee y)  \\
+                                & =x\vee (x\wedge y) \\
+                                & =x
+                  \end{align*}
+                  and the same holds for \(y\) by symmetry so \(x,y\leq a\).
+                  Therefore \(x,y\in\set{0,a}\). Both can't be zero because then
+                  we have \(a=x\vee y=0\vee 0=0\). Therefore at least one of
+                  \(x,y\) is equal to \(a\).
+              \end{proof}
+
+        \item Show that the map \(\eta:B\to\powset(\atoms(B))\) preserves meets
+              and joins.
+
+              \begin{proof}
+                  Take arbitrary \(x,y\in B\). Then if \(a\in\atoms(B)\) has the
+                  properties that \(a\wedge x=a,a\wedge y=a\) then
+                  \[
+                      a\wedge(x\wedge y)=a\wedge y=a.
+                  \]
+                  This proves \(\eta(x)\cap\eta(y)\subseteq\eta(x\wedge y)\).
+
+                  Conversely take an atom \(a\in\eta(x\wedge y)\). Then
+                  \(a\wedge(x\wedge y)=a\). However we also have
+                  \[
+                      a=a\wedge(x\wedge y)\leq x\wedge y\leq x,y
+                  \]
+                  so \(a\leq x\) and \(a\leq y\) so \(a\in\eta(x)\cap\eta(y)\).
+                  This proves meets are preserved under \(\eta\).
+
+                  We do approximately the same thing for joins: suppose
+                  \(a\in\atoms(B)\) is less than \(x\) or \(y\) (without loss of
+                  generality we assume \(a\leq x\) and use commutativity of
+                  \(\vee\)). Then
+                  \[
+                      a\vee(x\vee y)=(a\vee x)\vee y=x\vee y
+                  \]
+                  so \(a\leq x\vee y\). This proves
+                  \(\eta(x)\cup\eta(y)\subseteq\eta(x\vee y)\).
+
+                  Conversely suppose \(a\leq (x\vee y)\) or equivalently
+                  \(a\in\eta(x\vee y)\). Then
+                  \begin{align*}
+                      a & =a\wedge(x\vee y)            \\
+                        & =(a\wedge x)\vee(a\wedge y).
+                  \end{align*}
+                  Because \(a\) is join-irreducible this means \(a=a\wedge x\)
+                  or \(a=a\wedge y\), proving \(a\leq x\) or \(a\leq y\) so
+                  \(a\in\eta(x)\cup\eta(y)\).
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    \begin{enumerate}[a)]
+        \item Show that the lattice of finite and cofinite subsets of \(\N\)
+              forms a boolean algebra, which is not complete.
+
+              \begin{proof}
+                  We first show that this set is closed under union and
+                  intersection. These must then be the meet and join of the
+                  lattice respectively, because it is a subposet of the poset
+                  \(\powset(\N)\) where these are the meet and join. This will
+                  also immediately give distributivity.
+
+                  For any two finite sets \(x,y\), the intersection and union
+                  are clearly finite. For one cofinite and one finite set,
+                  the intersection is finite and the union is cofinite so
+                  both union and intersection are elements of the poset.
+
+                  If \(x,y\) are both cofinite their union is clearly cofinite.
+                  By De Morgan laws for the intersection we get \(\neg(x\cap
+                  y)=\neg x\cup\neg y\) which is the union of two finite things
+                  so the complement of the intersection is finite. Therefore
+                  \(x\cap y\) is also cofinite.
+
+                  This proves this is a distributive lattice. It is bounded
+                  because \(\varnothing\) and \(\N\) are finite and cofinite
+                  respectively so the lattice is bounded. The complement of a
+                  finite set is by definition cofinite and vice versa, so this
+                  lattice has complements as well. Therefore it is a boolean
+                  algebra.
+
+                  To see the lattice is not complete consider the set
+                  \[
+                      \setwith{\setwith{2m}{m\in \N,m\leq n}}{n\in\N}
+                  \]
+                  of elements of the lattice. This set does not have a join:
+                  because the union of these sets is infinite, the meet must be
+                  cofinite and therefore contain infinitely many odd numbers as
+                  well. However, for any such set we can always remove one more
+                  odd number to get a smaller upper bound. Therefore there is no
+                  least upper bound and the algebra is not complete.
+              \end{proof}
+
+        \item Show that the lattice of finite subsets with \(\N\) forms a
+              complete distributive lattive.
+
+              \begin{proof}
+                  This set is clearly closed under intersection and union. Both
+                  sets are finite both operations give back a finite set. If one
+                  of the sets is \(\N\) then intersection gives the other and
+                  union gives \(\N\). Therefore these are the meet and join in
+                  the poset. Distributivity follows immediately and the poset is
+                  bounded by \(\varnothing\) and \(\N\) above.
+
+                  Therefore this is a distributive bounded lattice.
+
+                  Now we show it is complete. Let \(X\) be a set of finite
+                  subsets of \(\N\). If \(\bigcup X\) is finite, this is the
+                  join. If it is infinite the join is \(\N\) as this is the only
+                  infinite set. Having joins automatically means there are meets
+                  as well, so this lattice is complete.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

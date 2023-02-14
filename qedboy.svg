@@ -1,0 +1,28 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created using Krita: http://krita.org -->
+<svg xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:krita="http://krita.org/namespaces/svg/krita"
+    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" width="92.16pt" height="92.16pt" viewBox="0 0 92.16 92.16">
+    <defs/>
+    <rect id="shape0" transform="translate(26.1511143957537, 13.2166987502202)" fill="none" stroke="#000000" stroke-width="3.2256" stroke-linecap="square" stroke-linejoin="bevel" width="42.7377712084926" height="42.7377712084926"/>
+    <path id="shape1" transform="matrix(0.884896336362969
+0 0 0.884896336362969 36.0416189006331 57.1415333806824)" fill="none" stroke="#000000" stroke-width="3.2256" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="2" d="M1.88295 0L0 23.5369"/>
+    <path id="shape2" transform="matrix(0.884896336362969 0 0 0.884896336362969
+25.8776110621725 77.5205412134214)" fill="none" stroke="#000000" stroke-width="3.2256" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="2" d="M11.4861 0.507065L0 0"/>
+    <path id="shape3" transform="matrix(0.884896336362969 0 0 0.884896336362969 54.8328395713708
+57.7895065072595)" fill="none" stroke="#000000" stroke-width="3.2256" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="2" d="M0
+0L2.92904 22.9092"/>
+    <path id="shape4" transform="matrix(0.884896336362969 0 0
+0.884896336362969 57.4247320776795 76.4881595884861)" fill="none" stroke="#000000" stroke-width="3.2256" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="2" d="M0 1.7424L11.8944 0"/>
+    <ellipse id="shape5" transform="translate(36.6750003145944, 25.7702210441774)" rx="1.08" ry="1.08" cx="1.08" cy="1.08" fill="#000000" fill-rule="evenodd" stroke="#000000" stroke-width="3.2256" stroke-linecap="square" stroke-linejoin="bevel"/>
+    <circle id="shape0" transform="matrix(1.00000002886724
+0 0 1.00000002886724 54.9721017420214 25.8002180454906)" r="1.08" cx="1.08" cy="1.08" fill="#000000" fill-rule="evenodd" stroke="#000000" stroke-width="3.2256" stroke-linecap="square" stroke-linejoin="bevel"/>
+    <path id="shape6" transform="translate(37.2103826586443, 39.1013805153738)" fill="none" stroke="#000000" stroke-width="3.2256" stroke-linecap="square" stroke-linejoin="bevel" d="M0 1.40007C0 7.27764 20.6192 6.32165 20.6192
+0"/>
+    <path id="shape7" transform="translate(69.5343811803999, 13.4990916554354)" fill="none" stroke="#000000" stroke-width="3.2256" stroke-linecap="square" stroke-linejoin="bevel" d="M0 23.0375C12.6935 23.0375 15.2146 6.36396 14.3826
+0"/>
+    <path id="shape8" transform="translate(10.7219527072815, 13.3718124293251)" fill="none" stroke="#000000" stroke-width="3.2256" stroke-linecap="square" stroke-linejoin="bevel" d="M1.02766 0C-2.02704 11.1262 1.5368 23.3482 14.298
+23.3482"/>
+</svg>
