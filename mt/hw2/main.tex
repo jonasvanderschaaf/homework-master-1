@@ -1,0 +1,280 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd, xcolor}
+\usepackage{nicefrac}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{float}
+\usepackage{cleveref}
+\usepackage{svg}
+\usepackage{tikz-cd}
+
+\usepackage{quiver}
+
+\renewcommand{\qedsymbol}{\raisebox{-0.5cm}{\includesvg[width=0.5cm]{../../qedboy.svg}}}
+
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\proj}{\mathbb{P}}
+\newcommand{\sheaf}{\mathcal{O}}
+\newcommand{\FF}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+
+\newcommand{\zproj}{Z_{\textnormal{proj}}}
+
+\newcommand{\maxid}{\mathfrak{m}}
+\newcommand{\primeid}{\mathfrak{p}}
+\newcommand{\primeidd}{\mathfrak{q}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{order}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\matrices}{Mat}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\colim}{colim}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\schemes}{{\bf Sch}}
+\newcommand{\aff}{{\bf Aff}}
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\rad}{Rad}
+\DeclareMathOperator{\divisor}{div}
+\DeclareMathOperator{\Pic}{Pic}
+\DeclareMathOperator{\spec}{Spec}
+\newcommand{\ideal}{\triangleleft}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem{definition}{Definition}
+
+\title{Homework Model Theory}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Let \(L\) be a language with a single binary relation \(E\), and let \(T\)
+    be the theory of an equivalence relation with infinitely many infinite
+    cells, and without infinite cells.
+
+    \begin{enumerate}[(a)]
+        \item Write axioms for \(T\).
+
+              \begin{solution}
+                  We first take the axioms of an equivalence relation
+                  \begin{gather*}
+                      \forall x:E(x,x),\\
+                      \forall x,y:E(x,y)\to E(y,x),\\
+                      \forall x,y,z:E(x,y)\wedge E(y,z)\to E(x,z).
+                  \end{gather*}
+                  On top of that we define for all \(n\in\omega\)
+                  \[
+                      \varphi_{n}=\exists x_{1},\ldots,x_{n}:\neg E(x_{1},\ldots,x_{n})
+                  \]
+                  and
+                  \[
+                      \psi_{n}=\forall x\exists y_{1},\ldots,y_{n}:
+                      \bigwedge_{1\leq i\neq j\leq n}y_{i}\neq y_{j}
+                      \wedge\bigwedge_{1\leq i\leq n}E(x,y_{i}).
+                  \]
+                  Taking \(T=\bigcup_{n\in\omega}\set{\varphi_{n},\psi_{n}}\)
+                  together with the equivalence relation axioms above defines
+                  the desired theory.
+              \end{solution}
+
+        \item How many models of \(T\) are there up to isomorphism of
+              cardinality \(\aleph_{0}\) and \(\aleph_{1}\)?
+
+              \begin{solution}
+                  First we concern ourselves with the models of cardinality
+                  \(\aleph_{0}\). Each infinite equivalence class must have at
+                  least \(\aleph_{0}\) elements and there are at least
+                  \(\aleph_{0}\) many of them. There cannot be more equivalence
+                  classes or larger equivalence classes because we assumed a
+                  cardinality of \(\aleph_{0}\). This means that for any model
+                  of \(T\) of countable cardinality there is a bijection between
+                  the set of equivalence classes and a bijection between each
+                  equivalence class, so the two models are isomorphic as the
+                  relation \(E\) is the only structure preserved by an
+                  isomorphism. This means there is exactly one model op to
+                  isomorphism.
+
+                  For models of cardinality \(\aleph_{1}\) the picture becomes a
+                  bit more complex. If there are \(\kappa\) equivalence classes
+                  of cardinality \(\aleph_{0}\) and \(\lambda\) of cardinality
+                  \(\aleph_{1}\) the model has cardinality
+                  \(\kappa\cdot\aleph_{0}+\lambda\cdot\aleph_{1}\) with
+                  \(\kappa,\lambda\leq\aleph_{1}\) and \(\lambda\geq1\) or
+                  \(\kappa=\aleph_{1}\). We compute the cardinality of the set
+                  of such tuples \((\kappa,\lambda)\).
+
+                  If \(\kappa=\aleph_{1}\) then \(\lambda\) can be anything
+                  giving \(\aleph_{0}\) many of such tuples. If
+                  \(\kappa<\aleph_{1}\), then \(1\leq\lambda\leq\aleph_{1}\) so
+                  there are \(\aleph_{0}\cdot\aleph_{0}=\aleph_{0}\) many tuples
+                  of this shape.
+
+                  This means that in total there are
+                  \(\aleph_{0}=\aleph_{0}+\aleph_{0}\) many models of \(T\) of
+                  cardinality \(\aleph_{1}\) up to isomorphism.
+              \end{solution}
+
+        \item Show that \(T\cup DLO\) is not \(\omega\)-categorical.
+
+              \begin{proof}
+                  Consider the dense linear order \(\Q\) and define the
+                  equivalence relations with the following equivalence classes:
+                  \[
+                      E=\setwith{(i,i+1]}{i\in\Z}
+                  \]
+                  and
+                  \[
+                      E'=\setwith{[i,i+1)}{i\in\Z}.
+                  \]
+                  Taking \(\mathbb{M}=(\Q,<,E)\) and \(\mathbb{M}'=(\Q,<,E')\)
+                  we see easily that
+                  \[
+                      \mathbb{M}\models\forall x\exists y:E(x,y)\wedge\forall z:E(x,z)\to z=y\vee z<y
+                  \]
+                  because each \((i,i+1]\) has a supremum in the class. The
+                  model \(\mathbb{M}'\) does not have this property so these
+                  models are not isomorphic. Both have cardinality
+                  \(\aleph_{0}\) so the theory is not
+                  \(\omega\)-categorical\footnote{In fact this shows the theory
+                      is not complete so it is not categorical for any cardinality.}.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(L=\set{<}\) be the language of linear orders.
+
+    \begin{enumerate}[(a)]
+        \item Let \(T\) be an \(L\)-theory extending the theory of linear
+              orders, and assume that \(T\) has an infinite model. Show that
+              \(T\) has a model extending \((\Q,<)\).
+
+              \begin{proof}
+                  Let \(\Delta\) be the diagram of \((\Q,<)\). We claim that
+                  \(T\cup\Delta\) is a satisfiable set of formulas. This means
+                  there is a structure \((\mathbb{L},<)\) satisfying \(T\) into
+                  which \(\Q\) can be embedded, showing the desired statement.
+                  We write \(c_{q}\) for a constant in the language of
+                  \(\Delta\) corresponding to \(q\in\Q\) and fix an infinite
+                  model \((\mathbb{M},<)\) of \(T\).
+
+                  By compactness it is sufficient to demonstrate any finite
+                  \(\Gamma_{0}\subseteq T\cup\Delta\) is satisfiable. Let
+                  \(\Gamma_{0}\) be such a finite set and
+                  \(c_{q_{1}},\ldots,c_{q_{n}}\) be the constants occurring in
+                  \(\Gamma_{0}\) labelled such that \(q_{i}<q_{j}\) for \(i<j\).
+                  Pick any set \(M=\set{x_{1},\ldots,x_{n}}\subseteq\mathbb{M}\)
+                  of cardinality \(n\) such that \(x_{i}<x_{j}\) iff \(i<j\) and
+                  interpret the constant \(c_{i}=x_{i}\). It is clear that
+                  \((\mathbb{M},<,x_{1},\ldots,x_{n})\models c_{i}<c_{j}\) iff
+                  \(i<j\) and so \(\mathbb{M}\) satisfies all \emph{atomic}
+                  formulas of \(\Delta\) containing the constants
+                  \(c_{q_{1}},\ldots,c_{q_{n}}\). A simple induction argument
+                  shows that this means it satisfies all quantifier-free
+                  formulas with these constants, so in particular
+                  \(\mathbb{M}\models\Gamma_{0}\).
+
+                  Any arbitrary finite subset \(\Gamma_{0}\subseteq
+                  T\cup\Delta\) is therefore satisfiable and so the whole set is
+                  as well by compactness completing the proof.
+              \end{proof}
+
+        \item Show that the class \(\mathcal{K}\) of well-orders is not
+              elementary.
+
+              \begin{proof}
+                  Suppose \(\mathcal{K}\) is elementary and has theory \(T\).
+                  Then \(T\) extends the theory of linear orders so there is a
+                  model \((\mathbb{L},<)\) of \(T\) extending \((\Q,<)\). This
+                  means \(\mathbb{L}\) has a subset \(X\) isomorphic to \(\Q\).
+                  The order on \(\Q\) has no least element so \(X\) does not
+                  either, meaning \(\mathbb{L}\) is not well-ordered by \(<\)
+                  contradicting the assumption. This means that \(\mathcal{K}\)
+                  is not elementary.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Use Ramsey's theorem to derive this\footnote{Technically speaking not this
+        actual statement, but the one stated in the question.} statement.
+
+    \begin{proof}
+        We consider the language with one binary relation \(L=\set{R}\). We let
+        \(R\) be a symmetric relation: we consider the theory \(T=\set{\forall
+            x,y:R(x,y)\leftrightarrow R(y,x)}\).
+
+        Suppose the statement is not true: there is a \(k\) such that no finite
+        set has a homogeneous set of size \(k\). This means that the formula
+        \[
+            \varphi=\neg\exists x_{1},\ldots,x_{k}:\bigwedge_{1\leq i\neq j\leq k}x_{i}\neq x_{j}
+            \wedge\bigwedge_{1\leq i\neq j,n\neq m\leq k}R(x_{i},x_{j})\leftrightarrow R(x_{n},x_{m})
+        \]
+        expressing that there are no \(k\) elements of a model which form a
+        homogeneous subset with respect to the colouring induced by the relation
+        \(R\) is satisfiable in arbitrarily large finite models of \(T\). This
+        means \(\varphi\) is satisfiable in an infinite model \((\mathbb{M},R)\)
+        of \(T\) by compactness. Add infinitely many constants
+        \((c_{i})_{i\in\N}\) and define \(T'=\setwith{c_{i}\neq c_{j}}{i\neq
+            j}\): then \(T\cup T'\) is clearly finitely satisfiable so \(T\cup T'\)
+        is as well, giving an infinite model of \(T\).
+
+        By Ramsey's theorem \(\mathbb{M}\) has an infinite homogeneous subset,
+        so \(\mathbb{M}\nVdash\varphi\): take any \(k\) elements in this
+        homogeneous set as a counterexample.
+
+        This is clearly a contradiction and therefore the desired statement is
+        true for all \(k\in\omega\).
+    \end{proof}
+\end{question}
+\end{document}

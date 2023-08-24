@@ -1,0 +1,137 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs,stmaryrd}
+\usepackage[margin=3cm]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{ebproof}
+\usepackage{cleveref}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikz}
+
+\newcommand{\sequent}[2]{#1\Rightarrow#2}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\set{#1:#2}}
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem*{lemma}{Lemma}
+
+\DeclareMathOperator{\ea}{EA}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand{\qedsymbol}{}}{\end{proof}}
+
+\title{Homework Proof Theory}
+\author{Jonas van der Schaaf}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Show that the function \(f(n)=\textnormal{the maximal prime number \(p\leq
+        n\)}\) is elementary.
+
+    \begin{proof}
+        We demonstrate it is elementary by finding a \(\Delta_{0}\) formula
+        which is true iff \(p\) is the maximal prime number below \(n\).
+
+        The formula
+        \[
+            \varphi(n)=\forall m\leq n:\left(m\neq S(0)\wedge m\neq n\to\neg\exists k\leq n:k\cdot m=n\right)
+        \]
+        is true iff \(n\) is a prime number: for all \(m\leq n\) if \(m\) is not
+        \(1\) or \(n\) then there is no \(k\leq n\) with \(m\cdot k=n\).
+
+        Then
+        \[
+            \psi(n,m)=m\leq n\wedge\forall k\leq n:m\leq k\wedge m\neq k\to \neg\varphi(k)
+        \]
+        is true iff \(m\) is the largest prime number less than or equal to
+        \(n\): it is true if \(m\leq n\) and for all numbers \(k\) between \(m\) and
+        \(n\) the number \(k\) is not a prime number.
+
+        This means there is an elementary function \(\chi_{\psi}(n,m)\) which
+        corresponds exactly to the truth value of \(\psi\) so this function is
+        elementary.
+    \end{proof}
+\end{question}
+
+\begin{question}
+    Prove in EA: \(\varphi(a,b)=a\leq b\vee b\leq a\).
+
+    \begin{proof}
+        We show that
+        \begin{equation}
+            \ea\vdash\forall n:n\leq b\vee b\leq n
+        \end{equation}
+        and then
+        conclude by the inversion lemma that
+        \begin{equation}
+            \ea\vdash a\leq b\vee b\leq a
+        \end{equation}
+
+        We know that \(\varphi(0,b)\wedge\forall
+        x:\varphi(x,b)\to\varphi(S(x),b)\) is an axiom of EA because \(\varphi\)
+        is a \(\Delta_{0}\) formula. By exercise 2.3 this means that if
+        \begin{equation}
+            \ea\vdash\varphi(0,b)\wedge\forall x:(\varphi(x,b)\to\varphi(S(x),b)) \label{eq:antec-induc1}
+        \end{equation}
+        then \(\ea\vdash\forall x:\varphi(x,b)\). If we can prove that
+        \(\ea\vdash\varphi(0,b)\) and \(\ea\vdash\forall
+        x:(\varphi(x,b)\to\varphi(S(x),b))\) then by applying the \(\wedge R\)
+        rule we conclude that \Cref{eq:antec-induc1} must hold as well. We know
+        that \(\ea\vdash\varphi(0,b)\) by exercise 3.4. Now let us consider the
+        other formula. We show that
+        \begin{equation}
+            \ea\vdash\varphi(a,b)\to\varphi(S(a),b)
+        \end{equation}
+        and by applying \(\forall R\) then we obtain the desired statement.
+
+        We now prove this implication as follows: suppose
+        \(\ea\vdash\varphi(a,b)\) i.e. \(\ea\vdash a\leq b\vee b\leq a\). This
+        means there is a finite \(\Gamma_{0}\subseteq\ea\) such that
+        \(\sequent{\Gamma_{0}}{a\leq b\vee b\leq a}\). By the inversion lemma
+        this means that \(\sequent{\Gamma_{0}}{a\leq b,b\leq a}\). Using
+        exercise 3.5 and multiple uses of the inversion lemma we know there is a
+        finite \(\Gamma_{1}\subseteq\ea\) such that \(\sequent{\Gamma_{1},a\leq
+            b}{S(a)\leq b,S(a)=b}\). Applying cut elimination and then inversion
+        then gives
+        \begin{equation}
+            \vdash\sequent{\Gamma_{0},\Gamma_{1}}{b\leq a,S(a)\leq b,S(a)=b}. \label{eq:almostthere}
+        \end{equation}
+        By exercise 3.5 we know there is a finite \(\Gamma_{2}\subseteq\ea\)
+        such that \(\vdash\sequent{\Gamma_{2}}{b\leq a\to b\leq S(a)}\) so by
+        the inversion lemma we know that \(\vdash\sequent{\Gamma_{2},b\leq a}{b\leq
+            S(a)}\) so applying cut elimination to the previous provable sequent
+        and \Cref{eq:almostthere} we get
+        \begin{equation}
+            \vdash\sequent{\Gamma_{0},\Gamma_{1},\Gamma_{2}}{b\leq S(a),S(a)\leq b,S(a)=b}.
+        \end{equation}
+        We know that because \(=\) is defined to be a congruence relation
+        \(S(a)=b\to S(a)\leq b\) is provable in \(\ea\) using some finite set of
+        axioms \(\Gamma_{3}\subseteq\ea\):
+        \(\vdash\sequent{\Gamma_{3}}{S(a)=b\to S(a)\leq b}\). Applying the
+        inversion lemma and another cut elimination this gives that
+        \begin{equation}
+            \vdash\sequent{\Gamma_{0},\Gamma_{1},\Gamma_{2},\Gamma_{3}}{b\leq S(a),S(a)\leq b,S(a)\leq b}.
+        \end{equation}
+        Applying contraction and \(\vee R\), this gives the statement that:
+        \[
+            \vdash\sequent{\Gamma_{0},\Gamma_{1},\Gamma_{2},\Gamma_{3}}{b\leq S(a)\vee S(a)\leq b}.
+        \]
+
+        This proves that
+        \[
+            \vdash\sequent{\Gamma_{0},\Gamma_{1},\Gamma_{2},\Gamma_{3}}{(a\leq b\vee b\leq a)\to(S(a)\leq b\vee b\leq S(a))}.
+        \]
+        By the reasoning as given above this means that the desired statement is
+        true.
+    \end{proof}
+\end{question}
+\end{document}

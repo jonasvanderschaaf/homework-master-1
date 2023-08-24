@@ -1,0 +1,209 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{svg}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{quiver}
+\usepackage{float}
+\usepackage{cleveref}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\newcommand{\catcat}{{\bf Cat}}
+\newcommand{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\catt}{\mathcal{D}}
+\newcommand{\cattt}{\mathcal{E}}
+\newcommand{\topos}{\mathcal{E}}
+\newcommand{\pcat}{\mathcal{P}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\newcommand{\setcat}{{\bf Set}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\rad}{Rad}
+\newcommand{\alg}[1]{T\textnormal{-Alg}}
+\DeclareMathOperator{\ev}{ev}
+\newcommand{\psh}[1]{\widehat{#1}}
+\DeclareMathOperator{\famm}{Fam}
+\DeclareMathOperator{\dfib}{DFib}
+\newcommand{\restrict}{\upharpoonright}
+\DeclareMathOperator{\subobj}{Sub}
+\DeclareMathOperator{\elements}{Elts}
+
+\tikzset{
+    rot/.style={anchor=south, rotate=90, inner sep=.5mm}
+}
+
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+\renewcommand{\qedsymbol}{\raisebox{-0.5cm}{\includesvg[width=0.5cm]{../../qedboy.svg}}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework Topos Theory}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Call a functor \(F:\mathcal{A}\to\mathcal{B}\) flat if for each
+    \(B\in\mathcal{B}\) the functor
+    \(\mathcal{B}(B,F(-)):\mathcal{A}\to\setcat\) is flat.
+
+    \begin{enumerate}[(a)]
+        \item Prove if \(F:\mathcal{A}\to\mathcal{B}\) is flat and
+              \(G:\mathcal{B}\to\mathcal{C}\) is flat then
+              \(GF:\mathcal{A}\to\mathcal{C}\) is flat.
+
+              \begin{proof}
+                  We demonstrate that \(\elements\mathcal{C}(C,GF-)\) is a
+                  filtering category for each \(C\in\mathcal{C}\). We know that
+                  \(\elements\mathcal{B}(B,F-)\) and
+                  \(\elements\mathcal{C}(C,G-)\) are filtering categories for
+                  arbitrary \(B\in\mathcal{B}\) and \(C\in\mathcal{C}\). We fix
+                  an arbitrary \(C\in\mathcal{C}\).
+
+                  We first show the category is non-empty. There is a
+                  \(B\in\mathcal{B}\) such that there is an \(g:C\to GB\)
+                  because \(\elements\mathcal{C}(C,G-)\) is filtering. Similarly
+                  there is an \(f:B\to FA\) for some \(A\in\mathcal{A}\). Then
+                  \(Gf\circ g:C\to GFA\in\Hom(C,GFA)\) so \((Gf\circ
+                  g,A)\in\elements\mathcal{C}(C,GF-)\) and it is therefore
+                  non-empty for each \(C\in\mathcal{C}\).
+
+                  Take \(x=(f:C\to GFA,A),x'=(f':C\to
+                  GFA',A')\in\elements\mathcal{C}(C,GF-)\). Then because
+                  \(\elements\mathcal{C}(C,G-)\) is a filtering category there
+                  is a \(y=(g:C\to GB,B)\) such that there are morphisms
+                  \(h:y\to x\) and \(h':y\to x'\), these are morphisms \(h:B\to
+                  FA\) and \(h:B\to FA'\) such that \(Gh\circ g=f\) and
+                  \(Gh'\circ g=f'\). These are elements
+                  \(z=(h,A),z'=(h',A')\in\elements\mathcal{B}(B,F-)\). Because
+                  this is also a filtered category there is a \(v=(k:B\to
+                  FA'',A'')\) and \(l:v\to z,l':v\to z'\). Then \(u=(Gk\circ
+                  g,A'')\) has \(l:A''\to A\) and \(l':A''\to A'\) such that
+                  \begin{align*}
+                      GFl\circ Gk\circ g  & =G(Fl\circ k)\circ g  \\
+                                          & =Gh\circ g            \\
+                                          & =f,                   \\
+                      GFl'\circ Gk\circ g & =G(Fl'\circ k)\circ g \\
+                                          & =Gh'\circ g           \\
+                                          & =f'.
+                  \end{align*}
+                  Therefore \(l:u\to x,l':u\to x'\) are two morphisms in
+                  \(\elements\mathcal{C}(C,GF-)\).
+
+                  Now we show the category has equalizers. Let \(l,l':a\to b\)
+                  be morphisms from \(a=(f:C\to GFA,A)\) to \(b=(g:C\to GFA')\)
+                  i.e. we have a commutative diagram
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          C\&\&GFA\\
+                          \\
+                          \&\&GFA'
+                          \arrow["GFl"', shift right=1, from=1-3, to=3-3]
+                          \arrow["GFl'", shift left=1, from=1-3, to=3-3]
+                          \arrow["f", from=1-1, to=1-3]
+                          \arrow["g"', from=1-1, to=3-3]
+                      \end{tikzcd}
+                  \]
+                  by assumption this is equalized by some \((h:C\to
+                  GB,B)\in\elements\mathcal{C}(C,G-)\). There is then also an
+                  \(E\in\mathcal{A}\) and \(k:B\to FE\) such that
+                  \((k,A)\in\elements\mathcal{B}(B,F-)\) equalizes \(l,l'\) with
+                  an arrow \(n:E\to A\):
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          \&\&FE\\
+                          \\
+                          B\&\& FA\\
+                          \\
+                          \&\&FA'
+                          \arrow["Fl"', shift right=1, from=3-3, to=5-3]
+                          \arrow["Fl'", shift left=1, from=3-3, to=5-3]
+                          \arrow["k", from=3-1, to=1-3]
+                          \arrow["n", from=1-3, to=3-3]
+                          \arrow[from=3-1, to=3-3]
+                          \arrow[from=3-1, to=5-3]
+                      \end{tikzcd}
+                  \]
+                  Therefore we have an object \((Gk\circ h:C\to GFE, E)\) such
+                  that \(h\) equalizes the parallel arrows \(a,b\).
+              \end{proof}
+
+        \item For every category \(\mathcal{A}\) and object \(A\in\mathcal{A}\),
+              show that the functor \(\Hom(A,-)=y_{A}\) is flat.
+
+              \begin{proof}
+                  Then Kan extension of \(\Hom(A,-)\) is the evaluation functor
+                  \(\ev_{A}:\hat{\mathcal{A}}\to\setcat:\ev_{A}(X)=X(A)\). This
+                  is because \(y_{C}(A)=\Hom(A,C)\) so the required
+                  commutativity demand is satisfied. It preserves (co)limits
+                  because (co)limits are computed pointwise.
+              \end{proof}
+
+        \item Suppose \(G:\mathcal{A}\to\mathcal{B}\) has a left adjoint. Then
+              \(G\) is flat.
+
+              \begin{proof}
+                  If \(G\vdash F\), then \(\Hom(B,G-)\cong\Hom(FB,-)\) which is
+                  flat by part b. We know Kan extensions are unique up to
+                  functor isomorphism so isomorphic functors have isomorphic
+                  Kan-extensions and therefore flatness is preserved under
+                  isomorphism.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

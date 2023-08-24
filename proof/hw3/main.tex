@@ -1,0 +1,173 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs,stmaryrd}
+\usepackage[margin=3cm]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{ebproof}
+\usepackage{cleveref}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikz}
+
+\newcommand{\sequent}[2]{#1\Rightarrow#2}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\set{#1:#2}}
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem*{lemma}{Lemma}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand{\qedsymbol}{}}{\end{proof}}
+
+\title{Homework Proof Theory}
+\author{Jonas van der Schaaf}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Suppose \(\sequent{\Gamma}{\forall x:\varphi[a/x],\Delta}\) is provable in
+    G3c with the cut-rule by a proof of depth \(n\) and cutrank \(m\) where
+    \(a\) does not occur in \(\Gamma,\Delta\). Show that
+    \(\sequent{\Gamma}{\varphi,\Delta}\) is provable by a proof of depth \(\leq
+    n\) and cutrank \(\leq m\).
+
+    \begin{proof}
+        This will be a proof by induction of proof depth.
+
+        If \(\sequent{\Gamma}{\forall x:\varphi[a/x]},\Delta\) is an axiom, then
+        there are three options: either \(\top\in\Delta\), \(\bot\in\Gamma\) or
+        there is an atomic formula in the intersection \(\Gamma\cap\Delta\). In
+        the former two cases the sequent \(\sequent{\Gamma}{\varphi,\Delta}\) is
+        also an axiom. In the latter case, because \(\forall x:\varphi[a/x]\) is
+        not an atomic formula, the formula occurring on both sides of the
+        sequent must be a different one than it. Therefore
+        \(\sequent{\Gamma}{\varphi,\Delta}\) is also an axiom.
+
+        Now for the induction step. We will not show the induction step for all
+        rule applications. We will show it for one connective, two quantifiers
+        and the cut rule. The induction step for other rules will be similar or
+        easier.
+
+        The connective rule we demonstrate the theorem for is \(\vee L\).
+        Suppose \(\vdash\sequent{\psi\vee\chi,\Gamma}{\forall
+            x:\varphi[a/x],\Delta}\) and the last rule in the proof was \(\vee L\)
+        where \(\psi\vee\chi\) was principal. Then the proof must have ended
+        with
+        \[
+            \begin{prooftree}
+                \hypo{\sequent{\psi,\Gamma}{\forall x:\varphi[a/x],\Delta}}
+                \hypo{\sequent{\chi,\Gamma}{\forall x:\varphi[a/x],\Delta}}
+                \infer2[\(\vee L\)]{\sequent{\psi\vee\chi,\Gamma}{\forall x:\varphi[a/x],\Delta}}
+            \end{prooftree}
+        \]
+        where the two sequents \(\sequent{\psi,\Gamma}{\forall
+            x:\varphi[a/x],\Delta}\) are provable by a proof of depth \(n-1\)
+        and cut rank \(\leq m\). Therefore by the induction hypothesis
+        \(\sequent{\psi,\Gamma}{\varphi,\Delta}\) and
+        \(\sequent{\psi,\Gamma}{\varphi,\Delta}\) must also be provable by a
+        proof of depth \(n-1\) and cut-rank \(\leq m\). This means that we
+        can combine these proofs to get a proof of depth \(n\) and cut rank
+        \(\leq m\):
+        \[
+            \begin{prooftree}
+                \hypo{\sequent{\psi,\Gamma}{\varphi,\Delta}}
+                \hypo{\sequent{\chi,\Gamma}{\varphi,\Delta}}
+                \infer2[\(\vee L\)]{\sequent{\psi\vee\chi,\Gamma}{\varphi,\Delta}}
+            \end{prooftree}
+        \]
+
+        Suppose the last applied rule was the cut rule on some formula
+        \(\vartheta\): either
+        \[
+            \begin{prooftree}
+                \hypo{\sequent{\Gamma}{\forall x:\varphi[a/x],\Delta},\vartheta}
+                \hypo{\sequent{\vartheta,\Gamma'}{\Delta'}}
+                \infer2[Cut]{\sequent{\Gamma,\Gamma'}{\forall x:\varphi[a/x],\Delta,\Delta'}}
+            \end{prooftree}
+        \]
+        or
+        \[
+            \begin{prooftree}
+                \hypo{\sequent{\Gamma}{\Delta,\vartheta}}
+                \hypo{\sequent{\vartheta,\Gamma'}{\forall x:\varphi[a/x],\Delta'}}
+                \infer2[Cut]{\sequent{\Gamma,\Gamma'}{\forall x:\varphi[a/x],\Delta,\Delta'}}
+            \end{prooftree}
+        \]
+        In either case we see that by the induction hypothesis
+        \(\sequent{\Gamma}{\varphi,\Delta},\vartheta\) must have been provable
+        in the former case by a proof of depth \(n-1\) and in the latter case
+        the same holds for \(\sequent{\vartheta,\Gamma'}{\varphi,\Delta'}\).
+        This means that either
+        \[
+            \begin{prooftree}
+                \hypo{\sequent{\Gamma}{\varphi,\Delta},\vartheta}
+                \hypo{\sequent{\vartheta,\Gamma'}{\Delta'}}
+                \infer2[Cut]{\sequent{\Gamma,\Gamma'}{\varphi,\Delta,\Delta'}}
+            \end{prooftree}
+        \]
+        or
+        \[
+            \begin{prooftree}
+                \hypo{\sequent{\Gamma}{\Delta,\vartheta}}
+                \hypo{\sequent{\vartheta,\Gamma'}{\forall x:\varphi[a/x],\Delta'}}
+                \infer2[Cut]{\sequent{\Gamma,\Gamma'}{\forall x:\varphi[a/x],\Delta,\Delta'}}
+            \end{prooftree}
+        \]
+        must be the end of a valid proof of depth \(n\) with the same cutrank as
+        the original.
+
+        If the last applied rule in the proof was \(\forall R\) then the proof
+        must have ended as follows:
+        \[
+            \begin{prooftree}
+                \hypo{\sequent{\Gamma}{\varphi,\Delta}}
+                \infer1[\(\forall R\)]{\sequent{\Gamma}{\forall x\varphi[a/x],\Delta}}
+            \end{prooftree}
+        \]
+        from which it is immediately clear that
+        \(\sequent{\Gamma}{\varphi,\Delta}\) is provable with depth \(\leq n\)
+        and cutrank \(\leq m\). Note that this will always work because \(a\)
+        does not occur in \(\Gamma,\Delta\) by assumption.
+
+        If the last step was \(\exists L\), then we have to be a bit more
+        careful: suppose the proof ends in the following manner
+        \[
+            \begin{prooftree}
+                \hypo{\sequent{\vartheta,\Gamma}{\forall x:\varphi[a/x],\Delta}}
+                \infer1[\(\exists L\)]{\sequent{\exists y:\vartheta[b/y],\Gamma}{\forall x:\varphi[a/x],\Delta}}
+            \end{prooftree}
+        \]
+        If \(b=a\) then the assumptions do not hold, so we cannot apply the
+        induction hypothesis. We do know that \(a\) does not occur elsewhere, so
+        using depth-preserving substitution we know that taking \(c\) to be a
+        fresh variable
+        \[
+            \sequent{\vartheta[a/c],\Gamma}{\forall x:\varphi[a/x],\Delta}
+        \]
+        is provable with depth \(n-1\) and cutrank \(\leq m\). Then by
+        assumption
+        \[
+            \sequent{\vartheta[a/c],\Gamma}{\varphi,\Delta}
+        \]
+        is provable with the same depth \(n-1\) and cutrank \(m\) and \(c\) does
+        not occur in \(\Delta,\Gamma\). Therefore there is also a proof ending
+        on
+        \[
+            \begin{prooftree}
+                \hypo{\sequent{\vartheta[a/c],\Gamma}{\varphi,\Delta}}
+                \infer1[\(\exists L\)]{\sequent{\exists y:\vartheta[a/c][c/y],\Gamma}{\varphi,\Delta}                }
+            \end{prooftree}
+        \]
+
+        This shows the induction step for some important rule applications and
+        will have to do.
+    \end{proof}
+\end{question}
+\end{document}

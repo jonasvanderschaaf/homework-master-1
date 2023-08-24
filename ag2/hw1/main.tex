@@ -1,0 +1,402 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd, xcolor}
+\usepackage{nicefrac}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{float}
+\usepackage{cleveref}
+\usepackage{svg}
+\usepackage{tikz-cd}
+
+\renewcommand{\qedsymbol}{\raisebox{-0.5cm}{\includesvg[width=0.5cm]{../../qedboy.svg}}}
+
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\proj}{\mathbb{P}}
+\newcommand{\sheaf}{\mathcal{O}}
+\newcommand{\FF}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+
+\newcommand{\zproj}{Z_{\textnormal{proj}}}
+
+\newcommand{\maxid}{\mathfrak{m}}
+\newcommand{\primeid}{\mathfrak{p}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{order}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\colim}{colim}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\schemes}{{\bf Sch}}
+\newcommand{\aff}{{\bf Aff}}
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\rad}{Rad}
+\DeclareMathOperator{\divisor}{div}
+\DeclareMathOperator{\Pic}{Pic}
+\DeclareMathOperator{\spec}{Spec}
+\newcommand{\ideal}{\triangleleft}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework Algebraic Geometry 2}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Show that the following statements are equivalent for a scheme \(X\):
+
+    \begin{enumerate}[(a)]
+        \item \(X\) is reduced,
+        \item all the stalks \(O_{X,x}\) have no nonzero nilpotent element,
+        \item \(X\) has a covering by open affines \(U_{i}\) such that
+              \(\Gamma(U_{i},O_{X})\) has no non-zero nilpotent elements.
+    \end{enumerate}
+
+    \begin{proof}
+        \((a)\Rightarrow(c)\) is trivially true because an affine open is
+        open.
+
+        For \((c)\Rightarrow(b)\) take \(x\in U_{i}\subseteq X\). Then
+        \(O_{X,x}=(O_{X}|_{U_{i}})_{x}\) the stalk at \(x\) of the restricted
+        sheaf. This is then the ring
+        \(O_{\spec(O_{x}(U_{I}))}(U_{i})_{\primeid}\) where \(\primeid\ideal
+        O_{\spec(O_{x}(U_{I}))}(U_{i})=O_{X}(U_{i})\) is the prime ideal onto
+        which \(x\) is mapped by the isomorphism witnessing affineness of
+        \(U_{i}\). Because \(O_{X}(U_{i})\) has no non-zero nilpotents this
+        means the localisation to the prime ideal
+        \(O_{X}(U_{i})_{\primeid}=O_{X,x}\) does not either.
+
+        For \((b)\Rightarrow(a)\) we know\footnote{This is exercise 4.7.22 from
+            the algebraic geometry 1 course or alternatively lemma 6.11.1 from
+            stacks.} that there is an injective morphism
+        \(O_{X}(U)\hookrightarrow \prod_{x\in U}O_{X,x}\). Therefore
+        \(O_{X}(U)\) is a subring of a ring with no non-zero nilpotents,
+        so it has no non-zero nilpotents either.
+    \end{proof}
+\end{question}
+
+\begin{question}
+    Let \(R\) be a discrete valuation ring with fraction field \(K\). Let
+    \(A:R\to K\) denote the inclusion map. Write \(X=\spec(K)\) and
+    \(Y=\spec(R)\) and let \((f,f^{\sharp}):X\to Y\) be the morphism of schemes
+    associated with \(A\).
+
+    \begin{enumerate}[(i)]
+        \item Describe the underlying spaces of \(X\) and \(Y\), the continuous
+              map \(f:X\to Y\) and for all opens \(V\subseteq Y\) the map
+              \(f^{\sharp}_{V}:Y\to X\).
+
+              The ring \(K\) is a field so \(\spec(K)\) has just the one point.
+
+              The spectrum of \(R\) is a two point set: \(\set{(0),\maxid}\)
+              where \(\maxid\) is the maximal ideal of \(R\). This has 3 opens:
+              \(Y_{0}=\varnothing\subseteq X_{t}=\set{(0)}\subseteq X_{1}=\spec
+              R\) where \(t\in R\) is a uniformizer.
+
+              Therefore we want the following diagram to commute:
+              \[
+                  \begin{tikzcd}[ampersand replacement=\&]
+                      {\Gamma(Y_{1},O_{Y})=R} \&\& {K=\Gamma(X_{1},O_{X})} \\
+                      \\
+                      {\Gamma(Y_{t},O_{Y})=R\left[\frac{1}{t}\right]} \&\& {K=\Gamma(X_{1},O_{X})} \\
+                      \\
+                      {\Gamma(Y_{0},O_{Y})=0} \&\& {0=\Gamma(X_{0},O_{X})}
+                      \arrow["0", from=5-1, to=5-3]
+                      \arrow[from=3-1, to=5-1]
+                      \arrow[from=1-1, to=3-1]
+                      \arrow[from=1-3, to=3-3]
+                      \arrow[from=3-3, to=5-3]
+                      \arrow["{f^{\sharp}_{Y_{1}}}", from=1-1, to=1-3]
+                      \arrow["{f^{\sharp}_{Y_{t}}}", from=3-1, to=3-3]
+                  \end{tikzcd}
+              \]
+              The vertical maps are the natural inclusions given by sheaf
+              restriction.
+
+              The map \(f^{\sharp}_{Y_{1}}\) is given by \(A\) because of the
+              duality between affine schemes and commutative rings.
+
+              The bottom two rings are the terminal object in \(\cring\) so
+              the maps to (and from) those are uniquely determined by the
+              universal property.
+
+              For the open \(Y_{t}\), first notice that there is a natural
+              isomorphism \(R[\nicefrac{1}{t}]\cong K\) because every element of
+              \(R\) is of the form \(ut^{n}\) for \(u\in R^{*}\) and \(n\in\N\).
+              Therefore \(f^{\sharp}_{Y_{t}}\) should be a map such that the
+              following diagram commutes
+              \[
+                  \begin{tikzcd}[ampersand replacement=\&]
+                      R \\
+                      \\
+                      {R\left[\frac{1}{t}\right]} \&\& K
+                      \arrow[from=1-1, to=3-1]
+                      \arrow["{f^{\sharp}_{Y_{t}}}", from=3-1, to=3-3]
+                      \arrow["{A}", from=1-1, to=3-3]
+                  \end{tikzcd}
+              \]
+              The image of \(t\) in \(K\) is invertible so there is a unique map
+              \(R[\nicefrac{1}{t}]\to K\) such that this map commutes. Because
+              \(R[\nicefrac{1}{t}]\cong K\), this is just the witnessing
+              natural isomorphism.
+
+        \item Let \(g:X\to Y\) be the unique continuous map that has image the
+              closed point of \(Y\). Show that there exists a unique morphism of
+              sheaves determined by setting \(g^{\sharp}_{Y}=f^{\sharp}_{Y}\).
+
+              \begin{proof}
+                  We first consider all opens in \(Y\) and look at their
+                  preimages, the opens are \(\varnothing,\set{(0)},Y\). Their
+                  inverse images under this map are \(\varnothing,\varnothing\)
+                  and \(X\) respectively. Therefore we are looking for morphisms
+                  \(g^{\sharp}\) such that the following diagram commutes:
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          {\Gamma(Y,O_{Y})=R} \&\& {K=\Gamma(X,O_{X})} \\
+                          \\
+                          {\Gamma(\set{(0)},O_{Y})=K} \&\& {0=\Gamma(\varnothing,O_{X})} \\
+                          \\
+                          {0=\Gamma(\varnothing,O_{Y})} \&\& {0=\Gamma(\varnothing,O_{X})}
+                          \arrow["{f^{\sharp}_{Y}}", from=1-1, to=1-3]
+                          \arrow[from=1-1, to=3-1]
+                          \arrow[from=1-3, to=3-3]
+                          \arrow[from=3-3, to=5-3]
+                          \arrow[from=3-1, to=5-1]
+                          \arrow["{g^{\sharp}_{\varnothing}}", from=5-1, to=5-3]
+                          \arrow["{g^{\sharp}_{\set{(0)}}}", from=3-1, to=3-3]
+                      \end{tikzcd}
+                  \]
+                  However because \(0\) is the terminal ring,
+                  \(g^{\sharp}_{\set{(0)}}\) and \(g^{\sharp}_{\varnothing}\)
+                  are the unique morphisms to this ring and these squares
+                  commute trivially.
+              \end{proof}
+
+        \item Is \((g,g^{\sharp})\) a morphism of schemes?
+
+              \begin{solution}
+                  This is not a morphism of schemes because the morphism of
+                  stalks is not a local morphism for each stalk.
+
+                  At the point \(\maxid\in Y\), the stalk is given by
+                  \(R_{\maxid}=R\) because \(R\) is already a local ring with
+                  maximal ideal \(\maxid\). The stalk at \((0)\) is given by
+                  \(K_{(0)}=K\). The ring morphism is the induced one making the
+                  diagram
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          {O_{Y}(Y)=R} \&\& {K=O_{X}(X)} \\
+                          \\
+                          {\colim_{U\ni\maxid} O_{Y}(U)=R_{\maxid}=R} \&\& K={\colim_{U\ni(0)} O_{X}(U)}
+                          \arrow[from=3-1, to=3-3]
+                          \arrow["\Id", from=1-1, to=3-1]
+                          \arrow["{f^{\sharp}_{Y}}"', from=1-1, to=1-3]
+                          \arrow["\Id"', from=1-3, to=3-3]
+                      \end{tikzcd}
+                  \]
+                  By the universal property of \(R_{\maxid}\) this must just be
+                  the inclusion \(R\to K\). This is not a local morphism because
+                  \(\maxid\ideal R\subseteq K\) is not a subset of the zero
+                  ideal \((0)\ideal K\).
+              \end{solution}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Consider the rings \(A=\Z\times\Z\), \(B=\Z[X]/(X^{2}-1)\),
+    \(C=\Z/(X^{2}+1)\) and set \(X=\spec A\), \(Y=\spec B\) and \(Z=\spec C\).
+    \begin{enumerate}[(i)]
+        \item For each of the following rings determine whether it is: (a)
+              irreducible, (b) connected, (c) reduced:
+              \[
+                  X,Y,Z,Y\times_{\spec\Z}\F_{2}
+              \]
+
+              \begin{solution}
+                  We show our main results in this table and give the
+                  justification afterwards:
+
+                  \begin{figure}[ht]
+                      \centering
+                      \begin{tabular}{l|c|c|c}
+                                                      & Irreducible & Connected & Reduced \\\hline
+                          \(X\)                       & No          & No        & Yes     \\
+                          \(Y\)                       & No          & Yes       & Yes     \\
+                          \(Z\)                       & Yes         & Yes       & Yes     \\
+                          \(Y\times_{\spec\Z}\F_{2}\) & Yes         & Yes       & No
+                      \end{tabular}
+                      \caption{A table showing all results concisely.}
+                  \end{figure}
+
+                  The scheme \(X\) is not connected and therefore not
+                  irreducible because it has non-trivial idempotents: \((0,1)\)
+                  and \((1,0)\). It is reduced because \(\spec A\) itself is an
+                  affine cover with no nilpotent elements.
+
+                  The ring \(B\) has no non-trivial idempotents: all elements of
+                  this ring have linear representatives \(aX+b\). Suppose
+                  one of these is idempotent, then
+                  \begin{align*}
+                      aX+b & =(aX+b)^{2}                      \\
+                           & =a^{2}X+2abX+b^{2}               \\
+                           & =2abX+b^{2}-a^{2}\mod (X^{2}+1).
+                  \end{align*}
+                  In particular this would mean that
+                  \(2a(b-1)X+a^{2}-b^{2}\in(X^{2}+1)\ideal\Z[x]\). As this is
+                  clearly impossible for \(a,b\in\Z\) different from \(a,b=0,1\)
+                  or \(a,b=0,0\) we conclude \(Y\) is connected.
+
+                  The scheme \(Y\) is however not irreducible: there is no
+                  generic point the closure of which is the entire ring. The
+                  prime ideals of \(B\) are given by
+                  \((X-1),(X+1),(X-1,p),(X+1,p)\) for arbitrary primes \(p\)
+                  (note that \((X+1,X-1)=(X+1,2)\)). The lattice produced by
+                  these primes does not have a minimal element (there is no
+                  prime contained in both \((X+1)\) and \((X-1)\)) and therefore
+                  \(Y\) is not irreducible. This scheme is once again reduced
+                  because \(\Gamma(Z,O_{Y})\) does not have nilpotents and \(Y\)
+                  is an affine cover of \(Y\).
+
+                  The scheme \(Z\) is irreducible because
+                  \(\Z/(X^{2}+1)\cong\Z[i]\) which is a domain and therefore
+                  \((0)\) is a prime ideal contained in all others. It is
+                  therefore the generic point of the closed set \(Z\). This
+                  means it is also connected. This scheme is reduced because
+                  it is affine and the open \(Z\) has as associated ring
+                  \(O_{Z}(Z)=C\) which has no nilpotent elements.
+
+                  The scheme \(Y\times_{\spec Z}Y\) is the spectrum of
+                  \(B\otimes_{\Z}\F_{2}\) which is isomorphic to
+                  \begin{align*}
+                      B\otimes_{\Z}\F_{2} & \cong\Z[X]/(X^{2}-1)\otimes\Z/2\Z \\
+                                          & \cong(\Z[X]/(X^{2}-1))/(2)        \\
+                                          & \cong\F_{2}[X]/(X^{2}-1)          \\
+                                          & \cong \F_{2}[X]/(X+1)^{2}         \\
+                                          & \cong \F_{2}[X]/(X^{2}).
+                  \end{align*}
+                  This is the ring of dual numbers, which has a unique prime
+                  ideal so this scheme has only one point and is therefore
+                  irreducible and connected. This affine scheme is not reduced
+                  because the ring of dual numbers has a nilpotent element
+                  \(\varepsilon\).
+              \end{solution}
+
+        \item Using (1), show that \(A\), \(B\) and \(C\) are not mutually
+              isomorphic rings.
+
+              \begin{proof}
+                  Isomorphic rings must have isomorphic spectra. Since
+                  irreducibility, connectedness and being reduced are preserved
+                  under isomorphism, this means that none of these rings can be
+                  isomorphic to each other because no two spectra agree on all
+                  three of these properties.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(X=\proj_{\Z}^{1}\) with open affine sets \(U_{0}=\spec\Z[X_{01}]\)
+    and \(U_{1}=\spec\Z[X_{10}]\).
+
+    \begin{enumerate}[(i)]
+        \item Show that the unique \(\proj_{\Z}^{1}\to\spec\Z\) is not an
+              isomorphism.
+
+              \begin{proof}
+                  We show that \(\proj_{\Z}^{1}\) is not the terminal object. We
+                  know that \(U_{0}\cong U_{1}\cong\spec\Z[X]\) as schemes so
+                  there are two scheme morphisms
+                  \(\spec\Z[X]\to\proj_{\Z}^{1}\): both onto \(U_{0}\) and
+                  \(U_{1}\). Therefore \(\proj_{\Z}^{1}\) cannot be terminal
+                  so it is not isomorphic to \(\spec\Z\).
+              \end{proof}
+
+        \item Show that \(\sheaf_{X}(X)=\Z\).
+
+              \begin{proof}
+                  As stated in the hint there is an exact sequence
+                  \[
+                      0\to O_{X}(X)\to O_{X}(U_{0})\times O_{X}(U_{1})\to O_{X}(U_{0}\cap U_{1})
+                  \]
+                  where filling in the known rings we get
+                  \[
+                      0\to O_{X}(X)\to \Z[t]\times \Z[t]\to \Z[t,t^{-1}]
+                  \]
+                  with \(O_{X}(X)\to \Z[t]\times \Z[t]\) given by the
+                  restriction maps and \(\Z[t]\times \Z[t]\to \Z[t,t^{-1}]\)
+                  given by the map \((f,g)\mapsto f(t)-g(\nicefrac{1}{t})\).
+
+                  It is clear that no non-constant polynomials \(f,g\) have the
+                  property that \(f(t)-g(\nicefrac{1}{t})=0\), so the kernel of
+                  this map is exactly the diagonal of \(\Z\times\Z\) which is
+                  isomorphic to \(\Z\). By exactness this means that
+                  \(O_{X}(X)\cong\Z\) as well.
+              \end{proof}
+
+        \item Show that \(\proj_{\Z}^{1}\) is not affine.
+
+              \begin{proof}
+                  We show it is not affine by contradiction. Suppose it were
+                  affine, then its image under the equivalence
+                  \(\aff\simeq\cring^{op}\) would be the ring \(\Z\). This means
+                  it is would be isomorphic to \(\spec\Z\). We know this is not
+                  the case so this scheme is not affine.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

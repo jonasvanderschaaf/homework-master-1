@@ -1,0 +1,439 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd, xcolor}
+\usepackage{nicefrac}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{float}
+\usepackage{cleveref}
+\usepackage{svg}
+\usepackage{tikz-cd}
+
+\renewcommand{\qedsymbol}{\raisebox{-0.5cm}{\includesvg[width=0.5cm]{../../qedboy.svg}}}
+
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\proj}{\mathbb{P}}
+\newcommand{\sheaf}{\mathcal{O}}
+\newcommand{\FF}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+
+\newcommand{\zproj}{Z_{\textnormal{proj}}}
+
+\newcommand{\maxid}{\mathfrak{m}}
+\newcommand{\primeid}{\mathfrak{p}}
+\newcommand{\primeidd}{\mathfrak{q}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{order}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\matrices}{Mat}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\colim}{colim}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\schemes}{{\bf Sch}}
+\newcommand{\aff}{{\bf Aff}}
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\rad}{Rad}
+\DeclareMathOperator{\divisor}{div}
+\DeclareMathOperator{\Pic}{Pic}
+\DeclareMathOperator{\spec}{Spec}
+\newcommand{\ideal}{\triangleleft}
+\newcommand{\lang}{\mathscr{L}}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem{definition}{Definition}
+
+\title{Homework Model Theory}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Let \(T\) be an \(\mathscr{L}\)-theory. Show that:
+    \begin{enumerate}[(a)]
+        \item If \(T\) is a Skolem theory, then each formula
+              \(\varphi(\bar{x})\in\lang\) there is a quantifier free
+              \(\varphi^{*}(\bar{x})\in\lang\).
+
+              \begin{proof}
+                  We prove this by induction on the structure of \(\varphi\).
+
+                  If \(\varphi\) is atomic \(\varphi^{*}=\varphi\) gives a
+                  quantifier free formula trivially equivalent to \(\varphi\).
+
+                  For any binary connective \(\circ\) and formula
+                  \(\varphi=\psi\circ\chi\) we define
+                  \(\varphi^{*}=\psi^{*}\circ\chi^{*}\) which is trivially
+                  equivalent. We do a similar thing for negation:
+                  \((\neg\psi)^{*}=\neg\psi^{*}\).
+
+                  If \(\varphi(\bar{x})=\exists y\psi(\bar{x},y)\) we know that there
+                  is a term \(t\) such that
+                  \[
+                      T\models\forall\bar{x}\exists y\psi(\bar{x},y)\to\psi(\bar{x},t(\bar{x}))
+                  \]
+                  because \(T\) is a Skolem theory. Then in particular \(\exists
+                  y\psi(\bar{x},y)\) is equivalent to
+                  \(\psi(\bar{x},t(\bar{x}))\), one implication is given by the
+                  fact \(T\) is a Skolem theory and the other implication is
+                  trivially true. This formula is now equivalent to
+                  \(\psi^{*}(\bar{x},t(\bar{x}))\). Therefore we define
+                  \(\varphi^{*}=\psi^{*}(\bar{x},t(\bar{x}))\).
+
+                  If \(\varphi(\bar{x})=\forall y:\psi(\bar{x},y)\), then
+                  \(\varphi\equiv\neg\exists y\neg\psi(\bar{x},y)\). We have
+                  shown in the previous induction steps that
+                  \(\varphi\) has an equivalent \(\varphi^{*}\) as well.
+              \end{proof}
+
+        \item If \(T\) is a Skolem theory, then every substructure is an
+              elementary substructure.
+
+              \begin{proof}
+                  We prove this by showing any substructure satisfies Vaught's
+                  test. Let \(M\subseteq N\) be a substructure and
+                  \(\varphi(y)\in\lang_{M}\). Then there is a term \(t\) such
+                  that \(\exists y\varphi(y)\) is equivalent to
+                  \(\varphi^{*}(t)\) by the previous proof\footnote{We just
+                      treat the constants from \(M\) as free variables and proceed
+                      as in part \(a\).}. Then \(t\) only has constants
+                  corresponding to elements of \(M\) so \(t\) corresponds to an
+                  element \(m\) of \(M\) by simply evaluating the term \(t\) in
+                  \(M\). Then \(N\models\exists y\varphi(y)\) iff
+                  \(N\models\varphi^{*}(t)\) which is in turn equivalent to
+                  \(N\models\varphi(m)\) because \(N\) agrees with \(M\) on the
+                  new constants.
+              \end{proof}
+
+        \item Show that given an \(\lang\)-theory \(T\), there is an
+              \(\lang^{+}\supseteq\lang\) and \(T^{+}\supseteq T\) an
+              \(\lang^{+}\)-theory which is a Skolemisation of \(T\).
+
+              \begin{proof}
+                  We define the language \(\lang^{+}\) and theory \(T^{+}\)
+                  iteratively. We define \(\lang_{0}=\lang\) and \(T_{0}=T\).
+
+                  Given a language \(\lang_{n}\) and theory \(T_{n}\), for each
+                  \(\varphi(\bar{x})\) we take a fresh symbol \(f_{\varphi}\)
+                  and define it to be an \(m\)-ary function where \(m\) is the
+                  size of \(\bar{x}\). Define
+                  \[
+                      \lang_{n+1}=\lang_{n}\cup\setwith{f_{\varphi}}{\textnormal{\(\varphi(\bar{x},y)\) is a formula of \(\lang\)}}
+                  \]
+                  and
+                  \[
+                      T_{n+1}=T_{n}\cup
+                      \setwith{\forall\bar{x}\left(\exists y\varphi(\bar{x},y)\right)\to\varphi(\bar{x},f_{\varphi}(\bar{x}))}
+                      {\textnormal{\(\varphi(\bar{x},y)\) is a formula of \(\lang\)}}.
+                  \]
+                  We then define \(\lang^{+}=\bigcup_{n}\lang_{n}\) and
+                  \(T^{+}=\bigcup_{n}T_{n}\). For any formula \(\varphi\) of
+                  \(\lang^{+}\) it is a formula of some \(\lang_{n}\) and
+                  therefore the term \(f_{\varphi}(\bar{x})\) trivially has the
+                  property that
+                  \[
+                      T^{+}\supseteq T_{n}\models\forall\bar{x}\left(\exists y\varphi(\bar{x},y)\right)\to\varphi(\bar{x},f_{\varphi}(\bar{x})).
+                  \]
+
+                  Now we prove every model of \(T\) can be extended to a model
+                  of \(T^{+}\) by showing it can be extended to a model of each
+                  \(T_{n}\) such that each extension agrees with the previous
+                  one. This is immediately clear for \(T_{0}=T\).
+
+                  Now suppose the statement is true for \(T_{n}\), we consider
+                  \(T_{n+1}\) and a model \(M\) of \(T_{n}\). For an arbitrary
+                  formula \(\varphi\) in the language \(\lang_{n}\) take
+                  \(\bar{a}\in M\). Suppose there is a \(b\in M\) such that
+                  \(M\models\varphi(\bar{a},b)\), then define
+                  \(f_{\varphi}(\bar{a})=b\) else pick \(f_{\varphi}(\bar{a})\)
+                  arbitrary in \(M\). Then \(M\models\forall\bar{x}\left(\exists
+                  y\varphi(\bar{x},y)\right)\to\varphi(\bar{x},f_{\varphi}(\bar{x}))\).
+
+                  This means that inductively we can define all
+                  \(f_{\varphi}\in\lang^{+}\setminus\lang\) extending a model
+                  \(M\) of \(T\) to a model of \(T^{+}\).
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(M\) be a model of \(PA\).
+
+    \begin{enumerate}[(a)]
+        \item Prove that if \(\varphi(\bar{x})\) is a bounded
+              formula, and \(N\) is an initial segment, then for each
+              \(\bar{a}\in N\)
+              \[
+                  M\models\varphi(\bar{a})\Longleftrightarrow N\models\varphi(\bar{a}).
+              \]
+
+              \begin{proof}
+                  We prove the statement by induction on formulas. The base case
+                  of the induction are atomic formulas. Because \(N\) is a
+                  substructure of \(M\) the statement is true for these.
+
+                  The boolean connective case is trivial, leaving the case of
+                  quantifiers.
+
+                  Suppose the statement holds for \(\psi(y,\bar{x})\), take any
+                  term \(t(\bar{x})\) and consider \(\varphi(\bar{x})=\exists
+                  y<t(\bar{x}):\psi(y,\bar{x})\). Take \(\bar{a}\in N\), then
+                  \(t(\bar{a})\) are interpreted the same in both \(N\) and
+                  \(M\) because \(N\) is a substructure. Then for all
+                  \(b<t(\bar{a})\) we have
+                  \[
+                      N\models\psi(b,\bar{a})\Longleftrightarrow M\models\psi(b,\bar{a}).
+                  \]
+                  Because \(N\) is an initial segment there is such a \(b\) in
+                  \(N\) iff it exists in \(M\) so
+                  \[
+                      N\models\exists y<t(\bar{a}):\psi(y,\bar{a})\Longleftrightarrow M\models\exists y<t(\bar{a}):\psi(y,\bar{a}).
+                  \]
+
+                  For the universal quantifier case: \(\forall
+                  y<t(\bar{x}):\psi(y,\bar{x})\) notice that it is shorthand for
+                  the following formula: \(\forall
+                  y<t(\bar{x})\to\psi(y,\bar{x})\). This is equivalent to
+                  \(\neg\exists y<t(\bar{x})\wedge\neg\psi(y\bar{x})\) which is
+                  the full version of the shorthand \(\neg\exists
+                  y<t(\bar{x}):\neg\psi(y,\bar{x})\). Using the above induction
+                  steps we easily see that the induction hypothesis is true here
+                  as well.
+              \end{proof}
+
+        \item Show that \(\Pi_{1}\)-formulas are downward preserved and
+              \(\Sigma_{1}\)-formulas are upward preserved.
+
+              \begin{proof}
+                  We prove this by induction on the amount of quantifiers.
+
+                  First for the \(\Pi_{1}\) case. Our induction hypothesis is as
+                  follows: if \(\psi\) is a downward preserved formula,
+                  \(\forall x\psi\) is as well. A \(\Delta_{0}\) formula is
+                  downward preserved by the previous part.
+
+                  Let \(N\) be an initial segment of \(M\) and
+                  \(\psi(\bar{x},y)\) be a downward preserved formula. Take
+                  \(a\in M\) and \(\bar{b}\in M\), then if
+                  \(M\models\psi(\bar{b},a)\) we also have
+                  \(N\models\psi(\bar{b},a)\) by the induction hypothesis. This
+                  means that if \(M\models\forall y\psi(\bar{b},y)\) then
+                  \(N\models\forall y\psi(\bar{b},y)\) so \(\forall
+                  y\psi(\bar{x},y)\) is also downward closed.
+
+                  Now for the \(\Sigma_{1}\) case. Our induction is similar to
+                  before: if \(\psi\) is upward closed then \(\exists y\psi\) is
+                  as well. is as well. The base case for \(\Delta_{0}\) formulas
+                  follows once again from the previous part.
+
+                  If \(\psi(\bar{x},y)\) is upward closed take \(\bar{b}\in N\)
+                  and suppose there is an \(a\in N\) such that
+                  \(N\models\psi(\bar{b},a)\). Then \(M\models\psi(\bar{b},a)\)
+                  as well by the induction hypothesis. Therefore if
+                  \(N\models\exists y\psi(\bar{b},y)\) then \(M\models\exists
+                  y\psi(\bar{b},y)\).
+              \end{proof}
+
+        \item Show that every initial segment of \(M\) satisfies the induction
+              schema for bounded induction.
+
+              \begin{proof}
+                  The axiom schema of induction for bounded formulas is the
+                  formula
+                  \[
+                      \forall y(\forall z<y\varphi(\bar{x},z)\to\varphi(\bar{x},y))\to\forall y\varphi(\bar{x},y).
+                  \]
+                  for all bounded formulas \(\varphi(\bar{x},y)\). This
+                  principle for a \(\Delta_{0}\) formula \(\varphi\) is
+                  clearly\footnote{According to the proof theory syllabus.}
+                  equivalent to the least element principle
+                  \[
+                      \exists y\neg\varphi(\bar{x},y)\to\exists y\neg\varphi(\bar{x},y)\wedge\forall z<y\varphi(\bar{x},z).
+                  \]
+
+                  Now we prove the principle of bounded induction for initial
+                  segments. Suppose \(M\) is a model of \(PA\) and \(N\) is an
+                  initial segment of \(M\) and bounded induction fails for a
+                  formula \(\varphi(\bar{x},y)\). Then the antecedent of the
+                  implication is true but the consequent is false: there is are
+                  \(n,\bar{a}\in N\subseteq M\) such that
+                  \(N\nVDash\varphi(\bar{a},n)\). Because \(\varphi\) is a
+                  \(\Delta_{0}\) formula this means that
+                  \(M\nVDash\varphi(\bar{a},n)\). By the least element principle
+                  there is a least \(n'\leq n\) such that
+                  \(M\nVDash\varphi(\bar{a},n')\) and
+                  \(M\models\varphi(\bar{a},b)\) for all \(b<n'\), \(N\) is an
+                  initial segment so \(n'\in N\) and therefore
+                  \(N\nVDash\varphi(\bar{a},n')\) and
+                  \(N\models\varphi(\bar{a},b)\) for all \(b<n'\). We assumed
+                  the antecedent of the bounded induction schema was true so
+                  this must mean that \(N\models\varphi(\bar{a},n')\) which is a
+                  contradiction. Therefore \(N\) must satisfy the axiom schema
+                  of bounded induction.
+              \end{proof}
+
+        \item Show that \(I\Delta_{0}\) does not prove \(\forall x\exists
+              y\exp(x,y)\).
+
+              \begin{proof}
+                  We consider the set of formulas
+                  \[
+                      \Gamma=PA\cup\setwith{\varphi_{n}}{n\in\omega}
+                  \]
+                  with \(\varphi_{n}=\exists y:\exp(c,y)\wedge c^{k}<y\) where
+                  \(c\) is a fresh constant added to the language. We first show
+                  it is satisfiable using compactness. Consider \(\N\) as a
+                  model of \(PA\) and consider a finite subset
+                  \(\Gamma_{0}\subseteq\Gamma\). Let \(n\in\omega\) be the
+                  highest number such that \(\varphi_{n}\in\Gamma_{0}\). Then
+                  because \(\lim_{c\to\infty}\frac{c^{n}}{2^{c}}\to 0\) there
+                  must be an \(x\in\N\) such that \(x^{n}<2^{x}\). We have
+                  \(x^{m}<x^{n}\) for all \(m<n\) so interpreting \(c=x\) gives
+                  that \(\N\models\Gamma_{0}\) which is therefore satisfiable.
+                  This means that \(\Gamma\) is satisfiable as well in some
+                  model \(M\).
+
+                  Now consider the initial segment \(M\) generated by
+                  \(\setwith{c^{n}}{n\in\omega}\). We claim \(2^{c}\notin M\).
+                  If \(\forall x\exists y\exp(x,y)\) were \(I\Delta_{0}\)
+                  provable then \(2^{c}\) would have been in \(M\). This is not
+                  the case so it cannot be provable.
+
+                  The initial segment generated by
+                  \(\setwith{c^{n}}{n\in\omega}\) is the closure of this set
+                  under \(S\) and taking all smaller elements. Suppose
+                  \(2^{c}<S^{n}(c^{k})\) for some \(n,k\in\omega\), then it is
+                  easy to see that \(c^{i+k}>S^{n}(c^{k})\) for some
+                  \(i\in\omega\) because \(c\) must in particular be larger than
+                  \(0\) and \(1\) so \(c^{i+k}\) is a strictly increasing
+                  function in \(i\). This contradicts the assumption that
+                  \(2^{c}>c^{k}\) for all \(k\in\omega\). Therefore
+                  \(2^{c}\notin M\) so \(\forall x\exists y\exp(x,y)\) is not
+                  provable in \(I\Delta_{0}\).
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(\lang\) be the signature of graphs.
+
+    \begin{enumerate}[(a)]
+        \item Write axioms for \(RG\) as first order theory.
+
+              \begin{solution}
+                  We define
+                  \[
+                      \varphi_{n}=\forall x_{0}\ldots\forall x_{n}\forall y_{0}\ldots\forall y_{n}
+                      \bigwedge_{i\neq j\leq n}(x_{i}\neq x_{j}\wedge y_{i}\neq y_{j})
+                      \wedge\bigwedge_{i,j\leq n}(x_{i}\neq y_{j})
+                      \wedge\exists z\bigwedge_{i\leq n}Rzx_{i}\wedge\neg Rzy_{i}.
+                  \]
+                  This exactly states the property of random graphs for two
+                  finite disjoint sets of points \(X,Y\) with
+                  \(\left|X\right|=\left|Y\right|=n\).
+
+                  Therefore the set
+                  \[
+                      RG=\setwith{\varphi_{n}}{n\in\omega}\cup\set{\forall x\forall y xRy\leftrightarrow yRx,\forall x\neg xRx}
+                  \]
+                  is a theory defining random graphs because edges in graphs are
+                  symmetric and there are no self-edges.
+              \end{solution}
+
+        \item Show that the theory \(RG\) is \(\omega\)-categorical.
+
+              \begin{proof}
+                  We prove this using a back-and-forth argument. Let \(G,G'\) be
+                  two random graphs of cardinality \(\aleph_{0}\). Fix
+                  enumerations \(\gen{a_{n}}{n\in\omega}\) and
+                  \(\gen{b_{n}}{n\in\omega}\) of \(G\) and \(G'\) respectively
+                  and define \(G_{0}=\set{a_{0}}\) and \(G'_{0}=\set{b_{0}}\)
+                  the obviously isomorphic one point graphs.
+
+                  We inductively define \(G_{n+1}\) and \(G'_{n+1}\) iteratively
+                  as isomorphic graphs adding new points in such a way that
+                  every point will at some point be included in a graph
+                  \(G_{n}\).
+
+                  Suppose we have \(G_{n}\) and \(G_{n}'\) isomorphic subgraphs
+                  of \(G\) and \(G'\) with witnessing isomorphism
+                  \(f_{n}:G_{n}\to G_{n}'\). If \(n=2k\) is even, take
+                  \(a_{k}\in G\). If \(a_{k}\in G_{n}\) then we do nothing. If
+                  not, we claim there is a point \(v\in G'\) such that \(vRy\)
+                  iff \(a_{n}Rx\) for all \(x\in G_{n}\) and \(y=f_{n}(x)\in
+                  G_{n}'\). Define the two disjoint and finite sets
+                  \(X=G_{n}\cap R[a_{n}]\) and \(Y=G_{n}\setminus X\). Now let
+                  \(X'=f_{n}[X]\) and \(Y'=f_{n}[Y]\). If \(X'\) and \(Y'\) are
+                  sets of different size, extend the smaller one with points
+                  from \(G\setminus G_{n}'\). Then there is a \(v\in G\setminus
+                  G_{n}'\) such that \(X'\subseteq R[v]\) and \(Y'\cap
+                  R[v]=\varnothing\). Therefore
+                  \(G_{n+1}=G_{n}\cup\set{a_{k}}\subseteq G\) and
+                  \(G_{n+1}=G_{n}'\cup\set{v}\subseteq G'\) agree on all edges
+                  and are therefore isomorphic through the isomorphism
+                  \(f_{n+1}=f_{n}\cup\set{(a_{k},v)}\).
+
+                  For the odd steps \(n=2k+1\) we do the same thing for
+                  \(b_{k}\) switching the roles of \(G_{n}\) and \(G_{n}'\)
+                  adding \((v,b_{k})\) to \(f_{n}\).
+
+                  Now \(\bigcup_{n}G_{n}\cong\bigcup_{n}G_{n}'\) by the
+                  isomorphism \(f=\bigcup_{n}f_{n}\). This is first of all a
+                  total function because for \(a_{n}\in G\) in step \(2n\) the
+                  vertex \(a_{n}\) is added to the domain of \(f\).
+
+                  This map is injective because each \(f_{n}\) is injective and
+                  is surjective because for each \(b_{n}\in G'\) we have that
+                  \(f_{2n+1}\) has \(b_{n}\) in its image.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

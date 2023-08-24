@@ -1,0 +1,129 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs,stmaryrd}
+\usepackage[margin=3cm]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{ebproof}
+\usepackage{cleveref}
+
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{tikz}
+
+\newcommand{\sequent}[2]{#1\Rightarrow#2}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\set{#1:#2}}
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem*{lemma}{Lemma}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand{\qedsymbol}{}}{\end{proof}}
+
+\title{Homework Proof Theory}
+\author{Jonas van der Schaaf}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Suppose \(\Gamma\) consists of Harrop formulas and
+    \(\sequent{\Gamma}{\varphi\vee\psi}\) is provable in G3i. Show that either
+    \(\sequent{\Gamma}{\varphi}\) or \(\sequent{\Gamma}{\psi}\).
+
+    \begin{proof}
+        We show this by induction on proof depth.
+
+        If \(\sequent{\Gamma}{\varphi\vee\psi}\) is an axiom, then either
+        \(\bot\in\Gamma\), in which case \(\sequent{\Gamma}{\varphi}\) and
+        \(\sequent{\Gamma}{\psi}\) are both axioms as well and therefore
+        provable.
+
+        It cannot be that \(\Gamma=\Gamma',\varphi\vee\psi\) because
+        \(\varphi\vee\psi\) is not a Harrop formula.
+
+        Now for the induction step suppose the theorem holds for sequents
+        provable by proofs of depth \(n\) and let
+        \(\sequent{\Gamma}{\varphi\vee\psi}\) be a sequent provable by a proof
+        of depth \(n+1\). Then either \(\varphi\vee\psi\) was principal in the
+        last step of this proof or it was not.
+
+        If it was principal then the last step of the proof was \(\vee R\). The
+        sequent above it in the proof was then \(\sequent{\Gamma}{\varphi}\) or
+        \(\sequent{\Gamma}{\psi}\) so one of these sequents is also provable.
+
+        If this formula was not principal, then because \(\Gamma\) is a set of
+        Harrop formulas this must have been one of the following rule
+        applications: \(\wedge L\), \(\forall L\), \(\to L\).
+
+        If the rule was \(\wedge L\) and \(\theta\wedge\chi\) was principal and
+        \(\Gamma=\theta\wedge\chi,\Gamma'\), then the proof must have ended as
+        follows:
+        \[
+            \begin{prooftree}
+                \hypo{\sequent{\theta,\chi,\Gamma'}{\varphi\vee\psi}}
+                \infer1[\(\wedge L\)]{\sequent{\Gamma}{\varphi\vee\psi}}
+            \end{prooftree}
+        \]
+        By the induction hypothesis then either
+        \(\sequent{\theta,\chi,\Gamma'}{\psi}\) is provable or
+        \(\sequent{\theta,\chi,\Gamma'}{\varphi}\) is. This means that with an
+        application of \(\wedge L\) one of the two desired sequents is also
+        provable proving the induction hypothesis.
+
+        If the principal formula was \(\forall x.\varphi[a/x]\) and
+        \(\Gamma=\forall x.\varphi[a/x],\Gamma'\) then the end of the proof must
+        have looked like
+        \[
+            \begin{prooftree}
+                \hypo{\sequent{\forall x.\varphi[a/x],\varphi[a/t],\Gamma'}{\varphi\vee\psi}}
+                \infer1[\(\forall L\)]{\sequent{\forall x.\varphi[a/x]\Gamma}{\varphi\vee\psi}}
+            \end{prooftree}
+        \]
+        The left hand side of this sequent is Harrop, so by the induction
+        hypothesis \(\sequent{\forall
+            x.\varphi[a/x],\varphi[a/t],\Gamma'}{\varphi}\) or \(\sequent{\forall
+            x.\varphi[a/x],\varphi[a/t],\Gamma'}{\psi}\) is provable. Then applying
+        \(\forall L\) to whichever of the previous sequent was provable shows
+        one of the desired sequents is also provable.
+
+        Now suppose the principal formula was an implication \(\theta\to\chi\)
+        and \(\Gamma=\theta\to\chi,\Gamma'\), then the proof ended as
+        \[
+            \begin{prooftree}
+                \hypo{\sequent{\theta\to\chi,\Gamma'}{\theta}}
+                \hypo{\sequent{\chi,\Gamma'}{\varphi\vee\psi}}
+                \infer2[\(\wedge L\)]{\sequent{\theta\to\chi,\Gamma'}{\varphi\vee\psi}}
+            \end{prooftree}
+        \]
+        We know \(\chi\) is Harrop so \(\chi,\Gamma'\) is also Harrop
+        and therefore by induction \(\sequent{\chi,\Gamma'}{\varphi}\)
+        or \(\sequent{\chi,\Gamma'}{\psi}\) must be provable. This means that
+        \[
+            \begin{prooftree}
+                \hypo{\sequent{\theta\to\chi,\Gamma'}{\theta}}
+                \hypo{\sequent{\chi,\Gamma'}{\varphi}}
+                \infer2[\(\wedge L\)]{\sequent{\theta\to\chi,\Gamma'}{\psi}}
+            \end{prooftree}
+        \]
+        or
+        \[
+            \begin{prooftree}
+                \hypo{\sequent{\theta\to\chi,\Gamma'}{\theta}}
+                \hypo{\sequent{\chi,\Gamma'}{\varphi}}
+                \infer2[\(\wedge L\)]{\sequent{\theta\to\chi,\Gamma'}{\varphi}}
+            \end{prooftree}
+        \]
+        must be the end of a valid proof tree and so either of the desired
+        sequents must be provable. aksbdja
+
+        This proves the induction hypothesis and therefore the desired
+        statement.
+    \end{proof}
+\end{question}
+\end{document}

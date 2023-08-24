@@ -29,6 +29,7 @@
 *.txt
 *.nav
 *.snm
+*.pdf_tex
 
 #ignore zip files
 *.tar.gz

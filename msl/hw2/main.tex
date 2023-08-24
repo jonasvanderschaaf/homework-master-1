@@ -1,0 +1,268 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{float}
+\usepackage{cleveref}
+\usepackage{svg}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+\newcommand{\powset}{\mathcal{P}}
+\DeclareMathOperator{\atoms}{At}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\set{#1:#2}}
+
+\renewcommand{\qedsymbol}{\raisebox{-0.5cm}{\includesvg[width=0.5cm]{../../qedboy.svg}}}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Up}{Up}
+\DeclareMathOperator{\fin}{Fin}
+\DeclareMathOperator{\cofin}{Cofin}
+\DeclareMathOperator{\fincofin}{FinCofin}
+\DeclareMathOperator{\spec}{Spec}
+\DeclareMathOperator{\iso}{Iso}
+\DeclareMathOperator{\filters}{Fil}
+\DeclareMathOperator{\closed}{Cl}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework: Mathematical Structures in Logic}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Let \(A\) be a boolean algebra. A filter \(F\) of the form \(\uparrow a\)
+    for some \(a\in A\) is called a principal filter. Let \(\fincofin(\N)\) be
+    the boolean algebra of all finite and cofinite subsets of \(\N\).
+
+    \begin{enumerate}[a)]
+        \item Characterize all principal ultrafilters in \(\fincofin(\N)\).
+
+              We first prove a lemma:
+
+              \begin{lemma}
+                  Join-irreducible elements are atoms.
+
+                  \begin{proof}
+                      Let \(a\) be join-irreducible and \(b\leq a\). Then
+                      \(b\vee(a\wedge\neg b)=a\). Therefore \(a=b\) or
+                      \(a\wedge\neg b=a\). Because \(b\leq a\) we know
+                      \(a\wedge\neg b=0\). Therefore \(b=a\).
+                  \end{proof}
+              \end{lemma}
+
+              \begin{solution}
+                  A principal filter \(\uparrow a\) is an ultrafilter iff \(a\)
+                  is an atom.
+
+                  Suppose \(\uparrow a\) is prime. We show \(a\) is
+                  join-irreducible.
+
+                  Then for \(b,c\in A\) with \(b\vee c=a\) we must have
+                  \(b\in\uparrow a\) or \(c\in\uparrow a\) or equivalently
+                  \(a\leq b\) or \(a\leq c\). We have \(b,c\leq a\) by
+                  assumption so \(a=b\) or \(a=c\). Therefore \(a\) is
+                  join-irreducible and so an atom.
+
+                  If \(a\) is an atom take \(b,c\in A\) such that \(b\vee
+                  c\in\uparrow a\). Then \(b\vee c\geq a\). Because \(a\) is an
+                  atom it is join-prime so \(b\geq a\) or \(c\geq a\). Therefore
+                  \(b\in\uparrow a\) or \(c\in\uparrow a\) so it is a prime
+                  ideal.
+
+                  The atoms are clearly the singleton sets, so these give the
+                  prime filters.
+              \end{solution}
+
+        \item Show that there is a unique non-principal ultrafilter in
+              \(\fincofin(\N)\).
+
+              \begin{proof}
+                  First we prove that any prime filter containing a finite set
+                  must contain an atom. If \(x\in F\) is a finite set in a prime
+                  filter \(F\), then \(x=\bigwedge_{a\in x}\set{a}\). Therefore
+                  \(\set{a}\in F\) for some \(a\in x\). Singleton sets are atoms
+                  so \(F\) contains an atom and therefore
+                  \(\uparrow\set{a}\subseteq F\). The former is a maximal filter
+                  so \(F=\uparrow\set{a}\).
+
+                  Consider the set of cofinal sets of \(\N\): \(\cofin(\N)\).
+                  They form a proper filter: there are no two cofinal sets with
+                  intersection \(0\) and the intersection of cofinite sets is
+                  cofinite. This must be a prime filter because it contains
+                  \(x\) or \(\neg x\) for each \(x\in\fincofin(\N)\).
+
+                  This is clearly non-principle because we have an infinitely
+                  descending chain in the algebra containing any arbitrarily
+                  chosen cofinal set. It is also the only non-principal prime
+                  filter because any principal prime filter must be generated by
+                  an atom by the proof of part \(a\).
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(A\) be a finite boolean algebra. Show that \(A\) has a least
+    non-unital filter iff \(A\) is isomorphic to the 2 element boolean algebra.
+
+    \begin{proof}
+        I accidentally did the proof for any algebra \(A\), not just finite
+        ones.
+
+        It is clear that the 2 element boolean ring has one non-unital filter:
+        \(\set{0,1}\). This must be the least element.
+
+        Suppose a boolean algebra has such a least filter \(F\). Take any
+        element \(x\in F\). If there is a \(y\) with \(x<y<1\) then \(\uparrow
+        y\) is a strict subfilter of \(F\). This cannot happen so \(x\) must be
+        a co-atom. Now \(\neg x\) is contained in a proper filter \(F'\) by the
+        prime filter theorem (there is a filter containing \(x\) not containing
+        \(0\)) and \(F\subseteq F'\) by assumption. But then \(x,\neg x\in F'\)
+        so \(1\in F'\). This is a contradiction with the assumption that \(F'\)
+        is proper so \(F'\) cannot exist.
+    \end{proof}
+\end{question}
+
+\begin{question}
+    Recall that in a topological space \(X\) a point \(x\in X\) is isolated
+    if \(\set{x}\) is open.
+
+    \begin{enumerate}[a)]
+        \item Show that there is a 1-1 correspondence between the atoms of a BA
+              \(A\) and the isolated points of its dual space \(\spec(A)\).
+
+              \begin{proof}
+                  Let \(a\) be an atom. Then \(\uparrow a\) is a maximal filter
+                  by the reasoning in question 1a. All prime filters containing
+                  \(a\) contain this maximal filter, so they must be \(\uparrow
+                  a\). Therefore \(\varphi(a)=\set{\uparrow a}\) which is open
+                  in \(\spec(A)\).
+
+                  Conversely if \(F\) is an isolated point of \(\spec(A)\), then
+                  \(\set{F}\) must be a basis element: it is the union of basis
+                  elements and a singleton set so one of these basis elements is
+                  \(\set{F}\). Therefore \(F=\uparrow a\) for some \(a\in A\).
+                  This \(a\) must have been an atom by the reasoning in question
+                  1a. This \(a\) is unique because two different atoms clearly
+                  generate different prime ideals.
+
+                  This demonstrates this is a bijection between isolated points
+                  and atoms.
+              \end{proof}
+
+        \item Let \(\iso_{X}\) be the set of isolated points of a space \(X\).
+              Show that if \(A\) is atomic, then \(\iso_{X}\) is dense in
+              \(\spec(A)\).
+
+              \begin{proof}
+                  We demonstrate that for each \(b\in A\), there is an atom
+                  \(a\) such that \(\uparrow a\) is contained in the
+                  neighbourhood \(\varphi(b)\subseteq\spec(A)\). This is
+                  equivalent to \(\iso_{X}\) being dense because
+                  \(\iso_{X}=\setwith{\uparrow a}{a\in\atoms(A)}\) by part a.
+
+                  We know there is an atom \(a\) with \(a\leq b\). Then
+                  \(b\in\uparrow a\) so \(\uparrow a\in\varphi(b)\). This proves
+                  our claim.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Consider the map \(\xi:\filters(B)\to\closed(X_{B})\) defined by
+    \[
+        .\xi(F)=\bigcap\setwith{\varphi(a)}{a\in F}.
+    \]
+    Show that \(\xi\) is an order-reversing bijection between \(\filters(B)\)
+    and \(\closed(X_{B})\).
+
+    \begin{proof}
+        This intersection \(\xi(F)\) is the set of prime filters containing
+        \(F\).
+
+        We first show this is a bijection. Clearly these intersections are
+        closed since the intersection of closed sets is closed. Therefore this
+        map is a well-defined function into the closed sets of \(X_{B}\).
+
+        Take two different filters \(F,F'\) and assume without loss of
+        generality there is some \(x\in F\) and \(x\notin F'\). We know there is
+        a prime filter \(P\) extending \(F'\) disjoint from \(\downarrow x\) by
+        the prime filter theorem. Therefore \(P\in\xi(F')\) but
+        \(P\notin\xi(F)\). This proves \(\xi(F)\neq\xi(F')\).
+
+        For surjectivity let \(Y\subseteq X\) be a closed set, this must be the
+        intersection of (infinitely many) clopens \(\varphi(\neg a_{i})\) with
+        \(a_{i}\) elements of \(B\) and \(i\in I\) for some index set \(I\):
+        \(A=\bigcap_{i\in I}\varphi(\neg a_{i})\). This is because the
+        complement is open so a union of these basis elements:
+        \[
+            X_{B}\setminus A=\bigcup_{i\in I}\varphi(a_{i})
+        \]
+        so by De-Morgan's laws and because \(\varphi\) is a morphism
+        \begin{align*}
+            A & =X\setminus\bigcup_{i\in I}\varphi(a_{i}) \\
+              & =\bigcap_{i\in I}\varphi(\neg a_{i}).
+        \end{align*}
+        Rewriting this we have
+        \begin{align*}
+            A & =\bigcap_{i\in I}\varphi(\neg a_{i})                          \\
+              & =\setwith{x\in\spec B}{\forall i\in I:\neg a_{i}\in x}        \\
+              & =\setwith{x\in\spec B}{\tuple{\neg a_{i}}{i\in I}\subseteq x} \\
+              & =\varphi(\tuple{\neg a_{i}}{i\in I})
+        \end{align*}
+        where \(\tuple{\neg a_{i}}{i\in I}\) is the filter generated by the
+        \(\neg a_{i}\).
+
+        To show this is order-reversing take two filters \(F\subseteq F'\). If
+        \(x\in X_{B}\) contains \(F'\) then it contains \(F\) as well. Therefore
+        if \(x\in \xi(F')\) then \(x\in\xi(F)\), or equivalently
+        \(\xi(F')\subseteq\xi(F)\). This proves the map is order-reversing.
+
+        Fun fact: This is actually a special case of the correspondence between
+        the radical ideals of a ring and its spectrum in algebraic geometry.
+        Because all ideals of boolean rings are radical (all elements are
+        idempotent) this means the correspondence is a bijection.
+    \end{proof}
+\end{question}
+\end{document}

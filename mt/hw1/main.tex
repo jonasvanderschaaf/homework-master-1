@@ -1,0 +1,457 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd, xcolor}
+\usepackage{nicefrac}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{float}
+\usepackage{cleveref}
+\usepackage{svg}
+\usepackage{tikz-cd}
+
+\usepackage{quiver}
+
+\renewcommand{\qedsymbol}{\raisebox{-0.5cm}{\includesvg[width=0.5cm]{../../qedboy.svg}}}
+
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\proj}{\mathbb{P}}
+\newcommand{\sheaf}{\mathcal{O}}
+\newcommand{\FF}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+
+\newcommand{\zproj}{Z_{\textnormal{proj}}}
+
+\newcommand{\maxid}{\mathfrak{m}}
+\newcommand{\primeid}{\mathfrak{p}}
+\newcommand{\primeidd}{\mathfrak{q}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{order}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\matrices}{Mat}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\colim}{colim}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\schemes}{{\bf Sch}}
+\newcommand{\aff}{{\bf Aff}}
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\rad}{Rad}
+\DeclareMathOperator{\divisor}{div}
+\DeclareMathOperator{\Pic}{Pic}
+\DeclareMathOperator{\spec}{Spec}
+\newcommand{\ideal}{\triangleleft}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem{definition}{Definition}
+
+\title{Homework Model Theory}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Show the following:
+    \begin{enumerate}[(1)]
+        \item Show that \((\R,+,-,0)\) can be seen as a vector space over the
+              field \(\Q\).
+
+              \begin{proof}
+                  We show this using two lemmas, note that a module is a vector
+                  space over an arbitrary ring:
+
+                  \begin{lemma}[Free module]
+                      Let \(R\) be any ring, then \(R\) is both a left and
+                      right\footnote{The left and right is important in case the
+                          ring \(R\) is non-commutative.} \(R\)-module.
+
+                      \begin{proof}
+                          We know that \((R,+,-,0)\) is an abelian group for any
+                          ring \(R\) by the axioms of a ring. The natural
+                          multiplication of the ring is distributive over
+                          addition both from the left and right side and is
+                          associative. This shows all listed axioms.
+
+                          Other necessary properties of modules are that
+                          multiplication with \(1\) is the identity and
+                          multiplication with \(0\) gives \(0\). These are both
+                          properties of rings.
+                      \end{proof}
+                  \end{lemma}
+
+                  \begin{lemma}[Restriction of scalars]
+                      Let \(R,S\) be rings and \(M\) a left \(S\)-module. A
+                      morphism of rings \(f:R\to S\) induces a left \(R\)-module
+                      structure on \(M\).
+
+                      \begin{proof}
+                          For \(r\in R,m\in M\) we define \(rm=f(r)m\). It is
+                          clear that \(M\) still has the structure of an abelian
+                          group.
+
+                          Because \(f\) preserves \(0,1\in R\), we know that
+                          \(1m=f(1)m=m\) and similarly for \(0\) we have
+                          \(0m=0\).
+
+                          Because ring morphisms are additive we have
+                          \[
+                              (r+r')m=f(r+r')m=(f(r)+f(r'))m=rm+r'm.
+                          \]
+                          The other distributivity follows immediately from the
+                          definition of the multiplication.
+
+                          Associativity holds because
+                          \(f(rr')m=(f(r)f(r'))m=f(r)(f(r')m)\) by
+                          multiplicativity of ring morphisms.
+
+                          This shows \(M\) is an \(R\)-module.
+                      \end{proof}
+                  \end{lemma}
+
+                  Now \(\R\) is a \(\Q\)-module (i.e. vector space) by
+                  restriction of scalars through the unique morphism \(\Q\to
+                  \R\).
+              \end{proof}
+
+        \item Use Zorn's lemma to show that every vector space has a basis.
+
+              \begin{proof}
+                  We show that any module \(M\) over a division ring \(K\) has a
+                  basis. This is a strictly stronger condition than every vector
+                  space having a basis.
+
+                  We show that the poset of sets of linearly independent subsets
+                  of \(M\) has the property that every chain has an upper bound
+                  and is non-empty. By Zorn's lemma this means it has a maximal
+                  element. We will show this is a basis for \(M\).
+
+                  Let \((\set{x_{\alpha,\beta}}_{\beta})_{\alpha}\) be a chain
+                  of linearly independent elements of \(M\). Then
+                  \(\bigcup_{\alpha}\set{x_{\alpha,\beta}}_{\beta}\) is a
+                  linearly independent set. If it is not then there are finitely
+                  many
+                  \(x_{\alpha_{1},\beta_{1}},\ldots,x_{\alpha_{n},\beta_{n}}\)
+                  in the union which are not linearly independent. Because there
+                  are finitely many elements there is a maximal \(\alpha\) such
+                  that \(\alpha=\alpha_{i}\) for some \(i\) and then
+                  \[
+                      x_{\alpha_{j},\beta_{j}}\in\bigcup_{\alpha\leq\alpha_{i}}\set{x_{\alpha,\beta}}_{\beta}=\set{x_{\alpha,\beta}}_{\beta}
+                  \]
+                  for all \(j\). This is impossible because then
+                  \(\set{x_{\alpha,\beta}}_{\beta}\) is not a linearly
+                  independent set of elements of \(M\).
+
+                  This shows chains have upper bounds so there is a maximal set
+                  of linearly independent elements. Let
+                  \(B=\set{x_{\beta}}_{\beta}\) be such a set and suppose it
+                  does not span \(M\). Take \(m\in M\) disjoint from the span of
+                  \(B\). Then \(m\) is linearly independent from \(B\): if not
+                  then \(am+\sum_{\beta}a_{\beta}x_{\beta}=0\) for some
+                  \(a,a_{\beta}\in K\). This means that
+                  \(m=\sum_{\beta}a^{-1}a_{\beta}x_{\beta}\) so \(m\) was in the
+                  span of \(B\). This means that \(B\cup\set{m}\) is linearly
+                  independent: a contradiction with the fact that \(B\) was
+                  maximal. This means that \(m\) is in the span of \(B\) so
+                  \(B\) is a basis.
+              \end{proof}
+
+        \item Let \(V\) be a vector space over a field \(K\), and let \(B\) be a
+              basis. Show that if \(f:B\to B\) is a permutation, then \(f\)
+              induces an automorphism \(\bar{f}:V\to V\).
+
+              \begin{proof}
+                  We define \(\overline{f}\) as follows on a basis
+                  \(B=\set{x_{\alpha}}_{\alpha}\) for collections
+                  \((a_{i})_{i}\) with finite support:
+                  \[
+                      \overline{f}\left(\sum_{i}a_{i}x_{i}\right)=\sum_{i}a_{i}f(x_{i}).
+                  \]
+                  Because \(B\) is a basis every element of \(V\) has a unique
+                  representation as such a sum and therefore this
+                  \(\overline{f}\) is well defined. This is a linear map because
+                  for two collections \((a_{i})_{i},(b_{i})_{i}\) with finite
+                  support we see that
+                  \begin{align*}
+                      \overline{f}\left(\sum_{i}a_{i}x_{i}+\sum_{i}b_{i}x_{i}\right) & =\overline{f}\left(\sum_{i}(a_{i}+b_{i})x_{i}\right)                                     \\
+                                                                                     & =\sum_{i}(a_{i}+b_{i})f(x_{i})                                                           \\
+                                                                                     & =\sum_{i}a_{i}f(x_{i})+\sum_{i}b_{i}f(x_{i})                                             \\
+                                                                                     & =\overline{f}\left(\sum_{i}a_{i}x_{i}\right)+\overline{f}\left(\sum_{i}b_{i}x_{i}\right)
+                  \end{align*}
+                  showing that \(\overline{f}\) is linear.
+
+                  The inverse permutation \(f^{-1}\) induces a map
+                  \(\overline{f^{-1}}:V\to V\) which has that both
+                  \(\overline{f^{-1}}\circ\overline{f}\) and
+                  \(\overline{f}\circ\overline{f^{-1}}\) are the identity on
+                  \(B\) and therefore on the entirety of \(V\) because \(V\) is
+                  generated by \(B\). This shows that \(\overline{f}\) has an
+                  inverse and is an isomorphism.
+              \end{proof}
+
+        \item Use the previous parts to show that the order \(\leq\) is not
+              definable in \((\R,+,-,0)\).
+
+              \begin{proof}
+                  Suppose there is a formula \(\varphi\) such that
+                  \(\R\models\varphi(x,y,a_{1},\ldots,a_{n})\) is a formula iff
+                  \(x<y\). We know there is a basis \(\set{x_{\beta}}_{\beta}\)
+                  of \(\R\) as vector space over \(\Q\). Therefore
+                  \(a_{i}=\sum_{j}b_{i,j}x_{\beta_{i,j}}\) for some finite amount
+                  of basis vectors.
+
+                  Take a non-identity permutation \(f\) swapping two
+                  \(x_{\beta},x_{\beta'}\) taken from the complement of
+                  \(\set{x_{\beta_{i,j}}}_{i,j}\). This is clearly not an order
+                  preserving function and we have
+                  \begin{align*}
+                      \R\models\varphi(x,y,a_{1},\ldots,a_{n}) & \Leftrightarrow\R\models\varphi(\overline{f}(x),\overline{f}(y),\overline{f}(a_{1}),\ldots,\overline{f}(a_{n})) \\
+                                                               & \Leftrightarrow\R\models\varphi(\overline{f}(x),\overline{f}(y),a_{1},\ldots,a_{n}).
+                  \end{align*}
+                  This is because
+                  \begin{align*}
+                      \overline{f}(a_{i}) & =\overline{f}\left(\sum_{j}b_{i,j}x_{\beta_{i,j}}\right) \\
+                                          & =\sum_{j}b_{i,j}f(x_{\beta_{i,j}})                       \\
+                                          & =\sum_{j}b_{i,j}x_{\beta_{i,j}}                          \\
+                                          & =a_{i}.
+                  \end{align*}
+                  Because \(f\) is not order preserving \(\varphi\) can
+                  therefore express the order \(<\).
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(R\) be an integral domain.
+
+    \begin{enumerate}[(a)]
+        \item Show that there exists a unique field with a long universal
+              property.
+
+              \begin{proof}
+                  This is actually a much more general concept called
+                  localisations. Unlike my proof above defining free modules and
+                  restriction of scalars this is actually more work so I'd
+                  rather not prove the full universal properties of those so I
+                  will just define the fraction field.
+
+                  Given an integral domain \(R\), consider \(R\times
+                  (R\setminus\set{0})\) with an ``addition'' given by
+                  \((a,b)+(c,d)=(ad+bc,bd)\) and ``multiplication'' given by
+                  \((a,b)(c,d)=(ac,bd)\). Then define an equivalence relation
+                  \((a,b)\sim(a',b')\) iff \(ab'=a'b\). Symmetry and reflexivity
+                  are trivial. For transitivity suppose
+                  \((a,b)\sim(c,d)\sim(e,f)\). Then \(d(af-eb)=bcf-bcf=0\). We
+                  know \(d\neq 0\) so \(af-eb=0\) and \((a,b)\sim(e,f)\).
+
+                  The quotient of the product by this relation is compatible
+                  with addition and multiplication: if \((a,b)\sim(a',b')\) and
+                  \((c,d)\sim (c',d')\) then \((a,b)+(c,d)=(ad+bc,bd)\),
+                  \((a',b')+(c',d')=(a'd'+b'c',b'd')\) and
+                  \begin{align*}
+                      (ad+bc)b'd' & =adb'd'+bcb'd'  \\
+                                  & =a'bdd'+bc'b'd  \\
+                                  & =(a'd'+b'c')bd.
+                  \end{align*}
+                  Compatibility with multiplication is readily verified as well.
+
+                  We have that \((0,1)\) is the additive unit element and
+                  \((1,1)\) the multiplicative one and the quotient of \(R\times
+                  R\setminus\set{0}\) satisfies all properties of a ring:
+                  multiplication and addition are associative and distributive.
+                  We will suggestively write \((a,b)=\frac{a}{b}\) from now on.
+                  It is readily checked that for \(\frac{a}{b}\neq0\) that
+                  \(\frac{b}{a}\) is the inverse:
+                  \((a,b)(b,a)=(ab,ab)\sim(1,1)\). This shows that any non-zero
+                  element is a unit. The ring is commutative because any
+                  integral domain \(R\) is.
+
+                  We also have an injective \(\varepsilon:R\to Q(R)\) with
+                  \(\varepsilon(a)=\frac{a}{1}\).
+
+                  Now for the universal property let \(f:R\to K\) be any
+                  injective map into a field \(K\). Define
+                  \(\tilde{f}(\nicefrac{a}{b})=f(a)f(b)^{-1}\). We know
+                  \(f(b)\neq 0\) because \(f\) is injective so it is a unit.
+                  This map is clearly multiplicative and a bit of algebraic
+                  manipulation gives that this map is also additive and
+                  preserves \(0\) and \(1\).
+
+                  This map \(\tilde{f}\) has
+                  \begin{align*}
+                      \tilde{f}\circ\varepsilon(a) & =\tilde{f}\left(\frac{a}{1}\right) \\
+                                                   & =f(a)f(1)^{-1}                     \\
+                                                   & =f(a).
+                  \end{align*}
+                  So \(\varepsilon\circ\tilde{f}=f\).
+
+                  The map \(\tilde{f}\) is unique with the property that
+                  \(\tilde{f}(\nicefrac{a}{1})=f(a)\) because this property
+                  fixes the map \(\tilde{f}\): a ring morphism must preserve
+                  inverses and thus \(\tilde{f}\) is unique.
+
+                  We show \(Q(R)\) is unique up to isomorphism. Suppose there is
+                  another field \(K\) with this property with injective
+                  \(\varepsilon':R\to K\). Then there are maps
+                  \(\tilde{\varepsilon'}:Q(R)\to K\) and
+                  \(\tilde{\varepsilon}:K\to Q(R)\) such that the universal
+                  property holds for both. We have that
+                  \(\tilde{\varepsilon}\circ\tilde{\varepsilon'}\circ\varepsilon:R\to
+                  Q(R)\) induces a map \(\varphi:Q(R)\to Q(R)\) such that
+                  \(\varphi\circ\varepsilon=\varepsilon\). This map is unique
+                  and both \(\Id\) and
+                  \(\tilde{\varepsilon}\circ\tilde{\varepsilon'}\) have this
+                  property so both are equal. By the same reasoning the opposite
+                  composition is also the identity so \(\tilde{\varepsilon}\) is
+                  an isomorphism showing \(K\cong Q(R)\). This shows \(R\) is
+                  unique up to isomorphism.
+              \end{proof}
+
+        \item Describe explicitly the interpretation of a fraction field
+              \(Q(R)\) in the ring \(R\).
+
+              \begin{solution}
+                  Both structures are structures with the ring signature
+                  \((+,\cdot,-,0,1)\). We give a \(2\)-dimensional
+                  interpretation with soft inequality as described in the notes.
+
+                  Now we define the following interpretation exactly as given
+                  above in the previous part:
+                  \begin{align*}
+                      D_{I}((x_{1},x_{2}))                              & \Leftrightarrow \neg x_{2}=0,                                       \\
+                      (x_{1},x_{2})=_{I}(y_{1},y_{2})                   & \Leftrightarrow x_{1}\cdot y_{2}=x_{2}\cdot y_{1},                  \\
+                      (x_{1},x_{2})+_{I}(y_{1},y_{2})=(z_{1},z_{2})     & \Leftrightarrow z_{1}=x_{1}y_{2}+y_{1}x_{2}\wedge z_{2}=x_{2}y_{2}, \\
+                      (x_{1},x_{2})\cdot_{I}(y_{1},y_{2})=(z_{1},z_{2}) & \Leftrightarrow z_{1}=x_{1}y_{1}\wedge z_{2}=x_{2}y_{2},            \\
+                      0_{I}((x_{1},x_{2}))                              & \Leftrightarrow x_{1}=0,                                            \\
+                      1_{I}((x_{1},x_{2}))                              & \Leftrightarrow x_{1}=x_{2}.
+                  \end{align*}
+                  This is exactly the definition of the fraction field as given
+                  in the previous part.
+              \end{solution}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Consider the linear order of the rationals \((\Q,<)\).
+
+    \begin{enumerate}[(a)]
+        \item Suppose that \(a,b\in\Q\) are elements \(a<b\). Show that if
+              \(x,y\in(a,b)\) then there is an automorphism \(f:\Q\to\Q\) such that
+              \(f(x)=y\) and for each \(z\notin(a,b)\), \(f(z)=z\).
+
+              \begin{proof}
+                  We define
+                  \[
+                      f(z)=\begin{cases}
+                          \frac{y-a}{x-a}(z-a)+a & a\leq z<x     \\
+                          \frac{y-b}{x-b}(z-b)+b & x\leq z\leq b \\
+                          z                      & z\notin(a,b)
+                      \end{cases}
+                  \]
+                  We have \(f(a)=a,f(b)=b,f(x)=y\), \(f\) is piecewise linear
+                  monotone strictly increasing and continuous on the entirety of
+                  \(\Q\) meaning it is an order preserving bijection and
+                  therefore an automorphism with the desired property.
+              \end{proof}
+
+        \item Use part 1 to show that a subset \(S\subseteq\Q\) is definable
+              with paramaters if and only if it is a finite union of the
+              following forms, for \(a,b\in\Q\):
+              \begin{enumerate}[1.]
+                  \item \((a,b)\)
+                  \item \(\set{a}\)
+                  \item \((-\infty,a)\)
+                  \item \((a,\infty)\)
+              \end{enumerate}
+
+              \begin{proof}
+                  Each of these is definable separately:
+                  \begin{enumerate}[1.]
+                      \item \((a,b)=\setwith{z\in\Q}{a<z<b}\)
+                      \item \(\set{a}=\setwith{z\in\Q}{z=a}\)
+                      \item \((-\infty,a)=\setwith{z\in\Q}{z<a}\)
+                      \item \((a,\infty)=\setwith{z\in\Q}{a<z}\)
+                  \end{enumerate}
+                  so a finite union is a finite conjunction of these kinds of
+                  formulas and is therefore definable.
+
+                  Conversely suppose \(S\subseteq\Q\) is definable by
+                  \(a_{1}<\ldots<a_{n}\in\Q\) and a formula
+                  \(\varphi(x,a_{1},\ldots,a_{n})\). We show that for all
+                  \(a_{i}<x,y<a_{i+1}\), \(x\in S\) iff \(y\in S\).
+
+                  If \(x\in S\), then
+                  \(\Q\models\varphi(x,a_{1},\ldots,a_{n})\). By part a there is
+                  an automorphism of \(\Q\) with \(f(x)=y\) and
+                  \(f|_{\Q\setminus(a_{i},a_{i+1})}=\Id\). This means that
+                  \(\Q\models\varphi(f(x),f(a_{1}),\ldots,f(a_{n}))=\varphi(y,a_{1},\ldots,a_{n})\)
+                  as well so \(y\in S\). By symmetry the other implication holds
+                  as well.
+
+                  Similarly if \(x,y<a_{1}\) then \(x\in S\) iff \(y\in S\). If
+                  \(x\in S\) take any \(b<x,y\) then there is an automorphism
+                  \(f\) of \(\Q\) with \(f(x)=y\) and \(f|_{(b,a_{1})}=\Id\).
+                  This means by the same reasoning as before that because
+                  \(\Q\models\varphi(x,a_{1},\ldots,a_{n})\) we also have
+                  \(\Q\models\varphi(f(x),f(a_{1}),\ldots,f(a_{n}))=\varphi(y,a_{1},\ldots,a_{n})\)
+                  so \(y\in S\). The opposite implication holds by symmetry.
+
+                  By similar reasoning for \(x,y>a_{n}\) we have \(x\in S\) iff
+                  \(y\in S\).
+
+                  This means that \(S\) is a union of a subset of
+                  \[
+                      \set{(-\infty,a_{1}),(a_{n},\infty)}\cup\setwith{(a_{i},a_{i+1})}{1\leq i<n}\cup\setwith{a_{i}}{1\leq i\leq n}.
+                  \]
+                  This means it is of the desired form because the above set is
+                  finite.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

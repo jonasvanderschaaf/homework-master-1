@@ -1,0 +1,200 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{svg}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{quiver}
+\usepackage{float}
+\usepackage{cleveref}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\newcommand{\catcat}{{\bf Cat}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\catt}{\mathcal{D}}
+\newcommand{\cattt}{\mathcal{E}}
+\newcommand{\topos}{\mathcal{E}}
+\newcommand{\pcat}{\mathcal{P}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\newcommand{\setcat}{{\bf Set}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\rad}{Rad}
+\newcommand{\alg}[1]{T\textnormal{-Alg}}
+\DeclareMathOperator{\ev}{ev}
+\newcommand{\psh}[1]{\widehat{#1}}
+\DeclareMathOperator{\famm}{Fam}
+\DeclareMathOperator{\dfib}{DFib}
+\newcommand{\restrict}{\upharpoonright}
+\DeclareMathOperator{\subobj}{Sub}
+
+\tikzset{
+    rot/.style={anchor=south, rotate=90, inner sep=.5mm}
+}
+
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+\renewcommand{\qedsymbol}{\raisebox{-0.5cm}{\includesvg[width=0.5cm]{../../qedboy.svg}}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework Topos Theory}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    As usual \(\topos\) is a topos.
+    \begin{enumerate}[(a)]
+        \item Deduce from proposition 1.28 that every arrow \(f:0\to X\) in
+              \(\topos\) is monic.
+
+              \begin{proof}
+                  Suppose \(g,h:Y\to 0\) are two arrows into \(0\), then
+                  \(g=h\). This is clearly a strictly stronger property than
+                  \(f\) being mono. We know \(g,h\) must be isomorphisms and so
+                  their inverses \(g^{-1},h^{-1}:0\to Y\) must be the unique map
+                  given by the universal property. Therefore \(g\) and \(h\)
+                  have the same inverse and are the same map.
+              \end{proof}
+
+        \item Use propositions 1.28 and 1.29 to show that if \(\topos^{op}\) is
+              also a topos then \(\topos\) is trivial.
+
+              \begin{proof}
+                  Suppose \(\topos^{op}\) is a topos, then \(0\) is the terminal
+                  object \(1'\) in \(\topos^{op}\). Every \(0\to X\) in
+                  \(\topos\) is mono so every \(X\to 1'\) in \(\topos^{op}\) is
+                  epi. In particular this means that the map \(0'\to
+                  1'=!_{0}\in\Hom_{\topos}(0,1)\) is epi, but \(\topos\) is a
+                  topos so it is both epi and mono. Toposes are balanced and
+                  thus this map has an inverse in \(\topos^{op}\) and therefore
+                  there is a map \(\imath:1\to 0\) in \(\topos\). This means
+                  that all objects \(X\) of the topos have a map \(\imath\circ
+                  !_{X}:X\to 0\) which is an isomorphism because \(\topos\) is a
+                  topos. Therefore all objects of \(\topos\) are isomorphic to
+                  \(0\) so \(\topos\) is equivalent its skeleton: the one arrow
+                  category.
+              \end{proof}
+
+        \item Prove that a map \(\alpha:X\to Y\) is monic in \(B/\topos\) iff
+              \(\alpha\) is monic in \(\topos\).
+
+              \begin{proof}
+                  If \(\alpha\) is monic in \(\topos\) and there are two
+                  \(h_{1},h_{2}:Z\to Y\) morphisms in \(B/\topos\) with \(\alpha
+                  h_{1}=\alpha h_{2}\), then \(h_{1}=h_{2}\) so \(\alpha\) is a
+                  mono in \(B/\topos\).
+
+                  For the converse we show that the forgetful functor
+                  \(B/\topos\to\topos\) has left adjoint \(B_{*}:\topos\to
+                  B/\topos\) given by \(X\mapsto (B\to X+B)\). The morphisms
+                  \(f\) as indicated in the commutative diagram below correspond
+                  to the universal property of the coproduct correspond to pairs
+                  \((h:X\to Y,k:B\to Y)\) such that \(k=h+k\circ\imath=g\).
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          \&B\&\\
+                          \\
+                          X+B\&\&Y
+                          \arrow["\imath"', from=1-2, to=3-1]
+                          \arrow["g", from=1-2, to=3-3]
+                          \arrow["f", from=3-1, to=3-3]
+                      \end{tikzcd}
+                  \]
+                  This means that there is a natural bijection
+                  \(B/\topos(B_{*}X,g:B\to Y)\cong\topos(X,Y)=\topos(X,U(g:B\to
+                  Y))\) where \(U\) is the forgetful functor and thus \(B_{*}\)
+                  is a right adjoint.
+
+                  We now claim right adjoints preserve monos, and thus that
+                  \(U\) does as well. This means that any mono \(\alpha\) in
+                  \(B/\topos\) is mono in \(\topos\). Let
+                  \(F:\cat\to\cattt\dashv G\) be two functors and \(f:X\to Y\)
+                  in \(\cat\) a mono. Then for all \(Z\in\catt\) the map
+                  \(\cat(1,f):\cat(FZ,X)\to\cat(FZ,Y)\) is injective. We have a
+                  commutative diagram
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          \cat(FZ,X)\&\&\cat(FZ,Y)\\
+                          \\
+                          \cat(Z,GX)\&\&\cat(Z,GY)\\
+                          \arrow["{\topos(1,f)}", from=1-1, to=1-3]
+                          \arrow["{\topos(1,Gf)}", from=3-1, to=3-3]
+                          \arrow["\sim" rot, from=1-1, to=3-1]
+                          \arrow["\sim" rot, from=1-3, to=3-3]
+                      \end{tikzcd}
+                  \]
+                  The top map is monic and the vertical maps are isomorphisms.
+                  Therefore \(E(1,Gf)\) is monic which is the definition of
+                  \(Gf\) monic.
+              \end{proof}
+        \item Use parts a and c to conclude that if the unique map \(B\to 1\) is
+              not monic, then \(B/\topos\) is not a topos.
+
+              \begin{proof}
+                  The map \(\Id:B\to B\) is the initial object in \(B/\topos\):
+                  for every \(f:B\to X\) there is a unique map \(g:B\to X\) such
+                  that \(g\circ\Id =f\) which is \(g=f\).
+
+                  If \(B\to 1\) is not monic, then the map \(f:\Id\to !_{B}\) in
+                  \(B/\topos\) is not monic either. If \(B/\topos\) were a topos
+                  then \(f\) would be monic because \(\Id\) is the initial
+                  object in \(B/\topos\). Therefore \(B/\topos\) is not a topos.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

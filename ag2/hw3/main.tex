@@ -1,0 +1,391 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd, xcolor}
+\usepackage{nicefrac}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{float}
+\usepackage{cleveref}
+\usepackage{svg}
+\usepackage{tikz-cd}
+
+\usepackage{quiver}
+
+\renewcommand{\qedsymbol}{\raisebox{-0.5cm}{\includesvg[width=0.5cm]{../../qedboy.svg}}}
+
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\proj}{\mathbb{P}}
+\newcommand{\sheaf}{\mathcal{O}}
+\newcommand{\FF}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+
+\newcommand{\zproj}{Z_{\textnormal{proj}}}
+
+\newcommand{\maxid}{\mathfrak{m}}
+\newcommand{\primeid}{\mathfrak{p}}
+\newcommand{\primeidd}{\mathfrak{q}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{order}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\matrices}{Mat}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\colim}{colim}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\schemes}{{\bf Sch}}
+\newcommand{\aff}{{\bf Aff}}
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\rad}{Rad}
+\DeclareMathOperator{\divisor}{div}
+\DeclareMathOperator{\Pic}{Pic}
+\DeclareMathOperator{\spec}{Spec}
+\DeclareMathOperator{\supp}{Supp}
+\newcommand{\ideal}{\triangleleft}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem{definition}{Definition}
+
+\title{Homework Algebraic Geometry 2}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Let \(k\) be a field, and let \(X,Y\) be schemes of finite type over \(k\).
+    \begin{enumerate}[(a)]
+        \item Show that \(X\) is Noetherian.
+
+              \begin{proof}
+                  We show that \(X\) has an open affine cover of Noetherian
+                  affine spectra. Let \(\set{U_{i}}_{i}\) be an affine open
+                  cover of \(X\). Then \(R_{i}=\Gamma(U_{i},\sheaf_{X})\) is a
+                  finitely generated ring over the Noetherian ring \(k\). By
+                  Hilberts basis theorem this means \(R_{i}\) is Noetherian for
+                  all \(i\). This means that \(X\) is Noetherian.
+              \end{proof}
+    \end{enumerate}
+    Let \(f:X\to Y\) be a morphism of \(k\)-schemes.
+    \begin{enumerate}[(a), resume]
+        \item Show \(f\) is a morphism of finite type.
+
+              \begin{proof}
+                  Let \(U\subseteq Y\) be an open and let
+                  \(R=\Gamma(U,\sheaf_{Y})\) and
+                  \(S=\Gamma(f^{-1}U,\sheaf_{X})\). Then \(R,S\) are both
+                  finitely generated rings over \(k\) and \(k\) is a subring of
+                  \(S\). By this latter fact it is immediate that \(S\) is
+                  finitely generated over \(R\) through the \(k\)-algebra
+                  morphism \(f^{\sharp}_{U}:R\to S\) unless \(S\) is the trivial
+                  ring \(0\). In this case \(R\) must be trivial as well because
+                  there is no morphism from \(S\) to a non-trivial ring because
+                  we have \(0=1\).
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(X\) be a scheme. Let \(\mathcal{F}\) be an \(\sheaf_{X}\)-module with
+    the property that there exists an open cover \(\set{U_{i}}_{i}\) of \(X\)
+    with affine subsets such that for all \(i\) there exists an isomorphism
+    \(\mathcal{F}|_{U_{i}}\cong\tilde{M_{i}}\) of \(\sheaf_{X}\)-modules with
+    \(M_{i}\) a finitely generated \(\Gamma(U_{i},\sheaf_{X}|_{U_{i}})\)-module.
+    Let \(\supp\mathcal{F}=\setwith{x\in X}{\mathcal{F}_{x}\neq 0}\).
+
+    \begin{enumerate}[(a)]
+        \item Show that \(\supp\mathcal{F}\) is a closed subset of \(X\).
+
+              \begin{proof}
+                  Take \(x\notin\supp\mathcal{F}\) and let \(U_{i}\) be the
+                  affine open neighbourhood of \(x\) given by the question with
+                  \(U_{i}=\spec R\) and \(\primeid\ideal R\) the prime ideal
+                  corresponding to \(x\). By doing some computations with limits
+                  we get that
+                  \begin{align*}
+                      \mathcal{F}_{x} & =\colim_{W\ni x}\Gamma(V,\mathcal{F})                                        \\
+                                      & =\colim_{U_{i}\supseteq V\ni x}\Gamma(V,\mathcal{F}|_{U_{i}})                \\
+                                      & =\colim_{U_{i}\supseteq V\ni x}M_{i}\otimes_{R}\Gamma(V,\sheaf_{X}|_{U_{i}}) \\
+                                      & =M_{i}\otimes_{R}\colim_{U_{i}\supseteq V\ni x}\Gamma(V,\sheaf_{X}|_{U_{i}}) \\
+                                      & =M_{i}\otimes_{R}R_{\primeid}                                                \\
+                                      & =(M_{i})_{\primeid},
+                  \end{align*}
+                  where \(V\) denotes an open affine. We can commute the tensor
+                  product and the colimit because the tensor product is a left
+                  adjoint.
+
+                  We have \((M_{i})_{\primeid}=\mathcal{F}_{x}=0\) and \(M_{i}\)
+                  is a finitely generated \(R\)-module generated by
+                  \(x_{1},\ldots,x_{n}\). This means that \((M_{i})_{\primeid}\)
+                  is a finitely generated \(R_{\primeid}\)-module generated by
+                  the \(x_{i}\). This means that each \(x_{i}\) is annihilated
+                  by some \(r_{i}\in R\setminus\primeid\) hence
+                  \(\prod_{i}r_{i}\notin\primeid\) annihilates each \(x_{i}\).
+                  This means that taking \(s=\prod_{i}s_{i}\), the principal
+                  open \(V_{s}\subseteq U\) must also have the property that
+                  \(\Gamma(V_{s},\mathcal{F})=(0)\).
+              \end{proof}
+
+        \item Let \(\mathcal{L}\) be an invertible sheaf on \(X\), and let
+              \(s\in\Gamma(X,\mathcal{L})\) be a global section of
+              \(\mathcal{L}\). Show that \(X_{s}\) is an open subset of \(X\).
+
+              \begin{proof}
+                  We have an open cover \(\set{U_{i}}_{i}\) of \(X\) such that
+                  \(\mathcal{L}|_{U_{i}}\cong\sheaf_{X}|_{U_{i}}=\widetilde{\sheaf_{X}(U_{i})}\)
+                  where the latter is clearly a finitely generated
+                  \(\sheaf_{X}(U_{i})\) module. The submodule of \(\mathcal{L}\)
+                  generated by \(s\) written as \(\sheaf_{X}\cdot s\) is given
+                  by \(\widetilde{\sheaf_{X}\cdot s}\). By exactness of the
+                  tilde this means that \(\mathcal{L}/(\sheaf_{X}\cdot s)\) is
+                  locally given by
+                  \((\widetilde{\sheaf_{X}(U_{i})/(\sheaf_{X}\cdot s)})(U_{i})\)
+                  which is therefore locally a finitely generated
+                  \(\sheaf_{X}|_{U_{i}}\)-module. This means that
+                  \(\mathcal{L}/(\sheaf_{X}\cdot s)\) satisfies the properties
+                  of \(\mathcal{F}\) of part a.
+
+                  We show that \(X_{s}\) is the complement of the closed set
+                  \(\supp\mathcal{L}/(\sheaf_{X}\cdot s)\) which is sufficient
+                  for showing it is open.
+
+                  We have \(x\in\supp\mathcal{L}/(\sheaf_{X}\cdot s)\) iff
+                  \((\mathcal{L}/(\sheaf_{X}\cdot s))_{x}\neq0\). Take a
+                  \(U_{i}\) as above containing \(x\) and let
+                  \(\primeid\ideal\Gamma(U_{i},\sheaf_{X})\) be the prime ideal
+                  corresponding to \(x\). Then
+                  \begin{align*}
+                      0 & =(\mathcal{L}/(\sheaf_{X}\cdot s))_{x}                                       \\
+                        & =(\sheaf_{X}|_{U_{i}}/(\sheaf_{X}|_{U_{i}}\cdot s))_\primeid                 \\
+                        & \cong(\sheaf_{X}|_{U_{i}})_{\primeid}/(\sheaf_{X}|_{U_{i}}\cdot s)_\primeid.
+                  \end{align*}
+                  This means that \((\sheaf_{X}|_{U_{i}}\cdot
+                  s)_\primeid=(\sheaf_{X}|_{U_{i}})_{\primeid}\cdot s\) so \(s_{x}\)
+                  generates the stalk.
+
+                  Conversely if \(s_{x}\) generates the stalk then
+                  \((\sheaf_{X}|_{U_{i}})_{\primeid}/(\sheaf_{X}|_{U_{i}}\cdot
+                  s)_\primeid\cong 0\), we can follow the chain of isomorphisms
+                  above to get that \((\mathcal{L}/(\sheaf_{X}\cdot
+                  s))_{x}\cong0\).
+
+                  This means that \(x\in\supp\mathcal{L}/(\sheaf_{X}\cdot s)\)
+                  iff \(s_{x}\) does not generate \(\mathcal{L}_{x}\): i.e.
+                  \(X_{s}\) is the complement of the closed set
+                  \(\supp\mathcal{L}/(\sheaf_{X}\cdot s)\).
+              \end{proof}
+
+        \item Let \(\mathcal{L}=\sheaf_{\proj^{r}}(1)\). Show that
+              \(\proj^{r}_{X_{i}}=U_{i}\).
+
+              \begin{proof}
+                  We know that \(M_{i}=\Gamma(\sheaf_{\proj^{r}}(1),U_{i})=R_{i}\cdot
+                  X_{i}\) where
+                  \[
+                      R_{i}=\Gamma(U_{i},\sheaf_{\proj^{r}})=\Z\left[\frac{X_{0}}{X_{i}},\ldots,\frac{X_{n}}{X_{i}}\right].
+                  \]
+                  This module \(M_{i}\) is generated by \(X_{i}\) as
+                  \(\sheaf_{X}(U_{i})\)-module. This means the localisation
+                  \((M_{i})_{x}\) is generated by \(X_{i}\) as
+                  \(O_{\proj^{r},x}\)-module for all \(x\in U_{i}\) because
+                  generators are preserved under localisation. Therefore
+                  \(U_{i}\subseteq X_{X_{i}}\) for all \(i\).
+
+                  We now show the opposite inclusion. Suppose \(X_{i}\)
+                  generates the stalk at \(x\) and \(x\in U_{k}\) and \(x\notin
+                  U_{i}\). Because \(U_{i}\cap
+                  U_{k}=D\left(\frac{X_{i}}{X_{k}}\right)\subseteq U_{k}=\spec
+                  R_{i}\) this means that \(\frac{X_{i}}{X_{k}}\in\primeidd\)
+                  where \(\primeidd\ideal R_{k}\) corresponds to \(X\) in the
+                  affine open \(U_{k}\).
+
+                  Because \(\maxid_{X,x}=\primeidd\cdot (R_{i})_{\primeidd}\)
+                  this means \(X_{ik}\in\maxid_{X,x}\). This means that
+                  \(X_{i}\in\maxid_{X,x}\cdot O_{X}(1)\subsetneq O_{X}(1)\) by
+                  Nakayama's lemma and therefore \(X_{i}\) cannot generate the
+                  entire module.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(k\) be a field. Let \(S=k[X_{0},X_{1}]\), and
+    let \(I\ideal S\) be the homogenous ideal \((X_{0}X_{1})\). Let
+    \(M=S/I\), equipped with its natural structure of graded \(S\)-module.
+
+    Let \(Z\) be the closed subscheme of \(\proj^{1}_{k}\) determined by the
+    homogenous ideal \(I\). In particular we have a natural isomorphism
+    \(\tilde{M}\to i_{*}Z\).
+    \begin{enumerate}[(a)]
+        \item Show that \(Z\) is reduced, and that the underlying closed set is
+              a disjoint union of two copies of \(\spec(k)\).
+
+              \begin{proof}
+                  We find the support of \(\sheaf_{X}/\tilde{I}\) on the two
+                  affine opens \(U_{0},U_{1}\). We first compute
+                  \(\tilde{I}|U_{i}\):
+                  \begin{align*}
+                      \tilde{I}|_{U_{i}} & =\widetilde{\left((X_{0}X_{1})\left[\frac{1}{X_{i}}\right]\right)_{0}} \\
+                                         & =\widetilde{\left(\frac{X_{i-1}}{X_{i}}\right)}.
+                  \end{align*}
+                  The support of the quotient \(\sheaf_{X}/\tilde{I}\) is then
+                  given on \(U_{i}\) by all prime ideals \(\primeid\ideal
+                  R_{i}\) such that the localisation
+                  \[
+                      \left(k\left[\frac{X_{1-i}}{X_{i}}\right]/\left(\frac{X_{i-1}}{X_{i}}\right)\right)_{\primeid}\neq 0
+                  \]
+                  Because \(\left(\frac{X_{i-1}}{X_{i}}\right)\) is a maximal
+                  ideal this localisation is non-zero only at
+                  \(\primeid=\left(\frac{X_{i-1}}{X_{i}}\right)\). This point is
+                  the only point of \(U_{i}\) disjoint from \(U_{i-1}\), so the
+                  support of \(\sheaf_{X}/\tilde{I}\) is exactly these two
+                  points of \(U_{0}\) and \(U_{1}\) respectively.
+
+                  The closed subscheme \(Z\) then has an open affine cover of
+                  reduced rings: both points are isolated and the ring
+                  associated to this singleton open must be the quotient ring
+                  \(k[X_{i(i-1)}]/(X_{i(i-1)})\cong k\) which is reduced.
+
+                  This is a sheaf on two components, so the global sections are
+                  given by the product of the sections on the two components of
+                  \(Z\) so the ring of global sections is the reduced ring
+                  \(k\times k=k^{2}\). We will use this in the next part.
+              \end{proof}
+
+        \item Show that the natural sequence of spaces of global sections
+              \[
+                  0\to\Gamma(\proj^{1}_{k},\tilde{I})\to\Gamma(\proj^{1}_{k},\sheaf_{\proj^{1}_{k}})\to\Gamma(\proj^{1}_{k},\tilde{M})\to 0
+              \]
+              is not exact.
+
+              \begin{proof}
+                  We know that
+                  \(\Gamma(\proj^{1}_{k},\sheaf_{\proj^{1}_{k}})=(k[X_{0},X_{1}])_{0}=k\)
+                  and
+                  \begin{align*}
+                      \Gamma(\proj^{1}_{k},\tilde{M}) & \cong\Gamma(\proj^{1}_{k},i_{*}Z)  \\
+                                                      & =\sheaf_{Z}(i^{-1}(\proj^{1}_{k})) \\
+                                                      & =\sheaf_{Z}(Z)                     \\
+                                                      & =k^{2}.
+                  \end{align*}
+                  There is no surjective \(k\to k^{2}\) so the sequence is not
+                  exact.
+              \end{proof}
+
+        \item Calculate \(\dim_{k}M_{d}\) and
+              \(\dim_{k}\Gamma(\proj^{1}_{k},\tilde{M}\otimes\sheaf(d))\).
+
+              \begin{solution}
+                  The homogenous elements of degree \(d\) of \(S\) are linear
+                  combinations of \(X_{0}^{i}X_{1}^{j}\) where \(i+j=d\). Taking
+                  the quotient by \(I=(X_{0}X_{1})\) we see the only homogenous
+                  elements of \(M\) of degree \(d\) are linear combinations of
+                  \(X_{0}^{d}\) and \(X_{1}^{d}\) which are different for
+                  \(d>0\). Therefore \(\dim_{k}M_{d}=2\) for \(d>0\) and
+                  \(M_{0}=k\) which has dimension \(1\).
+
+                  For the other sheaf we first note that because \(\sheaf(1)\)
+                  is locally invertible
+                  \begin{align*}
+                      (\tilde{M}\otimes_{\sheaf_{X}}\sheaf(d))_{x} & \cong\tilde{M}_{x}\otimes_{\sheaf_{X,x}}\sheaf(d)_{x} \\
+                                                                   & \cong\tilde{M}_{x}\otimes_{\sheaf_{X,x}}\sheaf_{X,x}  \\
+                                                                   & =\tilde{M}_{x}.
+                  \end{align*}
+                  This stalk is \(k\) on two points and \(0\) elsewhere.
+                  This means that the injective
+                  \[
+                      \Gamma(\proj^{1}_{k},\tilde{M}\otimes\sheaf(d))\hookrightarrow\prod_{x}(\tilde{M}\otimes_{\sheaf_{X}}\sheaf(d))_{x}\cong k^{2}
+                  \]
+                  gives an upper bound of \(2\) on the dimension of the global
+                  sections vector space.
+
+                  We also have an exact sequence
+                  \[
+                      0\to\Gamma(\proj^{1}_{k},\tilde{M}\otimes\sheaf(d))\to\Gamma(U_{0},\tilde{M}\otimes\sheaf(d))\oplus\Gamma(U_{1},\tilde{M}\otimes\sheaf(d))\to\Gamma(U_{0}\cap U_{1},\tilde{M}\otimes\sheaf(d))\to 0.
+                  \]
+                  We know \(\Gamma(U_{0}\cap
+                  U_{1},\tilde{M}\otimes\sheaf(d))=0\) because all of the stalks
+                  on the intersection \(U_{0}\cap U_{1}\) are \(0\). This means
+                  that
+                  \[
+                      \Gamma(\proj^{1}_{k},\tilde{M}\otimes\sheaf(d))\cong\Gamma(U_{0},\tilde{M}\otimes\sheaf(d))\oplus\Gamma(U_{1},\tilde{M}\otimes\sheaf(d)).
+                  \]
+                  Simply showing the dimension of each of these direct summands
+                  is non-zero is therefore sufficient for showing the dimension
+                  is \(2\).
+
+                  First note that the restriction of the tensor product is the
+                  tensor product of the restrictions because the tensor product
+                  is the sheafification of the naive tensor product presheaf
+                  which are both trivially operations compatible with
+                  restriction:
+                  \[
+                      (\mathcal{F}\otimes_{\sheaf_{X}}\mathcal{G})|_{U}\cong\mathcal{F}|_{U}\otimes_{\sheaf_{X}|_{U}}\mathcal{G}|_{U}.
+                  \]
+                  We know that
+                  \[
+                      \tilde{M}\otimes\sheaf(d)\otimes\sheaf(-d)\cong\tilde{M}.
+                  \]
+                  Therefore by exercise 8.2 and the previous remark we have that
+                  \[
+                      \tilde{M}(U_{i})\otimes\sheaf(d)(U_{i})\otimes\sheaf(-d)(U_{i})\cong\tilde{M}(U_{i}).
+                  \]
+                  The module \(\tilde{M}(U_{i})\) is clearly non-zero so the
+                  tensor product \(\tilde{M}(U_{i})\otimes\sheaf(d)(U_{i})\)
+                  cannot be either. This means
+                  \(\Gamma(U_{i},\tilde{M}\otimes\sheaf(d)).\) is nonzero for
+                  \(i\in\set{0,1}\) so the dimension as \(k\)-vector space is at
+                  least \(1\). This was what we wanted to show.
+
+                  This proves that
+                  \(\dim_{k}\Gamma(X,\tilde{M}\otimes\sheaf(d))=2\).
+              \end{solution}
+    \end{enumerate}
+\end{question}
+\end{document}

@@ -1,0 +1,493 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd, xcolor}
+\usepackage{nicefrac}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{float}
+\usepackage{cleveref}
+\usepackage{svg}
+\usepackage{tikz-cd}
+
+\usepackage{quiver}
+
+\renewcommand{\qedsymbol}{\raisebox{-0.5cm}{\includesvg[width=0.5cm]{../../qedboy.svg}}}
+
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\proj}{\mathbb{P}}
+\newcommand{\sheaf}{\mathcal{O}}
+\newcommand{\FF}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+
+\newcommand{\zproj}{Z_{\textnormal{proj}}}
+
+\newcommand{\maxid}{\mathfrak{m}}
+\newcommand{\primeid}{\mathfrak{p}}
+\newcommand{\primeidd}{\mathfrak{q}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{order}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\matrices}{Mat}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\colim}{colim}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\schemes}{{\bf Sch}}
+\newcommand{\aff}{{\bf Aff}}
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\rad}{Rad}
+\DeclareMathOperator{\divisor}{div}
+\DeclareMathOperator{\Pic}{Pic}
+\DeclareMathOperator{\spec}{Spec}
+\newcommand{\ideal}{\triangleleft}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem{definition}{Definition}
+
+\title{Homework Algebraic Geometry 2}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Let \(X\) and \(K\) be schemes and \(f,g:K\to X\) be morphisms. Assume that
+    for all \(x\in K\) we have that \(f(x)\equiv g(x)\).
+
+    \begin{enumerate}[(i)]
+        \item Show that if \(K\) is reduced, then \(f=g\).
+
+              \begin{proof}
+                  We first show the affine case and then reduce to the affine
+                  case for non-affine schemes.
+
+                  \begin{lemma}
+                      The statement is true for affine schemes \(K,X\).
+
+                      \begin{proof}
+                          Let \(R,S\) be rings such that \(R\) is nilpotent free
+                          \(K=\spec R,X=\spec S\), let \(f,g:\spec R\to\spec S\)
+                          be as described above, and let
+                          \(f^{\sharp},g^{\sharp}:S\to R\) be the corresponding
+                          maps of rings. Let \(s\in S\) be any element and
+                          assume \(f(s)\neq g(x)\), then because
+                          \(\bigcap_{\primeid\ideal R\\
+                              \text{\(\primeid\) prime}}\primeid=\Nil(R)=(0)\) we know that
+                          there is a prime ideal \(\primeid\ideal R\) such that
+                          \(f(s)-g(s)\notin\primeid\).
+
+                          Taking
+                          \(\primeidd=f^{-1}[\primeid]=g^{-1}[\primeid]\ideal
+                          S\) we know that the corresponding maps
+                          \(g^{\sharp}_{\primeid}:S_{\primeidd}/\primeidd
+                          S_{\primeidd}\to R_{\primeid}/\primeid R_{\primeid}\)
+                          and \(f^{\sharp}_{\primeid}:S_{\primeidd}/\primeidd
+                          S_{\primeidd}\to R_{\primeid}/\primeid R_{\primeid}\)
+                          are equal. In particular this means that for
+                          \(\tilde{f},\tilde{g}:S\to R\) the corresponding ring
+                          morphisms for \(f,g\)
+                          \begin{align*}
+                              0 & =f^{\sharp}_{\primeid}(s)-g^{\sharp}_{\primeid}(s)                   \\
+                                & =\overline{\frac{\tilde{f}(s)}{1}}-\overline{\frac{\tilde{g}(s)}{1}} \\
+                                & =\overline{\frac{\tilde{f}(s)-\tilde{g}(s)}{1}}                      \\
+                                & \in R_{\primeid}/\primeid R_{\primeid}.
+                          \end{align*}
+                          This means that either
+                          \(\tilde{f}(s)-\tilde{g}(s)\in\ker(\imath:R\to
+                          R_{\primeid})\) or
+                          \(\frac{\tilde{f}(s)-\tilde{g}(s)}{1}\in\primeid
+                          R_{\primeid}\) where \(\imath\) is the natural map
+                          \(R\to R_{\primeid}\). We know that
+                          \[
+                              \ker\imath=\setwith{a\in R\setminus\primeid}{\exists x\in R\setminus\primeid:ax=0}.
+                          \]
+                          Because \(\tilde{f}(s)-\tilde{g}(s)\notin\primeid\)
+                          this means that it cannot be in this kernel either.
+                          This would mean that
+                          \(\tilde{f}(s)-\tilde{g}(s)\in\primeid R_{\primeid}\)
+                          however it is a unit and thus cannot be in the kernel
+                          of a morphism to a field. This is a contradiction and
+                          therefore \(\tilde{f}(s)-\tilde{g}(s)=0\) for all
+                          \(s\in S\) so \(\tilde{f}=\tilde{g}\) and therefore
+                          also \(f=g\).
+                      \end{proof}
+                  \end{lemma}
+
+                  Now for the non-affine case. We show that for each
+                  \(\primeid\in K\) there is an open neighbourhood such that
+                  \(f\) and \(g\) agree on this neighbourhood. This immediately
+                  gives that \(f\) and \(g\) agree on the entirety of \(K\).
+
+                  Take \(\primeid\in K\). Then \(f(\primeid)\) has an affine
+                  open neighbourhood \(U\subseteq X\) which naturally has the
+                  structure of an open subscheme of \(X\). The inverse image
+                  \(V=f^{-1}[X]\) is then an open subscheme of \(K\) with
+                  \(\primeid\in V\) and restrictions \(f|_{V},g|_{V}:V\to U\).
+                  Now there is also an affine neighbourhood \(W\subseteq V\) of
+                  \(\primeid\). Taking \(f|_{W},g|_{W}:W\to U\) now two
+                  morphisms between affine schemes, we see immediately that
+                  \(f(\primeid)\equiv g(\primeid)\) and \(W\) is reduced because
+                  it is an open subscheme of a reduced scheme. The lemma then
+                  gives that \(f|_{W}=g|_{W}\).
+
+                  This means that \(f,g\) agree everywhere and therefore that
+                  \(f=g\).
+              \end{proof}
+
+        \item Give an example where \(f\neq g\).
+
+              \begin{solution}
+                  Consider the two rings \(S=\Q[\varepsilon]\) and
+                  \(R=\Q[\varepsilon]\). We have two maps \(f,g:S\to R\) given
+                  by \(f(\varepsilon)=0\) and \(g(\varepsilon)=\varepsilon\).
+
+                  The map on stalks \(f^{\sharp}_{x},g^{\sharp}_{x}:\Q\to\Q\)
+                  for \(x\) the unique prime ideal agree because there is only
+                  one map \(\Q\to\Q\) but \(f\neq g\).
+              \end{solution}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(X,Y,Z\) be separated schemes. Assume that \(f:X\to Y\) is surjective,
+    \(g:Y\to Z\) is of finite type, and that \(g\circ f\) is proper. Show that
+    \(g\) is proper.
+
+    \begin{proof}
+        A map is proper if it is separated, of finite type, and universally
+        closed. We show \(g\) has all three properties.
+
+        For separatedness, we have a commutative diagram
+        \[
+            \begin{tikzcd}[ampersand replacement=\&]
+                Y \&\& Z \\
+                \\
+                \&\& \spec\Z
+                \arrow["g", from=1-1, to=1-3]
+                \arrow["{!_{Z}}", from=1-3, to=3-3]
+                \arrow["{!_{Y}}"{description}, from=1-1, to=3-3]
+            \end{tikzcd}
+        \]
+        Because \(Y\) and \(Z\) are separated we know that \(!_{Z}\circ g\) is
+        separated and therefore that \(g\) is separated as well.
+
+        We know \(g\) is of finite type because that is an assumption we made.
+
+        Now for universal closedness, we have a diagram of two pullbacks
+        \[
+            \begin{tikzcd}[ampersand replacement=\&]
+                {X\times_{Y}(Y\times_{Z}T)} \&\& {Y\times_{Z}T} \&\& T \\
+                \\
+                X \&\& Y \&\& Z
+                \arrow["g", from=3-3, to=3-5]
+                \arrow["f", from=3-1, to=3-3]
+                \arrow["h", from=1-5, to=3-5]
+                \arrow["h^{*}g", from=1-3, to=1-5]
+                \arrow["\pi_{Y}^{*}f", from=1-1, to=1-3]
+                \arrow[from=1-1, to=3-1]
+                \arrow["\pi_{Y}", from=1-3, to=3-3]
+                \arrow["\lrcorner"{anchor=center, pos=0}, draw=none, from=1-3, to=3-5]
+                \arrow["\lrcorner"{anchor=center, pos=0}, draw=none, from=1-1, to=3-3]
+            \end{tikzcd}
+        \]
+        where the outer square is also a pullback by the pullback lemma. Because
+        the map \(g\circ f\) is universally closed the top row of the pullback
+        \(h^{*}g\circ\pi_{Y}^{*}f\) is a closed map. Being surjective is also
+        closed under base change so \(\pi_{Y}^{*}f\) is a surjective map. This
+        is sufficient for \(h^{*}g\) being a closed map:
+
+        Take \(U\subseteq Y\times_{\Z}T\) a closed subset. Then
+        \(V=(\pi_{Y}^{*}f)^{-1}[U]\) is a closed subset of
+        \(X\times_{Y}(Y\times_{Z}T)\) and \(h^{*}g\circ \pi_{Y}^{*}f[V]\subseteq
+        T\) is closed. Because \(\pi_{Y}^{*}f\) is surjective we have that
+        \(\pi_{Y}^{*}f[V]=U\) so \(h^{*}g[U]=h^{*}g\circ \pi_{Y}^{*}f[V]\) is
+        closed. This shows that any base change of \(g\) is closed, so \(g\) is
+        universally closed.
+    \end{proof}
+\end{question}
+
+\begin{question}
+    I don't want to copy this introduction.
+
+    \begin{enumerate}[(i)]
+        \item Let \(a\in X(k)\). We define \(T_{X}(a)=p^{-1}(a)\). Exhibit a
+              natural bijection
+              \[
+                  T_{X}(A)\to\setwith{v\in k^{n}}{\nabla f_{i}\cdot v=0}.
+              \]
+
+              \begin{proof}
+                  A morphism \(a'\in A\to k[\varepsilon]\) is uniquely
+                  determined by \(z=(a'(x_{j}))_{j}\in k[\varepsilon]^{n}\) such
+                  that \(f_{i}(z)=0\) for all \(1\leq i\leq m\) where
+                  \(z_{j}=b_{j}+c_{j}\varepsilon\).
+
+                  Now if \(a':A\to k[\varepsilon]\) is a ring morphism then for
+                  \(g:k[\varepsilon]\to k\) the composition \(g\circ a'\) is
+                  also a morphism and \(z=(g\circ a'(x_{j}))_{j}\) has
+                  \(f_{i}(b)=0\) for all \(b\). This means that \(a'\) must have
+                  the particular property that for
+                  \(z=(a'(x_{j}))_{j}=(b_{j}+c_{j}\varepsilon)\) both
+                  \(f_{i}(b_{1},\ldots,b_{n})=0\) for all \(i\) and
+                  \(f_{i}(b_{1}+c_{1}\varepsilon,\ldots,b_{n}+c_{n}\varepsilon)=0\).
+
+                  This means that \(p^{-1}(a)\) for \(a\in X(k)\) corresponds
+                  uniquely to the set of tuples
+                  \[
+                      \setwith{z=(b_{j}+c_{j}\varepsilon)_{j}\in k[\varepsilon]^{n}}{\forall 1\leq i\leq m:f_{i}(z)=0}
+                  \]
+                  such that \((b_{j})_{j}\in k^{n}\) corresponds to \(a\)
+                  through the natural bijection.
+
+                  Now we consider what \(f_{i}(z)\) looks like for such a tuple
+                  \(z\). For a monomial \(x_{1}^{l_{1}}\cdots x_{n}^{l_{n}}\)
+                  filling in \((b_{j}+c_{j}\varepsilon)_{j}\) gives by Newtons
+                  binomium and the fact that \(\varepsilon^{2}=0\)
+                  \begin{align*}
+                      \prod_{j}(b_{j}+c_{j}\varepsilon)^{l_{j}} & =\prod_{j}\sum_{t=0}^{l_{i}}\binom{l_{i}}{t}b_{j}^{t}c_{j}^{l_{i}-t}\varepsilon^{l_{i}-t} \\
+                                                                & =\prod_{j}\left(b_{j}^{l_{i}}+l_{j}b_{j}^{l_{i}-1}c_{j}\varepsilon\right)                 \\
+                                                                & =\prod_{j}b^{l_{i}}+\sum_{j}l_{j}b_{j}^{l_{i}-1}c_{j}\varepsilon.
+                  \end{align*}
+                  By linearity of polynomial evaluation\footnote{Linearity in
+                      the polynomial, not in the argument obviously.} we see that
+                  defining for \(z=(b_{j}+c_{j}\varepsilon)_{j}\),
+                  \(b=(b_{j})_{j}\in k^{n}\), \(c=(c_{j})_{j}\in k^{n}\) and
+                  \(f\) an arbitrary polynomial
+                  \[
+                      f(z)=f(b)+(\nabla f(b)\cdot c)\varepsilon.
+                  \]
+
+                  Combining all of this if \(a'\in T_{X}(a)\) for some \(a\in
+                  X(k)\), let \(z=(b_{j}+c_{j})_{j}\in k[\varepsilon]^{n}\) be
+                  the unique tuple corresponding to \(a'\) then \(f_{i}(z)=0\)
+                  and also \(f_{i}(b)=0\) for all \(i\). This means that each
+                  \(a'\in T_{X}(a)\) corresponds uniquely to a vector \(c\in
+                  k^{n}\) such that
+                  \[
+                      0=f(z)=(\nabla(f)(b)\cdot c)\varepsilon
+                  \]
+                  where \(b\in k^{n}\) corresponds to \(a\). This above equality
+                  holds iff \((\nabla f(b)\cdot c)=0\) showing that each \(a'\in
+                  T_{X}(a)\) corresponds uniquely to such a vector \(c\).
+              \end{proof}
+
+        \item Exhibit a natural bijection
+              \[
+                  T_{O_{n}}(I_{n})\to\setwith{m\in\matrices(n\times n,k)}{m^{\top}+m=0}.
+              \]
+
+              \begin{solution}
+                  The orthogonal matrices are given by the equations
+                  \[
+                      f_{ij}=\sum_{k=1}^{n}m_{ik}m_{jk}-\delta_{ij}=0
+                  \]
+                  where \(\delta_{ij}\) is the Kronecker \(\delta\). Taking the
+                  the partial derivative of \(f_{ij}\) with respect to
+                  \(m_{pq}\) is given by
+                  \[
+                      \frac{\partial f_{ij}}{\partial m_{pq}}=\begin{cases}
+                          m_{jq}  & p=i\wedge p\neq j, \\
+                          m_{iq}  & p=j\wedge p\neq i, \\
+                          2m_{iq} & p=i=j,             \\
+                          0       & \text{else}.
+                      \end{cases}
+                  \]
+                  We are then looking for \(c\in k^{n\times n}\) such that
+                  \[
+                      \frac{\partial f_{ij}}{\partial m_{pq}}(I_{n})_{kl}c_{kl}=0
+                  \]
+                  for all \(i,j\). Writing this out gives
+                  \begin{align*}
+                      0 & =\sum_{p,q=1}^{n}\frac{\partial f_{ij}}{\partial m_{pq}}(I_{n})c_{pq} \\
+                        & =\begin{cases}
+                          \sum_{q}\delta_{jq}c_{iq}+\delta_{iq}c_{jq} & i\neq j, \\
+                          \sum_{q}2\delta_{iq}c_{ii}                  & i=j.
+                      \end{cases}                                            \\
+                        & =c_{ij}+c_{ji}                                                        \\
+                        & =(c+c^{\top})_{ij}
+                  \end{align*}
+                  This means that \(T_{O_{n}}(I_{n})\) corresponds to the
+                  matrices \(c\) with \(c+c^{T}=0\).
+              \end{solution}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(f,g:Y\to X\) be morphisms of schemes. When \(T\) is a scheme and
+    \(y\in Y(T)\) we write \(f(y)\) for the element \(f\circ y\) of \(X(T)\). We
+    have a natural functor \(E(f,g):\schemes\to\catset\) given by sending a
+    scheme \(T\) to the set \(\setwith{y\in Y(T)}{f(y)=g(y)}\).
+
+    \begin{enumerate}[(i)]
+        \item Show that \(E(f,g)\) is naturally represented by a scheme, which
+              naturally fits in a cartesian diagram
+              \[
+                  \begin{tikzcd}[ampersand replacement=\&]
+                      {E(f,g)} \&\& Y \\
+                      \\
+                      X \&\& {X\times X}
+                      \arrow[from=1-1, to=1-3]
+                      \arrow["{(f,g)}", from=1-3, to=3-3]
+                      \arrow["\Delta"', from=3-1, to=3-3]
+                      \arrow["\pi_{X}", from=1-1, to=3-1]
+                      \arrow["\lrcorner"{anchor=center, pos=0}, draw=none, from=1-1, to=3-3]
+                  \end{tikzcd}
+              \]
+
+              \begin{proof}
+                  By the universal property of the pullback we have the
+                  following sequence of natural isomorphisms. Take \(Z\) an object
+                  \begin{align*}
+                      \Hom(Z,Y\times_{X\times X}X) & =\set{a:Z\to Y\times_{X\times X}X}                                \\
+                                                   & \cong\setwith{(a:Z\to X,b:Z\to Y)}{(\Id,\Id)\circ a=(f,g)\circ b} \\
+                                                   & =\setwith{(a:Z\to X,b:Z\to Y)}{(a,a)=(f\circ b,g\circ b)}         \\
+                                                   & \cong\setwith{b:Z\to Y}{f\circ b=g\circ b}                        \\
+                                                   & =E(f,g).
+                  \end{align*}
+                  Therefore pullback represents the equaliser \(E(f,g)\).
+              \end{proof}
+
+        \item Show that \(f=g\) iff the natural map \(E(f,g)\to Y\) is an
+              isomorphism.
+
+              \begin{proof}
+                  If \(\pi_{Y}:E(f,g)\to Y\) is an isomorphism, it is in
+                  particular an epimorphism. We know that
+                  \begin{align*}
+                      (f\circ\pi_{Y},g\circ\pi_{Y}) & =(f,g)\circ\pi_{Y}     \\
+                                                    & =(\Id,\Id)\circ\pi_{X} \\
+                                                    & =(\pi_{X},\pi_{X})     \\
+                  \end{align*}
+                  Therefore \(f\circ\pi_{Y}=g\circ\pi_{Y}\) and by \(\pi_{Y}\)
+                  being epi this gives \(f=g\).
+
+                  If \(f=g\), then the following diagram commutes:
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          Y \\
+                          \& {E(f,g)} \&\& Y \\
+                          \\
+                          \& X \&\& {X\times X}
+                          \arrow["{\pi_{Y}}", from=2-2, to=2-4]
+                          \arrow["{(f,g)}", from=2-4, to=4-4]
+                          \arrow["\Delta"', from=4-2, to=4-4]
+                          \arrow["{\pi_{X}}"', from=2-2, to=4-2]
+                          \arrow["\lrcorner"{anchor=center, pos=0}, draw=none, from=2-2, to=4-4]
+                          \arrow["\Id", curve={height=-12pt}, from=1-1, to=2-4]
+                          \arrow["f", curve={height=12pt}, from=1-1, to=4-2]
+                          \arrow["\imath_{Y}", dashed, from=1-1, to=2-2]
+                      \end{tikzcd}
+                  \]
+                  This means that the map \(\pi_{Y}\) is a split epimorphism
+                  with right inverse \(\imath_{Y}\). The map \(\Delta\) is a
+                  monomorphism and therefore \(\pi_{Y}\) is also mono. This
+                  means that
+                  \begin{align*}
+                      \pi_{Y}\circ\imath_{Y}\circ\pi_{Y} & =\Id\circ\pi_{Y}  \\
+                                                         & =\pi_{Y}\circ\Id.
+                  \end{align*}
+                  Because \(\pi_{Y}\) is mono this means that
+                  \(\imath_{Y}\circ\pi_{Y}=\Id\) as well so \(\pi_{Y}\) has a
+                  left and right inverse and is therefore an isomorphism.
+              \end{proof}
+
+        \item Let \(X\) be a separated scheme, and let \(f:R_{1}\to R_{2}\) be
+              an injective ring homomorphism. Show that the induced map
+              \(\tilde{f}^{*}:X(R_{1})\to X(R_{2})\) is injective.
+
+              \begin{proof}
+                  Let \(g,h:\spec R_{1}\to X\) be two scheme morphisms such that
+                  \(\tilde{f}^{*}(g)=\tilde{f}^{*}(h)\) and consider the
+                  following commutative diagram:
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          {\spec R_{2}} \\
+                          \& {E(f,g)} \&\& {\spec R_{1}} \\
+                          \\
+                          \& X \&\& {X\times X}
+                          \arrow["{\pi_{Y}}"', from=2-2, to=2-4]
+                          \arrow["{(g,h)}"', from=2-4, to=4-4]
+                          \arrow["\Delta", from=4-2, to=4-4]
+                          \arrow["{\pi_{X}}", from=2-2, to=4-2]
+                          \arrow["{\tilde{f}}", curve={height=-12pt}, from=1-1, to=2-4]
+                          \arrow["{g\circ\tilde{f}}"', curve={height=12pt}, from=1-1, to=4-2]
+                          \arrow[dashed, from=1-1, to=2-2]
+                          \arrow["\lrcorner"{anchor=center, pos=0}, draw=none, from=2-2, to=4-4]
+                      \end{tikzcd}
+                  \]
+                  Because \(X\) is separated so \(\Delta\) is a closed immersion
+                  and therefore \(\pi_{Y}\) is as well because being a closed
+                  immersion is stable under base change. Because \(\spec R_{1}\)
+                  is affine and \(\pi_{Y}\) is a closed immersion this means
+                  that \(E(f,g)\cong \spec R_{1}/I\) for some ideal \(I\ideal
+                  R_{1}\) and \(\pi_{Y}\) is the transpose of the projection map
+                  \(R_{1}\to R_{1}/I\).
+
+                  All schemes in the top triangle are affine so we can transpose
+                  to get the diagram
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          R_{2}\\
+                          \\
+                          R_{1}/I \&\& R_{1}
+                          \arrow["f"', from=3-3, to=1-1]
+                          \arrow["\widetilde{\pi_{Y}}", from=3-3, to=3-1]
+                          \arrow[from=3-1, to=1-1]
+                      \end{tikzcd}
+                  \]
+                  Because \(f\) is injective, \(\widetilde{\pi_{Y}}\) must be
+                  injective. This means that \(I=\ker(\widetilde{\pi_{Y}})=(0)\)
+                  so \(\widetilde{\pi_{Y}}\) is an isomorphism and therefore so
+                  is \(\pi_{Y}\) demonstrating that \(g=h\) by part b and thus
+                  that \(\tilde{f}^{*}:X(R_{1})\to X(R_{2})\) is injective.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

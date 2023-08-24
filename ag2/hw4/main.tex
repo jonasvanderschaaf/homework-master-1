@@ -1,0 +1,535 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[shortlabels]{enumitem}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd, xcolor}
+\usepackage{nicefrac}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{float}
+\usepackage{cleveref}
+\usepackage{svg}
+\usepackage{tikz-cd}
+
+\usepackage{quiver}
+
+\renewcommand{\qedsymbol}{\raisebox{-0.5cm}{\includesvg[width=0.5cm]{../../qedboy.svg}}}
+
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\proj}{\mathbb{P}}
+\newcommand{\sheaf}{\mathcal{O}}
+\newcommand{\FF}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+
+\newcommand{\zproj}{Z_{\textnormal{proj}}}
+
+\newcommand{\maxid}{\mathfrak{m}}
+\newcommand{\primeid}{\mathfrak{p}}
+\newcommand{\primeidd}{\mathfrak{q}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{order}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\matrices}{Mat}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\colim}{colim}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\schemes}{{\bf Sch}}
+\newcommand{\aff}{{\bf Aff}}
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\rad}{Rad}
+\DeclareMathOperator{\divisor}{div}
+\DeclareMathOperator{\Pic}{Pic}
+\DeclareMathOperator{\spec}{Spec}
+\DeclareMathOperator{\supp}{Supp}
+\newcommand{\ideal}{\triangleleft}
+\newcommand{\ff}{\mathcal{K}}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem{definition}{Definition}
+
+\title{Homework Algebraic Geometry 2}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    I will use a bunch of results which are exercises in the lecture notes or
+    just stuff I need. These are proven at the end of the exercise.
+
+    Let \(\incl:Z\to X\) be a closed immersion and \(\FF\) a quasi-coherent
+    \(\sheaf_{X}\)-module.
+    \begin{enumerate}[(i)]
+        \item Show that there is a natural isomorphism
+              \(\incl_{*}\incl^{*}\FF\cong\FF\otimes_{\sheaf_{X}}\incl_{*}\sheaf_{Z}\).
+
+              \begin{proof}
+                  We exhibit a morphism
+                  \(\FF\otimes_{\sheaf_{X}}\incl_{*}\sheaf_{Z}\to\incl_{*}\incl^{*}\FF\)
+                  which is an isomorphism on stalks and therefore an
+                  isomorphism.
+
+                  The morphism is induced by a bilinear map
+                  \(\FF\times\incl_{*}\sheaf_{Z}\to\incl_{*}\incl^{*}\FF\)
+                  given by the following composition
+                  \[
+                      \FF\times\incl_{*}\sheaf_{Z}\to\incl_{*}\incl^{*}\FF\times_{\sheaf_{X}}\incl_{*}\sheaf_{Z}\cong\incl_{*}(\incl^{*}\FF\times\sheaf_{Z})\to\incl_{*}\incl^{*}\FF.
+                  \]
+                  Where \(\FF\to\incl_{*}\incl^{*}\FF\) is given by the co-unit
+                  of the adjunction and
+                  \(\incl^{*}\FF\times\sheaf_{Z}\to\incl^{*}\FF\) is the
+                  multiplication map. Because multiplication is bilinear, this
+                  is clearly a bilinear map and induces a map from the tensor
+                  product. Now we consider how this map acts on stalks. The
+                  product of two sheafs is also the coproduct and stalks
+                  preserve coproducts so on stalks we have a map
+                  \[
+                      (\FF\times\incl_{*}\sheaf_{Z})_{x}=\FF_{x}\oplus(\incl_{*}\sheaf_{Z})_{x}\to(\incl_{*}\incl^{*}\FF)_{x}\cong\begin{cases}
+                          \FF_{x}\otimes_{\sheaf_{X,x}}\incl_{*}\sheaf_{Z}\cong\FF_{x}\otimes_{\sheaf_{X,x}}\sheaf_{Z,x} & x\in Z,    \\
+                          0                                                                                              & x\notin Z.
+                      \end{cases}
+                  \]
+                  This map is given for \(x\in Z\) by \((f,g)\mapsto fg\otimes
+                  1=f\otimes g\).
+
+                  We know that
+                  \[
+                      \FF_{x}\otimes_{\sheaf_{X}}\incl_{*}\sheaf_{Z}\cong\begin{cases}
+                          \FF_{x}\otimes_{\sheaf_{X,x}}\sheaf_{Z,x} & x\in Z,    \\
+                          \FF_{x}\otimes 0\cong0                    & x\notin Z.
+                      \end{cases}
+                  \]
+                  The map on stalks
+                  \(\FF_{x}\otimes_{\sheaf_{X}}\incl_{*}\sheaf_{Z}\to\incl_{*}\incl^{*}\FF\)
+                  for \(x\in Z\) is then given by
+                  \[
+                      f\otimes g\mapsto fg\otimes 1=f\otimes g.
+                  \]
+                  Therefore it is clearly an isomorphism on all stalks.
+              \end{proof}
+
+        \item Show that there is a short exact sequence
+              \[
+                  0\to\sheaf_{X}(-d)\to\sheaf_{X}\to\incl_{*}\sheaf_{Z}\to0.
+              \]
+
+              \begin{proof}
+                  We prove that \(I\cong\sheaf_{X}(-d)\) where \(I\) is the
+                  ideal sheaf such that
+                  \(\incl_{*}\sheaf_{Z}\cong\sheaf_{X}/I\).
+
+                  We give an isomorphism of graded modules \(S(-d)\to (f)\). We
+                  know that \(\widetilde{(f)}=I\) and
+                  \(\widetilde{S(-d)}=\sheaf_{X}(-d)\) and so these two are
+                  isomorphic as wel.
+
+                  We exhibit an isomorphism \(g:S(-d)\to(f)\) by \(g(a)=af\).
+                  This is clearly a morphism of graded modules because \(f\) is
+                  homogeneous of degree \(d\). It is injective because the ring
+                  \(S\) is an integral domain. It is surjective because for
+                  \(af\in(f)\) we have that \(g(a)=af\). Therefore this is an
+                  isomorphism.
+              \end{proof}
+
+        \item Show that
+              \(H^{i}(X,\sheaf_{X}(n)\otimes_{\sheaf_{X}}\incl_{*}\sheaf_{Z})\)
+              is isomorphic to \(H^{i}(Z,\incl^{*}\sheaf_{X}(n))\).
+
+              \begin{proof}
+                  We know that
+                  \(\incl_{*}\incl^{*}\FF\cong\FF\otimes_{\sheaf_{X}}\incl_{*}\sheaf_{Z}\)
+                  and so we have
+                  \begin{align*}
+                      H^{i}(X,\sheaf_{X}(n)\otimes_{\sheaf_{X}}\incl_{*}\sheaf_{Z}) & \cong H^{i}(X,\incl_{*}\incl^{*}\FF) \\
+                                                                                    & \cong H^{i}(Z,\incl^{*}\FF)
+                  \end{align*}
+                  by Exercise 12.9 below.
+              \end{proof}
+
+        \item Show that \(H^{i}(Z,\incl^{*}\sheaf_{X}(n))=0\) for all
+              \(0<i<N-1\).
+
+              \begin{proof}
+                  We know that
+                  \(H^{i}(X,\sheaf_{X}(n)\otimes_{\sheaf_{X}}\incl_{*}\sheaf_{Z})\cong
+                  H^{i}(Z,\incl^{*}\sheaf_{X}(n))\) and so we will compute the
+                  former instead.
+
+                  We know that taking the tensor product with a (locally) free
+                  module is exact. Therefore we have an exact sequence:
+                  \[
+                      0\to\sheaf_{X}(-d)\otimes_{\sheaf_{X}}\sheaf_{X}(n)\cong\sheaf_{X}(n-d)\to\sheaf_{X}\otimes_{\sheaf_{X}}\sheaf_{X}(n)\cong\sheaf_{X}(n)\to\incl_{*}\sheaf_{Z}\otimes\sheaf_{X}(n)\to 0.
+                  \]
+                  This means we obtain a long sequence of homology groups. In
+                  particular we have an exact sequence:
+                  \[
+                      H^{i}(X,\sheaf_{X}(n))\to H^{i}(X,\sheaf_{X}(n)\otimes_{\sheaf_{X}}\incl_{*}\sheaf_{Z})\to H^{i+1}(X,\sheaf_{X}(n-d)).
+                  \]
+                  By theorem 13.4.1 we know that for \(0<j<N\) we have
+                  \(H^{j}(X,\sheaf_{X}(m))=0\) for all \(m\in\Z\). This means
+                  that
+                  \(H^{i}(X,\sheaf_{X}(n)\otimes_{\sheaf_{X}}\incl_{*}\sheaf_{Z})=0\)
+                  for \(0<i<N-1\).
+              \end{proof}
+
+        \item Give a formula for the dimension of \(H^{0}(Z,\sheaf_{Z})\) and
+              \(H^{N-1}(Z,\sheaf_{Z})\).
+
+              \begin{solution}
+                  We know that for any coherent sheaf \(\FF\) on \(Z\) we have
+                  \(H^{i}(Z,\FF)\cong H^{i}(X,\incl_{*}\FF)\). We compute the
+                  corresponding cohomology groups of \(\incl_{*}\FF\). When
+                  writing \(H^{i}(X,\FF)\) we will omit the \(X\) and write
+                  \(H^{i}(\FF)\).
+
+                  First we consider \(H^{0}(Z,\sheaf_{Z})\). We have an exact
+                  sequence
+                  \[
+                      0\to H^{0}(\sheaf_{X}(-d))\to H^{0}(\sheaf_{X})\to H^{0}(\incl_{*}\sheaf_{Z})\to H^{1}(\sheaf_{X}(-d)).
+                  \]
+                  We know that \(H^{1}(\sheaf_{X}(-d))=0\) and so the above is
+                  in fact a short exact sequence. Therefore the dimensions of
+                  \(H^{0}(\sheaf_{X}(-d))\to H^{0}(\sheaf_{X})\) and
+                  \(H^{0}(\incl_{*}\sheaf_{Z})\) add up to the dimension of
+                  \(H^{0}(\sheaf_{X})\).
+
+                  We know \(H^{0}(\sheaf_{X})=S_{0}=k\) and
+                  \(H^{0}(\sheaf_{X}(-d))=k[X_{0},\ldots,X_{n}]_{-d}=0\).
+                  Therefore \(\dim H^{0}(\sheaf_{X})=1-0=1\).
+
+                  Similarly for \(H^{N-1}(\incl_{*}\sheaf_{Z})\) we have the
+                  exact sequence
+                  \[
+                      .H^{N-1}(\sheaf_{X})\to H^{N-1}(\incl_{*}\sheaf_{Z})\to H^{N}(\sheaf_{X}(-d))\to H^{N}(\sheaf_{X}).
+                  \]
+                  We know
+                  \[
+                      H^{N}(\sheaf_{X})=\frac{1}{X_{0}\cdots X_{N}}\cdot k\left[\frac{1}{X_{0},\ldots,\frac{1}{X_{n}}}\right]_{0}=0
+                  \]
+                  and
+                  \[
+                      H^{N-1}(\sheaf_{X})=0.
+                  \]
+                  Therefore
+                  \[
+                      H^{N-1}(\incl_{*}\sheaf_{Z})\cong H^{N}(\sheaf_{X}(-d))=\left(\frac{1}{X_{0}\cdots X_{N}}\cdot k\left[\frac{1}{X_{0}},\ldots,\frac{1}{X_{N}}\right]\right)_{-d}\cong \left(k\left[\frac{1}{X_{0}},\ldots,\frac{1}{X_{N}}\right]\right)_{-d+N+1}.
+                  \]
+                  This space is generated as \(k\)-vector space by the inverses
+                  of monomials of degree \(d-N+1\). If \(d-N+1<0\) i.e.
+                  \(d-1<N\) these don't exist so the dimension is \(0\). Else it
+                  is given by a combinatorial problem called stars and stripes
+                  which gives
+                  \[
+                      \dim_{k}H^{N-1}(\incl_{*}\sheaf_{Z})=\begin{cases}
+                          0              & d-1<N,             \\
+                          \binom{d-1}{N} & \textnormal{else}.
+                      \end{cases}
+                  \]
+              \end{solution}
+    \end{enumerate}
+
+    \paragraph{Exercise 12.9.}Let \(X\) be a topological space. Let \(K\) be a
+    closed subset of \(X\), and denote \(\imath:K\to X\) the inclusion. Let
+    \(\FF\) be a sheaf on \(K\). Denote by \(\imath_{*}\FF\) the pushforward of
+    \(\FF\) on \(X\).
+
+    \begin{enumerate}[(i)]
+        \item Show that
+              \[
+                  (\incl_{*}\FF)_{x}=\begin{cases}
+                      \FF_{x} & x\in Z,    \\
+                      0       & x\notin Z.
+                  \end{cases}
+              \]
+
+              \begin{proof}
+                  We know that \((\incl_{*}\FF)_{x}=\colim_{X\supseteq
+                      U,x\in U}\FF(\incl^{-1}U)\) and
+                  \(\FF_{x}=\colim_{X\supseteq U\ni x}\FF(U)\).
+
+                  If \(x\notin Z\) then \(x\in X\setminus Z\). We have
+                  \(\incl_{*}\FF(X\setminus Z)=\FF(\incl^{-1}X\setminus Z)=0\).
+                  This means that \((\incl_{*}\FF)_{x}=0\) as well.
+
+                  If \(x\in Z\), because every open of \(X\) is of the form
+                  \(U\cap Z\) with \(U\) open in \(X\), the colimits
+                  \(\colim_{X\supseteq U\ni x}\FF(U)\) and \(\colim_{X\supseteq
+                      U,x\in U}\FF(\incl^{-1}U)\) are exactly the same and so the
+                  stalks are isomorphic.
+              \end{proof}
+
+        \item Show that \(\FF\mapsto\incl_{*}\FF\) is an exact functor.
+
+              \begin{proof}
+                  By the previous part the functor \(\incl_{*}\) preserves
+                  stalks on \(Z\) and stalks on \(X\setminus Z\) are \(0\). An
+                  exact sequence of sheafs is exact if it is exact on stalks.
+
+                  For \(x\notin Z\) the sequence of stalks is mapped to the
+                  short exact sequence of \(0\)-modules. If \(x\in Z\) the short
+                  exact sequence is preserved. Therefore \(\incl_{*}\) preserves
+                  short exact sequences.
+              \end{proof}
+
+        \item Show that \(\incl_{*}\) sends flasque sheafs to flasque sheafs.
+
+              \begin{proof}
+                  We take \(\FF\) to be a flasque sheaf. Then for \(U\subseteq
+                  V\subseteq X\) the restriction
+                  \[
+                      \incl_{*}\FF(V)=\FF(\incl^{-1}V)\to\FF(\incl^{-1}U)=\incl_{*}\FF(V)
+                  \]
+                  is surjective because \(\FF\) is flasque.
+              \end{proof}
+
+        \item Show that there are natural isomorphisms
+              \(H^{j}(X,\incl_{*}\FF)\cong H^{j}(K,\FF)\).
+
+              \begin{proof}
+                  Let \(\FF\to C^{\bullet}\) be a flasque resolution of \(\FF\).
+                  Because \(\incl_{*}\) is exact
+                  \(\incl_{*}\FF\to\incl_{*}C^{\bullet}\) is a flasque
+                  resolution as well.Then \(H^{i}(Z,\FF)\cong
+                  h^{i}(C^{\bullet})\) and \(H^{i}(X,\incl_{*}\FF)\cong
+                  h^{i}(\incl_{*}C^{\bullet})\). Now we have
+                  that
+                  \[
+                      \incl_{*}C^{i}(X)=C^{i}(\imath^{-1}X)=C^{i}(Z).
+                  \]
+                  The functor \(\incl_{*}\) preserves images/kernels/cokernels
+                  by exactness, so the two quotients
+                  \(h^{i}(\incl_{*}C^{\bullet})\) and \(h^{i}(C^{\bullet})\) are
+                  naturally isomorphic.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(k\) be a field. Let \(X\) be an integral scheme of finite type over
+    \(k\). We call \(X\) a curve over \(k\) if \(\dim(X)=1\). Assume \(X\) is a
+    curve over \(k\) and let \(|X|\) denote the closed points of \(X\). Let
+    \(\eta\) denote the generic point.
+
+    \begin{enumerate}[(i)]
+        \item Show that we have a decomposition \(X=|X|\sqcup\set{\eta}\) as
+              point sets.
+
+              \begin{proof}
+                  Let \(x\neq\eta\) be a point of \(X\) and suppose
+                  \(\overline{\set{x}}\neq\set{x}\). Then \(x\) has an open
+                  affine neighbourhood \(U=\spec R\), where \(x=\primeid\ideal
+                  U\). Then there is a maximal ideal
+                  \(R\triangleright\maxid\supseteq\primeid\) and
+                  \(\set{\maxid}\) is a closed point. Then \(\maxid\) is
+                  contained in every open neighbourhood of \(x\) so it is a
+                  limit point of \(\set{x}\). This means that
+                  \(\set{\maxid}\subsetneq\bar{\set{\primeid}}\subsetneq X\) is
+                  a chain of irreducible closed subsets of length \(3\) so
+                  \(\dim(X)\geq 3\). Therefore no such non-closed \(x\) can
+                  exist.
+              \end{proof}
+    \end{enumerate}
+
+    Let \(K(X)\) be the function field of \(X\). For each \(x\in X\) we view the
+    local ring \(\sheaf_{X,x}\) as a subring of \(K(X)\).
+
+    \begin{enumerate}[(i), resume]
+        \item Show that the assignment \(f\mapsto(f\mod \sheaf_{X,x})_{x\in|X|}\)
+              determines a map of \(k\)-vector spaces
+              \(\alpha:K(X)\to\bigoplus_{x\in|X|}K(X)/\sheaf_{X,x}\).
+
+              \begin{proof}
+                  We first show the map is well-defined: take \(f\in K(X)\),
+                  then there is an open neighbourhood \(U\subseteq X\) of
+                  \(\eta\) with \(f\in\Gamma(\sheaf_{X},U)\). This \(U\) is a
+                  dense open subset and so its complement \(Z=X\setminus U\) is
+                  a closed subset of the irreducible space \(X\). It is then the
+                  union of finitely many irreducible closed subsets
+                  \(Z_{1},\ldots,Z_{n}\) which have generic points
+                  \(x_{1},\ldots,x_{n}\) which are different from \(\eta\).
+                  Therefore \(Z_{i}=\overline{\set{x_{i}}}=\set{x_{i}}\) so
+                  \(U=X\setminus\set{x_{1},\ldots,x_{n}}\). For all \(x\in U\)
+                  we have \(f\in\sheaf_{X,x}\) and \(U\) is cofinite in \(X\),
+                  proving the map is well-defined.
+
+                  The map is componentwise a morphism so it is a morphism.
+              \end{proof}
+
+        \item Exhibit an isomorphism
+              \(K_{X}/\sheaf_{X}\isom\bigoplus_{x\in|X|}i_{x,*}(K(X)/\sheaf_{X,x})\).
+
+              \begin{solution}
+                  The constant presheaf associated to \(\ff(X)\) is already a
+                  sheaf on \(X\) because it is an irreducible topological space.
+                  For \(x\in X\) we know that
+                  \[
+                      i_{x,*}(K(X)/\sheaf_{X,x})(U)=\begin{cases}
+                          K(X)/\sheaf_{X,x} & x\in X,            \\
+                          0                 & \textnormal{else}.
+                      \end{cases}
+                  \]
+                  Therefore we have a natural map \(\ff_{X}\to
+                  i_{x,*}(K(X)/\sheaf_{X,x})\), where for each \(f\in K(X)\)
+                  there are finitely many \(x\in |X|\) such that \(f\neq 0\in
+                  K(X)/\sheaf_{X,x}\). This means there is an induced morphism
+                  of sheaves
+                  \[
+                      \beta:\ff_{X}\to\bigoplus_{x\in|X|}i_{x,*}(K(X)/\sheaf_{X,x}).
+                  \]
+                  We show its kernel is given by \(\sheaf_{X}\) and then that
+                  the quotient map is surjective on stalks. This is then
+                  automatically injective because its kernel has already been
+                  quotiented out.
+
+                  Take \(f\in\ker(\beta)(U)\). Then for all \(x\in |X|\cap U\)
+                  we have that \(f_{x}\in \ker(K(X)\to
+                  K(X)/\sheaf_{X,x})=\sheaf_{X,x}\). We also trivially have
+                  \(f_{\eta}\in \sheaf_{X,\eta}=K(X)\) This means it glues to a
+                  section \(f\in\Gamma(\sheaf_{X},U)\). Therefore
+                  \(\ker(\beta)\) is contained in \(\sheaf_{X}\).
+
+                  Conversely take \(f\in\sheaf_{X}(U)\). Then
+                  \(f_{x}\in\sheaf_{X,x}\) for all \(x\in U\) and so it is in
+                  the kernel of all projections \(K(X)\to K(X)/\sheaf_{X,x}\).
+                  For \(x\notin U\) we have \((K(X)/\sheaf_{X,x})(U)=0\) so it
+                  is trivially in the kernel of these maps too. This means that
+                  \(\beta(f)=0\) for all \(f\in\sheaf_{X}(U)\) and so
+                  \(\sheaf_{X}\) is contained in \(\ker(\beta)\).
+
+                  Now we examine the stalk maps:
+                  \[
+                      \beta_{x}:\ff_{X}\to\left(\bigoplus_{x\in|X|}i_{x,*}(K(X)/\sheaf_{X,x})\right)_{x}.
+                  \]
+                  For \(y\neq x\) we can easily see that the stalk of
+                  \(i_{x,*}(K(X)/\sheaf_{X,x})\) at \(y\) is zero: there is an
+                  open neighbourhood of \(y\) separating \(x\) from \(y\)
+                  because both are closed points. Taking the stalks commutes
+                  with direct sums so \(\beta_{x}\) is the map
+                  \[
+                      \beta_{x}:\ff_{X,x}=K(X)\to\left(\bigoplus_{x\in|X|}i_{x,*}(K(X)/\sheaf_{X,x})\right)_{x}=(i_{x,*}(K(X)/\sheaf_{X,x}))_{x}=K(X)/\sheaf_{X,x}
+                  \]
+                  which is clearly surjective. Therefore the induced map
+                  \[
+                      \ff_{X}/\sheaf_{X}\to\bigoplus_{x\in|X|}i_{x,*}(K(X)/\sheaf_{X,x})
+                  \]
+                  is both injective and surjective: an isomorphism.
+              \end{solution}
+
+        \item Show that the above exact sequence is a flasque resolution.
+
+              \begin{proof}
+                  The sheaf \(\ff_{X}\) is a flasque sheaf: for every non-empty
+                  open \(U\subseteq X\) we have \(\ff_{X}(U)=K(X)\) because
+                  \(X\) is an irreducible space. The restriction maps to a
+                  non-empty set are the identity, which is clearly surjective.
+                  The empty set is the trivial module, any map to which is also
+                  clearly surjective.
+
+                  For the second sheaf, we show all direct summands are flasque
+                  as this property is clearly preserved when taking direct sums.
+
+                  For \(x\in|X|\) consider \(i_{x,*}(K(X)/\sheaf_{X,x})\). Take
+                  \(U\subseteq V\subseteq X\) open, we show the restriction is
+                  surjective. We separate by two cases: \(x\in U\) or \(x\notin
+                  U\). If \(x\in U\), then \(x\in V\), so
+                  \[
+                      i_{x,*}(K(X)/\sheaf_{X,x})(U)=i_{x,*}(K(X)/\sheaf_{X,x})(V)=K(X)/\sheaf_{X,x}
+                  \]
+                  with identity as the restriction map which is surjective.
+
+                  If \(x\notin U\) then \(i_{x,*}(K(X)/\sheaf_{X,x})(U)=0\) and
+                  any morphism to this module is surjective.
+
+                  This shows this sheaf is flasque.
+
+                  We easily see it is a resolution because it is an exact
+                  sequence.
+              \end{proof}
+
+        \item Deduce from (iv) that
+              \[
+                  H^{0}(X,\sheaf_{X})=\bigcap_{x\in|X|}O_{X,x}
+              \]
+              and
+              \[
+                  H^{1}(X,\sheaf_{X})\cong\coker(K(X)\to\bigoplus_{x\in|X|}K(X)/\sheaf_{X,x}).
+              \]
+
+              \begin{proof}
+                  We know that \(H^{0}(X,\sheaf_{X})\) is the module given by
+                  \(\ker
+                  (\Gamma(X,\ff_{X})\to\Gamma(X,\bigoplus_{x\in|X|}K(X)/\sheaf_{X,x}))\)
+                  which because \(\Gamma\) is left exact is \(\Gamma\) of the
+                  kernel of \(\ff_{X}\to\bigoplus_{x\in|X|}K(X)/\sheaf_{X,x}\).
+                  We know \(f\in\Gamma(X,\ff(X))\) is in the kernel if it is
+                  \(0\) in \(\Gamma(X,K(X)/\sheaf_{X,x})=K(X)/\sheaf_{X,x}\) for
+                  each \(x\in |X|\). Therefore \(f\in H^{0}(X,\sheaf_{X})\) iff
+                  \(f\in\bigcap_{x\in |X|}\sheaf_{X,x}\).
+
+                  Similarly \(H^{1}(X,\sheaf_{X})\) is given by
+                  \[
+                      \ker\left(\Gamma\left(X,\bigoplus_{x\in|X|}K(X)/\sheaf_{X,x}\to 0\right)\right)/\im \left(K(X)\to\bigoplus_{x\in|X|}K(X)/\sheaf_{X,x}\right)
+                  \]
+                  Because this kernel is just
+                  \(\Gamma(X,\bigoplus_{x\in|X|}K(X)/\sheaf_{X,x})=\bigoplus_{x\in|X|}K(X)/\sheaf_{X,x}\)
+                  and in this case the image is just the image, this quotient is
+                  by definition the desired cokernel.
+              \end{proof}
+
+        \item Deduce from (iv) that \(H^{i}(X,\sheaf_{X})=(0)\) for \(i>1\).
+
+              \begin{proof}
+                  For \(i>1\) we know that \(d^{i}\) is given by \(0\to 0\). We
+                  know that \(H^{i}(X,\sheaf_{X})\) is a quotient of a submodule
+                  of the domain of \(d^{i}\), which is \(0\). Therefore
+                  \(H^{i}(X,\sheaf_{X})=0\) for all \(i>1\).
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

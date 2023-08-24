@@ -1,0 +1,286 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{float}
+\usepackage{cleveref}
+\usepackage{svg}
+\usepackage{tikz-cd}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+\newcommand{\powset}{\mathcal{P}}
+\DeclareMathOperator{\atoms}{At}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\set{#1:#2}}
+
+\renewcommand{\qedsymbol}{\raisebox{-0.5cm}{\includesvg[width=0.5cm]{../../qedboy.svg}}}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Up}{Up}
+\DeclareMathOperator{\fin}{Fin}
+\DeclareMathOperator{\cofin}{Cofin}
+\DeclareMathOperator{\fincofin}{FinCofin}
+\DeclareMathOperator{\spec}{Spec}
+\DeclareMathOperator{\iso}{Iso}
+\DeclareMathOperator{\filters}{Fil}
+\DeclareMathOperator{\closed}{Cl}
+\DeclareMathOperator{\inter}{Int}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework: Mathematical Structures in Logic}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Let \(X\) be a Priestley space.
+
+    \begin{enumerate}[(a)]
+        \item Show that \(\downarrow\set{y}\) and \(\uparrow\set{y}\) are closed
+              for each \(y\in X\).
+
+              \begin{proof}
+                  Take \(x\notin\uparrow\set{y}\). We show there is an open
+                  up-set neighbourhood of \(x\) disjoint from
+                  \(\uparrow\set{y}\). We know  \(y\nleq x\) so there is an
+                  clopen up-set neighbourhood \(U_{x}\) of \(y\) not containing
+                  \(x\). The complement \(X\setminus U_{x}\) is then a clopen
+                  downset containing \(x\) and not \(y\), which means it cannot
+                  contain elements of \(\uparrow\set{y}\) either. Therefore it
+                  is the neighbourhood of \(x\) disjoint from
+                  \(\uparrow\set{y}\).
+
+                  Similarly take \(x\notin\downarrow{y}\). Then \(x\nleq y\) so
+                  there is a clopen up-set \(U_{x}\) neighbourhood of \(x\) such
+                  that \(y\notin U_{x}\). This set has to be disjoint from
+                  \(\downarrow\set{y}\) because it is upward closed. Therefore
+                  each point of \(X\setminus\uparrow\set{y}\) has an open
+                  neighbourhood disjoint from \(\uparrow\set{y}\) and so this is
+                  open. Its complement \(\uparrow\set{y}\) must then be closed
+              \end{proof}
+
+        \item Show that, if \(Y\subseteq X\) is closed then \(\uparrow Y\) and
+              \(\downarrow Y\) are closed.
+
+              \begin{proof}
+                  Take \(x\notin\uparrow Y\), we show it has an open
+                  neighbourhood of \(x\) disjoint from \(\uparrow Y\). This
+                  means that the set \(\uparrow Y\) is closed. We know that
+                  \(y\not\leq x\) for all \(y\in Y\), so there is a clopen upset
+                  \(U_{x,y}\) with \(y\in _{x,y}\) and \(x\notin U_{x,y}\). The
+                  set \(\bigcup_{y\in Y}U_{x,y}\) is then an upset and open
+                  cover of \(Y\) which is compact. Therefore there is a finite
+                  subset \(Z\subseteq Y\) such that \(Y\subseteq\bigcup_{y\in
+                      Z}U_{x,y}\) and this union is clopen. Because this union is
+                  still an upset we also have \(\uparrow Y\subseteq\bigcup_{y\in
+                      Z}U_{x,y}\). The complement \(X\setminus\bigcup_{y\in
+                      Z}U_{x,y}\) is then an open neighbourhood of \(x\) disjoint
+                  from \(\uparrow Y\) because \(x\notin U_{x,y}\) for all \(y\in
+                  Z\). This means \(\uparrow Y\) is closed.
+
+                  Similarly take \(x\notin\downarrow Y\), then for all \(y\in
+                  Y\) we have \(x\not\leq y\) so there is a clopen downset
+                  \(U_{x,y}\) such that \(y\in U_{x,y}\) and \(x\notin U_{x,y}\)
+                  (it is the complement of the clopen upset given by the
+                  Priestley axiom). The union \(\bigcup_{y\in Y}U_{x,y}\) covers
+                  \(Y\) so there is a finite \(Z\subseteq Y\) such that the
+                  clopen downset \(\bigcup_{y\in Z}U_{x,y}\) covers \(Y\) and
+                  therefore also \(\downarrow Y\). We know \(x\notin U_{x,y}\)
+                  for all \(y\in Z\) so \(X\setminus\bigcup_{y\in Z}U_{x,y}\) is
+                  a clopen neighbourhood of \(x\) disjoint from \(\downarrow Y\)
+                  showing that set is closed as well.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    I'm not going to write this question down.
+
+    \begin{enumerate}[(a)]
+        \item Show that this space is a Priestley space.
+
+              \begin{proof}
+                  Let \(x,y\) be two elements with \(x\nleq y\). Then \(x=0\) or
+                  \(y=0\) and the other element cannot be \(\infty\) because
+                  \(0\) is the only element that is incomparable with another
+                  element.
+
+                  If \(x=0\) then \(\set{0}\) is an up-set containing \(0\) but
+                  not any \(y\in\N_{>0}\).
+
+                  If \(y=0\) then \(\N_{>0}\) is an up-set containing
+                  \(x\) but not \(y\).
+
+                  This proves this is a Priestley space.
+              \end{proof}
+
+        \item Show that it is not an Esakia space.
+
+              \begin{proof}
+                  Consider the clopen set \(\set{0}\). Its downset is
+                  \(\set{0,\infty}\) which is not clopen because the clopens
+                  containing \(\infty\) are cofinite. Therefore this is not an
+                  Esakia space.
+              \end{proof}
+
+        \item Draw the distributive lattice dual to this space.
+
+              \begin{solution}
+                  The distributive lattice dual to this space is the lattice of
+                  clopen up-sets. The clopen up-sets are exactly the following:
+                  The whole set \(\uparrow\infty\), \(\set{0}\), \(\uparrow n\)
+                  and \(\uparrow n\cup\set{0}\) for \(n>0\), and vacuously the
+                  empty set \(\varnothing\).
+
+                  These are contained in each other by inclusion as shown in the
+                  following diagram:
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          \& \uparrow\infty \\
+                          \& \uparrow3\cup\uparrow0 \\
+                          \& \uparrow2\cup\uparrow0 \& \uparrow3 \\
+                          \& \uparrow1\cup\uparrow0 \& \uparrow2 \\
+                          \uparrow0 \&\& \uparrow1 \\
+                          \& \varnothing
+                          \arrow[from=4-2, to=3-2]
+                          \arrow[from=3-2, to=2-2]
+                          \arrow[dotted, no head, from=2-2, to=1-2]
+                          \arrow[from=6-2, to=4-2]
+                          \arrow[from=6-2, to=5-1]
+                          \arrow[from=5-1, to=4-2]
+                          \arrow[from=6-2, to=5-3]
+                          \arrow[from=5-3, to=4-2]
+                          \arrow[from=5-3, to=4-3]
+                          \arrow[from=4-3, to=3-2]
+                          \arrow[from=4-3, to=3-3]
+                          \arrow[from=3-3, to=2-2]
+                          \arrow[dotted, no head, from=3-3, to=1-2]
+                      \end{tikzcd}
+                  \]
+              \end{solution}
+    \end{enumerate}
+\end{question}
+
+\begin{question}\,
+    \begin{enumerate}[(a)]
+        \item Let \((X,\leq)\) be an Esakia space. Show that for any up-set
+              \(U\subseteq X\) we have that its closure \(\closed(U)\) is also
+              an up-set.
+
+              \begin{proof}
+                  Let \(U\) be an up-set with closure \(\closed(U)\), take any
+                  limit point \(x\in\closed(U)\) of \(U\) and consider \(y\geq
+                  x\). We show that this must also be a limit point of \(U\).
+                  Suppose it is not: i.e. there is some clopen neighbourhood
+                  \(V\) of \(y\) such that \(U\cap V=\varnothing\). Then the
+                  downset \(\downarrow V\) must also be disjoint from \(U\)
+                  because \(U\) is an upset. However because \(x\leq y\) we must
+                  have that \(x\in \downarrow V\) which is clopen by the
+                  defining property of Esakia spaces. Therefore \(x\) was not a
+                  limit point in the first place because \(\downarrow V\) is an
+                  open neighbourhood of \(x\) disjoint from \(U\). This is a
+                  contradiction so \(y\) is a limit point.
+              \end{proof}
+
+        \item Show that this is not in general true in Priestley spaces.
+
+              \begin{solution}
+                  Consider the set \(\N\setminus\set{0}\) as subset of the
+                  Priestley space from question 2. This is an upset. Its closure
+                  is the set \((\N\setminus\set{0})\cup\set{\infty}\) because
+                  all opens containing \(\infty\) from \(\N\setminus\set{0}\)
+                  contain a cofinite subset of \(\N\) and so must intersect with
+                  this set and so \(\infty\) is a limit point of the set. The
+                  element \(0\) is not a limit point because \(\set{0}\) is an
+                  open neighbourhood disjoint from the set.
+
+                  This closure is however not an upset because \(\infty\leq 0\)
+                  and \(0\) is not in the set.
+              \end{solution}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Show a Priestley space has minimal and maximal elements.
+
+    \begin{proof}
+        We demonstrate this using Priestley duality and Zorn's lemma.
+
+        We show that the poset of prime ideal of any distributive lattice has
+        maximal/minimal elements by showing any increasing/decreasing chain has
+        an upper/lower bound in the poset of primes. By Zorn's lemma, this
+        immediately gives maximal and minimal elements.
+
+        Given an increasing sequence of filter \((F_{i})_{i\in\N}\) the union
+        \(F=\bigcup_{i}F_{i}\) is also a prime filter. It is clear that it is
+        still upward closed. It is closed under meets because for \(x,y\in F\),
+        \(x,y\in F_{i}\) for some \(i\) so \(x\wedge y\in F_{i}\subseteq F\).
+        Also if \(x\vee y\in F\), then \(x\vee y\in F_{i}\) for some \(i\) so
+        \(x\in F_{i}\subseteq F\) or \(y\in F_{i}\subseteq F\). This proves
+        \(F\) is a prime filter and thus every chain has an upper bound. By
+        Zorn's lemma then the set of prime filters has a maximal element.
+
+        By Priestley duality, this maximal element in the poset of prime filters
+        corresponds to a maximal element in the poset \(\leq\).
+
+        Similarly for a descending chain of prime filters \((F_{i})_{i\in\N}\)
+        the intersection is still a prime filter and a lower bound of the chain.
+        It is clear that \(\bigcap_{i}F_{i}\) is still upwards closed. It is
+        closed under intersection because for \(x,y\in F\), \(x,y\in F_{i}\) for
+        all \(i\). This means \(x\wedge y\in F\) so \(F\) is still a filter.
+
+        Similarly if \(x\vee y\in F\) for some \(x,y\) then at least one of
+        \(x\) or \(y\) must be contained in all \(F_{i}\). This is because
+        \(x\in F_{i}\) or \(y\in F_{i}\) for each \(i\) (though a priori) fixed
+        when alternating \(i\). However suppose there are \(i<j\) such that
+        \(y\notin\in F_{i}\) and \(x\notin F_{j}\), then \(x\notin F_{i}\)
+        either so \(F_{i}\) is not a prime filter. This shows that \(x\in F\)
+        or \(y\in F\) so it is a prime filter.
+
+        By Zorn's lemma (applied to the opposite poset), this means the poset
+        has minimal elements as well so by Priestley duality the poset of a
+        Priestley space does as well.
+    \end{proof}
+\end{question}
+\end{document}

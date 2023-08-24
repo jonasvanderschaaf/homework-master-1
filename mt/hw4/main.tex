@@ -1,0 +1,327 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd, xcolor}
+\usepackage{nicefrac}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{float}
+\usepackage{cleveref}
+\usepackage{svg}
+\usepackage{tikz-cd}
+
+\renewcommand{\qedsymbol}{\raisebox{-0.5cm}{\includesvg[width=0.5cm]{../../qedboy.svg}}}
+
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\A}{\mathbb{A}}
+\newcommand{\proj}{\mathbb{P}}
+\newcommand{\sheaf}{\mathcal{O}}
+\newcommand{\FF}{\mathcal{F}}
+\newcommand{\G}{\mathcal{G}}
+
+\newcommand{\zproj}{Z_{\textnormal{proj}}}
+
+\newcommand{\maxid}{\mathfrak{m}}
+\newcommand{\primeid}{\mathfrak{p}}
+\newcommand{\primeidd}{\mathfrak{q}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{order}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\matrices}{Mat}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\colim}{colim}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\schemes}{{\bf Sch}}
+\newcommand{\aff}{{\bf Aff}}
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\Nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\rad}{Rad}
+\DeclareMathOperator{\divisor}{div}
+\DeclareMathOperator{\Pic}{Pic}
+\DeclareMathOperator{\spec}{Spec}
+\newcommand{\ideal}{\triangleleft}
+\newcommand{\lang}{\mathscr{L}}
+\DeclareMathOperator{\diagram}{Diag}
+\DeclareMathOperator{\theory}{Th}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem{definition}{Definition}
+
+\title{Homework Model Theory}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Let \(\lang=\set{s}\) be a language with unary function symbol \(s\). Let
+    \(\N\) be the model of the natural numbers with the successor function.
+
+    \begin{enumerate}[(1)]
+        \item Show that the theory \(T\) of \((\N,s)\) does not have quantifier
+              elimination.
+
+              \begin{proof}
+                  We show there are models of \(T\) \(M,N\) which have a common
+                  substructure \(A\) and that there is a formula \(\varphi(x)\)
+                  and \(a\in A\) such that \(M\models\varphi(a)\) but
+                  \(N\nvDash\varphi(a)\). If \(\varphi\) were equivalent to a
+                  quantifier free formula, then this could not occur because
+                  quantifier free formulas are preserved under substructure and
+                  extension of a structure. Therefore \(T\) does not have
+                  quantifier elimination.
+
+                  Take \(M,N,A=(\N,s)\) let \(f:A\to M\) be the identity
+                  embedding and \(g:A\to N\) be the embedding uniquely
+                  determined by \(g(0)=1\in N\). Take \(a=0\in A\) then
+                  trivially
+                  \[
+                      M\nvDash\exists x:s(x)=a
+                  \]
+                  but
+                  \[
+                      N\models\exists x:s(x)=a.
+                  \]
+              \end{proof}
+
+        \item Consider now the language \(\lang=\set{s,<,0}\). Show that the
+              theory of \((\N,s,<,0)\) has quantifier elimination.
+
+              \begin{proof}
+
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(T_{\forall}\) denote the set of universal consequences of \(T\).
+
+    \begin{enumerate}[(1)]
+        \item Show that if \(T\) is model complete, then whenever \(M\models
+              T\), \(N\models T_{\forall}\) and \(f:M\to N\) is an embedding,
+              then \(f\) is existentially closed.
+
+              \begin{proof}
+                  Let \(M\models T\), \(N\models T_{\forall}\) and \(f:M\to N\)
+                  be an embedding. Define
+                  \[
+                      U=\setwith{\exists x\psi(x,\bar{m})}{\textnormal{\(\psi(x,\bar{m})\) and \(\bar{m}\) are elements of \(M\)}}.
+                  \]
+                  We claim \(T\cup U\) is satisfiable in a model \(M'\) into
+                  which \(M\) can be embedded. This is because for any
+                  \(\psi\in\diagram(M)\) the formula \(\exists x\psi\) is
+                  equivalent to \(\psi\) because \(x\) does not occur in it
+                  and so \(T\cup U\models\diagram(M)\).
+
+                  Suppose it is not satisfiable, then there are finitely many
+                  \(\varphi_{1},\ldots,\varphi_{n}\in U\) with
+                  \(\varphi_{i}=\exists x\psi_{i}\) such that
+                  \(T\models\neg\varphi_{i}\) for all \(1\leq i\leq n\) and
+                  therefore
+                  \[
+                      T\models\bigvee_{1\leq i\leq n}\forall x\neg\psi_{i}.
+                  \]
+                  We know this formula implies \(\theta=\forall x\bigvee_{1\leq
+                      i\leq n}\psi_{i}(x)\), which is universal so
+                  \(N\models\theta\). This is a contradiction with the
+                  assumption that \(\psi_{i}(x)\) is true for some \(x\in
+                  N\).
+
+                  Now we have a model \(M'\) of \(T\cup U\) into which \(M\) can
+                  be embedded, so this embedding is elementary. This means
+                  clearly that \(M\models U\) as well showing the original
+                  embedding \(M\to N\) was existential.
+              \end{proof}
+
+        \item Show that if \(T\) is a theory such that
+              \begin{itemize}
+                  \item \(T\) is model complete;
+                  \item \(T_{\forall}\) has the amalgamation property;
+              \end{itemize}
+              then \(T\) has quantifier elimination.
+
+              \begin{proof}
+                  Let \(A\) be an arbitrary substructure of two models
+                  \(M,N\models T\) by maps \(f:A\to M\) and \(g:A\to N\). Then
+                  by \L{}os-Tarski \(A\models T_{\forall}\) and so there is an
+                  amalgamation \(F\) with existential embeddings \(h_{0}:M\to
+                  F,h_{1}:N\to F\).
+
+                  Then we have the following equivalence by existentiality and
+                  because existential formulas are upward closed for all
+                  \(\bar{a}\in A\) and quantifier free \(\varphi(\bar{x})\):
+                  \begin{align*}
+                      M\models\exists x\varphi(x,f(\bar{a})) & \Leftrightarrow F\models\exists x\varphi(x,(h_{0}\circ f)(\bar{a})) \\
+                                                             & \Leftrightarrow F\models\exists x\varphi(x,(h_{1}\circ g)(\bar{a})) \\
+                                                             & \Leftrightarrow N\models\exists x\varphi(x,g(\bar{a})).
+                  \end{align*}
+                  This is sufficient quantifier elimination as we have seen in
+                  the lecture.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(DAG\) be the theory of torsion-free divisible abelian groups.
+
+    \begin{enumerate}[(1)]
+        \item Prove that whenever \(T\) is a theory with algebraically prime
+              models, such that whenever \(M,N\models T\) and \(M\leq N\), then
+              \(M\) is existentially closed in \(N\), then \(T\) has quantifier
+              elimination.
+
+              \begin{proof}
+                  Let \(M,N\) be two models of \(T\), \(A\) a common
+                  substructure of \(M,N\) and \(F\) the structure given by
+                  having algebraically prime models because \(A\models
+                  T_{\forall}\) by \L{}os-Tarski. Then we have the following
+                  diagram of embeddings
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          M \& F \& N \\
+                          \\
+                          \& A
+                          \arrow["f", from=3-2, to=1-1, tail]
+                          \arrow["g"', from=3-2, to=1-3, tail]
+                          \arrow["\imath", from=3-2, to=1-2, tail]
+                          \arrow["h_{0}"', from=1-2, to=1-1, dashed, tail]
+                          \arrow["h_{1}", from=1-2, to=1-3, dashed, tail]
+                      \end{tikzcd}
+                  \]
+                  where \(h_{0}\) and \(h_{1}\) are existential by assumption.
+
+                  Then for \(\bar{a}\in A\) we have the following equivalence
+                  because existential sentences are upwards closed and \(h_{0}\)
+                  and \(h_{1}\) are existential:
+                  \begin{align*}
+                      M\models\exists x\varphi(x,f(\bar{a})) & \Leftrightarrow M\models\exists x\varphi(x,h_{0}\circ\imath(\bar{a})) \\
+                                                             & \Leftrightarrow F\models\exists x\varphi(x,\imath(\bar{a}))           \\
+                                                             & \Leftrightarrow N\models\exists x\varphi(x,h_{1}\circ\imath(\bar{a})) \\
+                                                             & \Leftrightarrow N\models\exists x\varphi(x,g(\bar{a})).
+                  \end{align*}
+                  This is sufficient for quantifier elimination.
+              \end{proof}
+
+        \item Use the construction of the divisible hull to show that \(DAG\)
+              has algebraically prime models.
+
+              \begin{proof}
+                  First we claim that \(T_{\forall}\) is the theory of torsion
+                  free abelian groups. Every substructure of a torsion-free
+                  divisible abelian group is a torsion-free abelian group.
+                  Conversely using the divisible hull every torsion-free abelian
+                  group can be embedded into a torsion-free divisible abelian
+                  group. Therefore if \(T'\) is the theory of torsion free
+                  abelian groups then \(T'\models T_{\forall}\) and
+                  \(T_{\forall}\models T'\) so the two are equivalent.
+
+                  Let \(G\) be a torsion-free abelian group with divisible hull
+                  \(D(G)\). Then clearly we have an embedding \(f:G\to D(G)\)
+                  given by \(f(x)=[(x,1)]\).
+
+                  Now suppose there are a torsion-free abelian division group
+                  \(G'\) and an embedding \(g:G\to G'\). We define \(h:D(G)\to
+                  G'\) as \(h([(x,a)])=a^{-1}g(x)\). Clearly his has the
+                  property that \(hf=g\) if it is well-defined. We show this
+                  now: Suppose \((x,a)\sim (y,b)\), then \(ay=bx\) and so
+                  \(ag(y)=bg(x)\). Because \(G'\) is a torsion-free abelian
+                  division ring this means that
+                  \(\nicefrac{g(x)}{a}=\nicefrac{g(y)}{b}\) showing this map is
+                  well-defined. We show it is injective by showing its kernel is
+                  trivial. Suppose \(h([(x,a)])=0\), then
+                  \(\nicefrac{h([(x,1)])}{a}=0\) so
+                  \(a\nicefrac{h([(x,1)])}{a}=g(x)=0\). This shows that
+                  \(x\in\ker(g)=0\) because \(g\) is injective.
+              \end{proof}
+
+        \item Show that every embedding \(M\to N\) with \(M,N\models DAG\) is
+              existential.
+
+              \begin{proof}
+                  We know torsion-free divisible abelian groups are
+                  \(\kappa\)-categorical for \(\kappa>\aleph_{0}\). From this we
+                  can easily see that any \(f:G\to G'\) with \(|G|\neq|G'|\) is
+                  in fact elementary. We show this in two parts: first that any
+                  embedding into a group of higher cardinality is elementary and
+                  then for the same cardinality.
+
+                  By Löwenheim-Skolem we know that there is an elementary
+                  embedding \(g:G\to G'\), we claim there is an isomorphism
+                  \(h:G'\to G'\) such that \(hg=f\). Isomorphisms are elementary
+                  embeddings and composition of elementary maps is still
+                  elementary. Let \(B\) be a basis of \(G\) as \(\Q\)-vector
+                  space, then \(f[B]\) is a basis of \(f[G]\) because \(f\) is
+                  injective. We can extend \(f[B]\) to a basis \(B'\) of \(G'\)
+                  and similarly \(g[B]\) to a basis \(B''\). Then bijective map
+                  \(B''\to B'\) such that \(g(b)\in g[B]\) is mapped onto
+                  \(f(b)\) is an isomorphism of \(G'\) which has \(hg=f\)
+                  because a vector space morphism is uniquely determined by its
+                  action on a basis.
+
+                  Now let \(G,G'\) be two countable torsion-free divisible
+                  abelian groups and \(f:G\to G'\) an embedding. Then there is
+                  an embedding \(g:G'\to G''\) with \(|G'|<|G''|\). Then both
+                  \(g\) and \(gf\) are elementary by the previous remark. This
+                  must mean that \(f\) is elementary as well:
+                  \begin{align*}
+                      G\models\varphi(\bar{a}) & \Leftrightarrow G''\models\varphi(gf(\bar{a})) \\
+                                               & \Leftrightarrow G'\models\varphi(f(\bar{a})).
+                  \end{align*}
+                  This means all embeddings are in fact elementary.
+              \end{proof}
+
+        \item Conclude that \(DAG\) has quantifier elimination.
+
+              \begin{proof}
+                  We have now shown that \(T\) is a theory with algebraically
+                  prime models and only existential embeddings. By part 1 it
+                  therefore has quantifier elimination.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

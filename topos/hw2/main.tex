@@ -1,0 +1,385 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{svg}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{quiver}
+\usepackage{float}
+\usepackage{cleveref}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\newcommand{\catcat}{{\bf Cat}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\catt}{\mathcal{D}}
+\newcommand{\cattt}{\mathcal{E}}
+\newcommand{\pcat}{\mathcal{P}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\newcommand{\setcat}{{\bf Set}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\rad}{Rad}
+\newcommand{\alg}[1]{T\textnormal{-Alg}}
+\DeclareMathOperator{\ev}{ev}
+\newcommand{\psh}[1]{\widehat{#1}}
+\DeclareMathOperator{\famm}{Fam}
+\DeclareMathOperator{\dfib}{DFib}
+\newcommand{\restrict}{\upharpoonright}
+\DeclareMathOperator{\subobj}{Sub}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+\renewcommand{\qedsymbol}{\raisebox{-0.5cm}{\includesvg[width=0.5cm]{../../qedboy.svg}}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework Topos Theory}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Given a monomorphism \(g:X\to Y\) in \(\cattt\), consider the map
+    \(g^{*}:\subobj(Y)\to\subobj(X)\) on subobjects given by pullback along
+    \(g\).
+
+    \begin{enumerate}[a)]
+        \item Show that \(g^{*}\) has a left adjoint given as follows:
+              if \(B\in\subobj(X)\) is represented by a mono \(n:B\to X\) then
+              \(L_{g}(B)\in\subobj(Y)\) is represented by the mono
+              \(gn:B\to Y\).
+
+              \begin{proof}
+                  We show that \(L_{g}\) is a left adjoint by showing there is a
+                  universal morphism \(\eta_{A}:A\to g^{*}L_{g}A\) for each
+                  \(A\in\subobj(Y)\). It is given by the universal property of
+                  the pullback as indicated in the following commutative
+                  diagram:
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          A \\
+                          \& {Y\times_{X}A} \&\& A \\
+                          \\
+                          \&\&\& Y \\
+                          \\
+                          \& Y \&\& X
+                          \arrow["g", from=4-4, to=6-4]
+                          \arrow["m", from=2-4, to=4-4]
+                          \arrow["{g^{*}(gm)}"', from=2-2, to=2-4]
+                          \arrow["g"', from=6-2, to=6-4]
+                          \arrow[from=2-2, to=6-2]
+                          \arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=2-2, to=6-4]
+                          \arrow["\Id", from=1-1, to=2-4]
+                          \arrow["m"', from=1-1, to=6-2]
+                          \arrow["{\eta_{A}}"', dashed, from=1-1, to=2-2]
+                      \end{tikzcd}
+                  \]
+
+                  Now let \(B:n\to X\) be a monomorphism and \(L_{g}B\) the
+                  domain of a morphism between subobjects \(f:A\to L_{g}B\).
+                  Then we get the following diagram:
+                  \[\begin{tikzcd}[ampersand replacement=\&]
+                          A \\
+                          \&\& {Y\times_{X}A} \&\& A \\
+                          \\
+                          \&\&\&\& Y \\
+                          \\
+                          \&\& Y \&\& X \\
+                          \\
+                          \&\& {Y\times_{X}B} \&\& B
+                          \arrow["{(gm)^{*}g}"', from=2-3, to=2-5]
+                          \arrow["m"', from=2-5, to=4-5]
+                          \arrow["g"', from=4-5, to=6-5]
+                          \arrow["{g^{*}(mg)}", from=2-3, to=6-3]
+                          \arrow["g"', from=6-3, to=6-5]
+                          \arrow["{\eta_{A}}"', dashed, from=1-1, to=2-3]
+                          \arrow["{\Id_{A}}", curve={height=-12pt}, from=1-1, to=2-5]
+                          \arrow["m", from=1-1, to=6-3]
+                          \arrow["{g^{*}n}"', from=8-3, to=6-3]
+                          \arrow["{n^{*}g}"', from=8-3, to=8-5]
+                          \arrow["n"', from=8-5, to=6-5]
+                          \arrow["f"', curve={height=18pt}, from=1-1, to=8-3]
+                          \arrow["{g^{*}n\circ f}", curve={height=-18pt}, from=2-5, to=8-5]
+                          \arrow["\lrcorner"{anchor=center, pos=0}, draw=none, from=2-3, to=6-5]
+                          \arrow["\lrcorner"{anchor=center, pos=0, rotate=90}, draw=none, from=8-3, to=6-5]
+                      \end{tikzcd}\]
+                  We claim that \(n^{*}g\circ f\) is the desired map of
+                  subobjects \(A\to B\) for the universal morphism. First of all
+                  we see that
+                  \begin{align*}
+                      n\circ n^{*}g\circ f & =g\circ g^{*}n\circ f                 \\
+                                           & =gm                                   \\
+                                           & =g\circ g^{*}(mg)\circ\eta_{A}        \\
+                                           & =g\circ m\circ (gm)^{*}g\circ\eta_{A} \\
+                                           & =\Id_{A}gm                            \\
+                                           & =gm
+                  \end{align*}
+                  and so this is a morphism of subobjects. The induced morphism
+                  \(Y\times_{X}A\to Y\times_{X}B\) is then given by the
+                  universal property of the pullback: we have a map
+                  \(n^{*}g\circ f\circ (gm)^{*}g:Y\times_{X}A\to B\) and a
+                  morphism \(Y\times_{X}A\to Y:g^{*}(mg)\). We know that
+                  \(g\circ g^{*}(mg)=n\circ n^{*}g\circ f\circ (gm)^{*}g\) and
+                  thus there is a unique induced morphism of subobjects between
+                  pullbacks \(Y\times_{X}A\to Y\times_{X}B\) making the above
+                  diagram commute, this is also by definition the map
+                  \(g^{*}(g^{*}n\circ f)\). The map \(g^{*}n\circ f\) is also
+                  the unique map with this property because \(n\) is a
+                  monomorphism and we know that for any map \(h\) with the desired
+                  property
+                  \[
+                      n\circ h=n\circ g^{*}n\circ g^{*}(h)
+                  \]
+                  and \(n\) is mono so \(h=n^{*}g\circ f\).
+
+                  This proves that \(\eta_{A}\) is indeed such a unique morphism
+                  and thus that \(g^{*}\) is a right adjoint of the functor
+                  \(L_{g}\).
+              \end{proof}
+
+        \item Show that the map \(L_{g}\) can also be constructed
+              as the composite
+              \[
+                  \subobj(X)\cong\cattt(1,\Omega^{X})\overset{\cattt(1,\exists g)}{\to}\cattt(1,\Omega^{Y})\cong\subobj(Y).
+              \]
+
+              \begin{proof}
+                  In this proof, I will identify \(X\) and \(X\times 1\) through
+                  the canonical isomorphism given by the projection map
+                  \(\pi_{X}:X\times 1\to 1\).
+
+                  Let \(n:B\to X\) be a subobject of \(X\) classified by
+                  \(\varphi:X\to\Omega\) and let
+                  \(\tilde{\varphi}:1\to\Omega^{X}\) denote the exponential
+                  transpose.
+                  \begin{equation}
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          B \&\& 1 \\
+                          \\
+                          X \&\& \Omega
+                          \arrow["m", hook, from=1-1, to=3-1]
+                          \arrow[from=1-1, to=1-3]
+                          \arrow[from=1-3, to=3-3]
+                          \arrow["\varphi", from=3-1, to=3-3]
+                          \arrow["\lrcorner"{anchor=center, pos=0}, draw=none, from=1-1, to=3-3]
+                      \end{tikzcd}
+                  \end{equation}
+                  Composing \(\tilde{\varphi}\) with \(\exists g\) gives the
+                  following map with exponential transpose:
+
+                  \begin{equation}
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          {\Omega^{Y}\times Y} \&\& \Omega \\
+                          \\
+                          {\Omega^{X}\times Y} \\
+                          \\
+                          {1\times Y}
+                          \arrow["{\tilde{\varphi}\times\Id_{Y}}", from=5-1, to=3-1]
+                          \arrow["{\exists g\times\Id_{Y}}", from=3-1, to=1-1]
+                          \arrow["{\ev_{Y}}"', from=1-1, to=1-3]
+                          \arrow["{\widetilde{\exists g\circ\tilde{\varphi}}=\widetilde{\exists g}\circ (\tilde{\varphi}\times\Id)}"', from=5-1, to=1-3]
+                      \end{tikzcd}
+                      \label{fig:exp-transpose}
+                  \end{equation}
+
+                  We then get the commutative diagram as seen below. The
+                  bottom-left and right squares are pullbacks. If we show the
+                  top-left square is a pullback then applying the pullback lemma
+                  twice, we get that the whole square is a pullback.
+
+                  \begin{equation}
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          B \&\& {\in_{X}} \&\& 1 \\
+                          \\
+                          {1\times X} \&\& {\Omega^{X}\times X} \\
+                          \\
+                          {1\times Y} \&\& {\Omega^{X}\times Y} \&\& \Omega
+                          \arrow[from=1-3, to=1-5]
+                          \arrow[from=1-5, to=5-5]
+                          \arrow["{\widetilde{\exists g}}"', from=5-3, to=5-5]
+                          \arrow[from=1-3, to=3-3]
+                          \arrow["{\Id\times g}"', from=3-3, to=5-3]
+                          \arrow["\lrcorner"{anchor=center, pos=0}, draw=none, from=1-3, to=5-5]
+                          \arrow["n"', from=1-1, to=3-1]
+                          \arrow["{\Id\times g}"', from=3-1, to=5-1]
+                          \arrow["{\tilde{\varphi}\times\Id}", from=5-1, to=5-3]
+                          \arrow["\tilde{\varphi}\times\Id"{description}, from=3-1, to=3-3]
+                          \arrow["\lrcorner"{anchor=center, pos=0}, draw=none, from=3-1, to=5-3]
+                          \arrow[from=1-1, to=1-3]
+                      \end{tikzcd}
+                      \label{fig:pullback}
+                  \end{equation}
+
+                  Consider the square
+                  \begin{equation}
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          B \&\& {\in_{X}} \&\& 1 \\
+                          \\
+                          {1\times X} \&\& {\Omega^{X}\times X} \&\& \Omega
+                          \arrow["n"', from=1-1, to=3-1]
+                          \arrow["{\tilde{\varphi}\times\Id}"', from=3-1, to=3-3]
+                          \arrow[from=1-1, to=1-3]
+                          \arrow[from=1-3, to=3-3]
+                          \arrow[from=1-3, to=1-5]
+                          \arrow[from=1-5, to=3-5]
+                          \arrow["{\exists g\circ(\Id\times g)}", from=3-3, to=3-5]
+                          \arrow["\lrcorner"{anchor=center, pos=0}, draw=none, from=1-3, to=3-5]
+                      \end{tikzcd}
+                      \label{fig:pullback2}
+                  \end{equation}
+                  The right square is a pullback because \(\Id\times g\) is mono
+                  and the right square of \Cref{fig:pullback} is a pullback. The
+                  entire square is also a pullback because \(\exists
+                  g\circ(\Id\circ g)=\ev_{X}\) and therefore
+                  \(\ev_{X}\circ(\tilde{\varphi}\times)\Id=\varphi\) which
+                  classifies \(n\) by assumption. The left square is then also a
+                  pullback. From this we deduce that the large square in
+                  \Cref{fig:pullback} is also a pullback diagram.
+
+                  This means that the monomorphism \((\Id\times g)\circ n\) is
+                  classified by \(\widetilde{\exists
+                      g}\circ(\tilde{\varphi}\times\Id)\) and thus the functor
+                  \(L_{g}(n:B\to X)=g\circ n:B\to Y\) is the same functor as the
+                  composition as described in the question.
+              \end{proof}
+
+        \item Show that for any subobject \(m:A\hookrightarrow Y\) we have
+              \(L_{g}(f^{*}A)=k^{*}L_{h}(A)\).
+
+              \begin{proof}
+                  We have a commutative diagram of pullbacks
+                  \begin{equation}
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          {X\times_{Y}A} \&\& A \&\& 1 \\
+                          \\
+                          X \&\& Y \&\& \Omega \\
+                          \\
+                          Z \&\& T
+                          \arrow["f", hook, from=3-1, to=3-3]
+                          \arrow["g"', hook, from=3-1, to=5-1]
+                          \arrow["k"', hook, from=5-1, to=5-3]
+                          \arrow["h"', hook, from=3-3, to=5-3]
+                          \arrow["{f^{*}m}"', hook, from=1-1, to=3-1]
+                          \arrow[from=1-1, hook, to=1-3]
+                          \arrow["m", hook, from=1-3, to=3-3]
+                          \arrow["\lrcorner"{anchor=center, pos=0}, draw=none, from=1-1, to=3-3]
+                          \arrow["\lrcorner"{anchor=center, pos=0}, draw=none, from=3-1, to=5-3]
+                          \arrow["\varphi", from=3-3, to=3-5]
+                          \arrow[from=1-3, to=1-5]
+                          \arrow["t"', hook, from=1-5, to=3-5]
+                          \arrow["\lrcorner"{anchor=center, pos=0}, draw=none, from=1-3, to=3-5]
+                          \arrow["{\vartheta}", from=5-3, to=3-5]
+                      \end{tikzcd}
+                      \label{eq:pullback-galore}
+                  \end{equation}
+                  where \(\varphi\) classifies the subobject \(A\) and
+                  \(\vartheta\) classifies \(h\circ m\). Note that
+                  \(\vartheta\circ h=\varphi\) because \(m\) is mono and
+                  \begin{align*}
+                      \vartheta\circ h\circ m & =t\circ !_{A}    \\
+                                              & =\varphi\circ m.
+                  \end{align*}
+                  If we show that \(g\circ f^{*}m\) is also the subobject given
+                  by \(k^{*}L_{h}(m:A\to Y)\), then we are done.
+
+                  We know that the square
+                  \begin{equation}
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          {X\times_{Y}A} \&\& A \\
+                          \\
+                          Z \&\& T
+                          \arrow[hook, from=1-1, to=1-3]
+                          \arrow["{k\circ f^{*}m}"', hook, from=1-1, to=3-1]
+                          \arrow["k"', hook, from=3-1, to=3-3]
+                          \arrow["{h\circ m}", hook, from=1-3, to=3-3]
+                          \arrow["\lrcorner"{anchor=center, pos=0}, draw=none, from=1-1, to=3-3]
+                      \end{tikzcd}
+                  \end{equation}
+                  is a pullback by the pullback lemma. However we also have that
+                  \begin{equation}
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          {Z\times_{T}A} \&\& A \\
+                          \\
+                          Z \&\& T
+                          \arrow[hook, from=1-1, to=1-3]
+                          \arrow["{k^{*}(h\circ m)}"', hook, from=1-1, to=3-1]
+                          \arrow["k"', hook, from=3-1, to=3-3]
+                          \arrow["{h\circ m}", hook, from=1-3, to=3-3]
+                          \arrow["\lrcorner"{anchor=center, pos=0}, draw=none, from=1-1, to=3-3]
+                      \end{tikzcd}
+                  \end{equation}
+                  is a pullback. This means there is an isomorphism as indicated
+                  in \Cref{eq:pullback-iso} and therefore the two subobjects are
+                  isomorphic in \(\subobj(Z)\).
+                  \begin{equation}
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          {X\times_{Y}A} \\
+                          \& {Z\times_{T}A} \&\& A \\
+                          \\
+                          \& Z \&\& T
+                          \arrow[hook, from=2-2, to=2-4]
+                          \arrow["{k^{*}(h\circ m)}", hook, from=2-2, to=4-2]
+                          \arrow["k"', hook, from=4-2, to=4-4]
+                          \arrow["{h\circ m}", hook, from=2-4, to=4-4]
+                          \arrow[curve={height=-12pt}, from=1-1, to=2-4]
+                          \arrow[curve={height=12pt}, from=1-1, to=4-2]
+                          \arrow["\sim"{description}, dashed, from=1-1, to=2-2]
+                      \end{tikzcd}
+                      \label{eq:pullback-iso}
+                  \end{equation}
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

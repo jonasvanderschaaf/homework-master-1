@@ -1,0 +1,5 @@
+*.out
+.stack-work
+dist-newstyle
+fp.cabal
+stack.yaml.lock

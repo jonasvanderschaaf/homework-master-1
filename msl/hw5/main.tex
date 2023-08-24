@@ -1,0 +1,319 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{float}
+\usepackage{cleveref}
+\usepackage{svg}
+\usepackage{tikz-cd}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+\newcommand{\powset}{\mathcal{P}}
+\DeclareMathOperator{\atoms}{At}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\set{#1:#2}}
+
+\renewcommand{\qedsymbol}{\raisebox{-0.5cm}{\includesvg[width=0.5cm]{../../qedboy.svg}}}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Up}{Up}
+\DeclareMathOperator{\fin}{Fin}
+\DeclareMathOperator{\cofin}{Cofin}
+\DeclareMathOperator{\fincofin}{FinCofin}
+\DeclareMathOperator{\spec}{Spec}
+\DeclareMathOperator{\iso}{Iso}
+\DeclareMathOperator{\filters}{Fil}
+\DeclareMathOperator{\closed}{Cl}
+\DeclareMathOperator{\inter}{Int}
+\DeclareMathOperator{\var}{Var}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework: Mathematical Structures in Logic}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Show that for every non-trivial variety \(V\) of Heyting algebras, if
+    \(V\neq \var(2)\) then \(\var(3)\subseteq V\).
+
+    \begin{proof}
+        Let \(A\) be a subdirect irreducible Heyting algebra different from
+        \(2\) and the trivial one with \(x\) the unique element directly below
+        \(1\). Then the set \(\set{0,x,1}\) is a subalgebra of \(A\) isomorphic
+        to \(3\):
+
+        In \(A\) we have \(0\to x=x\to 1=1\) and \(x\to 0=1\to x=0\), we also
+        have \(1\to0=0\) and \(0\to1=1\). This set is clearly closed under joins
+        and meets as well.
+
+        This means that \(3\in S(V)\) for any variety \(V\) of Heyting algebras
+        different from \(\var(2)\) and \(\var(1)\) so \(\var(3)\subseteq V\).
+    \end{proof}
+\end{question}
+
+\begin{question}
+    Characterise all non-trivial subdirectly irreducible algebras in \(\var(A)\)
+    where \(A\) is the Heyting algebra dual to the Esakia space
+    \[
+        \begin{tikzcd}[ampersand replacement=\&]
+            \bullet \&\& \bullet \\
+            \bullet \&\& \bullet \\
+            \& \bullet
+            \arrow[from=2-1, to=1-1]
+            \arrow[from=2-3, to=1-3]
+            \arrow[from=2-1, to=1-3]
+            \arrow[from=2-3, to=1-1]
+            \arrow[from=3-2, to=2-1]
+            \arrow[from=3-2, to=2-3]
+        \end{tikzcd}
+    \]
+
+    \begin{proof}
+        We find all p-morphic images of this space using reductions. The spaces
+        with a minimal non-minimal element are the subdirectly irreducible ones.
+
+        We cannot apply \(\alpha\)-reductions to this space because no point has
+        a unique immediate successor.
+
+        The two maximal elements see the same elements (none), and the middle
+        two do as well (the maximal elements). These can therefore be identified
+        by \(\beta\)-reduction giving two new spaces:
+        \[
+            \begin{tikzcd}[ampersand replacement=\&]
+                \bullet \&\& \bullet \&\&\& \bullet \\
+                \& \bullet \&\&\& \bullet \&\& \bullet \\
+                \& \bullet \&\&\&\& \bullet
+                \arrow[from=3-2, to=2-2]
+                \arrow[from=2-2, to=1-1]
+                \arrow[from=2-2, to=1-3]
+                \arrow[from=2-5, to=1-6]
+                \arrow[from=2-7, to=1-6]
+                \arrow[from=3-6, to=2-5]
+                \arrow[from=3-6, to=2-7]
+            \end{tikzcd}
+        \]
+        To the left space we can either apply an \(\alpha\)-reduction to the
+        bottom two points, or a \(\beta\)-reduction to the maximal points
+        to get the following two Esakia spaces:
+        \[
+            \begin{tikzcd}[ampersand replacement=\&]
+                \bullet \&\& \bullet \&\& \bullet \\
+                \& \bullet \&\&\& \bullet \\
+                \&\&\&\& \bullet
+                \arrow[from=2-2, to=1-1]
+                \arrow[from=2-2, to=1-3]
+                \arrow[from=3-5, to=2-5]
+                \arrow[from=2-5, to=1-5]
+            \end{tikzcd}
+        \]
+        Applying any reduction to either of these two gives the space dual to
+        the boolean algebra \(2\).
+
+        Applying a reduction to the right space, we get the space dual to the
+        Heyting algebra \(3\), which we already found earlier.
+
+        The subdirect irreducible Heyting algebras correspond to those with a
+        minimal non-minimal element, so these are the spaces
+        \[
+            \begin{tikzcd}[ampersand replacement=\&]
+                \bullet \&\& \bullet \&\& \bullet \\
+                \& \bullet \&\&\& \bullet \&\& \bullet \\
+                \& \bullet \&\&\& \bullet \&\& \bullet
+                \arrow[from=2-2, to=1-1]
+                \arrow[from=2-2, to=1-3]
+                \arrow[from=3-2, to=2-2]
+                \arrow[from=2-5, to=1-5]
+                \arrow[from=3-5, to=2-5]
+                \arrow[from=3-7, to=2-7]
+            \end{tikzcd}
+        \]
+        Note that each space is a reduct of the one to the left of it,
+        so we get a linear lattice of subvarieties given by
+        \[
+            \var(2)\subseteq\var(3)\subseteq\var(C)
+        \]
+        where \(C\) is the dual Heyting algebra of the leftmost Esakia space,
+        which is
+        \[
+            C=\begin{tikzcd}[ampersand replacement=\&]
+                \& \bullet \\
+                \& \bullet \\
+                \bullet \&\& \bullet \\
+                \& \bullet
+                \arrow[from=4-2, to=3-1]
+                \arrow[from=4-2, to=3-3]
+                \arrow[from=3-3, to=2-2]
+                \arrow[from=3-1, to=2-2]
+                \arrow[from=2-2, to=1-2]
+            \end{tikzcd}
+        \]
+    \end{proof}
+\end{question}
+
+\begin{question}
+    Let \(A\) be a Heyting algebra and consider an element \(a\in A\).
+
+    \begin{enumerate}[(a)]
+        \item Show that \(a\) is join prime iff \(\varphi(a)\) is rooted.
+
+              \begin{proof}
+                  Let \(a\) be join prime, we claim \(\uparrow a\) is a prime
+                  filter. It is clearly a filter, and if \(b\vee c\in\uparrow
+                  a\) then \(b\vee c\geq a\) so \(b\geq a\) or \(c\geq a\) and
+                  therefore \(b\in\uparrow a\) or \(c\in\uparrow a\).
+
+                  This means there is a least prime filter containing \(a\):
+                  this upset \(\uparrow a\). This is because any prime filter
+                  containing \(a\) must contain \(\uparrow a\).
+
+                  Conversely if \(\varphi(a)\) is rooted let \(F\) be the
+                  minimum prime of \(\varphi(a)\). We claim this is the filter
+                  \(\uparrow a\). It is clear that \(\uparrow a\subseteq F\), so
+                  suppose there is an \(x\in F\setminus\uparrow a\), then the
+                  ideal \(\downarrow x\) and \(\uparrow a\) are disjoint. By the
+                  prime filter theorem we can then find a prime filter \(F'\)
+                  containing \(a\) not containing \(x\). This contradicts
+                  minimality of \(F\). This means \(\uparrow a\) is a prime
+                  filter. Therefore if \(b\vee c\geq a\), then \(b\in\uparrow
+                  a\) or \(c\in\uparrow b\) or equivalently \(b\geq a\) or
+                  \(c\geq a\).
+              \end{proof}
+
+        \item Show that \(a\) is completely join prime iff \(\varphi(a)\) is
+              strongly rooted.
+
+              \begin{proof}
+                  Suppose \(a\) is completely join prime. Then we know in
+                  particular that \(\varphi(a)\) is rooted with root \(\uparrow
+                  a\). I did not figure out this implication.
+
+                  Conversely suppose \(\varphi(a)\) is strongly rooted. Then it
+                  has root \(\uparrow a\). We show this is an isolated point.
+                  Suppose \(a\leq\bigvee_{i}b_{i}\) for some collection
+                  \((b_{i})_{i}\). Then
+                  \[
+                      \varphi(a)\subseteq\varphi(\bigvee_{i}b_{i})=\overline{\bigcup_{i}\varphi(b_{i})}.
+                  \]
+                  This means that all neighbourhoods of any point of
+                  \(\varphi(a)\) intersects \(\bigcup_{i}\varphi(b_{i})\). In
+                  particular the open \(\set{\uparrow a}\) has this property.
+                  This means \(\uparrow a\in\bigcup_{i}\varphi(b_{i})\) so
+                  \(\uparrow a\in\varphi(b_{i})\) for some \(i\). equivalently
+                  this means \(a\leq b_{i}\) for some \(i\).
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \((X,\leq)\) be a Priestley space such that \(\leq\) is linear.
+
+    \begin{enumerate}[(a)]
+        \item Show that \((X,\leq)\) is an Esakia space.
+
+              \begin{proof}
+                  We show that the dual distributive algebra has implication,
+                  and thus that it is a Heyting algebra. This means the original
+                  space was an Esakia space.
+
+                  The upsets of \(X\) must be linearly ordered: for \(U\neq U'\)
+                  without loss of generality we can assume \(x\in U\setminus
+                  U'\) so \(y\nleq x\) for \(y\in U\) so \(x\leq y\). This
+                  proves \(U'\subseteq U\) so arbitrary open upsets must be
+                  comparable.
+
+                  This means that the corresponding distributive lattice of
+                  clopen upsets is just a linear subposet of this larger linear
+                  poset. We have seen that lattices like this are Heyting
+                  algebras with implication \(a\to b =1\) if \(a\leq b\) and
+                  \(a\to b=b\) if \(b\leq a\). This means the original space
+                  must have been an Esakia space: its dual is a Heyting algebra.
+              \end{proof}
+
+        \item Show that \((X,\leq)\) is complete as a lattice.
+
+              \begin{proof}
+                  We use duality to show this must be complete. An
+                  ascending/descending chain of prime ideals
+                  \((F_{i})_{i\in\N}\) must have a least/greatest upper/lower
+                  bound.
+
+                  Given an increasing sequence of filters \((F_{i})_{i\in\N}\)
+                  the union \(F=\bigcup_{i}F_{i}\) is also a prime filter. It is
+                  clear that it is still upward closed. It is closed under meets
+                  because for \(x,y\in F\), \(x,y\in F_{i}\) for some \(i\) so
+                  \(x\wedge y\in F_{i}\subseteq F\). Also if \(x\vee y\in F\),
+                  then \(x\vee y\in F_{i}\) for some \(i\) so \(x\in
+                  F_{i}\subseteq F\) or \(y\in F_{i}\subseteq F\). This proves
+                  \(F\) is a prime filter and thus every chain has an upper
+                  bound. This must also be the least upper bound because any
+                  upper bound must contain all \((F_{i})_{i\in\N}\) and
+                  therefore also their union.
+
+                  Similarly for a descending chain of prime filters
+                  \((F_{i})_{i\in\N}\) the intersection is still a prime filter
+                  and a lower bound of the chain. It is clear that
+                  \(\bigcap_{i}F_{i}\) is still upwards closed. It is closed
+                  under intersection because for \(x,y\in F\), \(x,y\in F_{i}\)
+                  for all \(i\). This means \(x\wedge y\in F\) so \(F\) is still
+                  a filter.
+
+                  Similarly if \(x\vee y\in F\) for some \(x,y\) then at least
+                  one of \(x\) or \(y\) must be contained in all \(F_{i}\). This
+                  is because \(x\in F_{i}\) or \(y\in F_{i}\) for each \(i\)
+                  (though a priori) fixed when alternating \(i\). However
+                  suppose there are \(i<j\) such that \(y\notin\in F_{i}\) and
+                  \(x\notin F_{j}\), then \(x\notin F_{i}\) either so \(F_{i}\)
+                  is not a prime filter. This shows that \(x\in F\) or \(y\in
+                  F\) so it is a prime filter. This is also the largest lower
+                  bound because any prime filter contained in these filters
+                  must be contained in their intersection.
+
+                  This shows that the lattice of prime ideals of the dual
+                  Priestley/Esakia space is complete. These lattices are
+                  isomorphic so this lattice is complete as well.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

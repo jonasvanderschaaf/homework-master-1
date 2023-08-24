@@ -1,0 +1,286 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{svg}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{quiver}
+\usepackage{float}
+\usepackage{cleveref}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\newcommand{\catcat}{{\bf Cat}}
+\newcommand{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\catt}{\mathcal{D}}
+\newcommand{\cattt}{\mathcal{E}}
+\newcommand{\topos}{\mathcal{E}}
+\newcommand{\pcat}{\mathcal{P}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\newcommand{\setcat}{{\bf Set}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\rad}{Rad}
+\newcommand{\alg}[1]{T\textnormal{-Alg}}
+\DeclareMathOperator{\ev}{ev}
+\newcommand{\psh}[1]{\widehat{#1}}
+\DeclareMathOperator{\famm}{Fam}
+\DeclareMathOperator{\dfib}{DFib}
+\newcommand{\restrict}{\upharpoonright}
+\DeclareMathOperator{\subobj}{Sub}
+
+\tikzset{
+    rot/.style={anchor=south, rotate=90, inner sep=.5mm}
+}
+
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+\renewcommand{\qedsymbol}{\raisebox{-0.5cm}{\includesvg[width=0.5cm]{../../qedboy.svg}}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework Topos Theory}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    Let \(\topos\) be a topos with Lawvere-Tierney topology \(j\). Let
+    \(X\in\topos\).
+
+    \begin{enumerate}[(a)]
+        \item Show that the diagram
+
+              \[
+                  \begin{tikzcd}[ampersand replacement=\&]
+                      \Omega\times X \&\&\Omega\times X\\
+                      \& X
+                      \arrow["j\times \Id", from=1-1, to=1-3]
+                      \arrow["\pi_{1}", from=1-1, to=2-2]
+                      \arrow["\pi_{1}", from=2-2, to=1-3]
+                  \end{tikzcd}
+              \]
+              is a Lawvere-Tierney topology in \(\topos/X\).
+
+              \begin{proof}
+                  The map \(j_{X}:\Omega\times X=j\times\)
+                  is idempotent:
+                  \begin{align*}
+                      (j\times\Id)\circ(j\times\Id) & =j^{2}\times\Id^{2} \\
+                                                    & =j\times\Id.
+                  \end{align*}
+                  Precomposing with the classifying mono
+                  \(\gen{t,\Id}:X\to\Omega\times X\) also gives back \(t\):
+                  \begin{align*}
+                      (j\times\Id)\circ\gen{t,\Id} & =\gen{g\circ j,\Id\circ\Id} \\
+                                                   & =\gen{g,\Id}.
+                  \end{align*}
+                  For the final property the function \(\wedge\) is given by the
+                  pullback
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          X \&\& X \\
+                          \\
+                          {\Omega^{2}\times_{X}X} \&\& {\Omega\times_{X}X}
+                          \arrow["\Id", from=1-1, to=1-3]
+                          \arrow["{\gen{\gen{t,t},\Id}}"', from=1-1, to=3-1]
+                          \arrow["\wedge\times\Id"', from=3-1, to=3-3]
+                          \arrow["{\gen{t,\Id}}", from=1-3, to=3-3]
+                          \arrow["\lrcorner"{anchor=center, pos=0}, draw=none, from=1-1, to=3-3]
+                      \end{tikzcd}
+                  \]
+                  because \(X^{*}\) is a logical functor it preserves products
+                  and the subobject classifier. This means that
+                  \(\gen{\gen{t,t},\Id}\) is the mono classified by the
+                  \(\wedge\) map in \(\topos/X\). In particular this means that
+                  \(\wedge\times\Id\) is this map in \(\topos/X\). Now we can
+                  easily see that
+                  \begin{align*}
+                      (j\times\Id)\circ(\wedge\times\Id) & =(j\circ\wedge)\times\Id                           \\
+                                                         & =(\wedge\circ(j\times j))\times\Id                 \\
+                                                         & =(\wedge\times\Id)\circ((j\times j)\times\Id_{X}).
+                  \end{align*}
+                  The map \((j\times j)\times\Id_{X}\) is again the product map
+                  \((j\times\Id)\times(j\times\Id)\) in \(\topos/X\) because
+                  \(X^{*}\) is a logical functor.
+
+                  This demonstrates that \(j\times\Id\) is a Lawvere-Tierney
+                  topology.
+              \end{proof}
+
+        \item Let
+              \[
+                  \begin{tikzcd}[ampersand replacement=\&]
+                      M\&\& A\\
+                      \&X
+                      \arrow["f", from=1-1, to=1-3]
+                      \arrow["m", from=1-1, to=2-2]
+                      \arrow["a", from=1-3, to=2-2]
+                  \end{tikzcd}
+              \]
+              be a mono in \(\topos/X\). Show that this mono is closed for
+              \(j_{X}\) if and only if the map \(\varphi\) factors through
+              \(\Omega_{j}\), where \(\varphi:A\to\Omega\) is such that the
+              square
+              \[
+                  \begin{tikzcd}[ampersand replacement=\&]
+                      M\&\& A\\
+                      \\
+                      X\&\& \Omega\times X
+                      \arrow["f", from=1-1, to=1-3]
+                      \arrow["m", from=1-1, to=3-1]
+                      \arrow["{\gen{t,\Id}}", from=3-1, to=3-3]
+                      \arrow["\gen{\varphi,a}", from=1-3, to=3-3]
+                      \arrow["\lrcorner"{anchor=center, pos=0}, draw=none, from=1-1, to=3-3]
+                  \end{tikzcd}
+              \]
+              is a pullback.
+
+              \begin{proof}
+                  It is easy to see that map \(\gen{\varphi,a}\) classifies the
+                  mono \(f\) in \(\topos/X\). The given square is after all
+                  exactly the classifying pullback in \(\topos/X\).
+
+                  If \(f\) is a closed mono this means that
+                  \begin{align*}
+                      J_{X}\circ\gen{\varphi,a} & =j\times\Id\circ\gen{\varphi,a} \\
+                                                & =\gen{j\circ\varphi,a}.
+                  \end{align*}
+                  Therefore \(\varphi=j\circ\varphi\) and so \(\varphi\)
+                  factorizes through the equalizer \(\Omega_{j}\) as shown in the
+                  diagram below
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          A \\
+                          \\
+                          {\Omega_{j}} \&\& \Omega \&\& \Omega
+                          \arrow["e", from=3-1, to=3-3]
+                          \arrow["\Id"', shift right=1, from=3-3, to=3-5]
+                          \arrow["j", shift left=1, from=3-3, to=3-5]
+                          \arrow["\varphi", from=1-1, to=3-3]
+                          \arrow["{\tilde{\varphi}}"', dashed, from=1-1, to=3-1]
+                      \end{tikzcd}
+                  \]
+                  Conversely if \(\varphi\) factors through the equalizer
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          A \\
+                          \\
+                          {\Omega_{j}} \&\& \Omega \&\& \Omega
+                          \arrow["e", from=3-1, to=3-3]
+                          \arrow["\Id"', shift right=1, from=3-3, to=3-5]
+                          \arrow["j", shift left=1, from=3-3, to=3-5]
+                          \arrow["\varphi", from=1-1, to=3-3]
+                          \arrow["{\tilde{\varphi}}"', from=1-1, to=3-1]
+                      \end{tikzcd}
+                  \]
+                  then because \(j\circ e=e\) we see that
+                  \begin{align*}
+                      j\circ\varphi & =j\circ e\circ\tilde{\varphi} \\
+                                    & =e\circ\tilde{\varphi}        \\
+                                    & =\varphi.
+                  \end{align*}
+                  This means that
+                  \(j\times\Id\circ\gen{\varphi,a}=\gen{\varphi,a}\) and so
+                  \(j\) is a closed subobject.
+              \end{proof}
+
+        \item Let \(\alpha:X\to Y\) be an arrow in \(\topos\). Show that if
+              \(g:B\to X\) is a sheaf for \(j_{X}\), then \(\Pi_{\alpha}(g)\) is
+              a sheaf for \(j_{Y}\).
+
+              \begin{proof}
+                  Suppose we have a diagram
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          M \&\& {M'} \\
+                          \\
+                          {\Pi_{a}B} \&\& Y
+                          \arrow[hook, from=1-1, to=1-3]
+                          \arrow[from=1-1, to=3-1]
+                          \arrow["{\Pi_{a}g}", from=3-1, to=3-3]
+                          \arrow["h", from=1-3, to=3-3]
+                      \end{tikzcd}
+                  \]
+                  where \(M\to M'\) is a dense mono then transposing gives a
+                  diagram
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          {\alpha^{*}M} \&\& {\alpha^{*}M'} \\
+                          \\
+                          B \&\& X
+                          \arrow["{\alpha^{*}m}", from=1-1, to=1-3]
+                          \arrow[from=1-1, to=3-1]
+                          \arrow["g"', from=3-1, to=3-3]
+                          \arrow["{\alpha^{*}h}", from=1-3, to=3-3]
+                      \end{tikzcd}
+                  \]
+                  We show that \(\alpha^{*}m\) is a dense mono for \(J_{X}\),
+                  meaning that there is a unique filler \(\alpha^{*}M'\to B\).
+                  Transposing again gives that a unique filler \(M'\to
+                  \Pi_{a}B\).
+
+                  We know that
+                  \begin{align*}
+                      c_{X}(\alpha^{*}M) & =\alpha^{*}c_{Y}(M) \\
+                                         & =\alpha^{*}M'.
+                  \end{align*}
+                  Therefore \(\alpha^{*}m\) is a dense mono. This shows there is
+                  a unique filler which transposes to a unique filler in the
+                  original diagram.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

@@ -1,0 +1,345 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{float}
+\usepackage{cleveref}
+\usepackage{svg}
+\usepackage{tikz-cd}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+\newcommand{\powset}{\mathcal{P}}
+\DeclareMathOperator{\atoms}{At}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\set{#1:#2}}
+
+\renewcommand{\qedsymbol}{\raisebox{-0.5cm}{\includesvg[width=0.5cm]{../../qedboy.svg}}}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Up}{Up}
+\DeclareMathOperator{\fin}{Fin}
+\DeclareMathOperator{\cofin}{Cofin}
+\DeclareMathOperator{\fincofin}{FinCofin}
+\DeclareMathOperator{\spec}{Spec}
+\DeclareMathOperator{\iso}{Iso}
+\DeclareMathOperator{\filters}{Fil}
+\DeclareMathOperator{\closed}{Cl}
+\DeclareMathOperator{\inter}{Int}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework: Mathematical Structures in Logic}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    We abbreviate \(a\to 0\) as \(\neg a\). Show that in every Heyting algebra:
+    \begin{enumerate}[(a)]
+        \item \(a\wedge\neg a=0\) but not necessarily \(a\vee\neg a=1\),
+
+              \begin{proof}
+                  We have \(a\wedge(a\to 0)=a\wedge0=0\) by the axioms of Heyting
+                  algebras.
+
+                  The lattice
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          1 \\
+                          a \\
+                          0
+                          \arrow[from=3-1, to=2-1]
+                          \arrow[from=2-1, to=1-1]
+                      \end{tikzcd}
+                  \]
+                  is a Heyting algebra with
+                  \begin{align*}
+                      a\to 0 & =\bigvee\setwith{c}{c\wedge a\leq 0} \\
+                             & =\bigvee\set{0}                      \\
+                             & =0,
+                  \end{align*}
+                  therefore \(a\vee\neg a=a\).
+              \end{proof}
+
+        \item \(a\leq b\) iff \(a\to b=1\).
+
+              \begin{proof}
+                  If \(a\leq b\) for \(a,b\in H\) for some Heyting algebra \(H\), then
+                  for all \(c\) we have \(a\wedge c\leq a\leq b\) so \(a\to b=\bigvee
+                  H=1\).
+
+                  Conversely if \(a\to b=1\) then
+                  \begin{align*}
+                      a\wedge b & =a\wedge(a\to b) \\
+                                & =a\wedge1        \\
+                                & =a.
+                  \end{align*}
+              \end{proof}
+
+        \item \(a\leq\neg\neg a\).
+
+              \begin{proof}
+                  We know \(a\wedge(a\to 0)=0\) so
+                  \(a\leq\bigvee\setwith{c}{c\wedge(a\to 0)\leq0}=\neg\neg a\).
+              \end{proof}
+
+        \item \(\neg a\wedge\neg b=\neg(a\vee b)\).
+
+              \begin{proof}
+                  We know that \((a\vee b)\to 0\leq a\to 0\) because
+                  \begin{align*}
+                      a\wedge(a\vee b\to 0) & =a\wedge (a\vee b)\wedge(a\vee b\to 0) \\
+                                            & =a\wedge 0                             \\
+                                            & =0.
+                  \end{align*}
+                  By symmetry the same argument holds for \(b\to 0\). This means
+                  that \(\neg(a\vee b)\leq\neg a\vee\neg b\).
+
+                  We prove the other inequality similarly:
+                  \begin{align*}
+                      (a\to 0)\wedge(b\to 0)\wedge(a\vee b) & =(a\wedge(a\to 0)\wedge(b\to 0))\vee(b\wedge(a\to 0)\wedge(b\to0)) \\
+                                                            & =0\vee0                                                            \\
+                                                            & =0.
+                  \end{align*}
+                  This proves the other inequality and therefore equality.
+              \end{proof}
+
+        \item \(\neg a\vee\neg b\leq\neg(a\wedge b)\) but not necessarily
+              \(\neg(a\wedge b)\leq\neg a\vee\neg b\).
+
+              \begin{proof}
+                  We know this inequality is true iff \((\neg a\vee\neg
+                  b)\wedge(a\wedge b)=0\). Using distributivity we see this
+                  expression is equal to
+                  \begin{align*}
+                      (\neg a\vee\neg b)\wedge(a\wedge b) & =(\neg a\wedge(a\wedge b))\vee(\neg b\wedge(a\wedge b))            \\
+                                                          & =((a\wedge\neg a)\wedge\neg b)\wedge((\neg b\wedge b)\wedge\neg a) \\
+                                                          & =0\wedge0                                                          \\
+                                                          & =0.
+                  \end{align*}
+                  A counterexample for the other implication is
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          \& 1 \\
+                          \& c \\
+                          a \&\& b \\
+                          \& 0
+                          \arrow[from=2-2, to=1-2]
+                          \arrow[from=3-1, to=2-2]
+                          \arrow[from=3-3, to=2-2]
+                          \arrow[from=4-2, to=3-1]
+                          \arrow[from=4-2, to=3-3]
+                      \end{tikzcd}
+                  \]
+                  This is a distributive lattice because neither
+                  \(\mathbb{M}_{5}\) nor \(\mathbb{D}_{3}\) can be embedded in
+                  it. It is finite and satisfies the infinite distributivity law
+                  trivially. However \(\neg(a\wedge b)=1\) but
+                  \(\neg a=b\) and \(\neg b=a\) so \(\neg a\vee\neg b=c\).
+              \end{proof}
+
+        \item \(a\to(b\to c)=(a\wedge b)\to c\).
+
+              \begin{proof}
+                  We know
+                  \begin{align*}
+                      a\to(b\to c)\wedge(a\wedge b) & =(a\to(b\to c)\wedge a)\wedge b \\
+                                                    & =a\wedge (b\to c)\wedge b       \\
+                                                    & =a\wedge b\wedge c              \\
+                                                    & \leq c.
+                  \end{align*}
+                  Therefore \(a\to(b\to c)\leq(a\wedge b)\to c\).
+
+                  We know the other inequality holds iff \(a\wedge((a\wedge
+                  b)\to c)\leq b\to c\). In turn this inequality holds iff
+                  \(b\wedge a\wedge((a\wedge b)\to c)\leq c\). This is clearly
+                  true because
+                  \[
+                      (a\wedge b)\wedge((a\wedge b)\to c)=(a\wedge b)\wedge c\leq c.
+                  \]
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(B\) be a boolean algebra and \(X\) its dual space. Show that:
+    \begin{enumerate}[a)]
+        \item \(B\) is atomic iff the set of isolated points of \(X\) is dense.
+
+              \begin{proof}
+                  We know from the previous homework that the left to right
+                  implication holds.
+
+                  There is a bijection \(\varphi\) from the ideals of \(B\) to
+                  the opens of \(X\) given by \(\varphi(I)=\setwith{F\in X}{\neg
+                      I\not\subseteq F}\) similar to the map from filters to closed
+                  sets from the previous homework. Take a \(b\neq 0\). Then
+                  \(\varphi(b)\subseteq X\) is an open set, so there is an
+                  isolated point \(\uparrow a\in\varphi(b)\) where \(a\) is an
+                  atom of \(B\).
+
+                  We then have \(\uparrow a\in\varphi(B)\) iff \(b\in\uparrow
+                  a\) which is equivalent to \(a\leq b\). This gives the desired
+                  atom.
+
+                  Therefore \(B\) is atomic.
+              \end{proof}
+
+        \item \(B\) is countable iff \(X\) is second countable.
+
+              \begin{proof}
+                  If \(B\) is countable then \(\varphi[B]\) is also countable
+                  and a basis for \(X\). Therefore the dual space of a countable
+                  BA is second countable.
+
+                  Conversely suppose that \(X\) is second countable. Then the
+                  basis of clopens \(\varphi[B]\) has a countable subset of
+                  clopens \(\varphi[Y]\) for some countable \(Y\subseteq B\)
+                  that is also a basis for the topology: every \(\varphi(b)\) is
+                  a union of \(\varphi(y_{i})\) with \(\set{y_{i}}_{i}\subseteq
+                  Y\). We can assume this is a finite union because
+                  \(\varphi(b)\) is closed and \(X\) is compact so
+                  \(\varphi(b)\) is also compact. This means any element of
+                  \(B\) is a finite union of elements of the countable set
+                  \(Y\), so \(B\) is countable as well.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    Let \(A\) be a BA and \(X\) its Stone dual space. Let \(S,T\subseteq A\) be
+    such that \(\bigvee S\) and \(\bigwedge T\) exist. Show that
+    \begin{enumerate}[a)]
+        \item \(\varphi(\bigvee S)=\overline{\bigcup\varphi[S]}\).
+
+              \begin{proof}
+                  It is clear that \(\varphi(s)\subseteq\varphi(\bigvee S)\) for
+                  all \(s\in S\), so \(\bigcup\varphi[S]\subseteq\varphi(\bigvee
+                  S)\). Because \(\varphi(\bigvee S)\) is closed, the closure
+                  \(\overline{\bigcup\varphi[S]}\) must be contained in
+                  \(\varphi(\bigvee S)\). This gives
+                  \(\overline{\bigcup\varphi[S]}\subseteq\varphi(\bigvee S)\).
+
+                  For the converse take \(F\in\varphi(\bigvee S)\). We show this
+                  must be a limit point of \(\bigcup\varphi[S]\). Suppose there
+                  is an \(x\in A\) such that \(F\in\varphi(x)\) and
+                  \(x\cap\bigcup\varphi[S]=\varnothing\). Then
+                  \(\bigcup\varphi[S]\subseteq\varphi(\neg x)\), so \(s\leq\neg
+                  x\) for all \(s\in S\) which means that \(\bigvee S\leq\neg
+                  x\) because it is the smallest upper bound. Because
+                  \(F\in\varphi(\bigvee S)\) this means \(\neg x\in F\), but
+                  \(x\in F\) as well: a contradiction. Therefore no such \(x\)
+                  can exist and \(F\) must be a limit point.
+              \end{proof}
+
+        \item \(\varphi(\bigwedge T)=\inter(\bigcap\varphi[T])\).
+
+              \begin{proof}
+                  Take \(F\in\inter(\bigcap\varphi[T])\). Then there is an open
+                  neighbourhood \(\varphi(x)\) of \(F\) such that
+                  \(F\in\varphi(x)\subseteq\inter(\bigcap\varphi[T])\). Then
+                  \(\varphi(x)\subseteq\varphi(t)\) for all \(t\in T\) so
+                  \(x\leq t\) for all \(t\in T\) thus by the universal property
+                  \(x\leq\bigwedge T\). This means \(\bigwedge T\in F\) as well,
+                  therefore
+                  \(\inter(\bigcap\varphi[T])\subseteq\varphi(\bigwedge T)\).
+
+                  To prove the converse implication take \(F\in\varphi(\bigwedge
+                  T)\). Then \(t\in F\) for all \(t\in T\) so
+                  \(F\in\bigcap\varphi[T]\). Then \(\varphi(\bigwedge T)\) is an
+                  open set contained in this intersection and therefore also its
+                  interior.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\begin{question}
+    \begin{enumerate}[a)]
+        \item Show that a boolean algebra \(A\) is complete if and only if the
+              dual Stone space \(X\) is extremally disconnected.
+
+              \begin{proof}
+                  If \(B\) is a complete boolean algebra and \(Y\subseteq X\) is
+                  an open set, then it is the union of
+                  \((\varphi(x_{i}))_{x_{i}\in I}\) for some index set \(I\).
+                  The closure of this set is then
+                  \(\varphi(\bigvee\setwith{x_{i}}{i\in I})\) which is clopen.
+
+                  Conversely if for each \(U=\bigcup_{x_{i}}\varphi(x_{i})\)
+                  \(\overline{U}\) is clopen. Then there is some \(x\in A\) such
+                  that \(\varphi(x)=\overline{U}\). This is the smallest clopen
+                  such that \(\bigcup_{i}\varphi(x_{i})\) is a subset of it, so
+                  this must be the limit \(\bigvee_{i}x_{i}\) because
+                  \(\varphi\) is order-preserving.
+
+                  We have shown that a lattice with joins has meets as well,
+                  so it is therefore a complete lattice.
+              \end{proof}
+
+        \item Show that every boolean algebra is isomorphic to a product of a
+              complete atomic boolean algebra and a complete atomless boolean
+              algebra.
+
+              \begin{proof}
+                  Let \(B\) be a BA with dual Stone space \(X\).
+
+                  The set of isolated points \(\iso(X)\) is an open subset so
+                  its closure is a clopen subset of \(X\). This means we can
+                  write
+                  \[
+                      X=\overline{\iso(X)}\sqcup X\setminus\overline{\iso(X)}.
+                  \]
+                  The space \(\overline{\iso(X)}\) is clearly a Stone space
+                  where the isolated points are dense and so corresponds to an
+                  atomic boolean algebra \(A\). Conversely the algebra \(A'\)
+                  corresponding to \(X\setminus\overline{\iso(X)}\) must be
+                  atomless because it has no isolated points. Both corresponding
+                  algebras are complete because being extremally connected is
+                  inherited by subspaces.
+
+                  Therefore \(A\times A'\) is isomorphic to the original boolean
+                  \(B\) giving the desired product.
+              \end{proof}
+    \end{enumerate}
+\end{question}
+\end{document}

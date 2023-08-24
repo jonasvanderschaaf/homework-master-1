@@ -1,0 +1,214 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{svg}
+\usepackage{amsthm, amssymb, mathtools, amsmath, bbm, mathrsfs, stmaryrd}
+\usepackage[margin=1in]{geometry}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{quiver}
+\usepackage{float}
+\usepackage{cleveref}
+
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\NZ}{\mathbb{N}_{0}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\incl}{\imath}
+
+\newcommand{\tuple}[2]{\left\langle#1\colon #2\right\rangle}
+
+\DeclareMathOperator{\order}{orde}
+\DeclareMathOperator{\Id}{Id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\ggd}{ggd}
+\DeclareMathOperator{\kgv}{kgv}
+\DeclareMathOperator{\degree}{gr}
+\DeclareMathOperator{\coker}{coker}
+
+\DeclareMathOperator{\gl}{GL}
+
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\newcommand{\isom}{\overset{\sim}{\longrightarrow}}
+
+\newcommand{\Grp}{{\bf Grp}}
+\newcommand{\Ab}{{\bf Ab}}
+\newcommand{\cring}{{\bf CRing}}
+\newcommand{\catcat}{{\bf Cat}}
+\DeclareMathOperator{\modules}{{\bf Mod}}
+\newcommand{\catset}{{\bf Set}}
+\newcommand{\cat}{\mathcal{C}}
+\newcommand{\catt}{\mathcal{D}}
+\newcommand{\cattt}{\mathcal{E}}
+\newcommand{\pcat}{\mathcal{P}}
+\newcommand{\chains}{{\bf Ch}}
+\newcommand{\homot}{{\bf Ho}}
+\DeclareMathOperator{\objects}{Ob}
+\newcommand{\gen}[1]{\left<#1\right>}
+\DeclareMathOperator{\cone}{Cone}
+\newcommand{\set}[1]{\left\{#1\right\}}
+\newcommand{\setwith}[2]{\left\{#1:#2\right\}}
+\newcommand{\setcat}{{\bf Set}}
+\DeclareMathOperator{\Ext}{Ext}
+\DeclareMathOperator{\nil}{Nil}
+\DeclareMathOperator{\idem}{Idem}
+\DeclareMathOperator{\rad}{Rad}
+\newcommand{\alg}[1]{T\textnormal{-Alg}}
+\DeclareMathOperator{\ev}{ev}
+\newcommand{\psh}[1]{\widehat{#1}}
+\DeclareMathOperator{\famm}{Fam}
+\DeclareMathOperator{\dfib}{DFib}
+\newcommand{\restrict}{\upharpoonright}
+
+\newenvironment{solution}{\begin{proof}[Solution]\renewcommand\qedsymbol{}}{\end{proof}}
+\renewcommand{\qedsymbol}{\raisebox{-0.5cm}{\includesvg[width=0.5cm]{../../qedboy.svg}}}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+
+
+\theoremstyle{definition}
+\newtheorem{question}{Exercise}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\title{Homework Topos Theory}
+\author{Jonas van der Schaaf}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{question}
+    We consider the poset \(\N\) of natural numbers and the category
+    \(\psh{\N}\) of presheaves on \(\N\).
+
+    \begin{enumerate}[a)]
+        \item Show that in \(\psh{\N}\), the terminal object is not projective.
+
+              \begin{proof}
+                  Consider the presheaf
+                  \[
+                      F=\coprod_{n\in\omega}y_{n}
+                  \]
+                  where \(y_{n}\) denotes the Yoneda embedding which has
+                  \[
+                      y_{n}(m)=\begin{cases}
+                          \set{*}     & m\leq n,           \\
+                          \varnothing & \textnormal{else}.
+                      \end{cases}
+                  \]
+                  This maps surjectively onto the terminal object because for
+                  every \(n\in\omega\) we have that \(y_{n}(n)\neq\varnothing\)
+                  so the coproduct cannot be empty here either. Therefore we
+                  have the commutative\footnote{Technically speaking
+                      commutativity of this diagram is vacuously true.} diagram
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          \& 1 \\
+                          {F} \& 1
+                          \arrow["\Id_{1}", from=1-2, to=2-2]
+                          \arrow[two heads, from=2-1, to=2-2]
+                      \end{tikzcd}
+                  \]
+                  There is however no morphism \(1\to F\) at all. This is
+                  because whatever the image of the single element of \(1(0)\)
+                  is, must lift to \(F(n)\) for each \(n\in\omega\). Suppose
+                  there is a morphism \(f:1\to F\) then for \(*_{i}\in1(i)\)
+                  \(f(*_{i})\in y_{n}\) for some fixed \(n\in\omega\). This
+                  means that \(f(*_{n+1})\in y_{n}(n+1)=\varnothing\): a contradiction
+                  because the empty set is empty.
+
+
+                  Therefore the terminal object \(1\) cannot be projective.
+              \end{proof}
+
+        \item Show that if an object is projective in \(\psh(\N)\) then every
+              restriction \(F(n+1)\to F(n)\) is injective.
+
+              \begin{proof}
+                  Let \(F\) be a projective presheaf. Consider the following
+                  presheaf:
+                  \[
+                      G=\coprod_{n\in\omega}\coprod_{x\in Fn}X_{n,x}
+                  \]
+                  with \(X_{n,x}=y_{n}\) and an epimorphism \(G\to F\) induced
+                  by \(X_{n,x}\to F\) corresponding to \(x\in F(n)\) by the
+                  Yoneda lemma. This morphism is componentwise surjective
+                  because for each \(x\in Fn\) the single element \(X_{n,x}(n)\)
+                  maps onto it. Therefore this is an epimorphism. This means we
+                  have a commutative diagram as such:
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          \&\& F \\
+                          \\
+                          {\coprod_{n\in\omega}\coprod_{x\in Fn}} \&\& F
+                          \arrow["\eta", dashed, from=1-3, to=3-1]
+                          \arrow["\pi", two heads, from=3-1, to=3-3]
+                          \arrow["\Id"', hook, two heads, from=1-3, to=3-3]
+                      \end{tikzcd}
+                  \]
+                  The map \(\eta\) must be a monomorphism because
+                  \(\Id=\pi\circ\eta\) is as well. This means that each
+                  \(\eta_{n}:Fn\to Gn\) is a monomorphism as well. Let
+                  \(f_{n+1}:n\to n+1\) be the unique map in \(\N\), then we have
+                  the following commutative diagram:
+                  \[
+                      \begin{tikzcd}[ampersand replacement=\&]
+                          {F(n+1)} \&\& {\coprod_{m\in\omega}\coprod_{x\in Fm}y_{m}(n+1)} \\
+                          \\
+                          {F_{n}} \&\& {\coprod_{m\in\omega}\coprod_{x\in Fm}y_{m}(n)}
+                          \arrow["{\eta_{n+1}}"', hook, from=1-1, to=1-3]
+                          \arrow["{Gf_{n+1}}"', hook, from=1-3, to=3-3]
+                          \arrow["{Ff_{n+1}}", from=1-1, to=3-1]
+                          \arrow["{\eta_{n}}", hook, from=3-1, to=3-3]
+                      \end{tikzcd}
+                  \]
+                  The counterclockwise composition can only be injective if the
+                  map \(Ff_{n+1}\) must then also be injective and so the
+                  restrictions of \(F\) must be injective.
+              \end{proof}
+
+        \item Show: An object in \(\psh{\N}\) is projective if and only if it is
+              the coproduct of representables.
+
+              \begin{proof}
+                  It is clear that representables are indecomposable
+                  projectives: they are trivially retracts of representables.
+                  The coproduct of projectives is clearly projective as well,
+                  so coproducts of representables are projectives.
+
+                  Now suppose \(F\) is a projective sheaf with injective
+                  restrictions \(Ff_{n+1}:F(n+1)\to Fn\). Then for each
+                  \(n\in\omega\) define \(X_{n}=Fn\setminus Ff_{n+1}[F(n+1)]\).
+                  Then there is a unique morphism \(y_{n}\to F\) given by
+                  \(y_{n}(*)=x\in F(n)\). If we define the presheaf
+                  \[
+                      G=\coprod_{n\in\omega}\coprod_{x\in X_{n}}y_{n}
+                  \]
+                  and the map \(G\to F\) by
+                  \[
+                      \eta=\coprod_{n\in\omega}\coprod_{x\in X_{n}}x
+                  \]
+                  where \(x\in X_{n}\) denotes the morphism \(y_{n}\to F\) given
+                  by the Yoneda lemma then \(\eta_{n}\) maps \(Gn\) bijectively
+                  onto the elements of \(Fn\) which do not have arbitrarily high
+                  amalgamations. By the reasoning of part a, no element of a
+                  projective presheaf can have arbitrarily high amalgamations.
+                  Therefore this morphism must be bijective on components and
+                  therefore an isomorphism .
+              \end{proof}
+    \end{enumerate}
+\end{question}
+
+\end{document}

@@ -1,0 +1,11 @@
+name: fp
+version: 1.0.0
+ghc-options: -Wall
+library:
+  source-dirs:
+    - .
+dependencies:
+  - base
+  - mtl
+  - parsec
+  - QuickCheck
